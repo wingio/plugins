@@ -1,4 +1,4 @@
-include ':Deez'
+include ':DN'
 rootProject.name = "plugins"
 
 include ':DiscordStubs'
