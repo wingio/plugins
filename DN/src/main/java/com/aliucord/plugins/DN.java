@@ -18,14 +18,14 @@ public class DN extends Plugin {
         Manifest manifest = new Manifest();
         manifest.authors = new Manifest.Author[]{ new Manifest.Author("Wing", 298295889720770563L) };
         manifest.description = "Deez nuts";
-        manifest.version = "1.0";
+        manifest.version = "1.1";
         manifest.updateUrl = "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
         return manifest;
     }
 
     @Override
     public void start(Context context) {
-        commands.registerCommand("deez", "Deez Nuts >:)", {
+        commands.registerCommand("deez", "Deez Nuts >:)", Collections.singletonList(CommandsAPI.requiredMessageOption), args -> {
             String msg = (String) args.get("message");
             if (msg == null) return new CommandsAPI.CommandResult(msg);
             String Clap;
