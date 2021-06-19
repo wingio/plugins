@@ -21,11 +21,6 @@ public class ExamplePlugin extends Plugin {
         manifest.updateUrl = "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
         return manifest;
     }
-    public static Map<String, List<String>> getClassesToPatch() {
-        Map<String, List<String>> map = new HashMap<>();
-        // map.put("com.discord.something.that.you.want.to.patch", Collections.singletonList("methodToPatch"));
-        return map;
-    }
 
     @Override
     public void start(Context context) {
