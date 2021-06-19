@@ -17,7 +17,7 @@ public class Deez extends Plugin {
     public Manifest getManifest() {
         Manifest manifest = new Manifest();
         manifest.authors = new Manifest.Author[]{ new Manifest.Author("Wing", 298295889720770563L) };
-        manifest.description = "Deez";
+        manifest.description = "Deez nuts";
         manifest.version = "1.0";
         manifest.updateUrl = "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
         return manifest;
