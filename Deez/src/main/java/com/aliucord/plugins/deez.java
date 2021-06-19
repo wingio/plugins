@@ -10,7 +10,7 @@ import com.aliucord.entities.Plugin;
 import java.util.*;
 
 @SuppressWarnings("unused")
-public class deez extends Plugin {
+public class Deez extends Plugin {
 
     @NonNull
     @Override
