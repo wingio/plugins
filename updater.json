@@ -1,6 +1,6 @@
 {
-    "ExamplePlugin": {
-        "version": "1.0.0",
+    "DN": {
+        "version": "1.1",
         "minimumDiscordVersion": 1498
     },
     "default": {
