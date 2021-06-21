@@ -1,6 +1,10 @@
 {
     "DN": {
-        "version": "1.2",
+        "version": "1.2.0",
+        "minimumDiscordVersion": 1498
+    },
+    "MessageLinkContext": {
+        "version": "1.0.0",
         "minimumDiscordVersion": 1498
     },
     "default": {
