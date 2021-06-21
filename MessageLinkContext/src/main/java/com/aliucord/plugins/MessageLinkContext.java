@@ -24,6 +24,9 @@ import java.util.regex.Pattern;
 
 @SuppressWarnings({ "unchecked", "unused" })
 public class MessageLinkContext extends Plugin {
+  public MessageLinkContext() {
+    needsResources = true;
+  }
 
   @NonNull
   @Override
