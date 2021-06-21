@@ -79,8 +79,8 @@ public class MessageLinkContext extends Plugin {
             if (icon != null) icon.setTint(ColorCompat.getThemedColor(ctx, R$b.colorInteractiveNormal));
             view.setCompoundDrawablesRelativeWithIntrinsicBounds(icon, null, null, null);
             view.setOnClickListener(e -> {
-                setClipboard(context, String.format("https://www.discord.com/channels/%s/%s/%s", guildId, channelId, messageId))
-                Utils.showToast(context, "Copied link")
+                setClipboard(context, String.format("https://www.discord.com/channels/%s/%s/%s", guildId, channelId, messageId));
+                Utils.showToast(context, "Copied link");
             });
             layout.addView(view, 1);
           }));
