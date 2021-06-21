@@ -66,7 +66,7 @@ public class MessageLinkContext extends Plugin {
   public void start(Context context) {
     Drawable icon = ResourcesCompat.getDrawable(
       resources,
-      resources.getIdentifier("ic_viewraw", "drawable", "com.aliucord.plugins"),
+      resources.getIdentifier("ic_copy", "drawable", "com.aliucord.plugins"),
       null
     );
     AtomicReference<LinearLayout> layoutRef = new AtomicReference<>();
