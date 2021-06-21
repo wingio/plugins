@@ -6,7 +6,6 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 
 import com.aliucord.api.CommandsAPI;
-import com.aliucord.entities.MessageEmbed;
 import com.aliucord.entities.Plugin;
 import java.util.*;
 
@@ -19,7 +18,7 @@ public class DN extends Plugin {
         Manifest manifest = new Manifest();
         manifest.authors = new Manifest.Author[]{ new Manifest.Author("Wing", 298295889720770563L) };
         manifest.description = "Deez nuts";
-        manifest.version = "1.1";
+        manifest.version = "1.2";
         manifest.updateUrl = "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
         return manifest;
     }
@@ -31,10 +30,7 @@ public class DN extends Plugin {
             "Deez Nuts >:)",
             Collections.emptyList(),
             args -> {
-                MessageEmbed embed = new MessageEmbed();
-                embed.setTitle("Deez");
-                embed.setDescription("Nuts");
-                return new CommandsAPI.CommandResult(null, Collections.singletonList(embed.embed));
+                return new CommandsAPI.CommandResult("Deez Nuts");
             }
         );
 
