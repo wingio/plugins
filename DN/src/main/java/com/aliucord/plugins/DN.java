@@ -25,13 +25,11 @@ public class DN extends Plugin {
 
     @Override
     public void start(Context context) {
-        commands.registerCommand("deez", "Deez Nuts >:)", Collections.singletonList(CommandsAPI.requiredMessageOption), args -> {
-            String msg = (String) args.get("message");
-            if (msg == null) return new CommandsAPI.CommandResult(msg);
-            String Clap;
-            Clap = "Deez Nuts";
-            return new CommandsAPI.CommandResult(Clap);
-        });
+        commands.registerCommand(
+            "deez",
+            "Deez Nuts >:)",
+            args -> new CommandsAPI.CommandResult("Deez Nuts")
+        )
 
     }
 
