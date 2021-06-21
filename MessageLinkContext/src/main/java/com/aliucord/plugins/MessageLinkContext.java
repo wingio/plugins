@@ -89,10 +89,10 @@ public class MessageLinkContext extends Plugin {
               layoutRef.set((LinearLayout) ((NestedScrollView) callFrame.args[0]).getChildAt(0));
           }));
       }
-    }
-
-    @Override
+      @Override
     public void stop(Context context) {
         patcher.unpatchAll();
     }
-}
+    }
+
+    
