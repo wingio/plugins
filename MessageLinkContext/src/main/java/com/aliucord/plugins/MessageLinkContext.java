@@ -2,35 +2,30 @@ package com.aliucord.plugins;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.text.SpannableStringBuilder;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.os.Build;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.widget.NestedScrollView;
 
 import com.aliucord.Constants;
 import com.aliucord.Utils;
 import com.aliucord.entities.Plugin;
-import com.aliucord.fragments.SettingsPage;
 import com.aliucord.patcher.PinePatchFn;
-import com.aliucord.views.Divider;
-import com.discord.databinding.WidgetChatListActionsBinding;
-import com.discord.models.domain.ModelMessage;
-import com.discord.simpleast.code.CodeNode;
-import com.discord.simpleast.code.CodeNode$a;
+import com.aliucord.plugins.plugindownloader.Modal;
+import com.aliucord.plugins.plugindownloader.PDUtil;
 import com.discord.utilities.color.ColorCompat;
-import com.discord.utilities.textprocessing.Rules$createCodeBlockRule$codeStyleProviders$1;
-import com.discord.utilities.textprocessing.node.BasicRenderContext;
-import com.discord.utilities.textprocessing.node.BlockBackgroundNode;
 import com.discord.widgets.chat.list.actions.WidgetChatListActions;
 import com.lytefast.flexinput.R$b;
 import com.lytefast.flexinput.R$h;
+
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.regex.Pattern;
 
 @SuppressWarnings({"unchecked", "unused"})
 public class MessageLinkContext extends Plugin {
@@ -57,36 +52,43 @@ public class MessageLinkContext extends Plugin {
         }
       }
 
-    @Override
-    @SuppressLint("SetTextI18n")
-    public void start(Context ctx) throws Throwable {
-        // var icon = ResourcesCompat.getDrawable(resources,
-        //         resources.getIdentifier("ic_viewraw", "drawable", "com.aliucord.plugins"), null);
-        var id = View.generateViewId();
-
-        var c = WidgetChatListActions.class;
-        var getBinding = c.getDeclaredMethod("getBinding");
-        getBinding.setAccessible(true);
-
-        patcher.patch(c, "configureUI", new Class<?>[]{ WidgetChatListActions.Model.class }, new PinePatchFn(callFrame -> {
-            try {
-                var binding = (WidgetChatListActionsBinding) getBinding.invoke(callFrame.thisObject);
-                if (binding == null) return;
-                TextView copyLink = binding.a.findViewById(id);
-                var message = ((WidgetChatListActions.Model) callFrame.args[0]).getMessage();
-                copyLink.setOnClickListener(e -> setClipboard(ctx, "test"));
-            } catch (Throwable ignored) {}
-        }));
-
-        patcher.patch(c, "onViewCreated", new Class<?>[]{ View.class, Bundle.class }, new PinePatchFn(callFrame -> {
-            var linearLayout = (LinearLayout) ((NestedScrollView) callFrame.args[0]).getChildAt(0);
-            var context = linearLayout.getContext();
-            var viewRaw = new TextView(context, null, 0, R$h.UiKit_Settings_Item_Icon);
-            viewRaw.setText("Copy Link");
-            // if (icon != null) icon.setTint(ColorCompat.getThemedColor(context, R$b.colorInteractiveNormal));
-            viewRaw.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, null);
-            viewRaw.setId(id);
-        }));
+      @Override
+      public void start(Context context) {
+          Drawable icon = ResourcesCompat.getDrawable(
+                  resources,
+                  resources.getIdentifier(
+                          "ic_viewraw",
+                          "drawable",
+                          "com.aliucord.plugins"),
+                  null);
+          AtomicReference<LinearLayout> layoutRef = new AtomicReference<>();
+  
+          patcher.patch(WidgetChatListActions.class, "configureUI", new Class<?>[] {WidgetChatListActions.Model.class} , new PinePatchFn(callFrame -> {
+              var layout = layoutRef.get();
+              if (layout == null || layout.findViewById(id) != null) return;
+              var ctx = layout.getContext();
+              var msg = ((WidgetChatListActions.Model) callFrame.args[0]).getMessage();
+              if (msg == null) return;
+              String content = msg.getContent();
+              long channelId = msg.getChannelId();
+              long messageId = msg.getIdentifier();
+              long guildId = msg.getGuildId();
+            var view = new TextView(ctx, null, 0, R$h.UiKit_Settings_Item_Icon);
+            view.setId(id);
+            view.setText("Copy Message Link");
+            if (icon != null) icon.setTint(ColorCompat.getThemedColor(ctx, R$b.colorInteractiveNormal));
+            view.setCompoundDrawablesRelativeWithIntrinsicBounds(icon, null, null, null);
+            view.setOnClickListener(e -> {
+                setClipboard(context, String.format("https://www.discord.com/channels/%s/%s/%s", guildId, channelId, messageId))
+                Utils.showToast(context, "Copied link")
+            });
+            layout.addView(view, 1);
+          }));
+  
+          patcher.patch(WidgetChatListActions.class, "onViewCreated", new Class<?>[] {View.class, Bundle.class}, new PinePatchFn(callFrame -> {
+              layoutRef.set((LinearLayout) ((NestedScrollView) callFrame.args[0]).getChildAt(0));
+          }));
+      }
     }
 
     @Override
