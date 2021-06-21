@@ -84,7 +84,7 @@ public class MessageLinkContext extends Plugin {
             var viewRaw = new TextView(context, null, 0, R$h.UiKit_Settings_Item_Icon);
             viewRaw.setText("Copy Link");
             // if (icon != null) icon.setTint(ColorCompat.getThemedColor(context, R$b.colorInteractiveNormal));
-            // viewRaw.setCompoundDrawablesRelativeWithIntrinsicBounds(icon, null, null, null);
+            viewRaw.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, null);
             viewRaw.setId(id);
         }));
     }
