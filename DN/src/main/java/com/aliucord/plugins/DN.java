@@ -29,7 +29,7 @@ public class DN extends Plugin {
             "deez",
             "Deez Nuts >:)",
             args -> new CommandsAPI.CommandResult("Deez Nuts")
-        )
+        );
 
     }
 
