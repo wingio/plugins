@@ -39,7 +39,7 @@ import com.lytefast.flexinput.R$b;
 import com.lytefast.flexinput.R$h;
 
 @SuppressWarnings({"unchecked", "unused"})
-public class ViewRaw extends Plugin {
+public class MessageLinkContext extends Plugin {
 
     @NonNull
     @Override
@@ -78,10 +78,9 @@ public class ViewRaw extends Plugin {
             try {
                 var binding = (WidgetChatListActionsBinding) getBinding.invoke(callFrame.thisObject);
                 if (binding == null) return;
-                TextView viewRaw = binding.a.findViewById(id);
-                var viewRawPage = new Page();
-                viewRawPage.message = ((WidgetChatListActions.Model) callFrame.args[0]).getMessage();
-                viewRaw.setOnClickListener(e -> setClipboard(ctx, "test"));
+                TextView copyLink = binding.a.findViewById(id);
+                var message = ((WidgetChatListActions.Model) callFrame.args[0]).getMessage();
+                copyLink.setOnClickListener(e -> setClipboard(ctx, "test"));
             } catch (Throwable ignored) {}
         }));
 
@@ -93,7 +92,6 @@ public class ViewRaw extends Plugin {
             if (icon != null) icon.setTint(ColorCompat.getThemedColor(context, R$b.colorInteractiveNormal));
             viewRaw.setCompoundDrawablesRelativeWithIntrinsicBounds(icon, null, null, null);
             viewRaw.setId(id);
-            linearLayout.addView(viewRaw);
         }));
     }
 
