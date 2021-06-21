@@ -29,7 +29,7 @@ public class DN extends Plugin {
         commands.registerCommand(
             "deez",
             "Deez Nuts >:)",
-            Collections..emptyList(),
+            Collections.emptyList();,
             args -> {
                 MessageEmbed embed = new MessageEmbed();
                 embed.setTitle("Deez");
