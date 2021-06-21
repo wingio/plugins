@@ -1,4 +1,5 @@
 include ':DN'
+include ':MessageLinkContext'
 rootProject.name = "plugins"
 
 include ':DiscordStubs'
