@@ -41,7 +41,7 @@ public class MessageLinkContext extends Plugin {
         var manifest = new Manifest();
         manifest.authors = new Manifest.Author[]{ new Manifest.Author("Wing", 298295889720770563L) };
         manifest.description = "Adds a context menu option to copy the message link";
-        manifest.version = "1.0.0";
+        manifest.version = "1.0.1";
         manifest.updateUrl = "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
         return manifest;
     }
@@ -60,8 +60,8 @@ public class MessageLinkContext extends Plugin {
     @Override
     @SuppressLint("SetTextI18n")
     public void start(Context ctx) throws Throwable {
-        var icon = ResourcesCompat.getDrawable(resources,
-                resources.getIdentifier("ic_viewraw", "drawable", "com.aliucord.plugins"), null);
+        // var icon = ResourcesCompat.getDrawable(resources,
+        //         resources.getIdentifier("ic_viewraw", "drawable", "com.aliucord.plugins"), null);
         var id = View.generateViewId();
 
         var c = WidgetChatListActions.class;
@@ -83,8 +83,8 @@ public class MessageLinkContext extends Plugin {
             var context = linearLayout.getContext();
             var viewRaw = new TextView(context, null, 0, R$h.UiKit_Settings_Item_Icon);
             viewRaw.setText("Copy Link");
-            if (icon != null) icon.setTint(ColorCompat.getThemedColor(context, R$b.colorInteractiveNormal));
-            viewRaw.setCompoundDrawablesRelativeWithIntrinsicBounds(icon, null, null, null);
+            // if (icon != null) icon.setTint(ColorCompat.getThemedColor(context, R$b.colorInteractiveNormal));
+            // viewRaw.setCompoundDrawablesRelativeWithIntrinsicBounds(icon, null, null, null);
             viewRaw.setId(id);
         }));
     }
