@@ -1,8 +1,3 @@
-/*
- * Copyright (c) 2021 Juby210
- * Licensed under the Open Software License version 3.0
- */
-
 package com.aliucord.plugins;
 
 import android.annotation.SuppressLint;
@@ -12,11 +7,10 @@ import android.text.SpannableStringBuilder;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.os.*;
+import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.widget.NestedScrollView;
 
