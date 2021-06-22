@@ -95,7 +95,7 @@ public class MessageLinkContext extends Plugin {
           long channelId = msg.getChannelId();
           Long messageId = msg.getId();
           var channel = StoreStream.getChannels().getChannel(channelId);
-          var guildId = channel != null && ChannelWrapper.getGuildId(channel) != 0L ? String.valueOf(ChannelWrapper.getGuildId(channel)) : "@me";
+          var guildId = channel != null && ChannelWrapper.getGuildId(channel) != 0 ? String.valueOf(ChannelWrapper.getGuildId(channel)) : "@me";
           var view = new TextView(ctx, null, 0, R$h.UiKit_Settings_Item_Icon);
           Utils.log("Created view");
           view.setId(id);
@@ -114,7 +114,7 @@ public class MessageLinkContext extends Plugin {
               setClipboard(
                 context,
                 String.format(
-                  "https://www.discord.com/channels/%s/%s/%s",
+                  "https://discord.com/channels/%s/%s/%s",
                   guildId,
                   channelId,
                   messageId
