@@ -98,9 +98,9 @@ public class MessageLinkContext extends Plugin {
           if(guildId == null){
             var channel = StoreStream.getChannels().getChannel(channelId);
             if(channel != null && ChannelWrapper.getGuildId(channel) != null){
-              guildId = String.valueOf(ChannelWrapper.getGuildId(channel))
+              guildId = String.valueOf(ChannelWrapper.getGuildId(channel));
             } else {
-              guildId = "@me"
+              guildId = "@me";
             }
           }
           var view = new TextView(ctx, null, 0, R$h.UiKit_Settings_Item_Icon);
