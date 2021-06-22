@@ -17,6 +17,7 @@ import com.aliucord.entities.Plugin;
 import com.aliucord.patcher.PinePatchFn;
 import com.discord.utilities.color.ColorCompat;
 import com.discord.widgets.chat.list.actions.WidgetChatListActions;
+import com.discord.stores.StoreStream;
 import com.lytefast.flexinput.R$b;
 import com.lytefast.flexinput.R$h;
 import java.util.concurrent.atomic.AtomicReference;
@@ -92,7 +93,8 @@ public class MessageLinkContext extends Plugin {
           String content = msg.getContent();
           long channelId = msg.getChannelId();
           Long messageId = msg.getId();
-          Long guildId = msg.getGuildId();
+          var channel = StoreStream.getChannels().getChannel(channelId);
+          var guildId = channel != null && ChannelWrapper.getGuildId(channel) != null ? String.valueOf(ChannelWrapper.getGuildId(channel)) : "@me";
           var view = new TextView(ctx, null, 0, R$h.UiKit_Settings_Item_Icon);
           Utils.log("Created view");
           view.setId(id);
