@@ -92,8 +92,9 @@ public class MessageLinkContext extends Plugin {
           String content = msg.getContent();
           long channelId = msg.getChannelId();
           long messageId = msg.getId();
-          long guildId = msg.getGuildId();
           Utils.log(content);
+          long guildId = msg.getGuildId();
+          
           var view = new TextView(ctx, null, 0, R$h.UiKit_Settings_Item_Icon);
           Utils.log("Created view");
           view.setId(id);
