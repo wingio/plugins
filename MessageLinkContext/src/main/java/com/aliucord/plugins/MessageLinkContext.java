@@ -87,8 +87,8 @@ public class MessageLinkContext extends Plugin {
           if (layout == null || layout.findViewById(id) != null) return;
           var ctx = layout.getContext();
           Utils.log("Recieved context");
-          var msg =
-            ((WidgetChatListActions.Model) callFrame.args[0]).getMessage();
+          var msg = ((WidgetChatListActions.Model) callFrame.args[0]).getMessage();
+          Utils.log(msg.getContent());
           if (msg == null) return;
           Utils.log("Got message");
           String content = msg.getContent();
