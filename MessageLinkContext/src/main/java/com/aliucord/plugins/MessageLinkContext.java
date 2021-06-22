@@ -13,6 +13,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.core.widget.NestedScrollView;
 import com.aliucord.Constants;
 import com.aliucord.Utils;
+import com.aliucord.wrappers.ChannelWrapper;
 import com.aliucord.entities.Plugin;
 import com.aliucord.patcher.PinePatchFn;
 import com.discord.utilities.color.ColorCompat;
