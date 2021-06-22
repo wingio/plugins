@@ -94,8 +94,15 @@ public class MessageLinkContext extends Plugin {
           String content = msg.getContent();
           long channelId = msg.getChannelId();
           Long messageId = msg.getId();
-          var channel = StoreStream.getChannels().getChannel(channelId);
-          var guildId = channel != null && ChannelWrapper.getGuildId(channel) != null ? String.valueOf(ChannelWrapper.getGuildId(channel)) : "@me";
+          var guildId = msg.getGuildId();
+          if(guildId == null){
+            var channel = StoreStream.getChannels().getChannel(channelId);
+            if(channel != null && ChannelWrapper.getGuildId(channel) != null){
+              guildId = String.valueOf(ChannelWrapper.getGuildId(channel))
+            } else {
+              guildId = "@me"
+            }
+          }
           var view = new TextView(ctx, null, 0, R$h.UiKit_Settings_Item_Icon);
           Utils.log("Created view");
           view.setId(id);
