@@ -40,7 +40,7 @@ public class MessageLinkContext extends Plugin {
       };
     manifest.description =
       "Adds a context menu option to copy the message link";
-    manifest.version = "1.2.0";
+    manifest.version = "1.3.0";
     manifest.updateUrl =
       "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
     return manifest;
@@ -95,7 +95,7 @@ public class MessageLinkContext extends Plugin {
           long channelId = msg.getChannelId();
           Long messageId = msg.getId();
           var channel = StoreStream.getChannels().getChannel(channelId);
-          var guildId = channel != null ? String.valueOf(ChannelWrapper.getGuildId(channel)) : "@me";
+          var guildId = channel != null && ChannelWrapper.getGuildId(channel) != null ? String.valueOf(ChannelWrapper.getGuildId(channel)) : "@me";
           var view = new TextView(ctx, null, 0, R$h.UiKit_Settings_Item_Icon);
           Utils.log("Created view");
           view.setId(id);
