@@ -74,7 +74,7 @@ public class MessageLinkContext extends Plugin {
     );
     AtomicReference<LinearLayout> layoutRef = new AtomicReference<>();
     var id = View.generateViewId();
-    Utils.log("Generated ID")
+    Utils.log("Generated ID");
 
     patcher.patch(
       WidgetChatListActions.class,
@@ -83,21 +83,21 @@ public class MessageLinkContext extends Plugin {
       new PinePatchFn(
         callFrame -> {
           var layout = layoutRef.get();
-          Utils.log("Created layout")
+          Utils.log("Created layout");
           if (layout == null || layout.findViewById(id) != null) return;
           var ctx = layout.getContext();
-          Utils.log("Recieved context")
+          Utils.log("Recieved context");
           var msg =
             ((WidgetChatListActions.Model) callFrame.args[0]).getMessage();
           if (msg == null) return;
-          Utils.log("Got message")
+          Utils.log("Got message");
           String content = msg.getContent();
           long channelId = msg.getChannelId();
           long messageId = msg.getId();
           long guildId = msg.getGuildId();
-          Utils.log(content)
+          Utils.log(content);
           var view = new TextView(ctx, null, 0, R$h.UiKit_Settings_Item_Icon);
-          Utils.log("Created view")
+          Utils.log("Created view");
           view.setId(id);
           view.setText("Copy Message Link");
           if (icon != null) icon.setTint(
