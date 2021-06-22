@@ -94,10 +94,10 @@ public class MessageLinkContext extends Plugin {
           String content = msg.getContent();
           long channelId = msg.getChannelId();
           Long messageId = msg.getId();
-          var guildId = msg.getGuildId();
+          String guildId = String.valueOf(msg.getGuildId());
           if(guildId == null){
             var channel = StoreStream.getChannels().getChannel(channelId);
-            if(channel && ChannelWrapper.getGuildId(channel)){
+            if(channel != null){
               guildId = String.valueOf(ChannelWrapper.getGuildId(channel));
             } else {
               guildId = "@me";
