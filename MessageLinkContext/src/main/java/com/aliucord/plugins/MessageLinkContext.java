@@ -40,7 +40,7 @@ public class MessageLinkContext extends Plugin {
       };
     manifest.description =
       "Adds a context menu option to copy the message link";
-    manifest.version = "1.3.3";
+    manifest.version = "1.3.4";
     manifest.updateUrl =
       "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
     return manifest;
@@ -123,7 +123,7 @@ public class MessageLinkContext extends Plugin {
               Utils.showToast(context, "Copied link");
             }
           );
-          layout.addView(view);
+          layout.addView(view, 6);
         }
       )
     );
