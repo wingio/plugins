@@ -91,10 +91,9 @@ public class MessageLinkContext extends Plugin {
           Utils.log("Got message");
           String content = msg.getContent();
           long channelId = msg.getChannelId();
-          long messageId = msg.getId();
+          Long messageId = msg.getId();
+          // Long guildId = msg.getGuildId();
           Utils.log(content);
-          long guildId = msg.getGuildId();
-          
           var view = new TextView(ctx, null, 0, R$h.UiKit_Settings_Item_Icon);
           Utils.log("Created view");
           view.setId(id);
@@ -113,8 +112,7 @@ public class MessageLinkContext extends Plugin {
               setClipboard(
                 context,
                 String.format(
-                  "https://www.discord.com/channels/%s/%s/%s",
-                  guildId,
+                  "https://www.discord.com/channels/GUILDID/%s/%s",
                   channelId,
                   messageId
                 )
