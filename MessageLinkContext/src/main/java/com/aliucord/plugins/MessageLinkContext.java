@@ -97,7 +97,7 @@ public class MessageLinkContext extends Plugin {
           var guildId = msg.getGuildId();
           if(guildId == null){
             var channel = StoreStream.getChannels().getChannel(channelId);
-            if(channel != null && ChannelWrapper.getGuildId(channel) != null){
+            if(channel && ChannelWrapper.getGuildId(channel)){
               guildId = String.valueOf(ChannelWrapper.getGuildId(channel));
             } else {
               guildId = "@me";
