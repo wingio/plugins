@@ -92,8 +92,8 @@ public class MessageLinkContext extends Plugin {
           Utils.log("Recieved context");
           var msg = ((WidgetChatListActions.Model) callFrame.args[0]).getMessage();
           Utils.log("Got message");
-          MessageWrapper mw = new MessageWrapper(msg)
-          long channelId = mw.getChannelId()
+          MessageWrapper mw = new MessageWrapper(msg);
+          long channelId = mw.getChannelId();
           Long messageId = mw.getId();
           var channel = StoreStream.getChannels().getChannel(channelId);
           var guildId = channel != null && ChannelWrapper.getGuildId(channel) != 0 ? String.valueOf(ChannelWrapper.getGuildId(channel)) : "@me";
