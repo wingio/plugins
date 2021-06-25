@@ -14,6 +14,7 @@ import androidx.core.widget.NestedScrollView;
 import com.aliucord.Constants;
 import com.aliucord.Utils;
 import com.aliucord.wrappers.ChannelWrapper;
+import com.aliucord.wrappers.messages.MessageWrapper;
 import com.aliucord.entities.Plugin;
 import com.aliucord.patcher.PinePatchFn;
 import com.discord.utilities.color.ColorCompat;
@@ -91,9 +92,9 @@ public class MessageLinkContext extends Plugin {
           Utils.log("Recieved context");
           var msg = ((WidgetChatListActions.Model) callFrame.args[0]).getMessage();
           Utils.log("Got message");
-          String content = msg.getContent();
-          long channelId = msg.getChannelId();
-          Long messageId = msg.getId();
+          MessageWrapper mw = new MessageWrapper(msg)
+          long channelId = mw.getChannelId()
+          Long messageId = mw.getId();
           var channel = StoreStream.getChannels().getChannel(channelId);
           var guildId = channel != null && ChannelWrapper.getGuildId(channel) != 0 ? String.valueOf(ChannelWrapper.getGuildId(channel)) : "@me";
           var view = new TextView(ctx, null, 0, R$h.UiKit_Settings_Item_Icon);

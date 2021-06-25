@@ -4,8 +4,8 @@
         "minimumDiscordVersion": 1498
     },
     "MessageLinkContext": {
-        "version": "1.3.4",
-        "minimumDiscordVersion": 1498
+        "version": "1.4.0",
+        "minimumDiscordVersion": 81110
     },
     "default": {
         "minimumDiscordVersion": 1456,
