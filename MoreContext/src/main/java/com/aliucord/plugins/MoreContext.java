@@ -23,6 +23,7 @@ import com.aliucord.entities.Plugin;
 import com.aliucord.patcher.PinePatchFn;
 import com.aliucord.wrappers.ChannelWrapper;
 import com.aliucord.wrappers.messages.MessageWrapper;
+import com.aliucord.PluginManager;
 
 import com.discord.app.AppBottomSheet;
 import com.discord.stores.StoreStream;
@@ -150,7 +151,7 @@ public class MoreContext extends Plugin {
         callFrame -> {
           var layout = layoutRef.get();
           Utils.log("Created layout");
-          if (layout == null || layout.findViewById(id) != null) return;
+          if (layout == null || layout.findViewById(linkid) != null || layout.findViewById(rawid) != null) return;
           var ctx = layout.getContext();
           Utils.log("Recieved context");
           var msg =
