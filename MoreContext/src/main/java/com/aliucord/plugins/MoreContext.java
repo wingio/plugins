@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
@@ -52,7 +53,6 @@ public class MoreContext extends Plugin {
       return 0;
     }
 
-    @Override
     public View onCreateView(
       @NonNull LayoutInflater inflater,
       @Nullable ViewGroup container,
