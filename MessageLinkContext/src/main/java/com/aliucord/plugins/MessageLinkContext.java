@@ -40,8 +40,8 @@ public class MessageLinkContext extends Plugin {
         new Manifest.Author("Wing", 298295889720770563L),
       };
     manifest.description =
-      "Adds a context menu option to copy the message link";
-    manifest.version = "1.4.0";
+      "Adds a context menu option to copy the message link. [DEPRECATED, use MoreContext instead]";
+    manifest.version = "1.4.1";
     manifest.updateUrl =
       "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
     return manifest;
@@ -82,7 +82,7 @@ public class MessageLinkContext extends Plugin {
     patcher.patch(
       WidgetChatListActions.class,
       "configureUI",
-      new Class<?>[] { WidgetChatListActions.Model.class },
+      new Class<?>[]{ WidgetChatListActions.Model.class },
       new PinePatchFn(
         callFrame -> {
           var layout = layoutRef.get();
