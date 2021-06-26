@@ -6,11 +6,16 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.widget.NestedScrollView;
+import androidx.annotation.Nullable;
+
 import com.aliucord.Constants;
 import com.aliucord.Utils;
 import com.aliucord.api.SettingsAPI;
@@ -18,12 +23,17 @@ import com.aliucord.entities.Plugin;
 import com.aliucord.patcher.PinePatchFn;
 import com.aliucord.wrappers.ChannelWrapper;
 import com.aliucord.wrappers.messages.MessageWrapper;
+
 import com.discord.app.AppBottomSheet;
 import com.discord.stores.StoreStream;
 import com.discord.utilities.color.ColorCompat;
 import com.discord.widgets.chat.list.actions.WidgetChatListActions;
+import com.aliucord.patcher.PrePatchRes;
+import com.discord.views.CheckedSetting;
+
 import com.lytefast.flexinput.R$b;
 import com.lytefast.flexinput.R$h;
+
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Pattern;
 
