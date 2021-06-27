@@ -51,8 +51,10 @@ public class FriendNicknames extends Plugin {
   }
 
   @Override
+  @SuppressWarnings({ "unchecked", "ConstantConditions" })
   public void start(Context context) {
-    subcommands = new ArrayList<>();
+    SettingsAPI sets = PluginManager.plugins.get("FriendNicknames").sets;
+    var subcommands = new ArrayList<>();
     var userOption = new ApplicationCommandOption(
       ApplicationCommandType.USER,
       "user",
@@ -132,7 +134,7 @@ public class FriendNicknames extends Plugin {
       },
       new PinePatchFn(
         callFrame -> {
-          SettingsAPI sets = PluginManager.plugins.get("FriendNicknames").sets;
+          
           var user = (User) callFrame.args[0];
           var userId = user.getId();
           var nickname = sets.getString(String.valueOf(userId));
