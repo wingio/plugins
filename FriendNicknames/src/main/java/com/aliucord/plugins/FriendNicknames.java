@@ -100,19 +100,20 @@ public class FriendNicknames extends Plugin {
     commands.registerCommand(
       "nick",
       "Modify a nickname for a particular user",
-      Array.asList(subcommands),
+      Arrays.asList(subcommands),
       args -> {
         if (args.containsKey("set")){
           var user = args.get("user");
           var nick = args.get("nickname");
           var id = user.getId();
           sets.setString(String.valueOf(id), nick);
-          return new CommandsAPI.CommandResult("Set nickname successfuly");
-        } else if (args.containsKey("clear")){
+          return new CommandsAPI.CommandResult("Set nickname successfuly", null, false);
+        }
+        if (args.containsKey("clear")){
           var user = args.get("user");
           var id = user.getId();
           sets.setString(String.valueOf(id), null);
-          return new CommandsAPI.CommandResult("Cleared nickname successfuly");
+          return new CommandsAPI.CommandResult("Cleared nickname successfuly", null, false);
         }
         
       }
@@ -129,10 +130,9 @@ public class FriendNicknames extends Plugin {
       },
       new PinePatchFn(
         callFrame -> {
-          
           var user = (User) callFrame.args[0];
           var userId = user.getId();
-          var nickname = sets.getString(String.valueOf(userId));
+          var nickname = sets.getString(String.valueOf(userId), null);
           if (nickname != null) {
             callFrame.setResult(nickname);
           }
