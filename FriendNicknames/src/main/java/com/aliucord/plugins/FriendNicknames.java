@@ -40,7 +40,7 @@ public class FriendNicknames extends Plugin {
         new Manifest.Author("Wing", 298295889720770563L),
       };
     manifest.description = "Set custom nicknames for each of your friends!";
-    manifest.version = "1.0.0";
+    manifest.version = "1.0.1";
     manifest.updateUrl =
       "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
     return manifest;
@@ -126,6 +126,7 @@ public class FriendNicknames extends Plugin {
           var user = (User) callFrame.args[0];
           var userId = user.getId();
           var nickname = sets.getString(String.valueOf(userId), null);
+          Utils.log(nickname);
           if (nickname != null) {
             callFrame.setResult(nickname);
           }

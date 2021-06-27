@@ -8,7 +8,7 @@
         "minimumDiscordVersion": 81110
     },
     "FriendNicknames": {
-        "version": "1.0.0",
+        "version": "1.0.1",
         "minimumDiscordVersion": 1498
     },
     "default": {
