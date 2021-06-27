@@ -99,7 +99,7 @@ public class FriendNicknames extends Plugin {
       args -> {
         if (args.containsKey("set")){
           var user = args.get("user");
-          Utils.log(String.valueOf(user))
+          Utils.log(String.valueOf(user));
           // var nick = args.get("nickname");
           // var id = user.getId();
           // sets.setString(String.valueOf(id), nick);
