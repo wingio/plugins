@@ -14,6 +14,7 @@ import com.aliucord.entities.Plugin;
 import com.aliucord.patcher.PinePatchFn;
 import com.aliucord.widgets.LinearLayout;
 import com.discord.api.channel.Channel;
+import com.aliucord.api.CommandsAPI;
 import com.discord.api.commands.ApplicationCommandType;
 import com.discord.api.commands.CommandChoice;
 import com.discord.app.AppBottomSheet;
@@ -105,13 +106,13 @@ public class FriendNicknames extends Plugin {
       subcommands,
       args -> {
         if (args.containsKey("set")){
-          User user = args.get('user');
-          String nick = args.get('nickname');
+          var user = args.get('user');
+          var nick = args.get('nickname');
           var id = user.getId();
           sets.setString(String.valueOf(id), nick);
           return new CommandsAPI.CommandResult("Set nickname successfuly");
         } else if (args.containsKey("clear")){
-          User user = args.get('user');
+          var user = args.get('user');
           var id = user.getId();
           sets.setString(String.valueOf(id), null);
           return new CommandsAPI.CommandResult("Cleared nickname successfuly");
