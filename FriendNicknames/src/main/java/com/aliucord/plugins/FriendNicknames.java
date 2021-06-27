@@ -120,7 +120,7 @@ public class FriendNicknames extends Plugin {
         if (args.containsKey("set")) {
           var id = (String) args.get("user");
           var nick = (String) args.get("nickname");
-          Utils.log(id)
+          Utils.log(id);
           sets.setString(String.valueOf(id), nick);
           return new CommandsAPI.CommandResult(
             "Set nickname successfuly",
