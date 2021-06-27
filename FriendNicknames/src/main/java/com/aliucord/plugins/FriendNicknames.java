@@ -64,7 +64,7 @@ public class FriendNicknames extends Plugin {
           var userId = user.getId();
           var nickname = sets.getString(String.valueOf(userId), null);
           Utils.log(nickname);
-          if (nickname == null) return
+          if (nickname == null) return;
           callFrame.setResult(nickname);
         }
       )
@@ -120,6 +120,7 @@ public class FriendNicknames extends Plugin {
         if (args.containsKey("set")) {
           var id = (String) args.get("user");
           var nick = (String) args.get("nickname");
+          Utils.log(id)
           sets.setString(String.valueOf(id), nick);
           return new CommandsAPI.CommandResult(
             "Set nickname successfuly",
