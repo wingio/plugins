@@ -98,16 +98,17 @@ public class FriendNicknames extends Plugin {
       Arrays.asList(setOption, clearOption),
       args -> {
         if (args.containsKey("set")){
-          User user = args.get("user");
-          var nick = args.get("nickname");
-          var id = user.getId();
-          sets.setString(String.valueOf(id), nick);
+          var user = args.get("user");
+          Utils.log(String.valueOf(user))
+          // var nick = args.get("nickname");
+          // var id = user.getId();
+          // sets.setString(String.valueOf(id), nick);
           return new CommandsAPI.CommandResult("Set nickname successfuly", null, false);
         }
         if (args.containsKey("clear")){
           User user = args.get("user");
-          var id = user.getId();
-          sets.setString(String.valueOf(id), null);
+          // var id = user.getId();
+          // sets.setString(String.valueOf(id), null);
           return new CommandsAPI.CommandResult("Cleared nickname successfuly", null, false);
         }
         return new CommandsAPI.CommandResult();
