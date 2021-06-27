@@ -100,7 +100,7 @@ public class FriendNicknames extends Plugin {
     commands.registerCommand(
       "nick",
       "Modify a nickname for a particular user",
-      Arrays.asList(subcommands),
+      subcommands,
       args -> {
         if (args.containsKey("set")){
           var user = args.get("user");
