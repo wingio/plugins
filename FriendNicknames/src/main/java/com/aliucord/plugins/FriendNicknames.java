@@ -30,11 +30,7 @@ import java.util.*;
 
 @SuppressWarnings({ "unchecked", "unused" })
 public class FriendNicknames extends Plugin {
-
-  public FriendNicknames() {
-    settings = new Settings(PluginSettings.class, Settings.Type.BOTTOMSHEET);
-  }
-
+  
   @NonNull
   @Override
   public Manifest getManifest() {
@@ -53,7 +49,6 @@ public class FriendNicknames extends Plugin {
   @Override
   @SuppressWarnings({ "unchecked", "ConstantConditions" })
   public void start(Context context) {
-    SettingsAPI sets = PluginManager.plugins.get("FriendNicknames").sets;
     var subcommands = new ArrayList<>();
     var userOption = new ApplicationCommandOption(
       ApplicationCommandType.USER,
@@ -105,7 +100,7 @@ public class FriendNicknames extends Plugin {
     commands.registerCommand(
       "nick",
       "Modify a nickname for a particular user",
-      subcommands,
+      Array.asList(subcommands),
       args -> {
         if (args.containsKey("set")){
           var user = args.get("user");
@@ -149,5 +144,6 @@ public class FriendNicknames extends Plugin {
   @Override
   public void stop(Context context) {
     patcher.unpatchAll();
+    commands.unregisterAll();
   }
 }
