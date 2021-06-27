@@ -49,7 +49,6 @@ public class FriendNicknames extends Plugin {
   @Override
   @SuppressWarnings({ "unchecked", "ConstantConditions" })
   public void start(Context context) {
-    var subcommands = Collections.emptyList();
     var userOption = new ApplicationCommandOption(
       ApplicationCommandType.USER,
       "user",
@@ -71,8 +70,7 @@ public class FriendNicknames extends Plugin {
       null
     );
 
-    subcommands.add(
-      new ApplicationCommandOption(
+    var setOption = new ApplicationCommandOption(
         ApplicationCommandType.SUBCOMMAND,
         "set",
         "Set a nickname",
@@ -81,11 +79,9 @@ public class FriendNicknames extends Plugin {
         false,
         null,
         Arrays.asList(userOption, nickOption)
-      )
-    );
+      );
 
-    subcommands.add(
-      new ApplicationCommandOption(
+    var clearOption = new ApplicationCommandOption(
         ApplicationCommandType.SUBCOMMAND,
         "clear",
         "Clear a nickname",
@@ -94,13 +90,12 @@ public class FriendNicknames extends Plugin {
         false,
         null,
         Arrays.asList(userOption)
-      )
-    );
+      );
 
     commands.registerCommand(
       "nick",
       "Modify a nickname for a particular user",
-      subcommands,
+      Arrays.asList(setOption, clearOption),
       args -> {
         if (args.containsKey("set")){
           var user = args.get("user");
