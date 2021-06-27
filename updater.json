@@ -4,8 +4,12 @@
         "minimumDiscordVersion": 1498
     },
     "MessageLinkContext": {
-        "version": "1.4.0",
+        "version": "1.4.1",
         "minimumDiscordVersion": 81110
+    },
+    "FriendNicknames": {
+        "version": "1.0.0",
+        "minimumDiscordVersion": 1498
     },
     "default": {
         "minimumDiscordVersion": 1456,
