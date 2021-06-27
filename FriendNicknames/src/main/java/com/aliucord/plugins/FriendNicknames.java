@@ -49,7 +49,7 @@ public class FriendNicknames extends Plugin {
   @Override
   @SuppressWarnings({ "unchecked", "ConstantConditions" })
   public void start(Context context) {
-    var subcommands = new ArrayList<>();
+    var subcommands = new List<ApplicationCommandOption>();
     var userOption = new ApplicationCommandOption(
       ApplicationCommandType.USER,
       "user",
