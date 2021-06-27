@@ -106,7 +106,7 @@ public class FriendNicknames extends Plugin {
           return new CommandsAPI.CommandResult("Set nickname successfuly", null, false);
         }
         if (args.containsKey("clear")){
-          User user = args.get("user");
+          var user = args.get("user");
           // var id = user.getId();
           // sets.setString(String.valueOf(id), null);
           return new CommandsAPI.CommandResult("Cleared nickname successfuly", null, false);
