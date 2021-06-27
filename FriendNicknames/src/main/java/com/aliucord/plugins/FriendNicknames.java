@@ -110,7 +110,7 @@ public class FriendNicknames extends Plugin {
           sets.setString(String.valueOf(id), null);
           return new CommandsAPI.CommandResult("Cleared nickname successfuly", null, false);
         }
-        
+        return new CommandsAPI.CommandResult();
       }
     );
 
