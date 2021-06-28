@@ -6,14 +6,18 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import com.aliucord.PluginManager;
 import com.aliucord.Utils;
 import com.aliucord.api.CommandsAPI;
 import com.aliucord.entities.Plugin;
 import com.aliucord.patcher.PinePatchFn;
 import com.aliucord.widgets.LinearLayout;
+import com.aliucord.plugins.friendnicknames.*;
+
 import com.discord.api.channel.Channel;
 import com.discord.api.commands.ApplicationCommandType;
 import com.discord.api.commands.CommandChoice;
@@ -25,7 +29,9 @@ import com.discord.utilities.color.ColorCompat;
 import com.discord.utilities.user.UserUtils;
 import com.discord.views.CheckedSetting;
 import com.discord.views.RadioManager;
+
 import com.lytefast.flexinput.R$b;
+
 import java.util.*;
 
 @SuppressWarnings({ "unchecked", "unused" })
@@ -40,7 +46,7 @@ public class FriendNicknames extends Plugin {
         new Manifest.Author("Wing", 298295889720770563L),
       };
     manifest.description = "Set custom nicknames for each of your friends!";
-    manifest.version = "1.0.3";
+    manifest.version = "1.0.4";
     manifest.updateUrl =
       "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
     return manifest;
@@ -62,9 +68,8 @@ public class FriendNicknames extends Plugin {
         callFrame -> {
           var user = (User) callFrame.args[0];
           var userId = user.getId();
-          var nickname = sets.getString(String.valueOf(userId), "NO_NICKNAME_FOUND");
-          Utils.log(nickname);
-          //if (nickname == "NO_NICKNAME_FOUND") return;
+          var nickname = sets.getString(String.valueOf(userId), null);
+          if (nickname == null) return;
           callFrame.setResult(nickname);
         }
       )
@@ -117,27 +122,8 @@ public class FriendNicknames extends Plugin {
       "Modify a nickname for a particular user",
       Arrays.asList(setOption, clearOption),
       args -> {
-        if (args.containsKey("set")) {
-          var id = (String) args.get("user");
-          var nick = (String) args.get("nickname");
-          Utils.log(id);
-          Utils.log(nick);
-          sets.setString(id, nick);
-          return new CommandsAPI.CommandResult(
-            "Set nickname successfuly",
-            null,
-            false
-          );
-        }
-        if (args.containsKey("clear")) {
-          var id = (String) args.get("user");
-          sets.setString(String.valueOf(id), null);
-          return new CommandsAPI.CommandResult(
-            "Cleared nickname successfuly",
-            null,
-            false
-          );
-        }
+        if (args.containsKey("set")) return SetCommand.execute((Map<String, ?>) args.get("set"), sets, this);
+        if (args.containsKey("clear")) return ClearCommand.execute((Map<String, ?>) args.get("clear"), sets, this);
         return new CommandsAPI.CommandResult();
       }
     );
