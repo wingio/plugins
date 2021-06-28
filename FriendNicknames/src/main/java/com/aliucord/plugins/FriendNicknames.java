@@ -6,18 +6,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import com.aliucord.PluginManager;
 import com.aliucord.Utils;
 import com.aliucord.api.CommandsAPI;
 import com.aliucord.entities.Plugin;
 import com.aliucord.patcher.PinePatchFn;
 import com.aliucord.widgets.LinearLayout;
-import com.aliucord.plugins.friendnicknames.*;
-
 import com.discord.api.channel.Channel;
 import com.discord.api.commands.ApplicationCommandType;
 import com.discord.api.commands.CommandChoice;
@@ -29,9 +25,7 @@ import com.discord.utilities.color.ColorCompat;
 import com.discord.utilities.user.UserUtils;
 import com.discord.views.CheckedSetting;
 import com.discord.views.RadioManager;
-
 import com.lytefast.flexinput.R$b;
-
 import java.util.*;
 
 @SuppressWarnings({ "unchecked", "unused" })
@@ -122,8 +116,47 @@ public class FriendNicknames extends Plugin {
       "Modify a nickname for a particular user",
       Arrays.asList(setOption, clearOption),
       args -> {
-        if (args.containsKey("set")) return SetCommand.execute((Map<String, ?>) args.get("set"), sets, this);
-        if (args.containsKey("clear")) return ClearCommand.execute((Map<String, ?>) args.get("clear"), sets, this);
+        if (args.containsKey("set")) {
+          var setargs = (Map<String,?>) args.get("set")
+          var user = (String) setargs.get("user");
+          var nickname = (String) setargs.get("nickname");
+          if (
+            user == null ||
+            user.equals("") ||
+            nickname == null ||
+            nickname.equals("")
+          ) {
+            return new CommandsAPI.CommandResult(
+              "Missing arguments",
+              null,
+              false
+            );
+          }
+
+          sets.setString(user, nickname);
+
+          return new CommandsAPI.CommandResult("Set nickname", null, false);
+        }
+        
+        if (args.containsKey("clear")) {
+          var setargs = (Map<String,?>) args.get("clear")
+          var user = (String) setargs.get("user");
+          if (
+            user == null ||
+            user.equals("") ||
+          ) {
+            return new CommandsAPI.CommandResult(
+              "Missing arguments",
+              null,
+              false
+            );
+          }
+
+          sets.setString(user, null);
+
+          return new CommandsAPI.CommandResult("Cleared nickname", null, false);
+        }
+
         return new CommandsAPI.CommandResult();
       }
     );
