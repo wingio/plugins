@@ -121,7 +121,7 @@ public class MessageLinkContext extends Plugin {
                   messageId
                 )
               );
-              ((WidgetChatListActions.Model) callFrame.args[0]).dismiss();
+              callFrame.args[0].dismiss();
               Utils.showToast(context, "Copied link");
             }
           );
