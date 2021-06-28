@@ -69,9 +69,9 @@ public class FriendNicknames extends Plugin {
       )
     );
     var userOption = new ApplicationCommandOption(
-      ApplicationCommandType.STRING,
+      ApplicationCommandType.USER,
       "user",
-      "ID of the User you want to set a nickname to",
+      "User you want to set a nickname to",
       null,
       true,
       true,
@@ -128,7 +128,7 @@ public class FriendNicknames extends Plugin {
             );
           }
 
-          sets.setString(user, nickname);
+          sets.setString(user, String.valueOf(nickname));
 
           return new CommandsAPI.CommandResult("Set nickname", null, false);
         }
