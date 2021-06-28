@@ -121,7 +121,7 @@ public class MessageLinkContext extends Plugin {
                   messageId
                 )
               );
-              view.dismiss();
+              callFrame.dismiss();
               Utils.showToast(context, "Copied link");
             }
           );
