@@ -13,11 +13,11 @@ public final class ClearCommand {
    public static CommandsAPI.CommandResult execute(Map<String, ?> args, SettingsAPI sets, FriendNicknames main) {
        var user = (String) args.get("user");
        if(user == null || user.equals("")){
-           return new CommandsAPI.CommandResult("Missing arguments", null, false)
+           return new CommandsAPI.CommandResult("Missing arguments", null, false);
        }
 
        sets.setString(user, null);
 
-       return new CommandsAPI.CommandResult("Cleared nickname", null, false)
+       return new CommandsAPI.CommandResult("Cleared nickname", null, false);
    }
 }
