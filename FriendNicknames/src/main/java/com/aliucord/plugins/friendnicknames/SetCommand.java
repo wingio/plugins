@@ -17,7 +17,7 @@ public final class SetCommand {
            return new CommandsAPI.CommandResult("Missing arguments", null, false);
        }
 
-       sets.setString(user, nick);
+       sets.setString(user, nickname);
 
        return new CommandsAPI.CommandResult("Set nickname", null, false);
    }
