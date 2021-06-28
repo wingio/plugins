@@ -64,7 +64,7 @@ public class FriendNicknames extends Plugin {
           var userId = user.getId();
           var nickname = sets.getString(String.valueOf(userId), "NO_NICKNAME_FOUND");
           Utils.log(nickname);
-          if (nickname == "NO_NICKNAME_FOUND") return;
+          //if (nickname == "NO_NICKNAME_FOUND") return;
           callFrame.setResult(nickname);
         }
       )
