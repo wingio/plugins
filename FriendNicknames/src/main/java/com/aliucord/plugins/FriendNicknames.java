@@ -117,15 +117,10 @@ public class FriendNicknames extends Plugin {
       Arrays.asList(setOption, clearOption),
       args -> {
         if (args.containsKey("set")) {
-          var setargs = (Map<String,?>) args.get("set")
+          var setargs = (Map<String,?>) args.get("set");
           var user = (String) setargs.get("user");
           var nickname = (String) setargs.get("nickname");
-          if (
-            user == null ||
-            user.equals("") ||
-            nickname == null ||
-            nickname.equals("")
-          ) {
+          if ( user == null || user.equals("") || nickname == null || nickname.equals("")) {
             return new CommandsAPI.CommandResult(
               "Missing arguments",
               null,
@@ -137,14 +132,11 @@ public class FriendNicknames extends Plugin {
 
           return new CommandsAPI.CommandResult("Set nickname", null, false);
         }
-        
+
         if (args.containsKey("clear")) {
-          var setargs = (Map<String,?>) args.get("clear")
+          var setargs = (Map<String,?>) args.get("clear");
           var user = (String) setargs.get("user");
-          if (
-            user == null ||
-            user.equals("") ||
-          ) {
+          if (user == null || user.equals("")) {
             return new CommandsAPI.CommandResult(
               "Missing arguments",
               null,
