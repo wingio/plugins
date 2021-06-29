@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import com.aliucord.PluginManager;
 import com.aliucord.Utils;
 import com.aliucord.api.CommandsAPI;
+import com.aliucord.api.SettingsAPI;
 import com.aliucord.entities.Plugin;
 import com.aliucord.patcher.PinePatchFn;
 import com.aliucord.widgets.LinearLayout;
