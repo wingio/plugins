@@ -30,6 +30,31 @@ import java.util.*;
 
 @SuppressWarnings({ "unchecked", "unused" })
 public class FriendNicknames extends Plugin {
+  public static final class PluginSettings extends AppBottomSheet {
+    public int getContentViewResId() { return 0; }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        SettingsAPI sets = PluginManager.plugins.get("FriendNicknames").sets;
+        Context context = inflater.getContext();
+        LinearLayout layout = new LinearLayout(context);
+        layout.setBackgroundColor(ColorCompat.getThemedColor(context, R$b.colorBackgroundPrimary));
+
+        layout.addView(createSwitch(context, sets, "showUsername", "Show username alongside nickname"));
+        return layout;
+    }
+
+    private CheckedSetting createSwitch(Context context, SettingsAPI sets, String key, String label) {
+        CheckedSetting cs = Utils.createCheckedSetting(context, CheckedSetting.ViewType.SWITCH, label, null);
+        cs.setChecked(sets.getBool(key, true));
+        cs.setOnCheckedListener(c -> sets.setBool(key, c));
+        return cs;
+    }
+}
+
+public FriendNicknames() {
+    settings = new Settings(PluginSettings.class, Settings.Type.BOTTOMSHEET);
+}
 
   @NonNull
   @Override
@@ -64,6 +89,8 @@ public class FriendNicknames extends Plugin {
           var userId = user.getId();
           var nickname = sets.getString(String.valueOf(userId), null);
           if (nickname == null) return;
+          var showUsername = sets.getBool("showUsername", false);
+          if(showUsername == true) nickname = nickname + " (" + user.getUsername() + ")";
           callFrame.setResult(nickname);
         }
       )

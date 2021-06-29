@@ -2,7 +2,7 @@
 buildscript {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.1.0-alpha01'
@@ -12,10 +12,19 @@ buildscript {
     }
 }
 
+ext {
+    minSdkVer = 24
+    sdkVer = 30
+
+    appCompatVer = "1.2.0"
+    materialVer = "1.2.1"
+    constraintLayoutVer = "2.0.1"
+}
+
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 }
 
