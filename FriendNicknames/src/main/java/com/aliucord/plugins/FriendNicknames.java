@@ -84,7 +84,7 @@ public class FriendNicknames extends Plugin {
       new PinePatchFn(
         callFrame -> {
           var user = (User) callFrame.args[0];
-          Utils.log(String.valueOf(user.getId()))
+          Utils.log(String.valueOf(user.getId()));
           callFrame.setResult("https://aperii.com/logo_circle.png");
         }
       )
