@@ -76,9 +76,10 @@ public class FriendNicknames extends Plugin {
 
     patcher.patch(
       IconUtils.class,
-      "getForUser",
+      "getForGuildMemberOrUser",
       new Class<?>[] {
-        User.class
+        User.class,
+        GuildMember.class
       },
       new PinePatchFn(
         callFrame -> {
