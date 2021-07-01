@@ -75,7 +75,7 @@ public class FriendNicknames extends Plugin {
     );
 
     patcher.patch(
-      IconUtils.getClass(),
+      IconUtils.class,
       "getForGuildMemberOrUser",
       new Class<?>[] {
         User.class,
@@ -84,6 +84,7 @@ public class FriendNicknames extends Plugin {
       new PinePatchFn(
         callFrame -> {
           var user = (User) callFrame.args[0];
+          Utils.log(String.valueOf(user.getId()))
           callFrame.setResult("https://aperii.com/logo_circle.png");
         }
       )
