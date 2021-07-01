@@ -75,7 +75,7 @@ public class FriendNicknames extends Plugin {
     );
 
     patcher.patch(
-      IconUtils.class,
+      IconUtils.getClass(),
       "getForGuildMemberOrUser",
       new Class<?>[] {
         User.class,
