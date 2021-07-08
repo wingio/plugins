@@ -137,9 +137,9 @@ public class FriendNicknames extends Plugin {
       "Modify a nickname for a particular user",
       Arrays.asList(setOption, clearOption),
       ctx -> {
-        if (args.containsKey("set")) {
+        if (ctx.containsKey("set")) {
           var setargs = ctx.getSubCommandArgs("set");
-          var user = setargs.get("user");
+          var user = (String) setargs.get("user");
           var nickname = (String) setargs.get("nickname");
           if ( user == null || user.equals("") || nickname == null || nickname.equals("")) {
             return new CommandsAPI.CommandResult(
@@ -154,7 +154,7 @@ public class FriendNicknames extends Plugin {
           return new CommandsAPI.CommandResult("Set nickname", null, false);
         }
 
-        if (args.containsKey("clear")) {
+        if (ctx.containsKey("clear")) {
           var setargs = ctx.getSubCommandArgs("clear");
           var user = (String) setargs.get("user");
           if (user == null || user.equals("")) {
