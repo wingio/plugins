@@ -84,8 +84,8 @@ public class MessageLinkContext extends Plugin {
       new Class<?>[]{ WidgetChatListActions.Model.class },
       new PinePatchFn(
         callFrame -> {
-          var _this = (WidgetChatListActions) callFrame.thisObject;
-          var rootView = (NestedScrollView) _this.requireView();
+          var wcla = (WidgetChatListActions) callFrame.thisObject;
+          var rootView = (NestedScrollView) wcla.requireView();
           var layout = layoutRef.get();
           Utils.log("Created layout");
           if (layout == null || layout.findViewById(id) != null) return;
@@ -120,7 +120,7 @@ public class MessageLinkContext extends Plugin {
                 )
               );
               Utils.showToast(context, "Copied link");
-              _this.dismiss();
+              wcla.dismiss();
             }
           );
           layout.addView(view, 6);
