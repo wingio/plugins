@@ -43,7 +43,7 @@ public class FriendNicknames extends Plugin {
         new Manifest.Author("Wing", 298295889720770563L),
       };
     manifest.description = "Set custom nicknames for each of your friends!";
-    manifest.version = "1.1.0";
+    manifest.version = "1.2.0";
     manifest.updateUrl =
       "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
     return manifest;
@@ -65,29 +65,29 @@ public class FriendNicknames extends Plugin {
         callFrame -> {
           var user = (User) callFrame.args[0];
           var userId = user.getId();
-          var nickname = sets.getString(String.valueOf(userId), null);
+          var nickname = settings.getString(String.valueOf(userId), null);
           if (nickname == null) return;
-          var showUsername = sets.getBool("showUsername", false);
+          var showUsername = settings.getBool("showUsername", false);
           if(showUsername == true) nickname = nickname + " (" + user.getUsername() + ")";
           callFrame.setResult(nickname);
         }
       )
     );
 
-    patcher.patch(
-      IconUtils.class,
-      "getForUser",
-      new Class<?>[] {
-        User.class
-      },
-      new PinePatchFn(
-        callFrame -> {
-          var user = (User) callFrame.args[0];
-          Utils.log(String.valueOf(user.getId()));
-          callFrame.setResult("https://aperii.com/logo_circle.png");
-        }
-      )
-    );
+    // patcher.patch(
+    //   IconUtils.class,
+    //   "getForUser",
+    //   new Class<?>[] {
+    //     User.class
+    //   },
+    //   new PinePatchFn(
+    //     callFrame -> {
+    //       var user = (User) callFrame.args[0];
+    //       Utils.log(String.valueOf(user.getId()));
+    //       callFrame.setResult("https://aperii.com/logo_circle.png");
+    //     }
+    //   )
+    // );
 
     var userOption = new ApplicationCommandOption(
       ApplicationCommandType.USER,
@@ -136,10 +136,10 @@ public class FriendNicknames extends Plugin {
       "nick",
       "Modify a nickname for a particular user",
       Arrays.asList(setOption, clearOption),
-      args -> {
+      ctx -> {
         if (args.containsKey("set")) {
-          var setargs = (Map<String,?>) args.get("set");
-          var user = (String) setargs.get("user");
+          var setargs = ctx.getSubCommandArgs("set");
+          var user = setargs.get("user");
           var nickname = (String) setargs.get("nickname");
           if ( user == null || user.equals("") || nickname == null || nickname.equals("")) {
             return new CommandsAPI.CommandResult(
@@ -149,13 +149,13 @@ public class FriendNicknames extends Plugin {
             );
           }
 
-          sets.setString(user, String.valueOf(nickname));
+          settings.setString(user, String.valueOf(nickname));
 
           return new CommandsAPI.CommandResult("Set nickname", null, false);
         }
 
         if (args.containsKey("clear")) {
-          var setargs = (Map<String,?>) args.get("clear");
+          var setargs = ctx.getSubCommandArgs("clear");
           var user = (String) setargs.get("user");
           if (user == null || user.equals("")) {
             return new CommandsAPI.CommandResult(
@@ -165,7 +165,7 @@ public class FriendNicknames extends Plugin {
             );
           }
 
-          sets.setString(user, null);
+          settings.setString(user, null);
 
           return new CommandsAPI.CommandResult("Cleared nickname", null, false);
         }
