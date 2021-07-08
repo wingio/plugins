@@ -14,7 +14,7 @@ import androidx.core.widget.NestedScrollView;
 import com.aliucord.Constants;
 import com.aliucord.Utils;
 import com.aliucord.wrappers.ChannelWrapper;
-import com.aliucord.wrappers.messages.MessageWrapper;
+import com.discord.models.message.Message;
 import com.aliucord.entities.Plugin;
 import com.aliucord.patcher.PinePatchFn;
 import com.discord.utilities.color.ColorCompat;
@@ -41,7 +41,7 @@ public class MessageLinkContext extends Plugin {
       };
     manifest.description =
       "Adds a context menu option to copy the message link.";
-    manifest.version = "1.5.0";
+    manifest.version = "1.6.0";
     manifest.updateUrl =
       "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
     return manifest;
@@ -92,7 +92,6 @@ public class MessageLinkContext extends Plugin {
           Utils.log("Recieved context");
           var msg = ((WidgetChatListActions.Model) callFrame.args[0]).getMessage();
           Utils.log("Got message");
-          MessageWrapper mw = new MessageWrapper(msg);
           long channelId = mw.getChannelId();
           Long messageId = mw.getId();
           var channel = StoreStream.getChannels().getChannel(channelId);
