@@ -14,12 +14,12 @@ import androidx.core.widget.NestedScrollView;
 import com.aliucord.Constants;
 import com.aliucord.Utils;
 import com.aliucord.wrappers.ChannelWrapper;
-import com.discord.models.message.Message;
 import com.aliucord.entities.Plugin;
 import com.aliucord.patcher.PinePatchFn;
 import com.discord.utilities.color.ColorCompat;
 import com.discord.widgets.chat.list.actions.WidgetChatListActions;
 import com.discord.stores.StoreStream;
+import com.discord.models.message.Message;
 import com.lytefast.flexinput.R$b;
 import com.lytefast.flexinput.R$h;
 import java.util.concurrent.atomic.AtomicReference;
@@ -75,7 +75,6 @@ public class MessageLinkContext extends Plugin {
       resources.getIdentifier("ic_copy", "drawable", "com.aliucord.plugins"),
       null
     );
-    AtomicReference<LinearLayout> layoutRef = new AtomicReference<>();
     var id = View.generateViewId();
 
     patcher.patch(
@@ -84,10 +83,10 @@ public class MessageLinkContext extends Plugin {
       new Class<?>[]{ WidgetChatListActions.Model.class },
       new PinePatchFn(
         callFrame -> {
-          var wcla = (WidgetChatListActions) callFrame.thisObject;
-          var rootView = (NestedScrollView) wcla.requireView();
-          var layout = layoutRef.get();
-          Utils.log("Created layout");
+          var _this = (WidgetChatListActions) callFrame.thisObject;
+          var rootView = (NestedScrollView) _this.getView();
+          if(rootView == null) return;
+          var layout = (LinearLayout) rootview.getChildAt(0);
           if (layout == null || layout.findViewById(id) != null) return;
           var ctx = layout.getContext();
           var msg = ((WidgetChatListActions.Model) callFrame.args[0]).getMessage();
@@ -95,7 +94,6 @@ public class MessageLinkContext extends Plugin {
           Long messageId = msg.getId();
           var channel = StoreStream.getChannels().getChannel(channelId);
           var guildId = channel != null && ChannelWrapper.getGuildId(channel) != 0 ? String.valueOf(ChannelWrapper.getGuildId(channel)) : "@me";
-          var _this = (WidgetChatListActions) callFrame.thisObject;
           var view = new TextView(ctx, null, 0, R$h.UiKit_Settings_Item_Icon);
           view.setId(id);
           view.setText("Copy Message Link");
@@ -120,23 +118,10 @@ public class MessageLinkContext extends Plugin {
                 )
               );
               Utils.showToast(context, "Copied link");
-              wcla.dismiss();
+              _this.dismiss();
             }
           );
           layout.addView(view, 6);
-        }
-      )
-    );
-
-    patcher.patch(
-      WidgetChatListActions.class,
-      "onViewCreated",
-      new Class<?>[] { View.class, Bundle.class },
-      new PinePatchFn(
-        callFrame -> {
-          layoutRef.set(
-            (LinearLayout) ((NestedScrollView) callFrame.args[0]).getChildAt(0)
-          );
         }
       )
     );
