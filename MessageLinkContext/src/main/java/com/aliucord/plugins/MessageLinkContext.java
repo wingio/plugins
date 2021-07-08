@@ -41,7 +41,7 @@ public class MessageLinkContext extends Plugin {
       };
     manifest.description =
       "Adds a context menu option to copy the message link.";
-    manifest.version = "1.6.0";
+    manifest.version = "1.6.1";
     manifest.updateUrl =
       "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
     return manifest;
@@ -77,7 +77,6 @@ public class MessageLinkContext extends Plugin {
     );
     AtomicReference<LinearLayout> layoutRef = new AtomicReference<>();
     var id = View.generateViewId();
-    Utils.log("Generated ID");
 
     patcher.patch(
       WidgetChatListActions.class,
@@ -85,20 +84,19 @@ public class MessageLinkContext extends Plugin {
       new Class<?>[]{ WidgetChatListActions.Model.class },
       new PinePatchFn(
         callFrame -> {
+          var _this = (WidgetChatListActions) callFrame.thisObject;
+          var rootView = (NestedScrollView) _this.requireView();
           var layout = layoutRef.get();
           Utils.log("Created layout");
           if (layout == null || layout.findViewById(id) != null) return;
           var ctx = layout.getContext();
-          Utils.log("Recieved context");
           var msg = ((WidgetChatListActions.Model) callFrame.args[0]).getMessage();
-          Utils.log("Got message");
           long channelId = msg.getChannelId();
           Long messageId = msg.getId();
           var channel = StoreStream.getChannels().getChannel(channelId);
           var guildId = channel != null && ChannelWrapper.getGuildId(channel) != 0 ? String.valueOf(ChannelWrapper.getGuildId(channel)) : "@me";
           var _this = (WidgetChatListActions) callFrame.thisObject;
           var view = new TextView(ctx, null, 0, R$h.UiKit_Settings_Item_Icon);
-          Utils.log("Created view");
           view.setId(id);
           view.setText("Copy Message Link");
           if (icon != null) icon.setTint(
@@ -122,6 +120,7 @@ public class MessageLinkContext extends Plugin {
                 )
               );
               Utils.showToast(context, "Copied link");
+              _this.dismiss();
             }
           );
           layout.addView(view, 6);
