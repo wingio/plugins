@@ -86,7 +86,7 @@ public class MessageLinkContext extends Plugin {
           var _this = (WidgetChatListActions) callFrame.thisObject;
           var rootView = (NestedScrollView) _this.getView();
           if(rootView == null) return;
-          var layout = (LinearLayout) rootview.getChildAt(0);
+          var layout = (LinearLayout) rootView.getChildAt(0);
           if (layout == null || layout.findViewById(id) != null) return;
           var ctx = layout.getContext();
           var msg = ((WidgetChatListActions.Model) callFrame.args[0]).getMessage();
