@@ -38,7 +38,7 @@ public class FriendNicknames extends Plugin {
 
         @Override
         public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            SettingsAPI sets = PluginManager.plugins.get("FriendNicknames").sets;
+            SettingsAPI sets = PluginManager.plugins.get("FriendNicknames").settings;
             Context context = inflater.getContext();
             LinearLayout layout = new LinearLayout(context);
             layout.setBackgroundColor(ColorCompat.getThemedColor(context, R$b.colorBackgroundPrimary));
