@@ -32,6 +32,31 @@ import java.util.*;
 
 @SuppressWarnings({ "unchecked", "unused" })
 public class FriendNicknames extends Plugin {
+
+  public static final class PluginSettings extends AppBottomSheet {
+        public int getContentViewResId() { return 0; }
+
+        @Override
+        public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+            Context context = inflater.getContext();
+            LinearLayout layout = new LinearLayout(context);
+            layout.setBackgroundColor(ColorCompat.getThemedColor(context, R$b.colorBackgroundPrimary));
+
+            layout.addView(createSwitch(context, settings, "showUsername", "Show Username"));
+            return layout;
+        }
+
+        private CheckedSetting createSwitch(Context context, SettingsAPI sets, String key, String label) {
+            CheckedSetting cs = Utils.createCheckedSetting(context, CheckedSetting.ViewType.SWITCH, label, null);
+            cs.setChecked(sets.getBool(key, true));
+            cs.setOnCheckedListener(c -> sets.setBool(key, c));
+            return cs;
+        }
+    }
+
+    public StickerTweaks() {
+        settings = new Settings(PluginSettings.class, Settings.Type.BOTTOMSHEET);
+    }
   
 
   @NonNull
