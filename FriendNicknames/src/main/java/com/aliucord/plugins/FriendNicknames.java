@@ -38,11 +38,12 @@ public class FriendNicknames extends Plugin {
 
         @Override
         public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+            SettingsAPI sets = PluginManager.plugins.get("FriendNicknames").sets;
             Context context = inflater.getContext();
             LinearLayout layout = new LinearLayout(context);
             layout.setBackgroundColor(ColorCompat.getThemedColor(context, R$b.colorBackgroundPrimary));
 
-            layout.addView(createSwitch(context, settings, "showUsername", "Show Username"));
+            layout.addView(createSwitch(context, sets, "showUsername", "Show Username"));
             return layout;
         }
 
