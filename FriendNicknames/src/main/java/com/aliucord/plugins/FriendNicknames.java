@@ -43,12 +43,12 @@ public class FriendNicknames extends Plugin {
             LinearLayout layout = new LinearLayout(context);
             layout.setBackgroundColor(ColorCompat.getThemedColor(context, R$b.colorBackgroundPrimary));
 
-            layout.addView(createSwitch(context, sets, "showUsername", "Show Username"));
+            layout.addView(createSwitch(context, sets, "showUsername", "Show Username", "Adds the username in parenthesis after the nickname"));
             return layout;
         }
 
-        private CheckedSetting createSwitch(Context context, SettingsAPI sets, String key, String label) {
-            CheckedSetting cs = Utils.createCheckedSetting(context, CheckedSetting.ViewType.SWITCH, label, null);
+        private CheckedSetting createSwitch(Context context, SettingsAPI sets, String key, String label, String subtext) {
+            CheckedSetting cs = Utils.createCheckedSetting(context, CheckedSetting.ViewType.SWITCH, label, subtext);
             cs.setChecked(sets.getBool(key, true));
             cs.setOnCheckedListener(c -> sets.setBool(key, c));
             return cs;
