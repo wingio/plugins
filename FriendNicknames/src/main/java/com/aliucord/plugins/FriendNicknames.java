@@ -54,9 +54,9 @@ public class FriendNicknames extends Plugin {
         }
     }
 
-    public FriendNicknames() {
-        settings = new Settings(PluginSettings.class, Settings.Type.BOTTOMSHEET);
-    }
+    // public FriendNicknames() {
+    //     settings = new Settings(PluginSettings.class, Settings.Type.BOTTOMSHEET);
+    // }
   
 
   @NonNull
