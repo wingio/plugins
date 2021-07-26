@@ -47,13 +47,13 @@ public class FriendNicknames extends Plugin {
             LinearLayout layout = new LinearLayout(context);
             layout.setBackgroundColor(ColorCompat.getThemedColor(context, R$b.colorBackgroundPrimary));
 
-            layout.addView(createSwitch(context, sets, "showUsername", "Show Username", "Adds the username in parenthesis after the nickname"));
+            layout.addView(createSwitch(context, sets, "showUsername", "Show Username", "Adds the username in parenthesis after the nickname", false));
             return layout;
         }
 
-        private CheckedSetting createSwitch(Context context, SettingsAPI sets, String key, String label, String subtext) {
+        private CheckedSetting createSwitch(Context context, SettingsAPI sets, String key, String label, String subtext, Boolean default) {
             CheckedSetting cs = Utils.createCheckedSetting(context, CheckedSetting.ViewType.SWITCH, label, subtext);
-            cs.setChecked(sets.getBool(key, true));
+            cs.setChecked(sets.getBool(key, default));
             cs.setOnCheckedListener(c -> sets.setBool(key, c));
             return cs;
         }
@@ -73,7 +73,7 @@ public class FriendNicknames extends Plugin {
         new Manifest.Author("Wing", 298295889720770563L),
       };
     manifest.description = "Set custom nicknames for each of your friends!";
-    manifest.version = "1.3.0";
+    manifest.version = "1.3.1";
     manifest.updateUrl =
       "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
     return manifest;
