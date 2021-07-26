@@ -32,9 +32,13 @@ import java.util.*;
 
 @SuppressWarnings({ "unchecked", "unused" })
 public class FriendNicknames extends Plugin {
-
+  
   public static final class PluginSettings extends AppBottomSheet {
         public int getContentViewResId() { return 0; }
+        private final SettingsAPI settings;
+        public PluginSettings(SettingsAPI settings) {
+            this.settings = settings;
+        }
 
         @Override
         public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,9 +59,9 @@ public class FriendNicknames extends Plugin {
         }
     }
 
-    // public FriendNicknames() {
-    //     settings = new Settings(PluginSettings.class, Settings.Type.BOTTOMSHEET);
-    // }
+    public FriendNicknames() {
+        settingsTab = new SettingsTab(PluginSettings.class, SettingsTab.Type.BOTTOM_SHEET).withArgs(settings);
+    }
   
 
   @NonNull
