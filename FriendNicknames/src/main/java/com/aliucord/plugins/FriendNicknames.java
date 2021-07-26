@@ -51,9 +51,9 @@ public class FriendNicknames extends Plugin {
             return layout;
         }
 
-        private CheckedSetting createSwitch(Context context, SettingsAPI sets, String key, String label, String subtext, boolean default) {
+        private CheckedSetting createSwitch(Context context, SettingsAPI sets, String key, String label, String subtext, boolean defaultValue) {
             CheckedSetting cs = Utils.createCheckedSetting(context, CheckedSetting.ViewType.SWITCH, label, subtext);
-            cs.setChecked(sets.getBool(key, default));
+            cs.setChecked(sets.getBool(key, defaultValue));
             cs.setOnCheckedListener(c -> sets.setBool(key, c));
             return cs;
         }
