@@ -59,7 +59,7 @@ public class TestPlugin extends Plugin {
             var expHeader = new TextView(context, null, 0, R$h.UiKit_Settings_Item_Header);
             expHeader.setTypeface(ResourcesCompat.getFont(context, Constants.Fonts.whitney_semibold));
             expHeader.setText("Experiments");
-            layout.addView(appearanceHeader);
+            addView(expHeader);
 
             addView(createSwitch(context, settings, "allBots", "Mark everyone as bots", null, false));
             addView(new Divider(context));
