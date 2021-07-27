@@ -6,11 +6,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.graphics.drawable.Drawable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.content.ContextCompat;
+import com.aliucord.Constants;
 import com.aliucord.PluginManager;
 import com.aliucord.Utils;
 import com.aliucord.api.CommandsAPI;
@@ -19,6 +21,7 @@ import com.aliucord.entities.Plugin;
 import com.aliucord.patcher.PinePatchFn;
 import com.aliucord.widgets.LinearLayout;
 import com.aliucord.fragments.SettingsPage;
+import com.aliucord.views.Divider;
 import com.discord.api.channel.Channel;
 import com.discord.api.commands.ApplicationCommandType;
 import com.discord.api.commands.CommandChoice;
@@ -52,8 +55,14 @@ public class TestPlugin extends Plugin {
             setActionBarTitle("Test Plugin");
 
             var context = view.getContext();
+            
+            var expHeader = new TextView(context, null, 0, R$h.UiKit_Settings_Item_Header);
+            expHeader.setTypeface(ResourcesCompat.getFont(context, Constants.Fonts.whitney_semibold));
+            expHeader.setText("Experiments");
+            layout.addView(appearanceHeader);
 
             addView(createSwitch(context, settings, "allBots", "Mark everyone as bots", null, false));
+            addView(new Divider(context));
         }
         
         private CheckedSetting createSwitch(Context context, SettingsAPI sets, String key, String label, String subtext, boolean defaultValue) {
