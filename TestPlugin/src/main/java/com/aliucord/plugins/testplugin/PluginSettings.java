@@ -19,6 +19,7 @@ import com.discord.views.CheckedSetting;
 import com.discord.views.RadioManager;
 import com.lytefast.flexinput.R$h;
 
+import kotlin.Unit;
 import java.util.Arrays;
 
 @SuppressLint("SetTextI18n")
@@ -45,7 +46,7 @@ public final class PluginSettings extends SettingsPage {
                 notD.setAutoDismissPeriodSecs(5);
                 notD.setOnClick(v -> {
                     Utils.log("Achievement Unlocked");
-                    return;
+                    return Unit.a;
                 });
  
         NotificationsAPI.display(notD);
