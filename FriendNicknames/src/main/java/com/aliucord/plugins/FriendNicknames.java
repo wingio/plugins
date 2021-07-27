@@ -6,8 +6,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.graphics.drawable.Drawable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.core.content.ContextCompat;
 import com.aliucord.PluginManager;
 import com.aliucord.Utils;
 import com.aliucord.api.CommandsAPI;
@@ -27,11 +30,12 @@ import com.discord.utilities.user.UserUtils;
 import com.discord.utilities.icon.IconUtils;
 import com.discord.views.CheckedSetting;
 import com.discord.views.RadioManager;
-import com.lytefast.flexinput.R$b;
+import com.lytefast.flexinput.*;
 import java.util.*;
 
 @SuppressWarnings({ "unchecked", "unused" })
 public class FriendNicknames extends Plugin {
+  private Drawable pluginIcon;
   
   public static final class PluginSettings extends AppBottomSheet {
         public int getContentViewResId() { return 0; }
@@ -61,6 +65,7 @@ public class FriendNicknames extends Plugin {
 
     public FriendNicknames() {
         settingsTab = new SettingsTab(PluginSettings.class, SettingsTab.Type.BOTTOM_SHEET).withArgs(settings);
+        needsResources = true;
     }
   
 
@@ -73,7 +78,7 @@ public class FriendNicknames extends Plugin {
         new Manifest.Author("Wing", 298295889720770563L),
       };
     manifest.description = "Set custom nicknames for each of your friends!";
-    manifest.version = "1.3.1";
+    manifest.version = "1.3.2";
     manifest.updateUrl =
       "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
     return manifest;
@@ -102,6 +107,12 @@ public class FriendNicknames extends Plugin {
           callFrame.setResult(nickname);
         }
       )
+    );
+
+    pluginIcon = ResourcesCompat.getDrawable(
+      resources,
+      resources.getIdentifier("ic_editfriend", "drawable", "com.aliucord.plugins"),
+      null
     );
 
     // patcher.patch(
