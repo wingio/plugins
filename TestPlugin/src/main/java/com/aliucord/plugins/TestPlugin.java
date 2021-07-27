@@ -93,7 +93,7 @@ public class TestPlugin extends Plugin {
       null,
       new PinePatchFn(
         callFrame -> {
-          boolean allbots = settings.getBool("allBots", false)
+          boolean allbots = settings.getBool("allBots", false);
           if(allbots) {
             callFrame.setResult(true);
           }
