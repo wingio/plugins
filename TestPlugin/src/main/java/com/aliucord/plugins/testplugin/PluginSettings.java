@@ -48,7 +48,7 @@ public final class PluginSettings extends SettingsPage {
                     return;
                 });
  
-        NotificationsAPI.display(notificationData);
+        NotificationsAPI.display(notD);
 
         var expHeader = new TextView(context, null, 0, R$h.UiKit_Settings_Item_Header);
         expHeader.setTypeface(ResourcesCompat.getFont(context, Constants.Fonts.whitney_semibold));
