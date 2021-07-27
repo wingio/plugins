@@ -44,7 +44,7 @@ public final class PluginSettings extends SettingsPage {
                 body = Utils.renderMD("**Baby Steps**: Open achievement list for the first time!");
                 autoDismissPeriodSecs = 5;
                 onClick = v -> {
-                    Utils.log("Achievement Unlocked")
+                    Utils.log("Achievement Unlocked");
                 };
             }};
  
