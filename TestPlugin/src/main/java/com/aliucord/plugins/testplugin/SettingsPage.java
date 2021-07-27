@@ -3,7 +3,7 @@ package com.aliucord.plugins.testplugin;
 import android.annotation.SuppressLint;
 import android.view.View;
 import android.widget.TextView;
-import android.content.Context
+import android.content.Context;
 
 import androidx.core.content.res.ResourcesCompat;
 
