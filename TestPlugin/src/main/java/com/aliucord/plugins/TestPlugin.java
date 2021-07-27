@@ -88,9 +88,8 @@ public class TestPlugin extends Plugin {
   @Override
   @SuppressWarnings({ "unchecked", "ConstantConditions" })
   public void start(Context context) {
-    patcher.addPatch(
-      User.class,
-      "isBot",
+    patcher.patch(
+      User.class.getDeclaredMethod("isBot"),
       new PinePatchFn(
         callFrame -> {
           boolean allbots = settings.getBool("allBots", false);
