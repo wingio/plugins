@@ -25,7 +25,7 @@ import com.discord.app.AppBottomSheet;
 import com.discord.models.commands.ApplicationCommandOption;
 import com.discord.models.member.GuildMember;
 import com.discord.models.user.User;
-import com.discord.api.user.CoreUser;
+import com.discord.models.user.CoreUser;
 import com.discord.utilities.color.ColorCompat;
 import com.discord.utilities.user.UserUtils;
 import com.discord.utilities.icon.IconUtils;
