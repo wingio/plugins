@@ -65,7 +65,7 @@ public class TestPlugin extends Plugin {
     }
 
     public TestPlugin() {
-        settingsTab = new SettingsTab(PluginSettings.class, SettingsTab.Type.BOTTOM_SHEET).withArgs(settings);
+        settingsTab = new SettingsTab(PluginSettings.class, SettingsTab.Type.PAGE).withArgs(settings);
         needsResources = true;
     }
   
@@ -89,7 +89,8 @@ public class TestPlugin extends Plugin {
   @SuppressWarnings({ "unchecked", "ConstantConditions" })
   public void start(Context context) {
     patcher.patch(
-      User.class.getDeclaredMethod("isBot"),
+      User.class,
+      "isBot",
       new PinePatchFn(
         callFrame -> {
           boolean allbots = settings.getBool("allBots", false);
