@@ -91,6 +91,7 @@ public class TestPlugin extends Plugin {
     patcher.patch(
       User.class,
       "isBot",
+      new Class<?>[] {},
       new PinePatchFn(
         callFrame -> {
           boolean allbots = settings.getBool("allBots", false);
