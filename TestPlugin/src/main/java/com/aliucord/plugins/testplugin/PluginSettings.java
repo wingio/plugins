@@ -39,11 +39,11 @@ public final class PluginSettings extends SettingsPage {
 
         var context = view.getContext();
         var layout = getLinearLayout();
-        NotificationData notificationData = new NotificationData()
-                .setTitle("Achievement Unlocked");
-                .setBody(Utils.renderMD("**Baby Steps**: Open achievement list for the first time!"));
-                .setAutoDismissPeriodSecs(5);
-                .setOnClick(v -> {
+        NotificationData notD = new NotificationData()
+                notD.setTitle("Achievement Unlocked");
+                notD.setBody(Utils.renderMD("**Baby Steps**: Open achievement list for the first time!"));
+                notD.setAutoDismissPeriodSecs(5);
+                notD.setOnClick(v -> {
                     Utils.log("Achievement Unlocked");
                     return;
                 });
