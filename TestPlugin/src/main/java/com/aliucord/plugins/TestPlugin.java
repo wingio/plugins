@@ -18,6 +18,7 @@ import com.aliucord.api.SettingsAPI;
 import com.aliucord.entities.Plugin;
 import com.aliucord.patcher.PinePatchFn;
 import com.aliucord.widgets.LinearLayout;
+import com.aliucord.fragments.SettingsPage;
 import com.discord.api.channel.Channel;
 import com.discord.api.commands.ApplicationCommandType;
 import com.discord.api.commands.CommandChoice;
@@ -37,25 +38,24 @@ import java.util.*;
 @SuppressWarnings({ "unchecked", "unused" })
 public class TestPlugin extends Plugin {
   private Drawable pluginIcon;
-  
-  public static final class PluginSettings extends AppBottomSheet {
-        public int getContentViewResId() { return 0; }
+
+    public static class PluginSettings extends SettingsPage {
         private final SettingsAPI settings;
         public PluginSettings(SettingsAPI settings) {
             this.settings = settings;
         }
 
         @Override
-        public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            SettingsAPI sets = PluginManager.plugins.get("TestPlugin").settings;
-            Context context = inflater.getContext();
-            LinearLayout layout = new LinearLayout(context);
-            layout.setBackgroundColor(ColorCompat.getThemedColor(context, R$b.colorBackgroundPrimary));
+        @SuppressWarnings("ResultOfMethodCallIgnored")
+        public void onViewBound(View view) {
+            super.onViewBound(view);
+            setActionBarTitle("Test Plugin");
 
-            layout.addView(createSwitch(context, sets, "allBots", "Mark everyone as bots", null, false));
-            return layout;
+            var context = view.getContext();
+
+            addView(createSwitch(context, settings, "allBots", "Mark everyone as bots", null, false));
         }
-
+        
         private CheckedSetting createSwitch(Context context, SettingsAPI sets, String key, String label, String subtext, boolean defaultValue) {
             CheckedSetting cs = Utils.createCheckedSetting(context, CheckedSetting.ViewType.SWITCH, label, subtext);
             cs.setChecked(sets.getBool(key, defaultValue));
@@ -65,7 +65,7 @@ public class TestPlugin extends Plugin {
     }
 
     public TestPlugin() {
-        settingsTab = new SettingsTab(PluginSettings.class, SettingsTab.Type.PAGE).withArgs(settings);
+        settingsTab = new SettingsTab(PluginSettings.class).withArgs(settings);
         needsResources = true;
     }
   
