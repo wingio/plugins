@@ -39,11 +39,16 @@ public final class PluginSettings extends SettingsPage {
 
         var context = view.getContext();
         var layout = getLinearLayout();
-        NotificationData notD = new NotificationData();
-        notD.setTitle("Achievement Unlocked!");
-        notD.setSubtitle("First Step");
+        NotificationData notificationData = new NotificationData() {{
+                title = "Achievement Unlocked";
+                body = Utils.renderMD("**Baby Steps**: Open achievement list for the first time!");
+                autoDismissPeriodSecs = 5;
+                onClick = v -> {
+                    Utils.log("Achievement Unlocked")
+                };
+            }};
  
-        NotificationsAPI.display(notD);
+        NotificationsAPI.display(notificationData);
 
         var expHeader = new TextView(context, null, 0, R$h.UiKit_Settings_Item_Header);
         expHeader.setTypeface(ResourcesCompat.getFont(context, Constants.Fonts.whitney_semibold));
