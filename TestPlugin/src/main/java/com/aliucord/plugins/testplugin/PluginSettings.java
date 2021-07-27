@@ -10,8 +10,11 @@ import androidx.core.content.res.ResourcesCompat;
 import com.aliucord.Constants;
 import com.aliucord.*;
 import com.aliucord.api.SettingsAPI;
+import com.aliucord.api.NotificationsAPI;
 import com.aliucord.fragments.SettingsPage;
 import com.aliucord.views.Divider;
+import com.aliucord.entities.NotificationData;
+
 import com.discord.views.CheckedSetting;
 import com.discord.views.RadioManager;
 import com.lytefast.flexinput.R$h;
@@ -36,6 +39,11 @@ public final class PluginSettings extends SettingsPage {
 
         var context = view.getContext();
         var layout = getLinearLayout();
+        NotificationData notD = new NotificationData();
+        notD.setTitle("Achievement Unlocked!");
+        notD.setSubtitle("First Step");
+ 
+        NotificationsAPI.display(notD);
 
         var expHeader = new TextView(context, null, 0, R$h.UiKit_Settings_Item_Header);
         expHeader.setTypeface(ResourcesCompat.getFont(context, Constants.Fonts.whitney_semibold));
