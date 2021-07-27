@@ -3,6 +3,7 @@ package com.aliucord.plugins.testplugin;
 import android.annotation.SuppressLint;
 import android.view.View;
 import android.widget.TextView;
+import android.content.Context
 
 import androidx.core.content.res.ResourcesCompat;
 
@@ -42,7 +43,7 @@ public final class PluginSettings extends SettingsPage {
         layout.addView(expHeader);
 
         layout.addView(createSwitch(context, settings, "allBots", "Mark everyone as bots", null, false));
-        layoit.addView(new Divider(context));
+        layout.addView(new Divider(context));
     }
 
     public void reloadPlugin() {
