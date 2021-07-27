@@ -37,7 +37,7 @@ import com.discord.views.CheckedSetting;
 import com.discord.views.RadioManager;
 import com.lytefast.flexinput.*;
 
-import com.aliucord.plugins.pronoundb.*;
+import com.aliucord.plugins.testplugin.*;
 
 import java.util.*;
 
