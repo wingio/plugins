@@ -36,42 +36,14 @@ import com.discord.utilities.icon.IconUtils;
 import com.discord.views.CheckedSetting;
 import com.discord.views.RadioManager;
 import com.lytefast.flexinput.*;
+
+import com.aliucord.plugins.pronoundb.*;
+
 import java.util.*;
 
 @SuppressWarnings({ "unchecked", "unused" })
 public class TestPlugin extends Plugin {
   private Drawable pluginIcon;
-
-    public static class PluginSettings extends SettingsPage {
-        private final SettingsAPI settings;
-        public PluginSettings(SettingsAPI settings) {
-            this.settings = settings;
-        }
-
-        @Override
-        @SuppressWarnings("ResultOfMethodCallIgnored")
-        public void onViewBound(View view) {
-            super.onViewBound(view);
-            setActionBarTitle("Test Plugin");
-
-            var context = view.getContext();
-            
-            var expHeader = new TextView(context, null, 0, R$h.UiKit_Settings_Item_Header);
-            expHeader.setTypeface(ResourcesCompat.getFont(context, Constants.Fonts.whitney_semibold));
-            expHeader.setText("Experiments");
-            addView(expHeader);
-
-            addView(createSwitch(context, settings, "allBots", "Mark everyone as bots", null, false));
-            addView(new Divider(context));
-        }
-        
-        private CheckedSetting createSwitch(Context context, SettingsAPI sets, String key, String label, String subtext, boolean defaultValue) {
-            CheckedSetting cs = Utils.createCheckedSetting(context, CheckedSetting.ViewType.SWITCH, label, subtext);
-            cs.setChecked(sets.getBool(key, defaultValue));
-            cs.setOnCheckedListener(c -> sets.setBool(key, c));
-            return cs;
-        }
-    }
 
     public TestPlugin() {
         settingsTab = new SettingsTab(PluginSettings.class).withArgs(settings);
