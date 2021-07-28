@@ -8,10 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.graphics.drawable.Drawable;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.content.ContextCompat;
+
 import com.aliucord.Constants;
 import com.aliucord.PluginManager;
 import com.aliucord.Utils;
@@ -23,6 +25,8 @@ import com.aliucord.widgets.LinearLayout;
 import com.aliucord.fragments.SettingsPage;
 import com.aliucord.views.Divider;
 import com.aliucord.utils.RxUtils;
+import com.aliucord.plugins.achievements.Achievement;
+
 import com.discord.stores.StoreStream;
 import com.discord.api.channel.Channel;
 import com.discord.api.commands.ApplicationCommandType;
@@ -39,7 +43,9 @@ import com.discord.utilities.user.UserUtils;
 import com.discord.utilities.icon.IconUtils;
 import com.discord.views.CheckedSetting;
 import com.discord.views.RadioManager;
+
 import com.lytefast.flexinput.*;
+
 import rx.Subscription;
 
 import com.aliucord.plugins.achievements.*;
@@ -74,13 +80,21 @@ public class Achievements extends Plugin {
   @Override
   @SuppressWarnings({ "unchecked", "ConstantConditions" })
   public void start(Context context) {
+    Achievement thrAch = new Achievement(context, "Threading the Needle", "Participate in a thread", "usethread");
+    Achievement testAch = new Achievement(context, "Test Achievement", "This is a description", "test");
+
     RxUtils.subscribe(RxUtils.onBackpressureBuffer(StoreStream.getGatewaySocket().getMessageCreate()), RxUtils.createActionSubscriber(message -> {
 			if (message == null) return;
 			Message modelMessage = new Message(message);
       MeUser currentUser = StoreStream.getUsers().getMe();
 			CoreUser coreUser = new CoreUser(modelMessage.getAuthor());
 			if (modelMessage.getEditedTimestamp() == null && coreUser.getId() == currentUser.getId() && StoreStream.getChannelsSelected().getId() == modelMessage.getChannelId()) {
-				Utils.log("[" + currentUser.getUsername() + "] " + modelMessage.getContent());
+				if(modelMessage.isThread()){
+          thrAch.unlock();
+        }
+        if(modelMessage.getContent() == "testach"){
+          testAch.unlock();
+        }
 			}
 		}));
 
