@@ -48,10 +48,9 @@ class Achievement {
             notD.setAutoDismissPeriodSecs(5);
             notD.setIconUrl("https://media.discordapp.net/attachments/656712865344126997/869987570090655784/76018874.png");
             notD.setOnClick(v -> {
-                Utils.log("Achievement Unlocked: ach_" + id);
                 return Unit.a;
             });
-    
+            Utils.log("Achievement Unlocked: ach_" + id);
             NotificationsAPI.display(notD);
             sets.setBool("ach_" + id, true);
         }
