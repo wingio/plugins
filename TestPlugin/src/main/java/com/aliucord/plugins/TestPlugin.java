@@ -33,6 +33,7 @@ import com.discord.models.member.GuildMember;
 import com.discord.models.user.User;
 import com.discord.models.user.MeUser;
 import com.discord.models.user.CoreUser;
+import com.discord.models.message.Message;
 import com.discord.utilities.color.ColorCompat;
 import com.discord.utilities.user.UserUtils;
 import com.discord.utilities.icon.IconUtils;
