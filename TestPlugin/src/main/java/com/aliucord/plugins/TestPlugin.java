@@ -79,7 +79,7 @@ public class TestPlugin extends Plugin {
       MeUser currentUser = StoreStream.getUsers().getMe();
 			CoreUser coreUser = new CoreUser(modelMessage.getAuthor());
 			if (modelMessage.getEditedTimestamp() == null && coreUser.getId() == currentUser.getId() && StoreStream.getChannelsSelected().getId() == modelMessage.getChannelId()) {
-				Utils.log("[" + currentUser.getUsername() + "] " + modelMessage.getContent()););
+				Utils.log("[" + currentUser.getUsername() + "] " + modelMessage.getContent());
 			}
 		}));
 
