@@ -88,7 +88,8 @@ public class Achievements extends Plugin {
       Achievement thrAch = new Achievement(context, "Threading the Needle", "Participate in a thread", "usethread");
       Achievement testAch = new Achievement(context, "Test Achievement", "This is a description", "test");
 			if (modelMessage.getEditedTimestamp() == null && coreUser.getId() == currentUser.getId() && StoreStream.getChannelsSelected().getId() == modelMessage.getChannelId()) {
-				if(modelMessage.hasThread()){
+				Utils.log("[ACH] [" + currentUser.getUsername() + "] " + modelMessage.getContent());
+        if(modelMessage.hasThread()){
           thrAch.unlock();
         }
         if(modelMessage.getContent() == "testach"){
