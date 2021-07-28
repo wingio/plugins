@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.fragment.app.FragmentManager;
 
 import androidx.annotation.NonNull;
 import androidx.core.widget.NestedScrollView;
@@ -50,7 +51,7 @@ public class HideCallButton extends Plugin {
         final int videoId = Utils.getResId("user_sheet_video_action_button", "id");
         final int callId = Utils.getResId("user_sheet_call_action_button", "id");
 
-        patcher.patch(WidgetUserSheet.class.getDeclaredMethod("configureUI", WidgetUserSheetViewModel.class), new PinePatchFn(callFrame -> {
+        patcher.patch(WidgetUserSheet.Companion.class.getDeclaredMethod("show", long.class, FragmentManager.class), new PinePatchFn(callFrame -> {
             var binding = WidgetUserSheet.access$getBinding$p((WidgetUserSheet) callFrame.thisObject);
             var root = binding.getRoot();
 
