@@ -24,9 +24,9 @@ import java.util.Arrays;
 
 @SuppressLint("SetTextI18n")
 class Achievement {
-    private String name;
-    private String description;
-    private String id;
+    private static String name;
+    private static String description;
+    private static String id;
 
     public Achievement(Context ctx, String name, String description, String id) {
         this.name = name;

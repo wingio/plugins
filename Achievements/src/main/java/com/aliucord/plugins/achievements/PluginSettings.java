@@ -26,7 +26,7 @@ import java.util.Arrays;
 
 @SuppressLint("SetTextI18n")
 public final class PluginSettings extends SettingsPage {
-    private static final String plugin = "Test Plugin";
+    private static final String plugin = "Achievements";
 
     private final SettingsAPI settings;
     public PluginSettings(SettingsAPI settings) {
