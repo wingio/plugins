@@ -42,7 +42,7 @@ import com.discord.views.RadioManager;
 import com.lytefast.flexinput.*;
 import rx.Subscription;
 
-import com.aliucord.plugins.testplugin.*;
+import com.aliucord.plugins.achievements.*;
 
 import java.util.*;
 
