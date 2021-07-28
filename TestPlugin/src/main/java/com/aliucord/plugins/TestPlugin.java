@@ -22,6 +22,8 @@ import com.aliucord.patcher.PinePatchFn;
 import com.aliucord.widgets.LinearLayout;
 import com.aliucord.fragments.SettingsPage;
 import com.aliucord.views.Divider;
+import com.aliucord.utils.RxUtils;
+import com.discord.stores.StoreStream;
 import com.discord.api.channel.Channel;
 import com.discord.api.commands.ApplicationCommandType;
 import com.discord.api.commands.CommandChoice;
@@ -29,6 +31,7 @@ import com.discord.app.AppBottomSheet;
 import com.discord.models.commands.ApplicationCommandOption;
 import com.discord.models.member.GuildMember;
 import com.discord.models.user.User;
+import com.discord.models.user.MeUser;
 import com.discord.models.user.CoreUser;
 import com.discord.utilities.color.ColorCompat;
 import com.discord.utilities.user.UserUtils;
@@ -36,6 +39,7 @@ import com.discord.utilities.icon.IconUtils;
 import com.discord.views.CheckedSetting;
 import com.discord.views.RadioManager;
 import com.lytefast.flexinput.*;
+import rx.Subscription;
 
 import com.aliucord.plugins.testplugin.*;
 
@@ -69,20 +73,15 @@ public class TestPlugin extends Plugin {
   @Override
   @SuppressWarnings({ "unchecked", "ConstantConditions" })
   public void start(Context context) {
-    patcher.patch(
-      User.class,
-      "isBot",
-      new Class<?>[] {},
-      new PinePatchFn(
-        callFrame -> {
-          boolean allbots = settings.getBool("allBots", false);
-          if(allbots) {
-            callFrame.setResult(true);
-          }
-          callFrame.setResult(false);
-        }
-      )
-    );
+    RxUtils.subscribe(RxUtils.onBackpressureBuffer(StoreStream.getGatewaySocket().getMessageCreate()), RxUtils.createActionSubscriber(message -> {
+			if (message == null) return;
+			Message modelMessage = new Message(message);
+      MeUser currentUser = StoreStream.getUsers().getMe()
+			CoreUser coreUser = new CoreUser(modelMessage.getAuthor());
+			if (modelMessage.getEditedTimestamp() == null && coreUser.getId() == currentUser.getId() && StoreStream.getChannelsSelected().getId() == modelMessage.getChannelId()) {
+				Utils.log("[" + currentUser.getUsername() + "] " + modelMessage.getContent());)
+			}
+		}));
 
     pluginIcon = ResourcesCompat.getDrawable(
       resources,
