@@ -44,7 +44,7 @@ public final class PluginSettings extends SettingsPage {
                 notD.setTitle("Achievement Unlocked");
                 notD.setBody(Utils.renderMD("**Baby Steps**: Open achievement list for the first time!"));
                 notD.setAutoDismissPeriodSecs(5);
-                notD.setIconUrl("https://media.discordapp.net/attachments/750485612662095913/869753437284356116/20210727_1446053.jpg");
+                notD.setIconUrl("https://avatars.githubusercontent.com/u/76018874?s=200&v=4");
                 notD.setOnClick(v -> {
                     Utils.log("Achievement Unlocked");
                     return Unit.a;
