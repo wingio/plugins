@@ -11,6 +11,10 @@
         "version": "1.3.3",
         "minimumDiscordVersion": 83210
     },
+    "HideCallButtons": {
+        "version": "1.0.0",
+        "minimumDiscordVersion": 83210
+    },
     "default": {
         "minimumDiscordVersion": 1456,
         "version": "1.0.0",
