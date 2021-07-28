@@ -81,6 +81,7 @@ public class Achievements extends Plugin {
   @SuppressWarnings({ "unchecked", "ConstantConditions" })
   public void start(Context context) {
     Logger achLogger = new Logger("Achievements");
+    achLogger.tag = "Achievements";
     Achievement thrAch = new Achievement(context, "Threading the Needle", "Participate in a thread", "usethread");
     Achievement testAch = new Achievement(context, "Test Achievement", "This is a description", "test");
     RxUtils.subscribe(RxUtils.onBackpressureBuffer(StoreStream.getGatewaySocket().getMessageCreate()), RxUtils.createActionSubscriber(message -> {
