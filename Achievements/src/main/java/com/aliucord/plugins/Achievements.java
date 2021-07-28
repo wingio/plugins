@@ -89,7 +89,7 @@ public class Achievements extends Plugin {
       MeUser currentUser = StoreStream.getUsers().getMe();
 			CoreUser coreUser = new CoreUser(modelMessage.getAuthor());
 			if (modelMessage.getEditedTimestamp() == null && coreUser.getId() == currentUser.getId() && StoreStream.getChannelsSelected().getId() == modelMessage.getChannelId()) {
-				if(modelMessage.isThread()){
+				if(modelMessage.hasThread()){
           thrAch.unlock();
         }
         if(modelMessage.getContent() == "testach"){
