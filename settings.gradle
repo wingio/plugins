@@ -1,5 +1,4 @@
-include ':TestPlugin'
-include ':HideCallButtons'
+include ':Achievements'
 rootProject.name = "plugins"
 
 include ':DiscordStubs'
