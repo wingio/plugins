@@ -17,12 +17,7 @@ import com.discord.api.message.attachment.MessageAttachment;
 import com.discord.databinding.WidgetGuildProfileSheetBinding;
 import com.discord.utilities.SnowflakeUtils;
 import com.discord.utilities.icon.IconUtils;
-import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemAttachment;
-import com.discord.widgets.guilds.profile.WidgetGuildProfileSheet;
-import com.discord.widgets.guilds.profile.WidgetGuildProfileSheetViewModel;
-import com.discord.widgets.media.WidgetMedia;
-import com.discord.widgets.user.profile.UserProfileHeaderView;
-import com.discord.widgets.user.profile.UserProfileHeaderViewModel;
+import com.discord.widgets.user.usersheet.*;
 
 import java.lang.reflect.Field;
 
@@ -54,14 +49,11 @@ public class HideCallButton extends Plugin {
     @Override
     public void start(Context context) throws Throwable {
 
-        final var getBindingMethod = WidgetGuildProfileSheet.class.getDeclaredMethod("getBinding");
-        getBindingMethod.setAccessible(true);
-
         final int videoId = Utils.getResId("user_sheet_video_action_button", "id");
         final int callId = Utils.getResId("user_sheet_call_action_button", "id");
 
-        patcher.patch(UserProfileHeaderView.class.getDeclaredMethod("configureBanner", UserProfileHeaderViewModel.ViewState.Loaded.class), new PinePatchFn(callFrame -> {
-            var binding = UserProfileHeaderView.access$getBinding$p((UserProfileHeaderView) callFrame.thisObject);
+        patcher.patch(WidgetUserSheet.class.getDeclaredMethod("onConfigure", WidgetUserSheetModel.ViewState.Loaded.class), new PinePatchFn(callFrame -> {
+            var binding = WidgetUserSheet.access$getBinding$p((UserProfileHeaderView) callFrame.thisObject);
             var root = binding.getRoot();
 
             var videoView = root.findViewById(videoId);
