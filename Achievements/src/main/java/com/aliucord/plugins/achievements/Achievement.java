@@ -41,6 +41,7 @@ public class Achievement {
     }
 
     public static void unlock() {
+        Utils.log("Unlocked? : " + isUnlocked());
         if(isUnlocked() == false){
             NotificationData notD = new NotificationData();
             notD.setTitle("Achievement Unlocked");
