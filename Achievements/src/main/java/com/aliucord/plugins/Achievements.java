@@ -89,7 +89,7 @@ public class Achievements extends Plugin {
 			CoreUser coreUser = new CoreUser(modelMessage.getAuthor());
 			if (modelMessage.getEditedTimestamp() == null && coreUser.getId() == currentUser.getId() && StoreStream.getChannelsSelected().getId() == modelMessage.getChannelId()) {
         String content = modelMessage.getContent();
-				achLogger.info("[AMS] [" + currentUser.getUsername() + "] -> " + content);
+				achLogger.debug("[AMS] [" + currentUser.getUsername() + "] -> " + content);
         if(content.contains("triggerach")) {
           testAch.unlock();
         }
