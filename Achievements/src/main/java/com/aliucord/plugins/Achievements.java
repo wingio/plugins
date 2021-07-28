@@ -14,9 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.content.ContextCompat;
 
-import com.aliucord.Constants;
-import com.aliucord.PluginManager;
-import com.aliucord.Utils;
+import com.aliucord.*;
 import com.aliucord.api.CommandsAPI;
 import com.aliucord.api.SettingsAPI;
 import com.aliucord.entities.Plugin;
