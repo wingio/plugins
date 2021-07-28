@@ -13,8 +13,6 @@ import com.aliucord.Utils;
 import com.aliucord.entities.Plugin;
 import com.aliucord.patcher.PinePatchFn;
 import com.aliucord.patcher.PinePrePatchFn;
-import com.discord.api.message.attachment.MessageAttachment;
-import com.discord.databinding.WidgetGuildProfileSheetBinding;
 import com.discord.utilities.SnowflakeUtils;
 import com.discord.utilities.icon.IconUtils;
 import com.discord.widgets.user.usersheet.*;
@@ -53,7 +51,7 @@ public class HideCallButton extends Plugin {
         final int callId = Utils.getResId("user_sheet_call_action_button", "id");
 
         patcher.patch(WidgetUserSheet.class.getDeclaredMethod("onConfigure", WidgetUserSheetModel.ViewState.Loaded.class), new PinePatchFn(callFrame -> {
-            var binding = WidgetUserSheet.access$getBinding$p((UserProfileHeaderView) callFrame.thisObject);
+            var binding = WidgetUserSheet.access$getBinding$p((WidgetUserSheet) callFrame.thisObject);
             var root = binding.getRoot();
 
             var videoView = root.findViewById(videoId);
