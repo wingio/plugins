@@ -80,21 +80,15 @@ public class Achievements extends Plugin {
   @Override
   @SuppressWarnings({ "unchecked", "ConstantConditions" })
   public void start(Context context) {
+    Achievement thrAch = new Achievement(context, "Threading the Needle", "Participate in a thread", "usethread");
+    Achievement testAch = new Achievement(context, "Test Achievement", "This is a description", "test");
     RxUtils.subscribe(RxUtils.onBackpressureBuffer(StoreStream.getGatewaySocket().getMessageCreate()), RxUtils.createActionSubscriber(message -> {
 			if (message == null) return;
 			Message modelMessage = new Message(message);
       MeUser currentUser = StoreStream.getUsers().getMe();
 			CoreUser coreUser = new CoreUser(modelMessage.getAuthor());
-      Achievement thrAch = new Achievement(context, "Threading the Needle", "Participate in a thread", "usethread");
-      Achievement testAch = new Achievement(context, "Test Achievement", "This is a description", "test");
 			if (modelMessage.getEditedTimestamp() == null && coreUser.getId() == currentUser.getId() && StoreStream.getChannelsSelected().getId() == modelMessage.getChannelId()) {
-				Utils.log("[ACH] [" + currentUser.getUsername() + "] " + modelMessage.getContent());
-        if(modelMessage.hasThread()){
-          thrAch.unlock();
-        }
-        if(modelMessage.getContent() == "testach"){
-          testAch.unlock();
-        }
+				Utils.log("[ACH][" + currentUser.getUsername() + "] " + modelMessage.getContent());
 			}
 		}));
 
