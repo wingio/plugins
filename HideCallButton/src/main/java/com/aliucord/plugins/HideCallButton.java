@@ -51,7 +51,7 @@ public class HideCallButton extends Plugin {
         final int videoId = Utils.getResId("user_sheet_video_action_button", "id");
         final int callId = Utils.getResId("user_sheet_call_action_button", "id");
 
-        patcher.patch(WidgetUserSheet.Companion.class.getDeclaredMethod("show", long.class, FragmentManager.class), new PinePatchFn(callFrame -> {
+        patcher.patch(WidgetUserSheet.class, "configureNote", new Class<?>[]{ WidgetUserSheetViewModel.ViewState.Loaded.class }, new PinePatchFn(callFrame -> {
             var binding = WidgetUserSheet.access$getBinding$p((WidgetUserSheet) callFrame.thisObject);
             var root = binding.getRoot();
 
