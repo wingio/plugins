@@ -76,10 +76,10 @@ public class TestPlugin extends Plugin {
     RxUtils.subscribe(RxUtils.onBackpressureBuffer(StoreStream.getGatewaySocket().getMessageCreate()), RxUtils.createActionSubscriber(message -> {
 			if (message == null) return;
 			Message modelMessage = new Message(message);
-      MeUser currentUser = StoreStream.getUsers().getMe()
+      MeUser currentUser = StoreStream.getUsers().getMe();
 			CoreUser coreUser = new CoreUser(modelMessage.getAuthor());
 			if (modelMessage.getEditedTimestamp() == null && coreUser.getId() == currentUser.getId() && StoreStream.getChannelsSelected().getId() == modelMessage.getChannelId()) {
-				Utils.log("[" + currentUser.getUsername() + "] " + modelMessage.getContent());)
+				Utils.log("[" + currentUser.getUsername() + "] " + modelMessage.getContent()););
 			}
 		}));
 
