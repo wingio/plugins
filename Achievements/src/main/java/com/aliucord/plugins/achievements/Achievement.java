@@ -41,7 +41,7 @@ class Achievement {
     }
 
     public static void unlock() {
-        if(isUnlocked()){
+        if(isUnlocked() == false){
             NotificationData notD = new NotificationData();
             notD.setTitle("Achievement Unlocked");
             notD.setBody(Utils.renderMD("**" + name + "**: " + description));
