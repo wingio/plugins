@@ -22,7 +22,7 @@ import java.lang.reflect.Field;
 
 
 @SuppressWarnings("unused")
-public class HideCallButton extends Plugin {
+public class HideCallButtons extends Plugin {
     private static final Logger logger = new Logger("ViewProfileImages");
     private static Field fileNameField;
     private static Field idField;
