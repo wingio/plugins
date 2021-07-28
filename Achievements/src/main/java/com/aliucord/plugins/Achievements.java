@@ -47,10 +47,10 @@ import com.aliucord.plugins.testplugin.*;
 import java.util.*;
 
 @SuppressWarnings({ "unchecked", "unused" })
-public class TestPlugin extends Plugin {
+public class Achievements extends Plugin {
   private Drawable pluginIcon;
 
-    public TestPlugin() {
+    public Achievements() {
         settingsTab = new SettingsTab(PluginSettings.class).withArgs(settings);
         needsResources = true;
     }
