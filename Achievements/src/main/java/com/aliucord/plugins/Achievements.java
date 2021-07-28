@@ -70,7 +70,7 @@ public class Achievements extends Plugin {
       new Manifest.Author[] {
         new Manifest.Author("Wing", 298295889720770563L),
       };
-    manifest.description = "Used for testing";
+    manifest.description = "Try to unlock as many achievements as you possibly can!";
     manifest.version = "1.0.0";
     manifest.updateUrl =
       "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";

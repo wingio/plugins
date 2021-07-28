@@ -23,7 +23,7 @@ import kotlin.Unit;
 import java.util.Arrays;
 
 @SuppressLint("SetTextI18n")
-class Achievement {
+public class Achievement {
     private static String name;
     private static String description;
     private static String id;
