@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.view.View;
 import android.widget.TextView;
 import android.content.Context;
+import androidx.core.content.ContextCompat;
 
 import androidx.core.content.res.ResourcesCompat;
 
@@ -18,7 +19,8 @@ import com.aliucord.plugins.achievements.Achievement;
 
 import com.discord.views.CheckedSetting;
 import com.discord.views.RadioManager;
-import com.lytefast.flexinput.R$h;
+import com.discord.utilities.color.ColorCompat;
+import com.lytefast.flexinput.*;
 
 
 import kotlin.Unit;
@@ -52,8 +54,24 @@ public final class PluginSettings extends SettingsPage {
         var expHeader = new TextView(context, null, 0, R$h.UiKit_Settings_Item_Header);
         expHeader.setTypeface(ResourcesCompat.getFont(context, Constants.Fonts.whitney_semibold));
         expHeader.setText("Experiments");
-        layout.addView(expHeader);
 
+        var achHeader = new TextView(context, null, 0, R$h.UiKit_Settings_Item_Header);
+        achHeader.setTypeface(ResourcesCompat.getFont(context, Constants.Fonts.whitney_semibold));
+        achHeader.setText("Basic Achievements");
+
+        var expview = new TextView(context, null, 0, R$h.UiKit_Settings_Item_Icon);
+        expview.setId("ach_babysteps");
+        expview.setText("Baby Steps");
+        expview.setFont(ResourcesCompat.getFont(context, Constants.Fonts.whitney_medium));
+        var icon = ContextCompat.getDrawable(context, R$d.ic_slash_command_24dp);
+        icon = icon.mutate();
+        icon.setTint(ColorCompat.getThemedColor(context, R$b.colorInteractiveNormal));
+        expview.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
+
+        layout.addView(achHeader);
+        layout.addView(expView);
+        layout.addView(new Divider(context));
+        layout.addView(expHeader);
         layout.addView(createSwitch(context, settings, "allBots", "Mark everyone as bots", null, false));
         layout.addView(new Divider(context));
     }
