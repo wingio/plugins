@@ -116,6 +116,11 @@ public class Achievements extends Plugin {
       null
     );
 
+
+
+    final var getBinding = WidgetSettings.class.getDeclaredMethod("getBinding");
+    getBinding.setAccessible(true);
+
     patcher.patch(WidgetSettings.class.getDeclaredMethod("configureUI", WidgetSettings.Model.class), new PinePatchFn(callFrame -> {
       var widgetSettings = (WidgetSettings) callFrame.thisObject;
       WidgetSettingsBinding binding;
@@ -127,7 +132,7 @@ public class Achievements extends Plugin {
       var ctx = widgetSettings.requireContext();
       var layout = (LinearLayoutCompat) ((NestedScrollView) ((CoordinatorLayout) binding.getRoot()).getChildAt(1)).getChildAt(0);
       var expview = new TextView(ctx, null, 0, R$h.UiKit_Settings_Item_Icon);
-
+      var wm = ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_medium);
       expview.setId(View.generateViewId());
       expview.setText("Achievements");
       expview.setTypeface(wm);
@@ -139,6 +144,8 @@ public class Achievements extends Plugin {
 
       layout.addView(expview, 4);
     }));
+
+
   }
 
   @Override
