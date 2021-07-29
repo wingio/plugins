@@ -85,7 +85,8 @@ public class TestPlugin extends Plugin {
 				Utils.log("[" + currentUser.getUsername() + "] " + modelMessage.getContent());
         if(modelMessage.getContent().contains("tp_trigger")) {
           if(ach != null) {
-            ach.getClass().getMethod("addAchievement").invoke(context, "Test", "Description", "tp_test").unlock();
+            var tpAch = ach.getClass().getMethod("addAchievement").invoke(context, "Test", "Description", "tp_test");
+            tpAch.unlock();
           }
         }
 			}
