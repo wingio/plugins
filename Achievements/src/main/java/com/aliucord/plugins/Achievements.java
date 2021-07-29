@@ -121,7 +121,7 @@ public class Achievements extends Plugin {
     final var getBinding = WidgetSettings.class.getDeclaredMethod("getBinding");
     getBinding.setAccessible(true);
 
-    patcher.patch(WidgetSettings.class.getDeclaredMethod("configureUI", WidgetSettings.Model.class), new PinePatchFn(callFrame -> {
+    patcher.patch(WidgetSettings.class.getDeclaredMethod("onViewBound", View.class), new PinePatchFn(callFrame -> {
       var widgetSettings = (WidgetSettings) callFrame.thisObject;
       WidgetSettingsBinding binding;
       try {
