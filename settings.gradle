@@ -1,5 +1,4 @@
 include ':Achievements'
-include ':TestPlugin'
 rootProject.name = "plugins"
 
 include ':DiscordStubs'
