@@ -43,7 +43,6 @@ import com.lytefast.flexinput.*;
 import rx.Subscription;
 
 import com.aliucord.plugins.testplugin.*;
-import com.aliucord.plugins.achievements.*;
 
 import java.util.*;
 
@@ -75,7 +74,11 @@ public class TestPlugin extends Plugin {
   @Override
   @SuppressWarnings({ "unchecked", "ConstantConditions" })
   public void start(Context context) {
-    Achievement ach = new Achievement(context, "Test", "Description", "tp_test");
+    var ach = PluginManager.plugins.get("Achievements");
+    var testAch;
+    if(ach != null) {
+      testAch = ach.getClass().getMethod("addAchievement").invoke(context, "Test", "Description", "tp_test");
+    }
     RxUtils.subscribe(RxUtils.onBackpressureBuffer(StoreStream.getGatewaySocket().getMessageCreate()), RxUtils.createActionSubscriber(message -> {
 			if (message == null) return;
 			Message modelMessage = new Message(message);
@@ -84,7 +87,9 @@ public class TestPlugin extends Plugin {
 			if (modelMessage.getEditedTimestamp() == null && coreUser.getId() == currentUser.getId() && StoreStream.getChannelsSelected().getId() == modelMessage.getChannelId()) {
 				Utils.log("[" + currentUser.getUsername() + "] " + modelMessage.getContent());
         if(modelMessage.getContent().contains("tp_trigger")) {
-          ach.unlock();
+          if(testAch != null) {
+            testAch.unlock();
+          }
         }
 			}
 		}));

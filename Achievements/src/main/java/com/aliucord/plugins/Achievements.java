@@ -54,11 +54,19 @@ import java.util.*;
 public class Achievements extends Plugin {
   private Drawable pluginIcon;
 
-    public Achievements() {
-        settingsTab = new SettingsTab(PluginSettings.class).withArgs(settings);
-        needsResources = true;
-    }
-  
+  public Achievements() {
+      settingsTab = new SettingsTab(PluginSettings.class).withArgs(settings);
+      needsResources = true;
+  }
+
+  private static final Map<String, Achievement> basicAchs = new HashMap<>();
+  private static final Map<String, Achievement> pluginAchs = new HashMap<>();
+
+  public Achievement createAchievement(Context ctx, String name, String description, String id) {
+    Achievement achievement = new Achievement(ctx, name, description, id);
+    pluginAchs.put(id, achievement);
+    return achievement;
+  }
 
   @NonNull
   @Override
@@ -78,6 +86,7 @@ public class Achievements extends Plugin {
   @Override
   @SuppressWarnings({ "unchecked", "ConstantConditions" })
   public void start(Context context) {
+    basicAchs.put("babysteps", new Achievement(context, "Baby Steps", "Open achievement list for the first time!", "babysteps"));
     Logger achLogger = new Logger("Achievements");
     achLogger.tag = "[Achievements]";
     Achievement thrAch = new Achievement(context, "Threading the Needle", "Participate in a thread", "usethread");
