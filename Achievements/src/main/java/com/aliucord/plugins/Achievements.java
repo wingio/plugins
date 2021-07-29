@@ -137,7 +137,7 @@ public class Achievements extends Plugin {
         expview.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
 
         layout.addView(expview, 4);
-    });
+    }));
   }
 
   @Override
