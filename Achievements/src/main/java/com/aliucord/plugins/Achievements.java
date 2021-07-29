@@ -2,56 +2,34 @@ package com.aliucord.plugins;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 import android.graphics.drawable.Drawable;
+import android.view.View;
+import android.widget.TextView;
 
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.core.content.ContextCompat;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.core.widget.NestedScrollView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.aliucord.*;
-import com.aliucord.api.CommandsAPI;
 import com.aliucord.api.SettingsAPI;
 import com.aliucord.entities.Plugin;
 import com.aliucord.patcher.PinePatchFn;
-import com.aliucord.widgets.LinearLayout;
-import com.aliucord.fragments.SettingsPage;
+import com.aliucord.utils.ReflectUtils;
 import com.aliucord.views.Divider;
-import com.aliucord.utils.RxUtils;
-import com.aliucord.plugins.achievements.Achievement;
-
-import com.discord.stores.StoreStream;
-import com.discord.api.channel.Channel;
-import com.discord.api.commands.ApplicationCommandType;
-import com.discord.api.commands.CommandChoice;
-import com.discord.app.AppBottomSheet;
-import com.discord.models.commands.ApplicationCommandOption;
-import com.discord.models.member.GuildMember;
-import com.discord.models.user.User;
-import com.discord.models.user.MeUser;
-import com.discord.models.user.CoreUser;
-import com.discord.models.message.Message;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
-import com.discord.utilities.color.ColorCompat;
-import com.discord.utilities.user.UserUtils;
-import com.discord.utilities.icon.IconUtils;
-import com.discord.views.CheckedSetting;
-import com.discord.views.RadioManager;
-import com.discord.databinding.WidgetSettingsBinding;
-import com.discord.widgets.settings.WidgetSettings;
-
-import com.lytefast.flexinput.*;
-
-import rx.Subscription;
+import com.aliucord.fragments.SettingsPage;
 
 import com.aliucord.plugins.achievements.*;
+
+import com.discord.app.AppBottomSheet;
+import com.discord.databinding.WidgetSettingsBinding;
+import com.discord.utilities.color.ColorCompat;
+import com.discord.widgets.settings.WidgetSettings;
+import com.lytefast.flexinput.*;
 
 import java.util.*;
 
@@ -96,19 +74,19 @@ public class Achievements extends Plugin {
     achLogger.tag = "[Achievements]";
     Achievement thrAch = new Achievement(context, "Threading the Needle", "Participate in a thread", "usethread");
     Achievement testAch = new Achievement(context, "Test Achievement", "This is a description", "test");
-    RxUtils.subscribe(RxUtils.onBackpressureBuffer(StoreStream.getGatewaySocket().getMessageCreate()), RxUtils.createActionSubscriber(message -> {
-			if (message == null) return;
-			Message modelMessage = new Message(message);
-      MeUser currentUser = StoreStream.getUsers().getMe();
-			CoreUser coreUser = new CoreUser(modelMessage.getAuthor());
-			if (modelMessage.getEditedTimestamp() == null && coreUser.getId() == currentUser.getId() && StoreStream.getChannelsSelected().getId() == modelMessage.getChannelId()) {
-        String content = modelMessage.getContent();
-				achLogger.debug("[AMS] [" + currentUser.getUsername() + "] -> " + content);
-        if(content.contains("triggerach")) {
-          testAch.unlock();
-        }
-			}
-		}));
+    // RxUtils.subscribe(RxUtils.onBackpressureBuffer(StoreStream.getGatewaySocket().getMessageCreate()), RxUtils.createActionSubscriber(message -> {
+		// 	if (message == null) return;
+		// 	Message modelMessage = new Message(message);
+    //  MeUser currentUser = StoreStream.getUsers().getMe();
+		// 	CoreUser coreUser = new CoreUser(modelMessage.getAuthor());
+		// 	if (modelMessage.getEditedTimestamp() == null && coreUser.getId() == currentUser.getId() && StoreStream.getChannelsSelected().getId() == modelMessage.getChannelId()) {
+    //     String content = modelMessage.getContent();
+		// 		achLogger.debug("[AMS] [" + currentUser.getUsername() + "] -> " + content);
+    //     if(content.contains("triggerach")) {
+    //       testAch.unlock();
+    //     }
+		// 	}
+		// }));
 
     pluginIcon = ResourcesCompat.getDrawable(
       resources,
@@ -121,7 +99,7 @@ public class Achievements extends Plugin {
     final var getBinding = WidgetSettings.class.getDeclaredMethod("getBinding");
     getBinding.setAccessible(true);
 
-    patcher.patch(WidgetSettings.class.getDeclaredMethod("onViewBound", View.class), new PinePatchFn(callFrame -> {
+    patcher.patch(WidgetSettings.class.getDeclaredMethod("configureUI", WidgetSettings.Model.class), new PinePatchFn(callFrame -> {
       var widgetSettings = (WidgetSettings) callFrame.thisObject;
       WidgetSettingsBinding binding;
       try {
@@ -131,21 +109,19 @@ public class Achievements extends Plugin {
 
       var ctx = widgetSettings.requireContext();
       var layout = (LinearLayoutCompat) ((NestedScrollView) ((CoordinatorLayout) binding.getRoot()).getChildAt(1)).getChildAt(0);
-      var expview = new TextView(ctx, null, 0, R$h.UiKit_Settings_Item_Icon);
-      var wm = ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_medium);
+
+      var font = ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_medium);
+      
+      var expview = new TextView(context, null, 0, R$h.UiKit_Settings_Item_Icon);
       expview.setId(View.generateViewId());
       expview.setText("Achievements");
-      expview.setTypeface(wm);
+      expview.setTypeface(font);
 
-      var icon = ContextCompat.getDrawable(ctx, R$d.ic_slash_command_24dp);
+      var icon = pluginIcon;
       icon = icon.mutate();
-      icon.setTint(ColorCompat.getThemedColor(ctx, R$b.colorInteractiveNormal));
+      icon.setTint(ColorCompat.getThemedColor(context, R$b.colorInteractiveNormal));
       expview.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
-
-      layout.addView(expview, 4);
     }));
-
-
   }
 
   @Override
