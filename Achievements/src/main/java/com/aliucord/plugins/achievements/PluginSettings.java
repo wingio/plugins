@@ -46,7 +46,7 @@ public final class PluginSettings extends SettingsPage {
 
         var context = view.getContext();
         var layout = getLinearLayout();
-        var wm = ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_medium);
+        var wm = ResourcesCompat.getFont(context, Constants.Fonts.whitney_medium);
         Achievement openSetsAch = new Achievement(context, "Baby Steps", "Open achievement list for the first time!", "babysteps");
 
         openSetsAch.unlock();
@@ -63,7 +63,7 @@ public final class PluginSettings extends SettingsPage {
         expview.setId(View.generateViewId());
         expview.setText("Baby Steps");
         expview.setTypeface(wm);
-        
+
         var icon = ContextCompat.getDrawable(context, R$d.ic_slash_command_24dp);
         icon = icon.mutate();
         icon.setTint(ColorCompat.getThemedColor(context, R$b.colorInteractiveNormal));
