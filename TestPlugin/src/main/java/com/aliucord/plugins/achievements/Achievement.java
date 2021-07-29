@@ -31,7 +31,9 @@ public class Achievement {
 
     public Achievement(Context ctx, String name, String description, String id) {};
 
-    public static boolean isUnlocked() {return false};
+    public static boolean isUnlocked() {
+        return false;
+    }
 
     public static void unlock() {};
 }
