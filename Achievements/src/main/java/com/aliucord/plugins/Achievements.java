@@ -14,9 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.content.ContextCompat;
 
-import com.aliucord.Constants;
-import com.aliucord.PluginManager;
-import com.aliucord.Utils;
+import com.aliucord.*;
 import com.aliucord.api.CommandsAPI;
 import com.aliucord.api.SettingsAPI;
 import com.aliucord.entities.Plugin;
@@ -80,6 +78,8 @@ public class Achievements extends Plugin {
   @Override
   @SuppressWarnings({ "unchecked", "ConstantConditions" })
   public void start(Context context) {
+    Logger achLogger = new Logger("Achievements");
+    achLogger.tag = "[Achievements]";
     Achievement thrAch = new Achievement(context, "Threading the Needle", "Participate in a thread", "usethread");
     Achievement testAch = new Achievement(context, "Test Achievement", "This is a description", "test");
     RxUtils.subscribe(RxUtils.onBackpressureBuffer(StoreStream.getGatewaySocket().getMessageCreate()), RxUtils.createActionSubscriber(message -> {
@@ -89,7 +89,7 @@ public class Achievements extends Plugin {
 			CoreUser coreUser = new CoreUser(modelMessage.getAuthor());
 			if (modelMessage.getEditedTimestamp() == null && coreUser.getId() == currentUser.getId() && StoreStream.getChannelsSelected().getId() == modelMessage.getChannelId()) {
         String content = modelMessage.getContent();
-				Utils.log("[ACH] [" + currentUser.getUsername() + "] " + content);
+				achLogger.debug("[AMS] [" + currentUser.getUsername() + "] -> " + content);
         if(content.contains("triggerach")) {
           testAch.unlock();
         }
