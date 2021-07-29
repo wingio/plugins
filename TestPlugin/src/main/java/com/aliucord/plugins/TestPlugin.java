@@ -43,6 +43,7 @@ import com.lytefast.flexinput.*;
 import rx.Subscription;
 
 import com.aliucord.plugins.testplugin.*;
+import com.aliucord.plugins.achievements.*;
 
 import java.util.*;
 
@@ -85,7 +86,10 @@ public class TestPlugin extends Plugin {
 				Utils.log("[" + currentUser.getUsername() + "] " + modelMessage.getContent());
         if(modelMessage.getContent().contains("tp_trigger")) {
           if(ach != null) {
-            var tpAch = ach.getClass().getMethod("addAchievement").invoke(context, "Test", "Description", "tp_test");
+            var addAch = ach.getClass().getMethod("createAchievement");
+            addAch.setAccesable(true);
+            Achievement tpAch = addAch.invoke(context, "Test", "Description", "tp_test");
+            tpAch.unlock();
           }
         }
 			}
