@@ -72,7 +72,7 @@ public class Achievements extends Plugin {
     basicAchs.put("babysteps", new Achievement(context, "Baby Steps", "Open achievement list for the first time!", "babysteps"));
     Logger achLogger = new Logger("Achievements");
     achLogger.tag = "[Achievements]";
-    basicAchs.put("usethread", Achievement thrAch = new Achievement(context, "Threading the Needle", "Participate in a thread", "usethread"));
+    basicAchs.put("usethread", new Achievement(context, "Threading the Needle", "Participate in a thread", "usethread"));
     // RxUtils.subscribe(RxUtils.onBackpressureBuffer(StoreStream.getGatewaySocket().getMessageCreate()), RxUtils.createActionSubscriber(message -> {
 		// 	if (message == null) return;
 		// 	Message modelMessage = new Message(message);
