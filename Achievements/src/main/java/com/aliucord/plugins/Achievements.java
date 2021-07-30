@@ -119,7 +119,7 @@ public class Achievements extends Plugin {
 
         var icon = ResourcesCompat.getDrawable(resources, resources.getIdentifier("ic_trophy", "drawable", "com.aliucord.plugins"), null);
         icon = icon.mutate();
-        icon.setTint(ColorCompat.getThemedColor(context, R$b.colorInteractiveNormal));
+        icon.setTint(ColorCompat.getThemedColor(ctx, R$b.colorInteractiveNormal));
         expview.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
 
         expview.setOnClickListener(e -> {
