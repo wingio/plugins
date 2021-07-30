@@ -107,13 +107,13 @@ public class Achievements extends Plugin {
           binding = (WidgetSettingsBinding) getBinding.invoke(widgetSettings);
           if (binding == null) return;
       } catch (Throwable th) { return; }
+      var ctx = widgetSettings.requireContext();
+      var layout = (LinearLayoutCompat) ((NestedScrollView) ((CoordinatorLayout) binding.getRoot()).getChildAt(1)).getChildAt(0);
       if(layout.findViewById(achId) == null) {
-        var ctx = widgetSettings.requireContext();
-        var layout = (LinearLayoutCompat) ((NestedScrollView) ((CoordinatorLayout) binding.getRoot()).getChildAt(1)).getChildAt(0);
         var font = ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_medium);
         
         var expview = new TextView(ctx, null, 0, R$h.UiKit_Settings_Item_Icon);
-        expview.setId(id);
+        expview.setId(achId);
         expview.setText("Achievements");
         expview.setTypeface(font);
 
