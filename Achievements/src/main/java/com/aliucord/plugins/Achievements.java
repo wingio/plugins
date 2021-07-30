@@ -49,8 +49,8 @@ public class Achievements extends Plugin {
   }};
   public static final Map<String, Achievement> pluginAchs = new HashMap<>();
 
-  public Achievement createAchievement(Context ctx, String name, String description, String id) {
-    Achievement achievement = new Achievement(ctx, name, description, id);
+  public Achievement createAchievement(String name, String description, String id) {
+    Achievement achievement = new Achievement(name, description, id);
     pluginAchs.put(id, achievement);
     return achievement;
   }
