@@ -42,11 +42,7 @@ public class Achievements extends Plugin {
       needsResources = true;
   }
 
-  public static final Map<String, Achievement> basicAchs = new HashMap<>() {{
-    put("babysteps", new Achievement("Baby Steps", "Open achievement list for the first time!", "babysteps"));
-    put("usethread", new Achievement("Threading the Needle", "Participate in a thread", "usethread"));
-    put("addstar", new Achievement("Showing Appreciation", "React with a star to a message", "addstar"));
-  }};
+  public static final Map<String, Achievement> basics = new HashMap<>();
   public static final Map<String, Achievement> pluginAchs = new HashMap<>();
 
   public Achievement createAchievement(String name, String description, String id) {
@@ -75,6 +71,11 @@ public class Achievements extends Plugin {
   public void start(Context context) throws Throwable{
     Logger achLogger = new Logger("Achievements");
     achLogger.tag = "[Achievements]";
+
+    basics.put("babysteps", new Achievement("Baby Steps", "Open achievement list for the first time!", "babysteps"));
+    basics.put("usethread", new Achievement("Threading the Needle", "Participate in a thread", "usethread"));
+    basics.put("addstar", new Achievement("Showing Appreciation", "React with a star to a message", "addstar"));
+
     // RxUtils.subscribe(RxUtils.onBackpressureBuffer(StoreStream.getGatewaySocket().getMessageCreate()), RxUtils.createActionSubscriber(message -> {
 		// 	if (message == null) return;
 		// 	Message modelMessage = new Message(message);

@@ -48,7 +48,7 @@ public final class PluginSettings extends SettingsPage {
         var layout = getLinearLayout();
         var wm = ResourcesCompat.getFont(context, Constants.Fonts.whitney_medium);
 
-        Map<String, Achievement> basics = Achievements.basicAchs;
+        Map<String, Achievement> basics = Achievements.basics;
         Achievement openSetsAch = basics.get("babysteps");
         openSetsAch.unlock();
 
@@ -62,8 +62,8 @@ public final class PluginSettings extends SettingsPage {
 
         layout.addView(achHeader);
 
-        for (Map.Entry<String, Achievement> entry : basics.entrySet()) {
-            var ach = entry.getValue();
+        var achList = basics.values();
+        for (var ach : achList) {
             var expview = new TextView(context, null, 0, R$h.UiKit_Settings_Item_Icon);
             expview.setId(View.generateViewId());
             expview.setText(ach.getName());
