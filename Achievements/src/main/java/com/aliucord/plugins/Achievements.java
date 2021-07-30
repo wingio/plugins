@@ -98,6 +98,7 @@ public class Achievements extends Plugin {
 
     final var getBinding = WidgetSettings.class.getDeclaredMethod("getBinding");
     getBinding.setAccessible(true);
+    var achId = View.generateViewId();
 
     patcher.patch(WidgetSettings.class.getDeclaredMethod("configureUI", WidgetSettings.Model.class), new PinePatchFn(callFrame -> {
       var widgetSettings = (WidgetSettings) callFrame.thisObject;
@@ -106,21 +107,22 @@ public class Achievements extends Plugin {
           binding = (WidgetSettingsBinding) getBinding.invoke(widgetSettings);
           if (binding == null) return;
       } catch (Throwable th) { return; }
+      if(layout.findViewById(achId) == null) {
+        var ctx = widgetSettings.requireContext();
+        var layout = (LinearLayoutCompat) ((NestedScrollView) ((CoordinatorLayout) binding.getRoot()).getChildAt(1)).getChildAt(0);
+        var font = ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_medium);
+        
+        var expview = new TextView(ctx, null, 0, R$h.UiKit_Settings_Item_Icon);
+        expview.setId(id);
+        expview.setText("Achievements");
+        expview.setTypeface(font);
 
-      var ctx = widgetSettings.requireContext();
-      var layout = (LinearLayoutCompat) ((NestedScrollView) ((CoordinatorLayout) binding.getRoot()).getChildAt(1)).getChildAt(0);
-      var font = ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_medium);
-      
-      var expview = new TextView(ctx, null, 0, R$h.UiKit_Settings_Item_Icon);
-      expview.setId(View.generateViewId());
-      expview.setText("Achievements");
-      expview.setTypeface(font);
-
-      var icon = pluginIcon;
-      icon = icon.mutate();
-      icon.setTint(ColorCompat.getThemedColor(context, R$b.colorInteractiveNormal));
-      expview.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
-      layout.addView(expview, 4);
+        var icon = ResourcesCompat.getDrawable(resources, resources.getIdentifier("ic_editfriend", "drawable", "com.aliucord.plugins"), null);
+        icon = icon.mutate();
+        icon.setTint(ColorCompat.getThemedColor(context, R$b.colorInteractiveNormal));
+        expview.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
+        layout.addView(expview, 4);
+      }
     }));
   }
 
