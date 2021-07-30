@@ -68,7 +68,7 @@ public class Achievements extends Plugin {
 
   @Override
   @SuppressWarnings({ "unchecked", "ConstantConditions" })
-  public void start(Context context) {
+  public void start(Context context) throws Throwable{
     basicAchs.put("babysteps", new Achievement(context, "Baby Steps", "Open achievement list for the first time!", "babysteps"));
     Logger achLogger = new Logger("Achievements");
     achLogger.tag = "[Achievements]";
