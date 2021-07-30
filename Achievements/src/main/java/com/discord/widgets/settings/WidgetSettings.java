@@ -8,5 +8,5 @@ public class WidgetSettings extends AppFragment {
 
     private WidgetSettingsBinding getBinding() { return new WidgetSettingsBinding(); }
 
-    public configureUI(Model model) {}
+    public void configureUI(Model model) {}
 }
