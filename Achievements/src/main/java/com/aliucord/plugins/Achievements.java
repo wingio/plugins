@@ -123,10 +123,13 @@ public class Achievements extends Plugin {
         expview.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
 
         expview.setOnClickListener(e -> {
-          Fragment page = settingsTab.args != null
-                        ? ReflectUtils.invokeConstructorWithArgs(settingsTab.page, settingsTab.args)
-                        : settingsTab.page.newInstance();
-          Utils.openPageWithProxy(ctx, page);
+          var p = PluginManager.plugins.get("Achievements");
+          if (p.settingsTab.type == Plugin.SettingsTab.Type.PAGE && p.settingsTab.page != null) {
+                Fragment page = p.settingsTab.args != null
+                        ? ReflectUtils.invokeConstructorWithArgs(p.settingsTab.page, p.settingsTab.args)
+                        : p.settingsTab.page.newInstance();
+                Utils.openPageWithProxy(ctx, page);
+            }
         });
 
         layout.addView(expview, 4);
