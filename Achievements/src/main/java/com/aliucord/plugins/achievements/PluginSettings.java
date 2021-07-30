@@ -49,7 +49,7 @@ public final class PluginSettings extends SettingsPage {
         var wm = ResourcesCompat.getFont(context, Constants.Fonts.whitney_medium);
 
         Map<String, Achievement> basics = Achievements.basicAchs;
-
+        Achievement openSetsAch = basics.get("babysteps");
         openSetsAch.unlock();
 
         var expHeader = new TextView(context, null, 0, R$h.UiKit_Settings_Item_Header);
