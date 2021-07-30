@@ -45,7 +45,7 @@ public class Achievements extends Plugin {
   public static Logger logger = new Logger("Achievements");
   
 
-  public static final Map<String, Achievement> basics;
+  public static Map<String, Achievement> basics;
   public static final Map<String, Achievement> pluginAchs = new HashMap<>();
 
   public Achievement createAchievement(String name, String description, String id) {
