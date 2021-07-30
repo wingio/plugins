@@ -90,7 +90,7 @@ public class Achievements extends Plugin {
 
     pluginIcon = ResourcesCompat.getDrawable(
       resources,
-      resources.getIdentifier("ic_editfriend", "drawable", "com.aliucord.plugins"),
+      resources.getIdentifier("ic_trophy", "drawable", "com.aliucord.plugins"),
       null
     );
 
@@ -117,7 +117,7 @@ public class Achievements extends Plugin {
         expview.setText("Achievements");
         expview.setTypeface(font);
 
-        var icon = ResourcesCompat.getDrawable(resources, resources.getIdentifier("ic_editfriend", "drawable", "com.aliucord.plugins"), null);
+        var icon = ResourcesCompat.getDrawable(resources, resources.getIdentifier("ic_trophy", "drawable", "com.aliucord.plugins"), null);
         icon = icon.mutate();
         icon.setTint(ColorCompat.getThemedColor(context, R$b.colorInteractiveNormal));
         expview.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
