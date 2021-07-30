@@ -21,7 +21,7 @@ import com.discord.views.CheckedSetting;
 import com.discord.views.RadioManager;
 import com.discord.utilities.color.ColorCompat;
 import com.lytefast.flexinput.*;
-
+import com.aliucord.plugins.Achievements;
 
 import kotlin.Unit;
 import java.util.Arrays;
@@ -47,7 +47,8 @@ public final class PluginSettings extends SettingsPage {
         var context = view.getContext();
         var layout = getLinearLayout();
         var wm = ResourcesCompat.getFont(context, Constants.Fonts.whitney_medium);
-        Achievement openSetsAch = new Achievement(context, "Baby Steps", "Open achievement list for the first time!", "babysteps");
+
+        Map<String, Achievement> basics = Achievements.basicAchs;
 
         openSetsAch.unlock();
 
@@ -59,18 +60,22 @@ public final class PluginSettings extends SettingsPage {
         achHeader.setTypeface(ResourcesCompat.getFont(context, Constants.Fonts.whitney_semibold));
         achHeader.setText("Basic Achievements");
 
-        var expview = new TextView(context, null, 0, R$h.UiKit_Settings_Item_Icon);
-        expview.setId(View.generateViewId());
-        expview.setText("Baby Steps");
-        expview.setTypeface(wm);
-
-        var icon = ContextCompat.getDrawable(context, R$d.ic_slash_command_24dp);
-        icon = icon.mutate();
-        icon.setTint(ColorCompat.getThemedColor(context, R$b.colorInteractiveNormal));
-        expview.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
-
         layout.addView(achHeader);
-        layout.addView(expview);
+
+        for (Map.Entry<String, Achievement> entry : basics.entrySet()) {
+            var ach = entry.getValue();
+            var expview = new TextView(context, null, 0, R$h.UiKit_Settings_Item_Icon);
+            expview.setId(View.generateViewId());
+            expview.setText(ach.getName());
+            expview.setTypeface(wm);
+
+            var icon = ContextCompat.getDrawable(context, R$d.ic_slash_command_24dp);
+            icon = icon.mutate();
+            icon.setTint(ColorCompat.getThemedColor(context, R$b.colorInteractiveNormal));
+            expview.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
+            layout.addView(expview);
+        }
+
         layout.addView(new Divider(context));
         layout.addView(expHeader);
         layout.addView(createSwitch(context, settings, "allBots", "Mark everyone as bots", null, false));

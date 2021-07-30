@@ -40,6 +40,10 @@ public class Achievement {
         return sets.getBool("ach_" + id, false);
     }
 
+    public static String getName() {
+        return name;
+    }
+
     public static void unlock() {
         Utils.log("Unlocked? : " + isUnlocked());
         if(isUnlocked() == false){
