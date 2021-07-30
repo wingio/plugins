@@ -121,6 +121,7 @@ public class Achievements extends Plugin {
       icon = icon.mutate();
       icon.setTint(ColorCompat.getThemedColor(context, R$b.colorInteractiveNormal));
       expview.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
+      layout.addView(expview, 4);
     }));
   }
 
