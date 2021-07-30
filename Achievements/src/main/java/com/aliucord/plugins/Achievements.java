@@ -121,6 +121,14 @@ public class Achievements extends Plugin {
         icon = icon.mutate();
         icon.setTint(ColorCompat.getThemedColor(context, R$b.colorInteractiveNormal));
         expview.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
+
+        expview.setOnClickListener(e -> {
+          Fragment page = settingsTab.args != null
+                        ? ReflectUtils.invokeConstructorWithArgs(settingsTab.page, settingsTab.args)
+                        : settingsTab.page.newInstance();
+          Utils.openPageWithProxy(ctx, page);
+        });
+
         layout.addView(expview, 4);
       }
     }));
