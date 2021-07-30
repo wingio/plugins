@@ -5,8 +5,4 @@ import com.discord.databinding.WidgetSettingsBinding;
 
 public class WidgetSettings extends AppFragment {
     public static final class Model { }
-
-    private WidgetSettingsBinding getBinding() { return new WidgetSettingsBinding(); }
-
-    public void configureUI(Model model) {}
 }
