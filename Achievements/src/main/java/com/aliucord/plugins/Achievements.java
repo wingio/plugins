@@ -42,7 +42,7 @@ public class Achievements extends Plugin {
       needsResources = true;
   }
 
-  Logger logger = new Logger("Achievements");
+  public static Logger logger = new Logger("Achievements");
   
 
   public static final Map<String, Achievement> basics = new HashMap<>() {{
@@ -80,7 +80,7 @@ public class Achievements extends Plugin {
   public void start(Context context) throws Throwable{
     
     logger.tag = "[Achievements]";
-    
+
     // basics.put("babysteps", new Achievement("Baby Steps", "Open achievement list for the first time!", "babysteps"));
     // basics.put("usethread", new Achievement("Threading the Needle", "Participate in a thread", "usethread"));
     // basics.put("addstar", new Achievement("Showing Appreciation", "React with a star to a message", "addstar"));
