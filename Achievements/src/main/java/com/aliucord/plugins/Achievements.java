@@ -109,10 +109,9 @@ public class Achievements extends Plugin {
 
       var ctx = widgetSettings.requireContext();
       var layout = (LinearLayoutCompat) ((NestedScrollView) ((CoordinatorLayout) binding.getRoot()).getChildAt(1)).getChildAt(0);
-
       var font = ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_medium);
       
-      var expview = new TextView(context, null, 0, R$h.UiKit_Settings_Item_Icon);
+      var expview = new TextView(ctx, null, 0, R$h.UiKit_Settings_Item_Icon);
       expview.setId(View.generateViewId());
       expview.setText("Achievements");
       expview.setTypeface(font);
