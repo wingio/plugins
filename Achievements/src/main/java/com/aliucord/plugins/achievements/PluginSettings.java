@@ -24,7 +24,7 @@ import com.lytefast.flexinput.*;
 import com.aliucord.plugins.Achievements;
 
 import kotlin.Unit;
-import java.util.Arrays;
+import java.util.*;
 
 @SuppressLint("SetTextI18n")
 public final class PluginSettings extends SettingsPage {

@@ -42,8 +42,8 @@ public class Achievements extends Plugin {
       needsResources = true;
   }
 
-  private static final Map<String, Achievement> basicAchs = new HashMap<>();
-  private static final Map<String, Achievement> pluginAchs = new HashMap<>();
+  public static final Map<String, Achievement> basicAchs = new HashMap<>();
+  public static final Map<String, Achievement> pluginAchs = new HashMap<>();
 
   public Achievement createAchievement(Context ctx, String name, String description, String id) {
     Achievement achievement = new Achievement(ctx, name, description, id);
