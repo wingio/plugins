@@ -29,7 +29,7 @@ public class Achievement {
     private static String id;
     private static SettingsAPI sets;
 
-    public Achievement(Context ctx, String name, String description, String id) {
+    public Achievement(String name, String description, String id) {
         this.name = name;
         this.description = description;
         this.id = id;
