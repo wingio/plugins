@@ -65,7 +65,8 @@ public final class PluginSettings extends SettingsPage {
 
         layout.addView(achHeader);
 
-        for (var ach : basics) {
+        for (int i = 0; i < basics.size(); i++) {
+            var ach = basics.get(i);
             var expview = new TextView(context, null, 0, R$h.UiKit_Settings_Item_Icon);
             expview.setId(View.generateViewId());
             expview.setText(ach.getName());
