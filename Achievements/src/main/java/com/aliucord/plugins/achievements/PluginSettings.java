@@ -48,8 +48,8 @@ public final class PluginSettings extends SettingsPage {
         var layout = getLinearLayout();
         var wm = ResourcesCompat.getFont(context, Constants.Fonts.whitney_medium);
 
-        Map<String, Achievement> basics = Achievements.basics;
-        Achievement openSetsAch = basics.get("babysteps");
+        ArrayList<Achievement> basics = Achievements.basics;
+        Achievement openSetsAch = basics.get(0);
         openSetsAch.unlock();
 
         var expHeader = new TextView(context, null, 0, R$h.UiKit_Settings_Item_Header);
@@ -62,7 +62,7 @@ public final class PluginSettings extends SettingsPage {
 
         layout.addView(achHeader);
 
-        for (var ach : basics.values()) {
+        for (var ach : basics) {
             var expview = new TextView(context, null, 0, R$h.UiKit_Settings_Item_Icon);
             expview.setId(View.generateViewId());
             expview.setText(ach.getName());
