@@ -51,6 +51,9 @@ public final class PluginSettings extends SettingsPage {
         ArrayList<Achievement> basics = Achievements.basics;
         Achievement openSetsAch = basics.get(0);
         openSetsAch.unlock();
+        Utils.log(openSetsAch.getName());
+        Utils.log(basics.get(1).getName());
+        Utils.log(basics.get(2).getName());
 
         var expHeader = new TextView(context, null, 0, R$h.UiKit_Settings_Item_Header);
         expHeader.setTypeface(ResourcesCompat.getFont(context, Constants.Fonts.whitney_semibold));
