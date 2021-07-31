@@ -79,9 +79,9 @@ public class Achievements extends Plugin {
     var addstar = new Achievement("Showing Appreciation", "React with a star to a message", "addstar");
 
     basics = new ArrayList<Achievement>();
-    basics.add(babysteps)
-    basics.add(usethread)
-    basics.add(addstar)
+    basics.add(babysteps);
+    basics.add(usethread);
+    basics.add(addstar);
 
     // basics.put("babysteps", new Achievement("Baby Steps", "Open achievement list for the first time!", "babysteps"));
     // basics.put("usethread", new Achievement("Threading the Needle", "Participate in a thread", "usethread"));
