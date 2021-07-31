@@ -45,7 +45,7 @@ public class Achievements extends Plugin {
   public static Logger logger = new Logger("Achievements");
   
 
-  public static Map<String, Achievement> basics;
+  public static ArrayList<Achievement> basics;
   public static final Map<String, Achievement> pluginAchs = new HashMap<>();
 
   public Achievement createAchievement(String name, String description, String id) {
@@ -78,13 +78,10 @@ public class Achievements extends Plugin {
     var usethread = new Achievement("Threading the Needle", "Participate in a thread", "usethread");
     var addstar = new Achievement("Showing Appreciation", "React with a star to a message", "addstar");
 
-    basics = new HashMap<>() {{
-      try {
-        put("babysteps", babysteps);
-        put("usethread", usethread);
-        put("addstar", addstar);
-      } catch (Throwable th) { logger.error("Failed to retrieve some drawables", th); }
-    }};
+    basics = new ArrayList<Achievement>();
+    basics.add(babysteps)
+    basics.add(usethread)
+    basics.add(addstar)
 
     // basics.put("babysteps", new Achievement("Baby Steps", "Open achievement list for the first time!", "babysteps"));
     // basics.put("usethread", new Achievement("Threading the Needle", "Participate in a thread", "usethread"));
