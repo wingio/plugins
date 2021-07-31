@@ -29,6 +29,7 @@ import java.util.*;
 @SuppressLint("SetTextI18n")
 public final class PluginSettings extends SettingsPage {
     private static final String plugin = "Achievements";
+    private static Achievement ach;
 
     private final SettingsAPI settings;
     public PluginSettings(SettingsAPI settings) {
@@ -51,9 +52,7 @@ public final class PluginSettings extends SettingsPage {
         ArrayList<Achievement> basics = Achievements.basics;
         Achievement openSetsAch = basics.get(0);
         openSetsAch.unlock();
-        Utils.log(openSetsAch.getName());
-        Utils.log(basics.get(1).getName());
-        Utils.log(basics.get(2).getName());
+        Utils.log(String.valueOf(basics.size()));
 
         var expHeader = new TextView(context, null, 0, R$h.UiKit_Settings_Item_Header);
         expHeader.setTypeface(ResourcesCompat.getFont(context, Constants.Fonts.whitney_semibold));
@@ -66,7 +65,7 @@ public final class PluginSettings extends SettingsPage {
         layout.addView(achHeader);
 
         for (int i = 0; i < basics.size(); i++) {
-            var ach = basics.get(i);
+            ach = basics.get(i);
             var expview = new TextView(context, null, 0, R$h.UiKit_Settings_Item_Icon);
             expview.setId(View.generateViewId());
             expview.setText(ach.getName());

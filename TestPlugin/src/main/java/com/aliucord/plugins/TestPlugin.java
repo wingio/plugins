@@ -33,6 +33,7 @@ import com.discord.models.member.GuildMember;
 import com.discord.models.user.User;
 import com.discord.models.user.MeUser;
 import com.discord.models.user.CoreUser;
+import com.discord.widgets.chat.list.*;
 import com.discord.models.message.Message;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 import com.discord.utilities.color.ColorCompat;
 import com.discord.utilities.user.UserUtils;
@@ -43,7 +44,6 @@ import com.lytefast.flexinput.*;
 import rx.Subscription;
 
 import com.aliucord.plugins.testplugin.*;
-import com.aliucord.plugins.achievements.*;
 
 import java.util.*;
 
@@ -74,8 +74,7 @@ public class TestPlugin extends Plugin {
 
   @Override
   @SuppressWarnings({ "unchecked", "ConstantConditions" })
-  public void start(Context context) {
-    var ach = PluginManager.plugins.get("Achievements");
+  public void start(Context context) throws Throwable {
     
     RxUtils.subscribe(RxUtils.onBackpressureBuffer(StoreStream.getGatewaySocket().getMessageCreate()), RxUtils.createActionSubscriber(message -> {
 			if (message == null) return;
@@ -84,14 +83,6 @@ public class TestPlugin extends Plugin {
 			CoreUser coreUser = new CoreUser(modelMessage.getAuthor());
 			if (modelMessage.getEditedTimestamp() == null && coreUser.getId() == currentUser.getId() && StoreStream.getChannelsSelected().getId() == modelMessage.getChannelId()) {
 				Utils.log("[" + currentUser.getUsername() + "] " + modelMessage.getContent());
-        if(modelMessage.getContent().contains("tp_trigger")) {
-          if(ach != null) {
-            var addAch = ach.getClass().getMethod("createAchievement");
-            addAch.setAccesable(true);
-            Achievement tpAch = addAch.invoke(context, "Test", "Description", "tp_test");
-            tpAch.unlock();
-          }
-        }
 			}
 		}));
 
@@ -100,6 +91,10 @@ public class TestPlugin extends Plugin {
       resources.getIdentifier("ic_editfriend", "drawable", "com.aliucord.plugins"),
       null
     );
+
+    patcher.patch(WidgetChatList.class.getDeclaredMethod("onViewBound", WidgetChatList.Model.class), new PinePatchFn(callFrame -> { 
+      Utils.log("Hi")
+    }));
 
   }
 
