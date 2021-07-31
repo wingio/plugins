@@ -92,7 +92,7 @@ public class TestPlugin extends Plugin {
       null
     );
 
-    patcher.patch(WidgetChatList.class.getDeclaredMethod("onViewBound"), new PinePatchFn(callFrame -> { 
+    patcher.patch(WidgetChatList.class.getDeclaredMethod("configureUI"), new PinePatchFn(callFrame -> { 
       Utils.log("Hi");
     }));
 
