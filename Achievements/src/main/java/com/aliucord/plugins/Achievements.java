@@ -74,12 +74,15 @@ public class Achievements extends Plugin {
   public void start(Context context) throws Throwable{
     
     logger.tag = "[Achievements]";
+    var babysteps = new Achievement("Baby Steps", "Open achievement list for the first time!", "babysteps");
+    var usethread = new Achievement("Threading the Needle", "Participate in a thread", "usethread");
+    var addstar = new Achievement("Showing Appreciation", "React with a star to a message", "addstar");
 
     basics = new HashMap<>() {{
       try {
-        put("babysteps", new Achievement("Baby Steps", "Open achievement list for the first time!", "babysteps"));
-        put("usethread", new Achievement("Threading the Needle", "Participate in a thread", "usethread"));
-        put("addstar", new Achievement("Showing Appreciation", "React with a star to a message", "addstar"));
+        put("babysteps", babysteps);
+        put("usethread", usethread);
+        put("addstar", addstar);
       } catch (Throwable th) { logger.error("Failed to retrieve some drawables", th); }
     }};
 
