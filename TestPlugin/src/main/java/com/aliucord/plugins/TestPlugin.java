@@ -99,7 +99,7 @@ public class TestPlugin extends Plugin {
       resources.getIdentifier("bg_chat", "drawable", "com.aliucord.plugins"),
       null
     );
-      view.setBackground()
+      view.setBackground(chatbg);
     }));
 
   }
