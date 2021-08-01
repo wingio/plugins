@@ -93,7 +93,7 @@ public class TestPlugin extends Plugin {
     );
 
     patcher.patch(WidgetChatList.class, "onViewBound", new Class<?>[]{ View.class }, new PinePatchFn(callFrame -> { 
-      View view = (View) callFrame.getArgs(0);
+      View view = (View) callFrame.args[0];
       Drawable chatbg = ResourcesCompat.getDrawable(
       resources,
       resources.getIdentifier("bg_chat", "drawable", "com.aliucord.plugins"),
