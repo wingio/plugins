@@ -92,8 +92,8 @@ public class TestPlugin extends Plugin {
       null
     );
 
-    patcher.patch(WidgetChatList.class.getDeclaredMethod("configureUI"), new PinePatchFn(callFrame -> { 
-      Utils.log("Hi");
+    patcher.patch(WidgetChatList.class, "onViewBound", new Class<?>[]{ View.class }, new PinePatchFn(callFrame -> { 
+      Utils.log("View created");
     }));
 
   }
