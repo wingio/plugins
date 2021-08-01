@@ -93,7 +93,13 @@ public class TestPlugin extends Plugin {
     );
 
     patcher.patch(WidgetChatList.class, "onViewBound", new Class<?>[]{ View.class }, new PinePatchFn(callFrame -> { 
-      Utils.log("View created");
+      View view = (View) callFrame.getArgs(0);
+      Drawable chatbg = ResourcesCompat.getDrawable(
+      resources,
+      resources.getIdentifier("bg_chat", "drawable", "com.aliucord.plugins"),
+      null
+    );
+      view.setBackground()
     }));
 
   }
