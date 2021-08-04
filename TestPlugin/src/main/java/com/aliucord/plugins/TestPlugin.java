@@ -74,7 +74,7 @@ public class TestPlugin extends Plugin {
           View view = (View) callFrame.args[0];
           int inputId = Utils.getResId("main_input_container", "id");
           LinearLayout shell = (LinearLayout) view.findViewById(inputId);
-          Utils.log("Hello")
+          Utils.log("Hello");
           shell.addView(counter, 1);
         }));
 
