@@ -29,7 +29,7 @@ public class TestPlugin extends Plugin {
     }
     
     private Drawable pluginIcon;
-    public TextView slowView;
+    public RelativeLayout overlay;
 
     @NonNull
   @Override
@@ -58,15 +58,15 @@ public class TestPlugin extends Plugin {
 
         final ConstraintLayout.LayoutParams lp = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
         lp.rightToRight = ConstraintLayout.LayoutParams.PARENT_ID;
-        final int slowId = Utils.getResId("chat_typing_users_slowmode", "id");
+        final int overlayId = Utils.getResId("chat_overlay_typing", "id");
 
         patcher.patch(WidgetChatOverlay$binding$2.class.getDeclaredMethod("invoke", View.class), new PinePatchFn(callFrame -> {
             if (counter.getParent() != null) return;
 
             final WidgetChatOverlayBinding binding = (WidgetChatOverlayBinding) callFrame.getResult();
-            slowView = (TextView) binding.a.getViewById(slowId);
+            overlay = binding.getRoot().findViewById(overlayId);
 
-            //binding.a.addView(counter, lp);
+            overlay.addView(counter, lp);
         }));
 
         patcher.patch(AppFlexInputViewModel.class.getDeclaredMethod("onInputTextChanged", String.class, Boolean.class), new PinePatchFn(callFrame -> {
