@@ -70,14 +70,14 @@ public class TestPlugin extends Plugin {
             // binding.a.addView(overlay);
         }));
 
-        patcher.patch(WidgetChatInput.class, "configureUI", new Class<?>[] { ChatInputViewModel$ViewState.class }, new PinePatchFn(callFrame -> {
-          var _this = (WidgetChatInput) callFrame.thisObject;
-          var rootView = _this.getView();
-          if(rootView == null) return;
-          int inputId = Utils.getResId("main_input_container", "id");
-          LinearLayout shell = (LinearLayout) rootView.findViewById(inputId);
+        patcher.patch(WidgetChatInput.class, "onViewBound", new Class<?>[] { View.class }, new PinePatchFn(callFrame -> {
+          // var _this = (WidgetChatInput) callFrame.thisObject;
+          // var rootView = _this.getView();
+          // if(rootView == null) return;
+          // int inputId = Utils.getResId("main_input_container", "id");
+          // LinearLayout shell = (LinearLayout) rootView.findViewById(inputId);
           Utils.log("Hello");
-          shell.addView(counter, 1);
+          // shell.addView(counter, 1);
         }));
 
         patcher.patch(AppFlexInputViewModel.class.getDeclaredMethod("onInputTextChanged", String.class, Boolean.class), new PinePatchFn(callFrame -> {
