@@ -74,7 +74,8 @@ public class TestPlugin extends Plugin {
           View view = (View) callFrame.args[0];
           int inputId = Utils.getResId("main_input_container", "id");
           LinearLayout shell = (LinearLayout) view.findViewById(inputId);
-          shell.addView(counter, lp);
+          Utils.log("Hello")
+          shell.addView(counter, 1);
         }));
 
         patcher.patch(AppFlexInputViewModel.class.getDeclaredMethod("onInputTextChanged", String.class, Boolean.class), new PinePatchFn(callFrame -> {
