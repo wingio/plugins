@@ -71,7 +71,7 @@ public class TestPlugin extends Plugin {
         }));
 
         patcher.patch(WidgetChatInput.class, "configureUI", new Class<?>[] { ChatInputViewModel$ViewState.class }, new PinePatchFn(callFrame -> {
-          var _this = (WidgetChatListActions) callFrame.thisObject;
+          var _this = (WidgetChatInput) callFrame.thisObject;
           var rootView = _this.getView();
           int inputId = Utils.getResId("main_input_container", "id");
           LinearLayout shell = (LinearLayout) rootView.findViewById(inputId);
