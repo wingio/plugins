@@ -50,6 +50,7 @@ public class TestPlugin extends Plugin {
         pluginIcon = ResourcesCompat.getDrawable(resources, resources.getIdentifier("ic_editfriend", "drawable", "com.aliucord.plugins"), null );
         final String maxChars = StoreStream.getUsers().getMe().getPremiumTier() == PremiumTier.TIER_2 ? "4000" : "2000";
         final TextView counter = new TextView(context);
+        final TextView slowView;
         counter.setTypeface(ResourcesCompat.getFont(context, Constants.Fonts.whitney_medium));
         counter.setTextSize(Utils.dpToPx(4));
         counter.setTextColor(Color.WHITE);
@@ -57,19 +58,21 @@ public class TestPlugin extends Plugin {
 
         final ConstraintLayout.LayoutParams lp = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
         lp.rightToRight = ConstraintLayout.LayoutParams.PARENT_ID;
+        final int slowId = Utils.getResId("chat_typing_users_slowmode", "id");
 
         patcher.patch(WidgetChatOverlay$binding$2.class.getDeclaredMethod("invoke", View.class), new PinePatchFn(callFrame -> {
             if (counter.getParent() != null) return;
 
             final WidgetChatOverlayBinding binding = (WidgetChatOverlayBinding) callFrame.getResult();
+            slowView = binding.a.getViewById(slowId)
 
-            binding.a.addView(counter, lp);
+            //binding.a.addView(counter, lp);
         }));
 
         patcher.patch(AppFlexInputViewModel.class.getDeclaredMethod("onInputTextChanged", String.class, Boolean.class), new PinePatchFn(callFrame -> {
             final String str = (String) callFrame.args[0];
-            counter.setVisibility(str.equals("") ? View.GONE : View.VISIBLE);
-            counter.setText(String.format("%s/%s", str.length(), maxChars));
+            slowView.setVisibility(str.equals("") ? View.GONE : View.VISIBLE);
+            slowView.setText(String.format("%s/%s", str.length(), maxChars));
         }));
     }
 
