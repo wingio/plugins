@@ -77,9 +77,9 @@ public class TestPlugin extends Plugin {
           // int inputId = Utils.getResId("main_input_container", "id");
           // LinearLayout shell = (LinearLayout) rootView.findViewById(inputId);
           FrameLayout chatinput = (FrameLayout) _this.findViewById(Utils.getResId("widget_chat_input", "id"));
-          LinearLayout input = (LinearLayout) chatinput.getChildAt(0).getChildAt(2).getChildAt(1).getChildAt(6).getChildAt(0).getChildAt(1);
+          //LinearLayout input = (LinearLayout) chatinput.getChildAt(0).getChildAt(2).getChildAt(1).getChildAt(6).getChildAt(0).getChildAt(1);
           Utils.log("Hello");
-          input.addView(counter, 1);
+          chatinput.addView(counter, 1);
         }));
 
         patcher.patch(AppFlexInputViewModel.class.getDeclaredMethod("onInputTextChanged", String.class, Boolean.class), new PinePatchFn(callFrame -> {
