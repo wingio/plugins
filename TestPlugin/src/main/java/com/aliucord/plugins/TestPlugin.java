@@ -1,63 +1,35 @@
 package com.aliucord.plugins;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.graphics.Color;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
-import android.graphics.drawable.Drawable;
+
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
-import androidx.core.content.ContextCompat;
+
 import com.aliucord.Constants;
-import com.aliucord.PluginManager;
 import com.aliucord.Utils;
-import com.aliucord.api.CommandsAPI;
-import com.aliucord.api.SettingsAPI;
 import com.aliucord.entities.Plugin;
 import com.aliucord.patcher.PinePatchFn;
-import com.aliucord.widgets.LinearLayout;
-import com.aliucord.fragments.SettingsPage;
-import com.aliucord.views.Divider;
-import com.aliucord.utils.RxUtils;
-import com.discord.stores.StoreStream;
-import com.discord.api.channel.Channel;
-import com.discord.api.commands.ApplicationCommandType;
-import com.discord.api.commands.CommandChoice;
-import com.discord.app.AppBottomSheet;
-import com.discord.models.commands.ApplicationCommandOption;
-import com.discord.models.member.GuildMember;
-import com.discord.models.user.User;
-import com.discord.models.user.MeUser;
-import com.discord.models.user.CoreUser;
-import com.discord.widgets.chat.list.*;
-import com.discord.models.message.Message;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
-import com.discord.utilities.color.ColorCompat;
-import com.discord.utilities.user.UserUtils;
-import com.discord.utilities.icon.IconUtils;
-import com.discord.views.CheckedSetting;
-import com.discord.views.RadioManager;
-import com.lytefast.flexinput.*;
-import rx.Subscription;
-
 import com.aliucord.plugins.testplugin.*;
+import com.discord.api.premium.PremiumTier;
+import com.discord.databinding.WidgetChatOverlayBinding;
+import com.discord.stores.StoreStream;
+import com.discord.widgets.chat.input.AppFlexInputViewModel;
+import com.discord.widgets.chat.overlay.WidgetChatOverlay$binding$2;
 
-import java.util.*;
-
-@SuppressWarnings({ "unchecked", "unused" })
 public class TestPlugin extends Plugin {
-  private Drawable pluginIcon;
 
     public TestPlugin() {
         settingsTab = new SettingsTab(PluginSettings.class).withArgs(settings);
         needsResources = true;
     }
-  
+    
+    private Drawable pluginIcon;
 
-  @NonNull
+    @NonNull
   @Override
   public Manifest getManifest() {
     var manifest = new Manifest();
@@ -72,41 +44,34 @@ public class TestPlugin extends Plugin {
     return manifest;
   }
 
-  @Override
-  @SuppressWarnings({ "unchecked", "ConstantConditions" })
-  public void start(Context context) throws Throwable {
-    
-    RxUtils.subscribe(RxUtils.onBackpressureBuffer(StoreStream.getGatewaySocket().getMessageCreate()), RxUtils.createActionSubscriber(message -> {
-			if (message == null) return;
-			Message modelMessage = new Message(message);
-      MeUser currentUser = StoreStream.getUsers().getMe();
-			CoreUser coreUser = new CoreUser(modelMessage.getAuthor());
-			if (modelMessage.getEditedTimestamp() == null && coreUser.getId() == currentUser.getId() && StoreStream.getChannelsSelected().getId() == modelMessage.getChannelId()) {
-				Utils.log("[" + currentUser.getUsername() + "] " + modelMessage.getContent());
-			}
-		}));
+    @Override
+    public void start(Context context) throws NoSuchMethodException {
+        pluginIcon = ResourcesCompat.getDrawable(resources, resources.getIdentifier("ic_editfriend", "drawable", "com.aliucord.plugins"), null );
+        final String maxChars = StoreStream.getUsers().getMe().getPremiumTier() == PremiumTier.TIER_2 ? "4000" : "2000";
+        final TextView counter = new TextView(context);
+        counter.setTypeface(ResourcesCompat.getFont(context, Constants.Fonts.whitney_medium));
+        counter.setTextSize(Utils.dpToPx(4));
+        counter.setTextColor(Color.WHITE);
+        counter.setVisibility(View.GONE);
 
-    pluginIcon = ResourcesCompat.getDrawable(
-      resources,
-      resources.getIdentifier("ic_editfriend", "drawable", "com.aliucord.plugins"),
-      null
-    );
+        final ConstraintLayout.LayoutParams lp = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
+        lp.rightToRight = ConstraintLayout.LayoutParams.PARENT_ID;
 
-    patcher.patch(WidgetChatList.class, "onViewBound", new Class<?>[]{ View.class }, new PinePatchFn(callFrame -> { 
-      View view = (View) callFrame.args[0];
-      Drawable chatbg = ResourcesCompat.getDrawable(
-      resources,
-      resources.getIdentifier("bg_chat", "drawable", "com.aliucord.plugins"),
-      null
-    );
-      view.setBackground(chatbg);
-    }));
+        patcher.patch(WidgetChatOverlay$binding$2.class.getDeclaredMethod("invoke", View.class), new PinePatchFn(callFrame -> {
+            if (counter.getParent() != null) return;
 
-  }
+            final WidgetChatOverlayBinding binding = (WidgetChatOverlayBinding) callFrame.getResult();
 
-  @Override
-  public void stop(Context context) {
-    patcher.unpatchAll();
-    commands.unregisterAll();
-  }
+            binding.a.addView(counter, lp);
+        }));
+
+        patcher.patch(AppFlexInputViewModel.class.getDeclaredMethod("onInputTextChanged", String.class, Boolean.class), new PinePatchFn(callFrame -> {
+            final String str = (String) callFrame.args[0];
+            counter.setVisibility(str.equals("") ? View.GONE : View.VISIBLE);
+            counter.setText(String.format("%s/%s", str.length(), maxChars));
+        }));
+    }
+
+    @Override
+    public void stop(Context context) { patcher.unpatchAll(); }
 }
