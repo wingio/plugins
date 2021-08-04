@@ -71,7 +71,7 @@ public class TestPlugin extends Plugin {
         }));
 
         patcher.patch(WidgetChatInput.class, "onViewBound", new Class<?>[] { View.class }, new PinePatchFn(callFrame -> {
-          var _this = (WidgetChatInput) callFrame.thisObject;
+          View _this = (View) callFrame.args[0];
           // var rootView = _this.getView();
           // if(rootView == null) return;
           // int inputId = Utils.getResId("main_input_container", "id");
