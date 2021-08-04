@@ -18,7 +18,7 @@ import com.aliucord.plugins.testplugin.*;
 import com.discord.api.premium.PremiumTier;
 import com.discord.databinding.WidgetChatOverlayBinding;
 import com.discord.stores.StoreStream;
-import com.discord.widgets.chat.input.AppFlexInputViewModel;
+import com.discord.widgets.chat.input.*;
 import com.discord.widgets.chat.overlay.WidgetChatOverlay$binding$2;
 
 public class TestPlugin extends Plugin {
@@ -65,9 +65,16 @@ public class TestPlugin extends Plugin {
             if (counter.getParent() != null) return;
 
             final WidgetChatOverlayBinding binding = (WidgetChatOverlayBinding) callFrame.getResult();
-            overlay = (RelativeLayout) binding.a.findViewById(overlayId);
-            overlay.addView(counter, lp);
-            binding.a.addView(overlay);
+            // overlay = (RelativeLayout) binding.a.findViewById(overlayId);
+            // overlay.addView(counter, lp);
+            // binding.a.addView(overlay);
+        }));
+
+        patcher.patch(WidgetChatInput, "onViewBound", new Class<>[] { View.class }, new PinePatchFn(callFrame -> {
+          View view = (View) callFrame.args[0];
+          int inputId = Utils.getResId("main_input_container", "id");
+          var shell = view.findViewById(inputId);
+          shell.addView(counter, lp);
         }));
 
         patcher.patch(AppFlexInputViewModel.class.getDeclaredMethod("onInputTextChanged", String.class, Boolean.class), new PinePatchFn(callFrame -> {
