@@ -50,7 +50,7 @@ public class TestPlugin extends Plugin {
         pluginIcon = ResourcesCompat.getDrawable(resources, resources.getIdentifier("ic_editfriend", "drawable", "com.aliucord.plugins"), null );
         final String maxChars = StoreStream.getUsers().getMe().getPremiumTier() == PremiumTier.TIER_2 ? "4000" : "2000";
         final TextView counter = new TextView(context);
-        View slowView;
+        TextView slowView;
         counter.setTypeface(ResourcesCompat.getFont(context, Constants.Fonts.whitney_medium));
         counter.setTextSize(Utils.dpToPx(4));
         counter.setTextColor(Color.WHITE);
@@ -64,7 +64,7 @@ public class TestPlugin extends Plugin {
             if (counter.getParent() != null) return;
 
             final WidgetChatOverlayBinding binding = (WidgetChatOverlayBinding) callFrame.getResult();
-            slowView = binding.a.getViewById(slowId);
+            TextView slowView = (TextView) binding.a.getViewById(slowId);
 
             //binding.a.addView(counter, lp);
         }));
