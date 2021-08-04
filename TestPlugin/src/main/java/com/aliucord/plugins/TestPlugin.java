@@ -71,8 +71,8 @@ public class TestPlugin extends Plugin {
 
         patcher.patch(AppFlexInputViewModel.class.getDeclaredMethod("onInputTextChanged", String.class, Boolean.class), new PinePatchFn(callFrame -> {
             final String str = (String) callFrame.args[0];
-            slowView.setVisibility(str.equals("") ? View.GONE : View.VISIBLE);
-            slowView.setText(String.format("%s/%s", str.length(), maxChars));
+            counter.setVisibility(str.equals("") ? View.GONE : View.VISIBLE);
+            counter.setText(String.format("%s/%s", str.length(), maxChars));
         }));
     }
 
