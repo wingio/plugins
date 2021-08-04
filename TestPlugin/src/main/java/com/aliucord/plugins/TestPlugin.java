@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.*;
 import android.widget.*;
+import android.os.*;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -15,11 +16,16 @@ import com.aliucord.Utils;
 import com.aliucord.entities.Plugin;
 import com.aliucord.patcher.PinePatchFn;
 import com.aliucord.plugins.testplugin.*;
+import com.discord.utilities.color.ColorCompat;
 import com.discord.api.premium.PremiumTier;
 import com.discord.databinding.WidgetChatOverlayBinding;
 import com.discord.stores.StoreStream;
+import com.discord.widgets.chat.*;
 import com.discord.widgets.chat.input.*;
 import com.discord.widgets.chat.overlay.WidgetChatOverlay$binding$2;
+import com.lytefast.flexinput.*;
+
+import java.util.*;
 
 public class TestPlugin extends Plugin {
 
@@ -47,32 +53,18 @@ public class TestPlugin extends Plugin {
   }
 
     @Override
-    public void start(Context context) throws NoSuchMethodException {
+    public void start(Context context) throws Throwable {
         pluginIcon = ResourcesCompat.getDrawable(resources, resources.getIdentifier("ic_editfriend", "drawable", "com.aliucord.plugins"), null );
-        final String maxChars = StoreStream.getUsers().getMe().getPremiumTier() == PremiumTier.TIER_2 ? "4000" : "2000";
-        final TextView counter = new TextView(context);
-        counter.setTypeface(ResourcesCompat.getFont(context, Constants.Fonts.whitney_medium));
-        counter.setTextSize(Utils.dpToPx(4));
-        counter.setTextColor(Color.WHITE);
-        counter.setVisibility(View.GONE);
-        counter.setGravity(Gravity.CENTER_VERTICAL);
-
-        final ConstraintLayout.LayoutParams lp = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
-        lp.rightToRight = ConstraintLayout.LayoutParams.PARENT_ID;
-        final int overlayId = Utils.getResId("chat_overlay_typing", "id");
-
-        patcher.patch(WidgetChatOverlay$binding$2.class.getDeclaredMethod("invoke", View.class), new PinePatchFn(callFrame -> {
-            if (counter.getParent() != null) return;
-
-            final WidgetChatOverlayBinding binding = (WidgetChatOverlayBinding) callFrame.getResult();
-            overlay = (RelativeLayout) binding.a.findViewById(overlayId);
-            overlay.addView(counter, 3);
-        }));
-
-        patcher.patch(AppFlexInputViewModel.class.getDeclaredMethod("onInputTextChanged", String.class, Boolean.class), new PinePatchFn(callFrame -> {
-            final String str = (String) callFrame.args[0];
-            counter.setVisibility(str.equals("") ? View.GONE : View.VISIBLE);
-            counter.setText(String.format("%s/%s", str.length(), maxChars));
+        var id = View.generateViewId();
+        
+        patcher.patch(WidgetUrlActions.class, "onViewCreated", new Class<?>[] { View.class, Bundle.class }, new PinePatchFn(callFrame -> {
+            View view = (View) callFrame.args[0];
+            var option = new TextView(view.getContext(), null, 0, R$h.UiKit_Settings_Item_Icon);
+            option.setText("Open in External Browser");
+            option.setId(id);
+            if (pluginIcon != null) pluginIcon.setTint(ColorCompat.getThemedColor(ctx, R$b.colorInteractiveNormal));
+            option.setCompoundDrawablesRelativeWithIntrinsicBounds(pluginIcon,null,null,null);
+            view.addView(option, 4);
         }));
     }
 
