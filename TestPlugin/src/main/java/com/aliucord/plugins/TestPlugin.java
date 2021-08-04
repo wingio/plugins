@@ -76,7 +76,8 @@ public class TestPlugin extends Plugin {
           // if(rootView == null) return;
           // int inputId = Utils.getResId("main_input_container", "id");
           // LinearLayout shell = (LinearLayout) rootView.findViewById(inputId);
-          LinearLayout input = (LinearLayout) _this.getChildAt(0).getChildAt(2).getChildAt(1).getChildAt(6).getChildAt(0).getChildAt(1);
+          FrameLayout chatinput = (FrameLayout) _this.findViewById(Utils.getResId("widget_chat_input", "id"));
+          LinearLayout input = (LinearLayout) chatinput.getChildAt(0).getChildAt(2).getChildAt(1).getChildAt(6).getChildAt(0).getChildAt(1);
           Utils.log("Hello");
           input.addView(counter, 1);
         }));
