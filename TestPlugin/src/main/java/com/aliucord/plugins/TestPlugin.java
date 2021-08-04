@@ -50,7 +50,7 @@ public class TestPlugin extends Plugin {
         pluginIcon = ResourcesCompat.getDrawable(resources, resources.getIdentifier("ic_editfriend", "drawable", "com.aliucord.plugins"), null );
         final String maxChars = StoreStream.getUsers().getMe().getPremiumTier() == PremiumTier.TIER_2 ? "4000" : "2000";
         final TextView counter = new TextView(context);
-        final TextView slowView;
+        final var slowView;
         counter.setTypeface(ResourcesCompat.getFont(context, Constants.Fonts.whitney_medium));
         counter.setTextSize(Utils.dpToPx(4));
         counter.setTextColor(Color.WHITE);
