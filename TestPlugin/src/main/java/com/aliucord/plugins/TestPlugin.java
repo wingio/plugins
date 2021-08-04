@@ -3,7 +3,7 @@ package com.aliucord.plugins;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.view.View;
+import android.view.*;
 import android.widget.*;
 
 import androidx.annotation.NonNull;
@@ -55,6 +55,7 @@ public class TestPlugin extends Plugin {
         counter.setTextSize(Utils.dpToPx(4));
         counter.setTextColor(Color.WHITE);
         counter.setVisibility(View.GONE);
+        counter.setGravity(Gravity.CENTER_VERTICAL);
 
         final ConstraintLayout.LayoutParams lp = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
         lp.rightToRight = ConstraintLayout.LayoutParams.PARENT_ID;
@@ -71,7 +72,6 @@ public class TestPlugin extends Plugin {
 
         patcher.patch(AppFlexInputViewModel.class.getDeclaredMethod("onInputTextChanged", String.class, Boolean.class), new PinePatchFn(callFrame -> {
             final String str = (String) callFrame.args[0];
-            WidgetChatOverlay$binding$2.class.getDeclaredMethod("invoke", View.class).invoke();
             counter.setVisibility(str.equals("") ? View.GONE : View.VISIBLE);
             counter.setText(String.format("%s/%s", str.length(), maxChars));
         }));
