@@ -65,21 +65,8 @@ public class TestPlugin extends Plugin {
             if (counter.getParent() != null) return;
 
             final WidgetChatOverlayBinding binding = (WidgetChatOverlayBinding) callFrame.getResult();
-            // overlay = (RelativeLayout) binding.a.findViewById(overlayId);
-            // overlay.addView(counter, lp);
-            // binding.a.addView(overlay);
-        }));
-
-        patcher.patch(WidgetChatInput.class, "onViewBound", new Class<?>[] { View.class }, new PinePatchFn(callFrame -> {
-          View _this = (View) callFrame.args[0];
-          // var rootView = _this.getView();
-          // if(rootView == null) return;
-          // int inputId = Utils.getResId("main_input_container", "id");
-          // LinearLayout shell = (LinearLayout) rootView.findViewById(inputId);
-          FrameLayout chatinput = (FrameLayout) _this.findViewById(Utils.getResId("widget_chat_input", "id"));
-          //LinearLayout input = (LinearLayout) chatinput.getChildAt(0).getChildAt(2).getChildAt(1).getChildAt(6).getChildAt(0).getChildAt(1);
-          Utils.log("Hello");
-          chatinput.addView(counter, 1);
+            overlay = (RelativeLayout) binding.a.findViewById(overlayId);
+            overlay.addView(counter, 4);
         }));
 
         patcher.patch(AppFlexInputViewModel.class.getDeclaredMethod("onInputTextChanged", String.class, Boolean.class), new PinePatchFn(callFrame -> {
