@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.TextView;
+import android.layout.*;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -64,7 +65,7 @@ public class TestPlugin extends Plugin {
             if (counter.getParent() != null) return;
 
             final WidgetChatOverlayBinding binding = (WidgetChatOverlayBinding) callFrame.getResult();
-            overlay = binding.getRoot().findViewById(overlayId);
+            overlay = (RelativeLayout) binding.a.findViewById(overlayId);
 
             overlay.addView(counter, lp);
         }));
