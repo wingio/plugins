@@ -29,6 +29,7 @@ public class TestPlugin extends Plugin {
     }
     
     private Drawable pluginIcon;
+    public TextView slowView;
 
     @NonNull
   @Override
@@ -50,7 +51,6 @@ public class TestPlugin extends Plugin {
         pluginIcon = ResourcesCompat.getDrawable(resources, resources.getIdentifier("ic_editfriend", "drawable", "com.aliucord.plugins"), null );
         final String maxChars = StoreStream.getUsers().getMe().getPremiumTier() == PremiumTier.TIER_2 ? "4000" : "2000";
         final TextView counter = new TextView(context);
-        TextView slowView;
         counter.setTypeface(ResourcesCompat.getFont(context, Constants.Fonts.whitney_medium));
         counter.setTextSize(Utils.dpToPx(4));
         counter.setTextColor(Color.WHITE);
