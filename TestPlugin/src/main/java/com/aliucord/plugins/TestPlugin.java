@@ -70,10 +70,11 @@ public class TestPlugin extends Plugin {
             // binding.a.addView(overlay);
         }));
 
-        patcher.patch(WidgetChatInput.class, "onViewBound", new Class<?>[] { View.class }, new PinePatchFn(callFrame -> {
-          View view = (View) callFrame.args[0];
+        patcher.patch(WidgetChatInput.class, "configureUI", new Class<?>[] { ChatInputViewModel$ViewState.class }, new PinePatchFn(callFrame -> {
+          var _this = (WidgetChatListActions) callFrame.thisObject;
+          var rootView = _this.getView();
           int inputId = Utils.getResId("main_input_container", "id");
-          LinearLayout shell = (LinearLayout) view.findViewById(inputId);
+          LinearLayout shell = (LinearLayout) rootView.findViewById(inputId);
           Utils.log("Hello");
           shell.addView(counter, 1);
         }));
