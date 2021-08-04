@@ -2,6 +2,7 @@ package com.aliucord.plugins;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.TextView;
 
