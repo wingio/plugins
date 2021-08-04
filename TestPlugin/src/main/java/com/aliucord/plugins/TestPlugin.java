@@ -71,13 +71,14 @@ public class TestPlugin extends Plugin {
         }));
 
         patcher.patch(WidgetChatInput.class, "onViewBound", new Class<?>[] { View.class }, new PinePatchFn(callFrame -> {
-          // var _this = (WidgetChatInput) callFrame.thisObject;
+          var _this = (WidgetChatInput) callFrame.thisObject;
           // var rootView = _this.getView();
           // if(rootView == null) return;
           // int inputId = Utils.getResId("main_input_container", "id");
           // LinearLayout shell = (LinearLayout) rootView.findViewById(inputId);
+          LinearLayout input = (LinearLayout) _this.getChildAt(0).getChildAt(2).getChildAt(1).getChildAt(6).getChildAt(0).getChildAt(1);
           Utils.log("Hello");
-          // shell.addView(counter, 1);
+          input.addView(counter, 1);
         }));
 
         patcher.patch(AppFlexInputViewModel.class.getDeclaredMethod("onInputTextChanged", String.class, Boolean.class), new PinePatchFn(callFrame -> {
