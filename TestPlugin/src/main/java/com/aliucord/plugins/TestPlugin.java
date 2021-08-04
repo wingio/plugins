@@ -64,7 +64,7 @@ public class TestPlugin extends Plugin {
             if (counter.getParent() != null) return;
 
             final WidgetChatOverlayBinding binding = (WidgetChatOverlayBinding) callFrame.getResult();
-            slowView = binding.a.getViewById(slowId)
+            slowView = binding.a.getViewById(slowId);
 
             //binding.a.addView(counter, lp);
         }));
