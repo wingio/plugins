@@ -67,7 +67,7 @@ public class TestPlugin extends Plugin {
             final WidgetChatOverlayBinding binding = (WidgetChatOverlayBinding) callFrame.getResult();
             overlay = (RelativeLayout) binding.a.findViewById(overlayId);
 
-            overlay.addView(counter, lp);
+            binding.a.addView(counter, lp);
         }));
 
         patcher.patch(AppFlexInputViewModel.class.getDeclaredMethod("onInputTextChanged", String.class, Boolean.class), new PinePatchFn(callFrame -> {
