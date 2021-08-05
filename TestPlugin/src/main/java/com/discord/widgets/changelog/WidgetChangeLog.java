@@ -7,10 +7,11 @@ import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.VideoView;
 import androidx.fragment.app.Fragment;
+import com.discord.app.AppFragment;
 
 /* compiled from: WidgetChangeLog.kt */
 public final class WidgetChangeLog extends AppFragment {
-    public static final Companion Companion = new Companion(null);
+    public static final Companion Companion = new Companion();
     
     /* compiled from: WidgetChangeLog.kt */
     public static final class Companion {
