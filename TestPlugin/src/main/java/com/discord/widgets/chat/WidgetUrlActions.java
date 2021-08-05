@@ -4,7 +4,7 @@ import com.discord.app.AppBottomSheet;
 
 public final class WidgetUrlActions extends AppBottomSheet {
     public WidgetUrlActions() {
-        super(false, 1, null);
+        super();
     }
 
     private final String getUrl() {return "";}
