@@ -58,11 +58,11 @@ public class TestPlugin extends Plugin {
         var id = View.generateViewId();
         
         patcher.patch(WidgetUrlActions.class, "onViewCreated", new Class<?>[] { View.class, Bundle.class }, new PinePatchFn(callFrame -> {
-            View view = (View) callFrame.args[0];
+            LinearLayout view = (LinearLayout) callFrame.args[0];
             var option = new TextView(view.getContext(), null, 0, R$h.UiKit_Settings_Item_Icon);
             option.setText("Open in External Browser");
             option.setId(id);
-            if (pluginIcon != null) pluginIcon.setTint(ColorCompat.getThemedColor(ctx, R$b.colorInteractiveNormal));
+            if (pluginIcon != null) pluginIcon.setTint(ColorCompat.getThemedColor(view.getContext(), R$b.colorInteractiveNormal));
             option.setCompoundDrawablesRelativeWithIntrinsicBounds(pluginIcon,null,null,null);
             view.addView(option, 4);
         }));
