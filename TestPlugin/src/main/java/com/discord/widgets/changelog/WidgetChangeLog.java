@@ -17,10 +17,6 @@ public final class WidgetChangeLog extends AppFragment {
         private Companion() {
         }
 
-        public /* synthetic */ Companion(DefaultConstructorMarker defaultConstructorMarker) {
-            this();
-        }
-
         public final void launch(Context context, String str, String str2, String str3, String str4) {
             
         }
@@ -39,13 +35,4 @@ public final class WidgetChangeLog extends AppFragment {
     public static final void launch(Context context, String str, String str2, String str3, String str4) {
         Companion.launch(context, str, str2, str3, str4);
     }
-
-    @Override // androidx.fragment.app.Fragment
-    public void onDestroy() { }
-
-    @Override // com.discord.app.AppFragment, androidx.fragment.app.Fragment
-    public void onPause() { }
-
-    @Override // com.discord.app.AppFragment
-    public void onViewBound(View view) { }
 }
