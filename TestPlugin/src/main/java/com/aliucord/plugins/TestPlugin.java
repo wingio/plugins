@@ -60,6 +60,7 @@ public class TestPlugin extends Plugin {
         
         patcher.patch(WidgetUrlActions.class, "onViewCreated", new Class<?>[] { View.class, Bundle.class }, new PinePatchFn(callFrame -> {
             LinearLayout view = (LinearLayout) callFrame.args[0];
+            var ctx = view.getContext();
             var option = new TextView(view.getContext(), null, 0, R$h.UiKit_Settings_Item_Icon);
             option.setText("Open in External Browser");
             option.setId(id);
@@ -67,7 +68,10 @@ public class TestPlugin extends Plugin {
             option.setCompoundDrawablesRelativeWithIntrinsicBounds(pluginIcon,null,null,null);
             option.setOnClickListener(e -> {
                 String body = view.getContext().getString(2131887249);
-                Utils.log(body);
+                Utils.log("Body: " body);
+                Utils.log("Last Changed: " + ctx.getString(2131887250));
+                Utils.log("Revision: " + ctx.getString(2131887252));
+                Utils.log("Video: " + ctx.getString(2131887253));
             });
             view.addView(option, 4);
         }));
