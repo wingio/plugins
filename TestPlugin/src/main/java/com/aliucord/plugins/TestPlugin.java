@@ -74,7 +74,7 @@ public class TestPlugin extends Plugin {
                 Utils.log("Video: " + ctx.getString(2131887253));
                 String video = "https://cdn.discordapp.com/attachments/719794226673614879/872727881552396308/7_59_P.M_720P_HD.mp4";
                 body = "New Features {added marginTop}\n======================\n\n* **Added Custom Changelogs** Just testing stuff out ;)\n* **Links are cool too** [See](https://aperii.com)";
-                WidgetChangeLog.Companion.launch(ctx, ctx.getString(2131887250), ctx.getString(2131887252), video, body);
+                WidgetChangeLog.Companion.launch(ctx, ctx.getString(2131887250), ctx.getString(2131887252), null, body);
             });
            
             view.addView(option, 4);
