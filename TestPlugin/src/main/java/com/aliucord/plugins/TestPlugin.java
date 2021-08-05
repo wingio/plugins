@@ -23,6 +23,7 @@ import com.discord.stores.StoreStream;
 import com.discord.widgets.chat.*;
 import com.discord.widgets.chat.input.*;
 import com.discord.widgets.chat.overlay.WidgetChatOverlay$binding$2;
+import com.discord.widgets.changelog.WidgetChangeLog;
 import com.lytefast.flexinput.*;
 
 import java.util.*;
