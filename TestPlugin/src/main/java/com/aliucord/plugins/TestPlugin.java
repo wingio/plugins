@@ -64,6 +64,10 @@ public class TestPlugin extends Plugin {
             option.setId(id);
             if (pluginIcon != null) pluginIcon.setTint(ColorCompat.getThemedColor(view.getContext(), R$b.colorInteractiveNormal));
             option.setCompoundDrawablesRelativeWithIntrinsicBounds(pluginIcon,null,null,null);
+            option.setOnClickListener(e -> {
+                String body = view.getContext.getString(2131887249);
+                Utils.log(body);
+            });
             view.addView(option, 4);
         }));
     }
