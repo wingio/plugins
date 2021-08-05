@@ -72,7 +72,9 @@ public class TestPlugin extends Plugin {
                 Utils.log("Last Changed: " + ctx.getString(2131887250));
                 Utils.log("Revision: " + ctx.getString(2131887252));
                 Utils.log("Video: " + ctx.getString(2131887253));
+                /*WidgetChangeLog.Companion.launch(ctx, ctx.getString(2131887250), ctx.getString(2131887252), ctx.getString(2131887253), body);*/
             });
+           
             view.addView(option, 4);
         }));
     }
