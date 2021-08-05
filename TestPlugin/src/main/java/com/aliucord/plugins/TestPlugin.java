@@ -46,7 +46,7 @@ public class TestPlugin extends Plugin {
       new Manifest.Author[] {
         new Manifest.Author("Wing", 298295889720770563L),
       };
-    manifest.description = "Used for testing";
+    manifest.description = "Used for testing: Changelog";
     manifest.version = "1.0.0";
     manifest.updateUrl =
       "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
