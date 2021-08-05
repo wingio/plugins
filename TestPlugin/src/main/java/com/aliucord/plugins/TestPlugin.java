@@ -50,6 +50,7 @@ public class TestPlugin extends Plugin {
     manifest.version = "1.0.0";
     manifest.updateUrl =
       "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
+    manifest.changelog = "New Features {added marginTop}\n======================\n\n* **Rebranded!** We are now XintoCord";
     return manifest;
   }
 
