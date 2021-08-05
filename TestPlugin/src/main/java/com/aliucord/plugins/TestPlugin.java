@@ -46,7 +46,7 @@ public class TestPlugin extends Plugin {
       new Manifest.Author[] {
         new Manifest.Author("Wing", 298295889720770563L),
       };
-    manifest.description = "Used for testing: Changelog";
+    manifest.description = "Used for testing: Changelog Images";
     manifest.version = "1.0.0";
     manifest.updateUrl =
       "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
@@ -74,7 +74,7 @@ public class TestPlugin extends Plugin {
                 Utils.log("Video: " + ctx.getString(2131887253));
                 String video = "https://cdn.discordapp.com/attachments/719794226673614879/872727881552396308/7_59_P.M_720P_HD.mp4";
                 body = "New Features {added marginTop}\n======================\n\n* **Added Custom Changelogs** Just testing stuff out ;)\n* **Links are cool too** [See](https://aperii.com)";
-                WidgetChangeLog.Companion.launch(ctx, ctx.getString(2131887250), ctx.getString(2131887252), "", body);
+                WidgetChangeLog.Companion.launch(ctx, "1", "2021-08-05", "https://media.discordapp.net/attachments/719794226673614879/872734785901047849/20210802_210912.jpg", body);
             });
            
             view.addView(option, 4);
