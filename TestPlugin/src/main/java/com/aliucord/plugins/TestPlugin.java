@@ -49,7 +49,7 @@ public class TestPlugin extends Plugin {
       new Manifest.Author[] {
         new Manifest.Author("Wing", 298295889720770563L),
       };
-    manifest.description = "Used for testing: Changelog Images";
+    manifest.description = "Used for testing: avatar patch";
     manifest.version = "1.0.0";
     manifest.updateUrl =
       "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
@@ -84,7 +84,7 @@ public class TestPlugin extends Plugin {
             view.addView(option, 4);
         }));
         
-        patcher.patch(IconUtils.class, "getForUser", new Class<?>[]{ User.class, boolean.class }, new PinePatchFn(callFrame -> {
+        patcher.patch(IconUtils.class, "getForUser", new Class<?>[]{ User.class, boolean.class, integer.class }, new PinePatchFn(callFrame -> {
             callFrame.setResult("https://cdn.discordapp.com/avatars/298295889720770563/b693647f80427a5964d00f5de9ac7477.webp?size=2048");
         }));
     }
