@@ -26,6 +26,7 @@ import com.discord.widgets.chat.overlay.WidgetChatOverlay$binding$2;
 import com.discord.widgets.changelog.WidgetChangeLog;
 import com.discord.utilities.icon.*;
 import com.discord.models.member.GuildMember;
+import com.discord.models.user.User;
 import com.lytefast.flexinput.*;
 
 import java.util.*;
@@ -83,7 +84,7 @@ public class TestPlugin extends Plugin {
             view.addView(option, 4);
         }));
         
-        patcher.patch(IconUtils.class, "getForGuildMember", new Class<?>[]{ GuildMember.class, Integer.class, boolean.class }, new PinePatchFn(callFrame -> {
+        patcher.patch(IconUtils.class, "getForUser", new Class<?>[]{ User.class, boolean.class }, new PinePatchFn(callFrame -> {
             callFrame.setResult("https://cdn.discordapp.com/avatars/298295889720770563/b693647f80427a5964d00f5de9ac7477.webp?size=2048");
         }));
     }
