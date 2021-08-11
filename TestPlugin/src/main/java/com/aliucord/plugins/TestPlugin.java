@@ -50,7 +50,7 @@ public class TestPlugin extends Plugin {
         new Manifest.Author("Wing", 298295889720770563L),
       };
     manifest.description = "Used for testing: avatar patch";
-    manifest.version = "1.0.0";
+    manifest.version = "1.1.0";
     manifest.updateUrl =
       "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
     manifest.changelog = "New Features {updated marginTop}\n======================\n\n* **Rebranded!** We are now XintoCord";
