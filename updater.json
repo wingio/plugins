@@ -18,7 +18,7 @@
     "TestPlugin": {
         "version": "1.1.1",
         "minimumDiscordVersion": 83210,
-        "changelog": "Testing {added marginTop}\n\n* **Testing.** Testing"
+        "changelog": "Testing {added marginTop}\n======================\n\n* **Testing.** Testing"
     },
     "default": {
         "minimumDiscordVersion": 1456,
