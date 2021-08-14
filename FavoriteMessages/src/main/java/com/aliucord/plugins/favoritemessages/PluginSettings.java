@@ -25,6 +25,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.*;
 
 import com.aliucord.*;
+import com.aliucord.plugins.favoritemessages.*;
 import com.aliucord.api.SettingsAPI;
 import com.aliucord.entities.Plugin;
 import com.aliucord.fragments.ConfirmDialog;
@@ -37,6 +38,7 @@ import com.discord.app.AppBottomSheet;
 import com.discord.app.AppFragment;
 import com.discord.widgets.user.usersheet.WidgetUserSheet;
 import com.discord.widgets.changelog.WidgetChangeLog;
+import com.discord.models.message.Message;
 import com.lytefast.flexinput.R$d;
 import com.lytefast.flexinput.R$g;
 
@@ -68,13 +70,13 @@ public class PluginSettings extends SettingsPage {
         private final List<Message> originalData;
         private List<Message> data;
 
-        public Adapter(AppFragment fragment, Collection<Message> favorites) {
+        public Adapter(AppFragment fragment, Map<Long, Message> favorites) {
             super();
 
             this.fragment = fragment;
             ctx = fragment.requireContext();
-
-            this.originalData = new ArrayList<>(favorites);
+            
+            this.originalData = new ArrayList<Message>(favorites.values());
             originalData.sort(Comparator.comparing(p -> p.getContent()));
 
             data = originalData;
@@ -93,8 +95,8 @@ public class PluginSettings extends SettingsPage {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            Message p = data.get(position);
-            this.card.contentView.setText(message.getContent());
+            Message msg = data.get(position);
+            holder.card.contentView.setText(Utils.renderMD(msg.getContent()));
         }
 
         private final Adapter _this = this;
@@ -148,7 +150,7 @@ public class PluginSettings extends SettingsPage {
         public Filter getFilter() {
             return filter;
         }
-
+    }
         
 
     @Override
@@ -167,7 +169,7 @@ public class PluginSettings extends SettingsPage {
 
         RecyclerView recyclerView = new RecyclerView(context);
         recyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
-        List<Message> favorites = settings.getObject("favorites");
+        Map<Long, Message> favorites = settings.getObject("favorites", new HashMap<Long, Message>());
         Adapter adapter = new Adapter(this, favorites);
         recyclerView.setAdapter(adapter);
         ShapeDrawable shape = new ShapeDrawable(new RectShape());
@@ -194,4 +196,5 @@ public class PluginSettings extends SettingsPage {
             });
         }
     }
+
 }

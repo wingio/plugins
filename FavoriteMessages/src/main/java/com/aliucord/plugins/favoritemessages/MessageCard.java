@@ -3,15 +3,14 @@
  * Licensed under the Open Software License version 3.0
  */
 
-package com.aliucord.widgets;
+package com.aliucord.plugins.favoritemessages;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.method.LinkMovementMethod;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.GridLayout;
-import android.widget.TextView;
+import android.widget.*;
 
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
@@ -26,10 +25,9 @@ import com.lytefast.flexinput.*;
 
 public class MessageCard extends MaterialCardView {
     public final LinearLayout root;
-    public final CheckedSetting switchHeader;
-    public final TextView authorView;
+    // public final TextView authorView;
     public final TextView contentView;
-    public final ImageView avatarView;
+    // public final ImageView avatarView;
 
     @SuppressLint("SetTextI18n")
     public MessageCard(Context ctx) {

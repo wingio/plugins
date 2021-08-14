@@ -10,6 +10,7 @@ import android.os.*;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.core.widget.NestedScrollView;
 
 import com.aliucord.Constants;
 import com.aliucord.Utils;
@@ -22,6 +23,7 @@ import com.discord.stores.StoreStream;
 import com.discord.widgets.chat.*;
 import com.discord.widgets.chat.input.*;
 import com.discord.widgets.chat.list.actions.WidgetChatListActions;
+import com.discord.models.message.Message;
 import com.lytefast.flexinput.*;
 
 import java.util.*;
@@ -65,21 +67,32 @@ public class FavoriteMessages extends Plugin {
         if (layout == null || layout.findViewById(id) != null) return;
         var ctx = layout.getContext();
         var msg = ((WidgetChatListActions.Model) callFrame.args[0]).getMessage();
-        var guildId = channel != null && ChannelWrapper.getGuildId(channel) != 0 ? String.valueOf(ChannelWrapper.getGuildId(channel)) : "@me";
         var view = new TextView(ctx, null, 0, R$h.UiKit_Settings_Item_Icon);
         view.setId(id);
-        view.setText("Favorite Message");
+        Map<Long, Message> favorites = settings.getObject("favorites", new HashMap<Long, Message>());
         if (icon != null) icon.setTint(
           ColorCompat.getThemedColor(ctx, R$b.colorInteractiveNormal)
         );
         view.setCompoundDrawablesRelativeWithIntrinsicBounds(icon,null,null,null);
-        view.setOnClickListener(e -> {
-            Map<long, Message> favorites = settings.getObject("favorites", new HashMap<long, Message>());
+        if(favorites.containsKey(msg.getId())){
+          view.setText("Unfavorite Message");
+          view.setOnClickListener(e -> {
+            favorites.remove(msg.getId());
+            settings.setObject("favorites", favorites);
+            Utils.showToast(context, "Unfavorited Message");
+            _this.dismiss();
+          });
+        } else {
+          view.setText("Favorite Message");
+          view.setOnClickListener(e -> {
             favorites.put(msg.getId(), msg);
+            settings.setObject("favorites", favorites);
             Utils.showToast(context, "Favorited Message");
             _this.dismiss();
           });
+        }
         layout.addView(view);
+        
       }));
     }
 
