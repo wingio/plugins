@@ -42,6 +42,7 @@ import com.discord.models.message.Message;
 import com.lytefast.flexinput.R$d;
 import com.lytefast.flexinput.R$g;
 
+import kotlin.Unit;
 import java.io.File;
 import java.util.*;
 
@@ -99,6 +100,7 @@ public class PluginSettings extends SettingsPage {
             holder.card.contentView.setText(Utils.renderMD(msg.getContent()));
             holder.card.setOnLongClickListener(e -> {
                 copyText(position);
+                return Unit.a;
             });
         }
 
