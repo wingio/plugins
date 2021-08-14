@@ -73,10 +73,10 @@ public class FavoriteMessages extends Plugin {
         var ctx = layout.getContext();
         var msg = ((WidgetChatListActions.Model) callFrame.args[0]).getMessage();
         Map<Long, StoredMessage> favorites = settings.getObject("favorites", new HashMap<>(), msgType);
-        var view = new TextView(ctx, null, 0, R$h.UiKit_Settings_Item_Icon);
+        var view = new TextView(ctx, null, 0, R.h.UiKit_Settings_Item_Icon);
         view.setId(id);
         if (icon != null) icon.setTint(
-          ColorCompat.getThemedColor(ctx, R$b.colorInteractiveNormal)
+          ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal)
         );
         view.setCompoundDrawablesRelativeWithIntrinsicBounds(icon,null,null,null);
         Utils.log(String.valueOf(favorites));

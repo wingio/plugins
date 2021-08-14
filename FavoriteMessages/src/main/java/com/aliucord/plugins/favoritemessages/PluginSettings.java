@@ -25,7 +25,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.*;
 
-import com.aliucord.*;
+import com.aliucord.Utils;
 import com.aliucord.plugins.FavoriteMessages;
 import com.aliucord.api.SettingsAPI;
 import com.aliucord.entities.Plugin;
@@ -42,9 +42,7 @@ import com.discord.app.AppFragment;
 import com.discord.widgets.user.usersheet.WidgetUserSheet;
 import com.discord.widgets.changelog.WidgetChangeLog;
 import com.discord.models.message.Message;
-import com.lytefast.flexinput.R.b;
-import com.lytefast.flexinput.R.h;
-import com.lytefast.flexinput.R.g;
+import com.lytefast.flexinput.R;
 
 import kotlin.Unit;
 import java.io.File;
