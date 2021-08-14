@@ -16,7 +16,7 @@ public class StoredMessage {
         public boolean isBot;
 
         public Author(CoreUser user){
-            this.name = user.getUserame();
+            this.name = user.getUsername();
             this.id = user.getId();
             this.avatar = user.getAvatar();
             this.isBot = user.isBot();

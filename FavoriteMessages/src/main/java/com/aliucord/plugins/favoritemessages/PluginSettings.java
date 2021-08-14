@@ -67,8 +67,8 @@ public class PluginSettings extends SettingsPage {
 
         private final AppFragment fragment;
         private final Context ctx;
-        private final List<Message> originalData;
-        private List<Message> data;
+        private final List<StoredMessage> originalData;
+        private List<StoredMessage> data;
 
         public Adapter(AppFragment fragment, Map<Long, StoredMessage> favorites) {
             super();
@@ -76,7 +76,7 @@ public class PluginSettings extends SettingsPage {
             this.fragment = fragment;
             ctx = fragment.requireContext();
             
-            this.originalData = new ArrayList<Message>(favorites.values());
+            this.originalData = new ArrayList<StoredMessage>(favorites.values());
             originalData.sort(Comparator.comparing(p -> p.getContent()));
 
             data = originalData;
@@ -104,7 +104,7 @@ public class PluginSettings extends SettingsPage {
         private final Filter filter = new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
-                List<Message> resultsList;
+                List<StoredMessage> resultsList;
                 if (constraint == null || constraint.equals(""))
                     resultsList = originalData;
                 else {
@@ -123,7 +123,7 @@ public class PluginSettings extends SettingsPage {
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                List<Message> res = (List<Message>) results.values;
+                List<StoredMessage> res = (List<StoredMessage>) results.values;
                 DiffUtil.calculateDiff(new DiffUtil.Callback() {
                     @Override
                     public int getOldListSize() {
