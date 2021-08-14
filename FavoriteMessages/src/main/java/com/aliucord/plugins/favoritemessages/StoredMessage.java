@@ -3,7 +3,7 @@ package com.aliucord.plugins.favoritemessages;
 import com.discord.models.message.Message;
 import com.discord.models.user.CoreUser;
 import com.discord.api.user.User;
-import java.utils.*;
+import java.util.*;
 
 public class StoredMessage {
     public String content;
@@ -23,11 +23,9 @@ public class StoredMessage {
         }
     }
 
-    public static StoredMessage(Message message) {
-        this.content = message.getContent();
-        User a = new User();
-        a = Message.getAuthor();
-        this.author = new Author(new CoreUser(a));
+    public  StoredMessage(Message message) {
+        content = message.getContent();
+        author = new Author(new CoreUser(message.getAuthor()));
     }
 
 }
