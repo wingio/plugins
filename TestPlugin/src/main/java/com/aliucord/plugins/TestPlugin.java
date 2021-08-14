@@ -24,6 +24,9 @@ import com.discord.widgets.chat.*;
 import com.discord.widgets.chat.input.*;
 import com.discord.widgets.chat.overlay.WidgetChatOverlay$binding$2;
 import com.discord.widgets.changelog.WidgetChangeLog;
+import com.discord.utilities.icon.*;
+import com.discord.models.member.GuildMember;
+import com.discord.models.user.User;
 import com.lytefast.flexinput.*;
 
 import java.util.*;
@@ -46,11 +49,11 @@ public class TestPlugin extends Plugin {
       new Manifest.Author[] {
         new Manifest.Author("Wing", 298295889720770563L),
       };
-    manifest.description = "Used for testing: Changelog Images";
-    manifest.version = "1.0.0";
+    manifest.description = "Used for testing: avatar patch";
+    manifest.version = "1.1.0";
     manifest.updateUrl =
       "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
-    manifest.changelog = "New Features {added marginTop}\n======================\n\n* **Rebranded!** We are now XintoCord";
+    manifest.changelog = "New Features {updated marginTop}\n======================\n\n* **Rebranded!** We are now XintoCord";
     return manifest;
   }
 
@@ -79,6 +82,10 @@ public class TestPlugin extends Plugin {
             });
            
             view.addView(option, 4);
+        }));
+        
+        patcher.patch(User.class, "getAvatar", new Class<?>[]{}, new PinePatchFn(callFrame -> {
+            callFrame.setResult("b693647f80427a5964d00f5de9ac7477");
         }));
     }
 
