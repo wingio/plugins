@@ -158,7 +158,7 @@ public class PluginSettings extends SettingsPage {
     public void onViewBound(View view) {
         super.onViewBound(view);
         //noinspection ResultOfMethodCallIgnored
-        setActionBarTitle("Plugins");
+        setActionBarTitle("Favorite Messages");
 
         Context context = requireContext();
         int padding = Utils.getDefaultPadding();
