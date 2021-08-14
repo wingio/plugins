@@ -68,17 +68,17 @@ public class PluginSettings extends SettingsPage {
 
         private final AppFragment fragment;
         private final Context ctx;
-        private final List<Message> originalData;
-        private List<Message> data;
+        private final List<StoredMessage> originalData;
+        private List<StoredMessage> data;
 
-        public Adapter(AppFragment fragment, Map<Long, Message> favorites) {
+        public Adapter(AppFragment fragment, Map<Long, StoredMessage> favorites) {
             super();
 
             this.fragment = fragment;
             ctx = fragment.requireContext();
             
-            this.originalData = new ArrayList<Message>(favorites.values());
-            originalData.sort(Comparator.comparing(p -> p.getContent()));
+            this.originalData = new ArrayList<StoredMessage>(favorites.values());
+            originalData.sort(Comparator.comparing(p -> p.content));
 
             data = originalData;
         }
@@ -96,8 +96,8 @@ public class PluginSettings extends SettingsPage {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            Message msg = data.get(position);
-            holder.card.contentView.setText(Utils.renderMD(msg.getContent()));
+            StoredMessage msg = data.get(position);
+            holder.card.contentView.setText(Utils.renderMD(msg.content));
             holder.card.setOnLongClickListener(e -> {
                 copyText(position);
                 return true;
@@ -105,8 +105,8 @@ public class PluginSettings extends SettingsPage {
         }
 
         public void copyText(int position) {
-            Message msg = data.get(position);
-            Utils.setClipboard("Message Text", msg.getContent());
+            StoredMessage msg = data.get(position);
+            Utils.setClipboard("Message Text", msg.content);
             Utils.showToast(ctx, "Copied message content");
         }
 
@@ -115,13 +115,13 @@ public class PluginSettings extends SettingsPage {
         private final Filter filter = new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
-                List<Message> resultsList;
+                List<StoredMessage> resultsList;
                 if (constraint == null || constraint.equals(""))
                     resultsList = originalData;
                 else {
                     String search = constraint.toString().toLowerCase().trim();
                     resultsList = CollectionUtils.filter(originalData, p -> {
-                                String content = p.getContent();
+                                String content = p.content;
                                 if (content.toLowerCase().contains(search)) return true;
                                 return false;
                             }
@@ -134,7 +134,7 @@ public class PluginSettings extends SettingsPage {
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                List<Message> res = (List<Message>) results.values;
+                List<StoredMessage> res = (List<StoredMessage>) results.values;
                 DiffUtil.calculateDiff(new DiffUtil.Callback() {
                     @Override
                     public int getOldListSize() {
@@ -146,7 +146,7 @@ public class PluginSettings extends SettingsPage {
                     }
                     @Override
                     public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-                        return data.get(oldItemPosition).getContent().equals(res.get(newItemPosition).getContent());
+                        return data.get(oldItemPosition).content.equals(res.get(newItemPosition).content);
                     }
                     @Override
                     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
@@ -180,7 +180,7 @@ public class PluginSettings extends SettingsPage {
 
         RecyclerView recyclerView = new RecyclerView(context);
         recyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
-        Map<Long, Message> favorites = settings.getObject("favorites", new HashMap<>(), FavoriteMessages.msgType);
+        Map<Long, StoredMessage> favorites = settings.getObject("favorites", new HashMap<>(), FavoriteMessages.msgType);
         Adapter adapter = new Adapter(this, favorites);
         recyclerView.setAdapter(adapter);
         ShapeDrawable shape = new ShapeDrawable(new RectShape());
