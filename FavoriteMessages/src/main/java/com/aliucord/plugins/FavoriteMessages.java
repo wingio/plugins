@@ -80,8 +80,7 @@ public class FavoriteMessages extends Plugin {
         );
         view.setCompoundDrawablesRelativeWithIntrinsicBounds(icon,null,null,null);
         Utils.log(String.valueOf(favorites));
-        StoredMessage sm = (StoredMessage) favorites.get(msg.getId());
-        if (sm == null) {
+        if (favorites.containsKey(msg.getId()) == false) {
           view.setText("Favorite Message");
           view.setOnClickListener(e -> {
             favorites.put(msg.getId(), new StoredMessage(msg));
