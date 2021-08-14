@@ -70,7 +70,7 @@ public class PluginSettings extends SettingsPage {
         private final List<Message> originalData;
         private List<Message> data;
 
-        public Adapter(AppFragment fragment, Map<Long, Message> favorites) {
+        public Adapter(AppFragment fragment, Map<Long, StoredMessage> favorites) {
             super();
 
             this.fragment = fragment;
@@ -95,8 +95,8 @@ public class PluginSettings extends SettingsPage {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            Message msg = data.get(position);
-            holder.card.contentView.setText(Utils.renderMD(msg.getContent()));
+            StoredMessage msg = data.get(position);
+            holder.card.contentView.setText(Utils.renderMD(msg.content));
         }
 
         private final Adapter _this = this;
@@ -169,7 +169,7 @@ public class PluginSettings extends SettingsPage {
 
         RecyclerView recyclerView = new RecyclerView(context);
         recyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
-        Map<Long, Message> favorites = settings.getObject("favorites", new HashMap<Long, Message>());
+        Map<Long, StoredMessage> favorites = settings.getObject("favorites", new HashMap<Long, StoredMessage>());
         Adapter adapter = new Adapter(this, favorites);
         recyclerView.setAdapter(adapter);
         ShapeDrawable shape = new ShapeDrawable(new RectShape());

@@ -68,7 +68,7 @@ public class FavoriteMessages extends Plugin {
         if (layout == null || layout.findViewById(id) != null) return;
         var ctx = layout.getContext();
         var msg = ((WidgetChatListActions.Model) callFrame.args[0]).getMessage();
-        Map<Long, Message> favorites = settings.getObject("favorites", new HashMap<Long, Message>());
+        Map<Long, StoredMessage> favorites = settings.getObject("favorites", new HashMap<Long, StoredMessage>());
         var view = new TextView(ctx, null, 0, R$h.UiKit_Settings_Item_Icon);
         view.setId(id);
         if (icon != null) icon.setTint(
@@ -88,7 +88,7 @@ public class FavoriteMessages extends Plugin {
         if (favorites.get(msg.getId()) == null) {
           view.setText("Favorite Message");
           view.setOnClickListener(e -> {
-            favorites.put(msg.getId(), msg);
+            favorites.put(msg.getId(), new StoredMessage(msg));
             settings.setObject("favorites", favorites);
             Utils.showToast(context, "Favorited Message");
             _this.dismiss();
