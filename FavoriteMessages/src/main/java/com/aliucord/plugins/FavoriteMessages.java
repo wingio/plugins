@@ -27,6 +27,7 @@ import com.discord.widgets.chat.list.actions.WidgetChatListActions;
 import com.discord.models.message.Message;
 import com.lytefast.flexinput.*;
 
+import java.lang.reflect.Type;
 import java.util.*;
 
 public class FavoriteMessages extends Plugin {
