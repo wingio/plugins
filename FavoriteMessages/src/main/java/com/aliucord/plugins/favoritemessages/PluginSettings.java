@@ -98,8 +98,10 @@ public class PluginSettings extends SettingsPage {
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             StoredMessage msg = data.get(position);
             holder.card.contentView.setText(Utils.renderMD(msg.content));
+            Bundle bundle = new Bundle();
+            bundle.putString("content", msg.content);
             holder.card.setOnLongClickListener(e -> {
-                copyText(position);
+                new MessageOptions(holder.card, bundle).show();
                 return true;
             });
         }
