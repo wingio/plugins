@@ -100,7 +100,7 @@ public class PluginSettings extends SettingsPage {
             holder.card.contentView.setText(Utils.renderMD(msg.getContent()));
             holder.card.setOnLongClickListener(e -> {
                 copyText(position);
-                return Unit.a;
+                return true;
             });
         }
 
