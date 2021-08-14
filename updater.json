@@ -15,12 +15,6 @@
         "version": "1.0.0",
         "minimumDiscordVersion": 83210
     },
-    "TestPlugin": {
-        "version": "1.1.1",
-        "minimumDiscordVersion": 83210,
-        "changelog": "New Stuff {added marginTop}\n======================\n\n* **Testing.** Testing",
-        "changelogMedia": "https://media.discordapp.net/attachments/750485612662095913/875456843340738560/20210727_202501.jpg"
-    },
     "default": {
         "minimumDiscordVersion": 1456,
         "version": "1.0.0",
