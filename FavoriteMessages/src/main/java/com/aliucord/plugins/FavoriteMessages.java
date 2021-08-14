@@ -83,7 +83,8 @@ public class FavoriteMessages extends Plugin {
             _this.dismiss();
           });
           layout.addView(view);
-        } else {
+        } 
+        if (favorites.get(msg.getId()) == null) {
           view.setText("Favorite Message");
           view.setOnClickListener(e -> {
             favorites.put(msg.getId(), msg);
