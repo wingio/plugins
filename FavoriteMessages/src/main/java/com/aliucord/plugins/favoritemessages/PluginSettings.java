@@ -54,6 +54,42 @@ public class PluginSettings extends SettingsPage {
         this.settings = settings;
     }
 
+    public static class MessageOptions extends BottomSheet {
+        private StoredMessage message;
+
+        public MessageOptions(StoredMessage msg) {
+            this.message = msg
+        }
+
+        private StoredMessage getMessage() {
+            return message;
+        }
+
+        @Override
+        public void onViewCreated(View view, Bundle bundle) {
+            super.onViewCreated(view, bundle);
+            Context optCtx = requireContext();
+            var resources = FavoriteMessages.resources;
+            Drawable icon = ResourcesCompat.getDrawable(resources, resources.getIdentifier("ic_editfriend", "drawable", "com.aliucord.plugins"), null );
+            if (icon != null) icon.setTint(
+            ColorCompat.getThemedColor(optCtx, R$b.colorInteractiveNormal)
+            );
+            
+            var copyId = View.generateViewId();
+            TextView copyOption = new TextView(ctx, null, 0, R$h.UiKit_Settings_Item_Icon);
+            copyOption.setText("Copy Text");
+            copyOption.setId(copyId);
+            copyOption.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
+            copyOption.setOnClickListener(e -> {
+                Utils.setClipboard("Message Content", getMessage().content);
+                Utils.showToast(optCtx, "Copied message content");
+                dismiss();
+            });
+
+            addView(copyOption);
+        }
+    }
+
     public static class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> implements Filterable {
         public static final class ViewHolder extends RecyclerView.ViewHolder {
             private final Adapter adapter;
@@ -102,7 +138,7 @@ public class PluginSettings extends SettingsPage {
             Bundle bundle = new Bundle();
             bundle.putString("content", msg.content);
             holder.card.setOnLongClickListener(e -> {
-                new MessageOptions(holder.card, bundle).show();
+                new MessageOptions(msg).show();
                 return true;
             });
         }
