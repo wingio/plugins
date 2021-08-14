@@ -42,9 +42,9 @@ import com.discord.app.AppFragment;
 import com.discord.widgets.user.usersheet.WidgetUserSheet;
 import com.discord.widgets.changelog.WidgetChangeLog;
 import com.discord.models.message.Message;
-import com.lytefast.flexinput.R$b;
-import com.lytefast.flexinput.R$h;
-import com.lytefast.flexinput.R$g;
+import com.lytefast.flexinput.R.b;
+import com.lytefast.flexinput.R.h;
+import com.lytefast.flexinput.R.g;
 
 import kotlin.Unit;
 import java.io.File;
@@ -75,11 +75,11 @@ public class PluginSettings extends SettingsPage {
             var resources = FavoriteMessages.resources;
             Drawable icon = ResourcesCompat.getDrawable(resources, resources.getIdentifier("ic_editfriend", "drawable", "com.aliucord.plugins"), null );
             if (icon != null) icon.setTint(
-            ColorCompat.getThemedColor(optCtx, R$b.colorInteractiveNormal)
+            ColorCompat.getThemedColor(optCtx, R.b.colorInteractiveNormal)
             );
             
             var copyId = View.generateViewId();
-            TextView copyOption = new TextView(optCtx, null, 0, R$h.UiKit_Settings_Item_Icon);
+            TextView copyOption = new TextView(optCtx, null, 0, R.h.UiKit_Settings_Item_Icon);
             copyOption.setText("Copy Text");
             copyOption.setId(copyId);
             copyOption.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
@@ -218,7 +218,7 @@ public class PluginSettings extends SettingsPage {
         int p = padding / 2;
 
         TextInput input = new TextInput(context);
-        input.setHint(context.getString(R$g.search));
+        input.setHint(context.getString(R.g.search));
 
         RecyclerView recyclerView = new RecyclerView(context);
         recyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));

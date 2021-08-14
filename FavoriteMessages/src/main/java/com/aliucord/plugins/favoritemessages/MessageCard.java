@@ -21,8 +21,8 @@ import com.aliucord.views.*;
 import com.discord.utilities.color.ColorCompat;
 import com.discord.views.CheckedSetting;
 import com.google.android.material.card.MaterialCardView;
-import com.lytefast.flexinput.R$b;
-import com.lytefast.flexinput.R$h;
+import com.lytefast.flexinput.R.b;
+import com.lytefast.flexinput.R.h;
 
 public class MessageCard extends MaterialCardView {
     public final LinearLayout root;
@@ -34,7 +34,7 @@ public class MessageCard extends MaterialCardView {
     public MessageCard(Context ctx) {
         super(ctx);
         setRadius(Utils.getDefaultCardRadius());
-        setCardBackgroundColor(ColorCompat.getThemedColor(ctx, R$b.colorBackgroundSecondary));
+        setCardBackgroundColor(ColorCompat.getThemedColor(ctx, R.b.colorBackgroundSecondary));
         setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 
         int p = Utils.getDefaultPadding();
@@ -42,7 +42,7 @@ public class MessageCard extends MaterialCardView {
 
         root = new LinearLayout(ctx);
 
-        contentView = new TextView(ctx, null, 0, R$h.UiKit_Settings_Item_Addition);
+        contentView = new TextView(ctx, null, 0, R.h.UiKit_Settings_Item_Addition);
         contentView.setPadding(p, p, p, p2);
         root.addView(contentView);
 
