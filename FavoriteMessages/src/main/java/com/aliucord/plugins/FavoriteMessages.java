@@ -82,6 +82,7 @@ public class FavoriteMessages extends Plugin {
             Utils.showToast(context, "Unfavorited Message");
             _this.dismiss();
           });
+          layout.addView(view);
         } else {
           view.setText("Favorite Message");
           view.setOnClickListener(e -> {
@@ -90,8 +91,9 @@ public class FavoriteMessages extends Plugin {
             Utils.showToast(context, "Favorited Message");
             _this.dismiss();
           });
+          layout.addView(view);
         }
-        layout.addView(view);
+        
         
       }));
     }
