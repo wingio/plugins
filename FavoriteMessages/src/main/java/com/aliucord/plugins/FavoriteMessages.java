@@ -49,7 +49,7 @@ public class FavoriteMessages extends Plugin {
       };
     manifest.description = "Organize your favorite messages";
     manifest.version = "1.0.0";
-    manifest.changelog = "Initial release";
+    manifest.changelog = "Initial Release";
     manifest.updateUrl =
       "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
     return manifest;
