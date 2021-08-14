@@ -107,7 +107,7 @@ public class PluginSettings extends SettingsPage {
         public void copyText(int position) {
             Message msg = data.get(position);
             Utils.setClipboard("Message Text", msg.getContent());
-            Utils.showToast("Copied message content");
+            Utils.showToast(ctx, "Copied message content");
         }
 
         private final Adapter _this = this;
