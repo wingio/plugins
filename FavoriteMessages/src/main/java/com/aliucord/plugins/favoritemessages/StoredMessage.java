@@ -5,7 +5,7 @@ import com.discord.models.user.CoreUser;
 import com.discord.api.user.User;
 import java.utils.*;
 
-public static class StoredMessage {
+public class StoredMessage {
     public String content;
     public Author author;
     
@@ -25,7 +25,8 @@ public static class StoredMessage {
 
     public static StoredMessage(Message message) {
         this.content = message.getContent();
-        User a = Message.getAuthor();
+        User a = new User();
+        a = Message.getAuthor();
         this.author = new Author(new CoreUser(a));
     }
 
