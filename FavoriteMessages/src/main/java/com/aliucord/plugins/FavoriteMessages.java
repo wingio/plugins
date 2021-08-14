@@ -25,6 +25,7 @@ import com.discord.widgets.chat.*;
 import com.discord.widgets.chat.input.*;
 import com.discord.widgets.chat.list.actions.WidgetChatListActions;
 import com.discord.models.message.Message;
+import com.google.gson.reflect.TypeToken;
 import com.lytefast.flexinput.*;
 
 import java.lang.reflect.Type;
