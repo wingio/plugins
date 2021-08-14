@@ -110,7 +110,7 @@ public class PluginSettings extends SettingsPage {
                 else {
                     String search = constraint.toString().toLowerCase().trim();
                     resultsList = CollectionUtils.filter(originalData, p -> {
-                                String content = p.getContent();
+                                String content = p.content;
                                 if (content.toLowerCase().contains(search)) return true;
                                 return false;
                             }
