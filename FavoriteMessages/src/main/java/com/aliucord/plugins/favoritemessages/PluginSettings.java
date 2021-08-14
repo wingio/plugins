@@ -67,17 +67,17 @@ public class PluginSettings extends SettingsPage {
 
         private final AppFragment fragment;
         private final Context ctx;
-        private final List<StoredMessage> originalData;
-        private List<StoredMessage> data;
+        private final List<Message> originalData;
+        private List<Message> data;
 
-        public Adapter(AppFragment fragment, Map<Long, StoredMessage> favorites) {
+        public Adapter(AppFragment fragment, Map<Long, Message> favorites) {
             super();
 
             this.fragment = fragment;
             ctx = fragment.requireContext();
             
-            this.originalData = new ArrayList<StoredMessage>(favorites.values());
-            originalData.sort(Comparator.comparing(p -> p.content));
+            this.originalData = new ArrayList<Message>(favorites.values());
+            originalData.sort(Comparator.comparing(p -> p.getContent()));
 
             data = originalData;
         }
@@ -95,8 +95,8 @@ public class PluginSettings extends SettingsPage {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            StoredMessage msg = data.get(position);
-            holder.card.contentView.setText(Utils.renderMD(msg.content));
+            Message msg = data.get(position);
+            holder.card.contentView.setText(Utils.renderMD(msg.getContent()));
         }
 
         private final Adapter _this = this;
@@ -104,13 +104,13 @@ public class PluginSettings extends SettingsPage {
         private final Filter filter = new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
-                List<StoredMessage> resultsList;
+                List<Message> resultsList;
                 if (constraint == null || constraint.equals(""))
                     resultsList = originalData;
                 else {
                     String search = constraint.toString().toLowerCase().trim();
                     resultsList = CollectionUtils.filter(originalData, p -> {
-                                String content = p.content;
+                                String content = p.getContent();
                                 if (content.toLowerCase().contains(search)) return true;
                                 return false;
                             }
@@ -123,7 +123,7 @@ public class PluginSettings extends SettingsPage {
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                List<StoredMessage> res = (List<StoredMessage>) results.values;
+                List<Message> res = (List<Message>) results.values;
                 DiffUtil.calculateDiff(new DiffUtil.Callback() {
                     @Override
                     public int getOldListSize() {
@@ -135,7 +135,7 @@ public class PluginSettings extends SettingsPage {
                     }
                     @Override
                     public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-                        return data.get(oldItemPosition).content.equals(res.get(newItemPosition).content);
+                        return data.get(oldItemPosition).getContent().equals(res.get(newItemPosition).getContent());
                     }
                     @Override
                     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
@@ -169,7 +169,7 @@ public class PluginSettings extends SettingsPage {
 
         RecyclerView recyclerView = new RecyclerView(context);
         recyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
-        Map<Long, StoredMessage> favorites = settings.getObject("favorites", new HashMap<>(), FavoriteMessages.msgType);
+        Map<Long, Message> favorites = settings.getObject("favorites", new HashMap<>(), FavoriteMessages.msgType);
         Adapter adapter = new Adapter(this, favorites);
         recyclerView.setAdapter(adapter);
         ShapeDrawable shape = new ShapeDrawable(new RectShape());
