@@ -12,10 +12,11 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.widget.NestedScrollView;
 
-import com.aliucord.Constants;
+import com.aliucord.*;
 import com.aliucord.Utils;
 import com.aliucord.entities.Plugin;
 import com.aliucord.patcher.PinePatchFn;
+import com.aliucord.api.CommandsAPI;
 import com.aliucord.plugins.favoritemessages.*;
 import com.discord.utilities.color.ColorCompat;
 import com.discord.databinding.WidgetChatOverlayBinding;
@@ -67,9 +68,9 @@ public class FavoriteMessages extends Plugin {
         if (layout == null || layout.findViewById(id) != null) return;
         var ctx = layout.getContext();
         var msg = ((WidgetChatListActions.Model) callFrame.args[0]).getMessage();
+        Map<Long, Message> favorites = settings.getObject("favorites", new HashMap<Long, Message>());
         var view = new TextView(ctx, null, 0, R$h.UiKit_Settings_Item_Icon);
         view.setId(id);
-        Map<Long, Message> favorites = settings.getObject("favorites", new HashMap<Long, Message>());
         if (icon != null) icon.setTint(
           ColorCompat.getThemedColor(ctx, R$b.colorInteractiveNormal)
         );
@@ -97,6 +98,16 @@ public class FavoriteMessages extends Plugin {
         
         
       }));
+
+      commands.registerCommand(
+            "clearfavorites",
+            "Lists installed plugins",
+            Collections.emptyList(),
+            ctx -> {
+                settings.setObject("favorites", null);
+                return new CommandsAPI.CommandResult("Cleared favorite messages", null, false);
+            }
+        );
     }
 
     @Override
