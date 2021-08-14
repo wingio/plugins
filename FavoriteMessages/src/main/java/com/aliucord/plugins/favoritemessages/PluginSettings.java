@@ -58,7 +58,7 @@ public class PluginSettings extends SettingsPage {
         private StoredMessage message;
 
         public MessageOptions(StoredMessage msg) {
-            this.message = msg
+            this.message = msg;
         }
 
         private StoredMessage getMessage() {
