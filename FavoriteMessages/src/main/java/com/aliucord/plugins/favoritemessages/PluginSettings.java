@@ -97,6 +97,13 @@ public class PluginSettings extends SettingsPage {
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             Message msg = data.get(position);
             holder.card.contentView.setText(Utils.renderMD(msg.getContent()));
+            holder.card.setOnLongClickListener(e -> copyText(position))
+        }
+
+        public void copyText(int position) {
+            Message msg = data.get(position);
+            Utils.setClipboard("Message Text", msg.getContent());
+            Utils.showToast("Copied message content");
         }
 
         private final Adapter _this = this;
