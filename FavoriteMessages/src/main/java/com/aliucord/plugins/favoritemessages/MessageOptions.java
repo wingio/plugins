@@ -25,7 +25,7 @@ public static class MessageOptions extends BottomSheet {
         );
         
         var copyId = View.generateViewId();
-        TextView copyOption = new TextView(ctx, null, 0, R$h.UiKit_Settings_Item_Icon)
+        TextView copyOption = new TextView(ctx, null, 0, R$h.UiKit_Settings_Item_Icon);
         copyOption.setText("Copy Text");
         copyOption.setId(copyId);
         copyOption.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
