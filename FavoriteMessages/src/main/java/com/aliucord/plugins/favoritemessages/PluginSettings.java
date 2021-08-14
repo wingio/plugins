@@ -77,7 +77,7 @@ public class PluginSettings extends SettingsPage {
             ctx = fragment.requireContext();
             
             this.originalData = new ArrayList<StoredMessage>(favorites.values());
-            originalData.sort(Comparator.comparing(p -> p.getContent()));
+            originalData.sort(Comparator.comparing(p -> p.content));
 
             data = originalData;
         }
@@ -135,7 +135,7 @@ public class PluginSettings extends SettingsPage {
                     }
                     @Override
                     public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-                        return data.get(oldItemPosition).getContent().equals(res.get(newItemPosition).getContent());
+                        return data.get(oldItemPosition).content.equals(res.get(newItemPosition).content);
                     }
                     @Override
                     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
