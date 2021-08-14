@@ -1,5 +1,4 @@
-include ':Achievements'
-include ':TestPlugin'
+include ':FavoriteMessages'
 rootProject.name = "plugins"
 
 include ':DiscordStubs'
