@@ -42,7 +42,9 @@ import com.discord.app.AppFragment;
 import com.discord.widgets.user.usersheet.WidgetUserSheet;
 import com.discord.widgets.changelog.WidgetChangeLog;
 import com.discord.models.message.Message;
-import com.lytefast.flexinput.*;
+import com.lytefast.flexinput.R$b;
+import com.lytefast.flexinput.R$h;
+import com.lytefast.flexinput.R$g;
 
 import kotlin.Unit;
 import java.io.File;
@@ -139,7 +141,7 @@ public class PluginSettings extends SettingsPage {
             Bundle bundle = new Bundle();
             bundle.putString("content", msg.content);
             holder.card.setOnLongClickListener(e -> {
-                new MessageOptions(msg).show();
+                new MessageOptions(msg).show(getParentFragmentManager(), "Message Options");
                 return true;
             });
         }

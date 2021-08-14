@@ -21,7 +21,8 @@ import com.aliucord.views.*;
 import com.discord.utilities.color.ColorCompat;
 import com.discord.views.CheckedSetting;
 import com.google.android.material.card.MaterialCardView;
-import com.lytefast.flexinput.*;
+import com.lytefast.flexinput.R$b;
+import com.lytefast.flexinput.R$h;
 
 public class MessageCard extends MaterialCardView {
     public final LinearLayout root;
