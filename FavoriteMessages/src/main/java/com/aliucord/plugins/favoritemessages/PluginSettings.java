@@ -169,7 +169,7 @@ public class PluginSettings extends SettingsPage {
 
         RecyclerView recyclerView = new RecyclerView(context);
         recyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
-        Map<Long, StoredMessage> favorites = (Map<Long, StoredMessage>) settings.getObject("favorites", new Map<Long, StoredMessage>());
+        Map<Long, StoredMessage> favorites = (Map<Long, StoredMessage>) settings.getObject("favorites", new HashMap<Long, StoredMessage>());
         Adapter adapter = new Adapter(this, favorites);
         recyclerView.setAdapter(adapter);
         ShapeDrawable shape = new ShapeDrawable(new RectShape());
