@@ -12,6 +12,8 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
+import android.content.res.Resources;
+import android.content.res.AssetManager;
 import android.net.Uri;
 import android.text.*;
 import android.text.style.ClickableSpan;
@@ -24,8 +26,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.*;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.aliucord.Utils;
+import com.aliucord.CollectionUtils;
 import com.aliucord.plugins.FavoriteMessages;
 import com.aliucord.api.SettingsAPI;
 import com.aliucord.entities.Plugin;
@@ -70,10 +74,10 @@ public class PluginSettings extends SettingsPage {
         public void onViewCreated(View view, Bundle bundle) {
             super.onViewCreated(view, bundle);
             Context optCtx = requireContext();
-            var resources = FavoriteMessages.resources;
-            Drawable icon = ResourcesCompat.getDrawable(resources, resources.getIdentifier("ic_editfriend", "drawable", "com.aliucord.plugins"), null );
+            Drawable icon = FavoriteMessages.pluginIcon;
+            icon.mutate();
             if (icon != null) icon.setTint(
-            ColorCompat.getThemedColor(optCtx, R.b.colorInteractiveNormal)
+                ColorCompat.getThemedColor(optCtx, R.b.colorInteractiveNormal)
             );
             
             var copyId = View.generateViewId();
@@ -139,7 +143,7 @@ public class PluginSettings extends SettingsPage {
             Bundle bundle = new Bundle();
             bundle.putString("content", msg.content);
             holder.card.setOnLongClickListener(e -> {
-                new MessageOptions(msg).show(getParentFragmentManager(), "Message Options");
+                new MessageOptions(msg).show(fragment.getParentFragmentManager(), "Message Options");
                 return true;
             });
         }
