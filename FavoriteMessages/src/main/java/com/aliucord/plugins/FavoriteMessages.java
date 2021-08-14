@@ -13,6 +13,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.core.widget.NestedScrollView;
 
 import com.aliucord.Utils;
+import com.aliucord.CollectionUtils;
 import com.aliucord.entities.Plugin;
 import com.aliucord.patcher.PinePatchFn;
 import com.aliucord.api.CommandsAPI;
@@ -25,7 +26,7 @@ import com.discord.widgets.chat.input.*;
 import com.discord.widgets.chat.list.actions.WidgetChatListActions;
 import com.discord.models.message.Message;
 import com.google.gson.reflect.TypeToken;
-import com.lytefast.flexinput.*;
+import com.lytefast.flexinput.R;
 
 import java.lang.reflect.Type;
 import java.util.*;
