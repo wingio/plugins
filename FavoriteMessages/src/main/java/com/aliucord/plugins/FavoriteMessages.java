@@ -38,6 +38,7 @@ public class FavoriteMessages extends Plugin {
     
     private Drawable pluginIcon;
     public RelativeLayout overlay;
+    public static final Type msgType = TypeToken.getParameterized(HashMap.class, Long.class, StoredMessage.class).getType();
 
     @NonNull
   @Override
@@ -69,7 +70,7 @@ public class FavoriteMessages extends Plugin {
         if (layout == null || layout.findViewById(id) != null) return;
         var ctx = layout.getContext();
         var msg = ((WidgetChatListActions.Model) callFrame.args[0]).getMessage();
-        Map<Long, StoredMessage> favorites = (Map<Long, StoredMessage>) settings.getObject("favorites", new HashMap<Long, StoredMessage>());
+        Map<Long, StoredMessage> favorites = settings.getObject("favorites", new HashMap<>(), msgType);
         var view = new TextView(ctx, null, 0, R$h.UiKit_Settings_Item_Icon);
         view.setId(id);
         if (icon != null) icon.setTint(
