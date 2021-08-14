@@ -76,7 +76,7 @@ public class FavoriteMessages extends Plugin {
           ColorCompat.getThemedColor(ctx, R$b.colorInteractiveNormal)
         );
         view.setCompoundDrawablesRelativeWithIntrinsicBounds(icon,null,null,null);
-        Utils.log(String.valueOf(favorites)));
+        Utils.log(String.valueOf(favorites));
         if(favorites.containsKey(msg.getId())){
           view.setText("Unfavorite Message");
           view.setOnClickListener(e -> {
