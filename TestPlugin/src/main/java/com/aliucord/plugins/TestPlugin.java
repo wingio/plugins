@@ -13,6 +13,7 @@ import androidx.core.content.res.ResourcesCompat;
 
 import com.aliucord.Constants;
 import com.aliucord.Utils;
+import com.aliucord.Logger;
 import com.aliucord.PluginManager;
 import com.aliucord.entities.Plugin;
 import com.aliucord.patcher.PinePatchFn;
@@ -21,6 +22,7 @@ import com.discord.utilities.color.ColorCompat;
 import com.discord.api.premium.PremiumTier;
 import com.discord.databinding.WidgetChatOverlayBinding;
 import com.discord.databinding.WidgetGuildProfileSheetBinding;
+import com.discord.utilities.viewbinding.FragmentViewBindingDelegate;
 import com.discord.stores.StoreStream;
 import com.discord.widgets.chat.*;
 import com.discord.widgets.chat.input.*;
@@ -94,20 +96,20 @@ public class TestPlugin extends Plugin {
         patcher.patch(WidgetGuildProfileSheet.class, "configureUI", new Class<?>[]{ WidgetGuildProfileSheetViewModel.ViewState.Loaded.class }, new PinePatchFn(callFrame -> {
             WidgetGuildProfileSheet _this = (WidgetGuildProfileSheet) callFrame.thisObject;
             try {
-            Class wps = WidgetGuildProfileSheet.class;
-            Method gb = wps.getDeclaredMethod("getBinding", (Class<?>) null);
-            gb.setAccessible(true);
-            WidgetGuildProfileSheetBinding binding = (WidgetGuildProfileSheetBinding) gb.invoke(_this, (Class<?>) null);
-            View inflate = binding.v.inflate();
-            LinearLayout layout = (LinearLayout) inflate.findViewById(sheetId);
-            Context ctx = layout.getContext();
+              var iconField = _this.getClass().getDeclaredField("binding$delegate");
+              iconField.setAccessible(true);
+              FragmentViewBindingDelegate d = (FragmentViewBindingDelegate) iconField.get(_this);
+              WidgetGuildProfileSheetBinding binding = (WidgetGuildProfileSheetBinding) d.getValue((Fragment) _this, _this.$$delegatedProperties[0]);
+              View inflate = binding.v.inflate();
+              LinearLayout layout = (LinearLayout) inflate.findViewById(sheetId);
+              Context ctx = layout.getContext();
 
-            TextView textView = new TextView(ctx, null, 0, R.h.UserProfile_Section_Header);
-            textView.setText("Test");
-            textView.setId(View.generateViewId());
-            textView.setTypeface(ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_semibold));
-            textView.setPadding(Utils.dpToPx(16), 0, 0, 0);
-            layout.addView(textView, 0);
+              TextView textView = new TextView(ctx, null, 0, R.h.UserProfile_Section_Header);
+              textView.setText("Test");
+              textView.setId(View.generateViewId());
+              textView.setTypeface(ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_semibold));
+              textView.setPadding(Utils.dpToPx(16), 0, 0, 0);
+              layout.addView(textView, 0);
             } catch (Throwable e) {
               Utils.log("Error adding guild info");
             }
