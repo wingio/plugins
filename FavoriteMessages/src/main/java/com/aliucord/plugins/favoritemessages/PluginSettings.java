@@ -91,7 +91,21 @@ public class PluginSettings extends SettingsPage {
                 dismiss();
             });
 
+            var unfavId = View.generateViewId();
+            TextView unfavOption = new TextView(optCtx, null, 0, R.h.UiKit_Settings_Item_Icon);
+            unfavOption.setText("Unfavorite");
+            unfavOption.setId(unfavId);
+            unfavOption.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
+            unfavOption.setOnClickListener(e -> {
+                Map<Long, StoredMessage> favorites = settings.getObject("favorites", new HashMap<>(), FavoriteMessages.msgType);
+                favorites.remove(getMessage().id);
+                settings.setObject("favorites", favorites)
+                Utils.showToast(optCtx, "Unfavorited message");
+                dismiss();
+            });
+
             addView(copyOption);
+            addView(unfavOption);
         }
     }
 
