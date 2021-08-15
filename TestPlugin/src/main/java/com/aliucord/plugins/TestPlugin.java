@@ -13,6 +13,7 @@ import androidx.core.content.res.ResourcesCompat;
 
 import com.aliucord.Constants;
 import com.aliucord.Utils;
+import com.aliucord.PluginManager;
 import com.aliucord.entities.Plugin;
 import com.aliucord.patcher.PinePatchFn;
 import com.aliucord.plugins.testplugin.*;
@@ -90,7 +91,7 @@ public class TestPlugin extends Plugin {
         patcher.patch(WidgetGuildProfileSheet.class, "onViewCreated", new Class<?>[]{ View.class, Bundle.class }, new PinePatchFn(callFrame -> {
             WidgetGuildProfileSheet _this = (WidgetGuildProfileSheet) callFrame.thisObject;
             //WidgetGuildProfileSheetBinding binding = _this.getBinding();
-            View view = callFrame.args[0];
+            View view = (View) callFrame.args[0];
             LinearLayout layout = (LinearLayout) view.findViewById(sheetId);
             Context ctx = layout.getContext();
 

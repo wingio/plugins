@@ -9,6 +9,7 @@ import androidx.core.content.res.ResourcesCompat;
 
 import com.aliucord.Constants;
 import com.aliucord.Utils;
+import com.aliucord.PluginManager;
 import com.aliucord.api.SettingsAPI;
 import com.aliucord.api.NotificationsAPI;
 import com.aliucord.fragments.SettingsPage;
