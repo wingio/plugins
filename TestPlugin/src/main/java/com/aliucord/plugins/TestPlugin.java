@@ -92,7 +92,8 @@ public class TestPlugin extends Plugin {
             WidgetGuildProfileSheet _this = (WidgetGuildProfileSheet) callFrame.thisObject;
             //WidgetGuildProfileSheetBinding binding = _this.getBinding();
             FrameLayout view = (FrameLayout) callFrame.args[0];
-            LinearLayout layout = (LinearLayout) view.findViewById(sheetId);
+            var child = view.getChildAt(0).getChildAt(1).getChildAt(0).getChildAt(2);
+            LinearLayout layout = (LinearLayout) child.findViewById(sheetId);
             Utils.log("sheet_id: " + sheetId);
             Utils.log("View ID: " + layout.getId());
             Context ctx = view.getContext();
