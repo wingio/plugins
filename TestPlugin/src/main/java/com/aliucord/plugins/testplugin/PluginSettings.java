@@ -8,7 +8,7 @@ import android.content.Context;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.aliucord.Constants;
-import com.aliucord.*;
+import com.aliucord.Utils;
 import com.aliucord.api.SettingsAPI;
 import com.aliucord.api.NotificationsAPI;
 import com.aliucord.fragments.SettingsPage;
@@ -17,7 +17,7 @@ import com.aliucord.entities.NotificationData;
 
 import com.discord.views.CheckedSetting;
 import com.discord.views.RadioManager;
-import com.lytefast.flexinput.R$h;
+import com.lytefast.flexinput.R;
 
 import kotlin.Unit;
 import java.util.Arrays;
@@ -52,7 +52,7 @@ public final class PluginSettings extends SettingsPage {
  
         NotificationsAPI.display(notD);
 
-        var expHeader = new TextView(context, null, 0, R$h.UiKit_Settings_Item_Header);
+        var expHeader = new TextView(context, null, 0, R.h.UiKit_Settings_Item_Header);
         expHeader.setTypeface(ResourcesCompat.getFont(context, Constants.Fonts.whitney_semibold));
         expHeader.setText("Experiments");
         layout.addView(expHeader);
