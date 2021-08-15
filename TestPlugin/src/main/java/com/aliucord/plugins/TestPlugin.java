@@ -89,9 +89,13 @@ public class TestPlugin extends Plugin {
 
         final int sheetId = Utils.getResId("guild_profile_sheet_actions", "id");
         
+        
         patcher.patch(WidgetGuildProfileSheet.class, "configureUI", new Class<?>[]{ WidgetGuildProfileSheetViewModel.ViewState.Loaded.class }, new PinePatchFn(callFrame -> {
             WidgetGuildProfileSheet _this = (WidgetGuildProfileSheet) callFrame.thisObject;
-            WidgetGuildProfileSheetBinding binding = _this.getBinding();
+            Class wps = WidgetGuildProfileSheet.class;
+            Method gb = wps.getDeclaredMethod("getBinding", null);
+            gb.setAccessible(true);
+            WidgetGuildProfileSheetBinding binding = gb.invoke(_this, null);
             View inflate = binding.v.inflate();
             LinearLayout layout = (LinearLayout) inflate.findViewById(sheetId);
             Context ctx = layout.getContext();
