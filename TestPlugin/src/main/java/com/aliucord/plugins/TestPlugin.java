@@ -86,7 +86,7 @@ public class TestPlugin extends Plugin {
             view.addView(option, 4);
         }));
 
-        final int sheetId = Utils.getResId("guild_profile_sheet_actions", "id");
+        final int sheetId = Utils.getResId("guild_profile_sheet_bottom_container", "id");
         
         patcher.patch(WidgetGuildProfileSheet.class, "onViewCreated", new Class<?>[]{ View.class, Bundle.class }, new PinePatchFn(callFrame -> {
             WidgetGuildProfileSheet _this = (WidgetGuildProfileSheet) callFrame.thisObject;
@@ -94,10 +94,10 @@ public class TestPlugin extends Plugin {
             FrameLayout view = (FrameLayout) callFrame.args[0];
             ViewFlipper child = (ViewFlipper) view.getChildAt(0);
             ViewGroup child2 = (ViewGroup) child.getChildAt(1);
-            LinearLayout layout = (LinearLayout) child2.getChildAt(6);
+            LinearLayout layout = (LinearLayout) child2.findViewById(sheetId);
             //LinearLayout layout = (LinearLayout) child3.findViewById(sheetId);
             //Utils.log("sheet_id: " + sheetId);
-            Utils.log("View ID: " + layout.getId());
+            Utils.log("View ID: " + String.valueOf(layout));
             Context ctx = view.getContext();
 
             TextView textView = new TextView(ctx, null, 0, R.h.UserProfile_Section_Header);
