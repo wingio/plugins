@@ -94,9 +94,9 @@ public class TestPlugin extends Plugin {
             FrameLayout view = (FrameLayout) callFrame.args[0];
             ViewFlipper child = (ViewFlipper) view.getChildAt(0);
             ViewGroup child2 = (ViewGroup) child.getChildAt(1);
-            ViewGroup child3 = (ViewGroup) child2.getChildAt(6);
-            LinearLayout layout = (LinearLayout) child3.findViewById(sheetId);
-            Utils.log("sheet_id: " + sheetId);
+            LinearLayout layout = (LinearLayout) child2.getChildAt(6);
+            //LinearLayout layout = (LinearLayout) child3.findViewById(sheetId);
+            //Utils.log("sheet_id: " + sheetId);
             Utils.log("View ID: " + layout.getId());
             Context ctx = view.getContext();
 
