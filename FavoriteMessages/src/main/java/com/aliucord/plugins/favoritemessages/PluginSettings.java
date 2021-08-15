@@ -104,6 +104,7 @@ public class PluginSettings extends SettingsPage {
                 Map<Long, StoredMessage> favorites = sets.getObject("favorites", new HashMap<>(), FavoriteMessages.msgType);
                 favorites.remove(getMessage().id);
                 messageCard.setVisibility(View.GONE);
+                messageCard.setLayoutParams(new ViewGroup.LayoutParams(0, 0));
                 sets.setObject("favorites", favorites);
                 Utils.showToast(optCtx, "Unfavorited message");
                 dismiss();
