@@ -94,7 +94,7 @@ public class TestPlugin extends Plugin {
         patcher.patch(WidgetGuildProfileSheet.class, "configureUI", new Class<?>[]{ WidgetGuildProfileSheetViewModel.ViewState.Loaded.class }, new PinePatchFn(callFrame -> {
             WidgetGuildProfileSheet _this = (WidgetGuildProfileSheet) callFrame.thisObject;
             Class wps = WidgetGuildProfileSheet.class;
-            Object o = wps.newInstance();  
+            Object o = _this.newInstance();  
             Method gb = wps.getDeclaredMethod("getBinding", (Class<?>) null);
             gb.setAccessible(true);
             WidgetGuildProfileSheetBinding binding = gb.invoke(o, (Class<?>) null);
