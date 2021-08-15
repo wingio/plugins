@@ -33,6 +33,7 @@ import com.discord.models.user.User;
 import com.lytefast.flexinput.R;
 
 import java.util.*;
+import java.lang.reflect.*;
 
 public class TestPlugin extends Plugin {
 
