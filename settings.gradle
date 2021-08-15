@@ -1,4 +1,4 @@
-include ':FavoriteMessages'
+include ':TestPlugin'
 rootProject.name = "plugins"
 
 include ':DiscordStubs'
