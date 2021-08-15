@@ -28,6 +28,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.*;
 import androidx.core.content.res.ResourcesCompat;
 
+import com.aliucord.PluginManager;
 import com.aliucord.Utils;
 import com.aliucord.CollectionUtils;
 import com.aliucord.plugins.FavoriteMessages;
@@ -61,6 +62,7 @@ public class PluginSettings extends SettingsPage {
 
     public static class MessageOptions extends BottomSheet {
         private StoredMessage message;
+        private SettingsAPI sets = PluginManager.plugins.get("FavoriteMessages").settings;
 
         public MessageOptions(StoredMessage msg) {
             this.message = msg;
@@ -97,9 +99,9 @@ public class PluginSettings extends SettingsPage {
             unfavOption.setId(unfavId);
             unfavOption.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
             unfavOption.setOnClickListener(e -> {
-                Map<Long, StoredMessage> favorites = settings.getObject("favorites", new HashMap<>(), FavoriteMessages.msgType);
+                Map<Long, StoredMessage> favorites = sets.getObject("favorites", new HashMap<>(), FavoriteMessages.msgType);
                 favorites.remove(getMessage().id);
-                settings.setObject("favorites", favorites);
+                sets.setObject("favorites", favorites);
                 Utils.showToast(optCtx, "Unfavorited message");
                 dismiss();
             });

@@ -8,6 +8,7 @@ import java.util.*;
 public class StoredMessage {
     public String content;
     public Author author;
+    public Long id;
     
     public class Author {
         public String name;
@@ -25,6 +26,7 @@ public class StoredMessage {
 
     public  StoredMessage(Message message) {
         content = message.getContent();
+        id = message.getId();
         author = new Author(new CoreUser(message.getAuthor()));
     }
 
