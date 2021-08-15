@@ -62,10 +62,12 @@ public class PluginSettings extends SettingsPage {
 
     public static class MessageOptions extends BottomSheet {
         private StoredMessage message;
+        private MessageCard messageCard;
         private SettingsAPI sets = PluginManager.plugins.get("FavoriteMessages").settings;
 
-        public MessageOptions(StoredMessage msg) {
+        public MessageOptions(StoredMessage msg, MessageCard msgCard) {
             this.message = msg;
+            this.messageCard = msgCard;
         }
 
         private StoredMessage getMessage() {
@@ -101,7 +103,7 @@ public class PluginSettings extends SettingsPage {
             unfavOption.setOnClickListener(e -> {
                 Map<Long, StoredMessage> favorites = sets.getObject("favorites", new HashMap<>(), FavoriteMessages.msgType);
                 favorites.remove(getMessage().id);
-                data.remove(getMessage().id);
+                messageCard.setVisibility(View.GONE);
                 sets.setObject("favorites", favorites);
                 Utils.showToast(optCtx, "Unfavorited message");
                 dismiss();
@@ -160,7 +162,7 @@ public class PluginSettings extends SettingsPage {
             Bundle bundle = new Bundle();
             bundle.putString("content", msg.content);
             holder.card.setOnLongClickListener(e -> {
-                new MessageOptions(msg).show(fragment.getParentFragmentManager(), "Message Options");
+                new MessageOptions(msg, holder.card).show(fragment.getParentFragmentManager(), "Message Options");
                 return true;
             });
         }
