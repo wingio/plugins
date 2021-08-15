@@ -87,13 +87,13 @@ public class TestPlugin extends Plugin {
             view.addView(option, 4);
         }));
 
-        final int sheetId = Utils.getResId("guild_profile_sheet_bottom_container", "id");
+        final int sheetId = Utils.getResId("guild_profile_sheet_actions", "id");
         
         patcher.patch(WidgetGuildProfileSheet.class, "configureUI", new Class<?>[]{ WidgetGuildProfileSheetViewModel.ViewState.Loaded.class }, new PinePatchFn(callFrame -> {
             WidgetGuildProfileSheet _this = (WidgetGuildProfileSheet) callFrame.thisObject;
             WidgetGuildProfileSheetBinding binding = _this.getBinding();
             View inflate = binding.v.inflate();
-            LinearLayout layout = (LinearLayout) inflate.findViewById(R.id.guild_profile_sheet_actions);
+            LinearLayout layout = (LinearLayout) inflate.findViewById(sheetId);
             Context ctx = layout.getContext();
 
             TextView textView = new TextView(ctx, null, 0, R.h.UserProfile_Section_Header);
