@@ -93,7 +93,7 @@ public class TestPlugin extends Plugin {
             //WidgetGuildProfileSheetBinding binding = _this.getBinding();
             View view = (View) callFrame.args[0];
             LinearLayout layout = (LinearLayout) view.findViewById(sheetId);
-            Context ctx = layout.getContext();
+            Context ctx = view.getContext();
 
             TextView textView = new TextView(ctx, null, 0, R.h.UserProfile_Section_Header);
             textView.setText("Test");
