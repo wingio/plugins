@@ -10,6 +10,7 @@ import android.os.*;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.fragment.app.Fragment;
 
 import com.aliucord.Constants;
 import com.aliucord.Utils;
@@ -111,7 +112,8 @@ public class TestPlugin extends Plugin {
               textView.setPadding(Utils.dpToPx(16), 0, 0, 0);
               layout.addView(textView, 0);
             } catch (Throwable e) {
-              Utils.log("Error adding guild info");
+              Logger logger = new Logger("TestPlugin");
+              logger.error("Error adding guild info", e);
             }
         }));
     }
