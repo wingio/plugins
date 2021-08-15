@@ -79,7 +79,7 @@ public class TestPlugin extends Plugin {
                 Utils.log("Revision: " + ctx.getString(2131887252));
                 Utils.log("Video: " + ctx.getString(2131887253));
                 String video = "https://cdn.discordapp.com/attachments/719794226673614879/872727881552396308/7_59_P.M_720P_HD.mp4";
-                body = "New Features {added marginTop}\n======================\n\n* **Rebranded** We are now XintoCord!";
+                body = "New Features {modified marginTop}\n======================\n\n* **Rebranded** We are now XintoCord!";
                 WidgetChangeLog.Companion.launch(ctx, "2021-08-05", "1", "https://cdn.discordapp.com/banners/169256939211980800/eda024c8f40a45c88265a176f0926bea.jpg?size=2048", body);
             });
            
