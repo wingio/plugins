@@ -91,7 +91,7 @@ public class TestPlugin extends Plugin {
         patcher.patch(WidgetGuildProfileSheet.class, "onViewCreated", new Class<?>[]{ View.class, Bundle.class }, new PinePatchFn(callFrame -> {
             WidgetGuildProfileSheet _this = (WidgetGuildProfileSheet) callFrame.thisObject;
             //WidgetGuildProfileSheetBinding binding = _this.getBinding();
-            View view = (View) callFrame.args[0];
+            FrameLayout view = (FrameLayout) callFrame.args[0];
             LinearLayout layout = (LinearLayout) view.findViewById(sheetId);
             Utils.log("sheet_id: " + sheetId);
             Utils.log("View ID: " + layout.getId());
