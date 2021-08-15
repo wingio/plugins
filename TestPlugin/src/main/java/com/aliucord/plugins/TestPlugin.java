@@ -93,6 +93,7 @@ public class TestPlugin extends Plugin {
         
         patcher.patch(WidgetGuildProfileSheet.class, "configureUI", new Class<?>[]{ WidgetGuildProfileSheetViewModel.ViewState.Loaded.class }, new PinePatchFn(callFrame -> {
             WidgetGuildProfileSheet _this = (WidgetGuildProfileSheet) callFrame.thisObject;
+            try {
             Class wps = WidgetGuildProfileSheet.class;
             Method gb = wps.getDeclaredMethod("getBinding", (Class<?>) null);
             gb.setAccessible(true);
@@ -107,6 +108,9 @@ public class TestPlugin extends Plugin {
             textView.setTypeface(ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_semibold));
             textView.setPadding(Utils.dpToPx(16), 0, 0, 0);
             layout.addView(textView, 0);
+            } catch (Throwable e) {
+              Utils.log("Error adding guild info");
+            }
         }));
     }
 
