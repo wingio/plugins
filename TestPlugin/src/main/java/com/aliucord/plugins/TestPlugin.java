@@ -101,7 +101,7 @@ public class TestPlugin extends Plugin {
               iconField.setAccessible(true);
               FragmentViewBindingDelegate d = (FragmentViewBindingDelegate) iconField.get(_this);
               WidgetGuildProfileSheetBinding binding = (WidgetGuildProfileSheetBinding) d.getValue((Fragment) _this, _this.$$delegatedProperties[0]);
-              View inflate = binding.v.inflate();
+              View inflate = binding.v;
               LinearLayout layout = (LinearLayout) inflate.findViewById(sheetId);
               Context ctx = layout.getContext();
 
