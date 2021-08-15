@@ -99,7 +99,7 @@ public class PluginSettings extends SettingsPage {
             unfavOption.setOnClickListener(e -> {
                 Map<Long, StoredMessage> favorites = settings.getObject("favorites", new HashMap<>(), FavoriteMessages.msgType);
                 favorites.remove(getMessage().id);
-                settings.setObject("favorites", favorites)
+                settings.setObject("favorites", favorites);
                 Utils.showToast(optCtx, "Unfavorited message");
                 dismiss();
             });
