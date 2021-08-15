@@ -86,7 +86,7 @@ public class TestPlugin extends Plugin {
             view.addView(option, 4);
         }));
 
-        final int sheetId = Utils.getResId("guild_profile_sheet_bottom_container", "id");
+        final int sheetId = Utils.getResId("guild_profile_sheet_actions", "id");
         
         patcher.patch(WidgetGuildProfileSheet.class, "onViewCreated", new Class<?>[]{ View.class, Bundle.class }, new PinePatchFn(callFrame -> {
             WidgetGuildProfileSheet _this = (WidgetGuildProfileSheet) callFrame.thisObject;
