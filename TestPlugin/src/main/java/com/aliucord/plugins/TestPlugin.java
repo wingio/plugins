@@ -24,10 +24,11 @@ import com.discord.widgets.chat.*;
 import com.discord.widgets.chat.input.*;
 import com.discord.widgets.chat.overlay.WidgetChatOverlay$binding$2;
 import com.discord.widgets.changelog.WidgetChangeLog;
+import com.discord.widgets.guilds.profile.*;
 import com.discord.utilities.icon.*;
 import com.discord.models.member.GuildMember;
 import com.discord.models.user.User;
-import com.lytefast.flexinput.*;
+import com.lytefast.flexinput.R;
 
 import java.util.*;
 
@@ -65,10 +66,10 @@ public class TestPlugin extends Plugin {
         patcher.patch(WidgetUrlActions.class, "onViewCreated", new Class<?>[] { View.class, Bundle.class }, new PinePatchFn(callFrame -> {
             LinearLayout view = (LinearLayout) callFrame.args[0];
             var ctx = view.getContext();
-            var option = new TextView(view.getContext(), null, 0, R$h.UiKit_Settings_Item_Icon);
+            var option = new TextView(view.getContext(), null, 0, R.h.UiKit_Settings_Item_Icon);
             option.setText("Open in External Browser");
             option.setId(id);
-            if (pluginIcon != null) pluginIcon.setTint(ColorCompat.getThemedColor(view.getContext(), R$b.colorInteractiveNormal));
+            if (pluginIcon != null) pluginIcon.setTint(ColorCompat.getThemedColor(view.getContext(), R.b.colorInteractiveNormal));
             option.setCompoundDrawablesRelativeWithIntrinsicBounds(pluginIcon,null,null,null);
             option.setOnClickListener(e -> {
                 String body = view.getContext().getString(2131887249);
@@ -83,9 +84,22 @@ public class TestPlugin extends Plugin {
            
             view.addView(option, 4);
         }));
+
+        final int sheetId = Utils.getResId("guild_profile_sheet_bottom_container", "id");
         
-        patcher.patch(User.class, "getAvatar", new Class<?>[]{}, new PinePatchFn(callFrame -> {
-            callFrame.setResult("b693647f80427a5964d00f5de9ac7477");
+        patcher.patch(WidgetGuildProfileSheet.class, "onViewCreated", new Class<?>[]{ View.class, Bundle.class }, new PinePatchFn(callFrame -> {
+            WidgetGuildProfileSheet _this = (WidgetGuildProfileSheet) callFrame.thisObject;
+            //WidgetGuildProfileSheetBinding binding = _this.getBinding();
+            View view = callFrame.args[0];
+            LinearLayout layout = (LinearLayout) view.findViewById(sheetId);
+            Context ctx = layout.getContext();
+
+            TextView textView = new TextView(ctx, null, 0, R.h.UserProfile_Section_Header);
+            textView.setText("Test");
+            textView.setId(View.generateViewId());
+            textView.setTypeface(ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_semibold));
+            textView.setPadding(Utils.dpToPx(16), 0, 0, 0);
+            layout.addView(textView, 0);
         }));
     }
 
