@@ -93,9 +93,8 @@ public class TestPlugin extends Plugin {
             //WidgetGuildProfileSheetBinding binding = _this.getBinding();
             View view = (View) callFrame.args[0];
             LinearLayout layout = (LinearLayout) view.findViewById(sheetId);
-            Utils.log("sheet_flipper: " + Utils.getResId("guild_profile_sheet_flipper", "id"));
-            Utils.log("sheet_constraint: " + Utils.getResId("guild_profile_sheet_constraint_layout", "id"));
-            Utils.log("View ID: " + view.getId());
+            Utils.log("sheet_id: " + sheetId);
+            Utils.log("View ID: " + layout.getId());
             Context ctx = view.getContext();
 
             TextView textView = new TextView(ctx, null, 0, R.h.UserProfile_Section_Header);
