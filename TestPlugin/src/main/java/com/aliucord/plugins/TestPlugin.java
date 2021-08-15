@@ -20,6 +20,7 @@ import com.aliucord.plugins.testplugin.*;
 import com.discord.utilities.color.ColorCompat;
 import com.discord.api.premium.PremiumTier;
 import com.discord.databinding.WidgetChatOverlayBinding;
+import com.discord.databinding.WidgetGuildProfileSheetBinding;
 import com.discord.stores.StoreStream;
 import com.discord.widgets.chat.*;
 import com.discord.widgets.chat.input.*;
@@ -88,17 +89,12 @@ public class TestPlugin extends Plugin {
 
         final int sheetId = Utils.getResId("guild_profile_sheet_bottom_container", "id");
         
-        patcher.patch(WidgetGuildProfileSheet.class, "onViewCreated", new Class<?>[]{ View.class, Bundle.class }, new PinePatchFn(callFrame -> {
+        patcher.patch(WidgetGuildProfileSheet.class, "configureUI", new Class<?>[]{ WidgetGuildProfileSheetViewModel.ViewState.Loaded.class }, new PinePatchFn(callFrame -> {
             WidgetGuildProfileSheet _this = (WidgetGuildProfileSheet) callFrame.thisObject;
-            //WidgetGuildProfileSheetBinding binding = _this.getBinding();
-            FrameLayout view = (FrameLayout) callFrame.args[0];
-            ViewFlipper child = (ViewFlipper) view.getChildAt(0);
-            ViewGroup child2 = (ViewGroup) child.getChildAt(1);
-            LinearLayout layout = (LinearLayout) child2.findViewById(sheetId);
-            //LinearLayout layout = (LinearLayout) child3.findViewById(sheetId);
-            //Utils.log("sheet_id: " + sheetId);
-            Utils.log("View ID: " + String.valueOf(layout));
-            Context ctx = view.getContext();
+            WidgetGuildProfileSheetBinding binding = _this.getBinding();
+            View inflate = binding.v.inflate();
+            LinearLayout layout = (LinearLayout) inflate.findViewById(R.id.guild_profile_sheet_actions);
+            Context ctx = layout.getContext();
 
             TextView textView = new TextView(ctx, null, 0, R.h.UserProfile_Section_Header);
             textView.setText("Test");
