@@ -38,7 +38,7 @@ public class FavoriteMessages extends Plugin {
         needsResources = true;
     }
     
-    public Drawable pluginIcon;
+    public static Drawable pluginIcon;
     public RelativeLayout overlay;
     public static final Type msgType = TypeToken.getParameterized(HashMap.class, Long.class, StoredMessage.class).getType();
 
