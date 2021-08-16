@@ -130,6 +130,7 @@ public class TestPlugin extends Plugin {
                         testText.setTypeface(ResourcesCompat.getFont(layout.getContext(), Constants.Fonts.whitney_bold));
                         testText.setText("Hello");
                         ViewGroup nameArea = (ViewGroup) layout.findViewById(Utils.getResId("channel_members_list_item_name", "id"));
+                        testText.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
                         nameArea.addView(testText);
                     }
                 }
