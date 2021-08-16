@@ -133,7 +133,7 @@ public class TestPlugin extends Plugin {
                         testText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                         int tagW = tagText.getMeasuredWidth();
                         int nameW = layout.getChildAt(0).getMeasuredWidth();
-                        tagText.setMargins(tagW + nameW + Utils.dpToPx(4), 0, 0, 0);
+                        testText.setMargins(tagW + nameW + Utils.dpToPx(4), 0, 0, 0);
                         nameArea.addView(testText);
                     }
                 }
