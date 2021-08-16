@@ -25,6 +25,7 @@ import com.discord.api.premium.PremiumTier;
 import com.discord.api.user.User;
 import com.discord.databinding.WidgetChatOverlayBinding;
 import com.discord.databinding.WidgetGuildProfileSheetBinding;
+import com.discord.databinding.WidgetChannelMembersListItemUserBinding;
 import com.discord.utilities.viewbinding.FragmentViewBindingDelegate;
 import com.discord.utilities.SnowflakeUtils;
 import com.discord.utilities.time.ClockFactory;
@@ -118,7 +119,7 @@ public class TestPlugin extends Plugin {
         
         patcher.patch(ChannelMembersListViewHolderMember.class, "bind", new Class<?>[]{ ChannelMembersListAdapter.Item.Member.class, Function0.class}, new PinePatchFn(callFrame -> {
             try {
-                binding = bindingField.get(callFrame.thisObject);
+                WidgetChannelMembersListItemUserBinding binding = (WidgetChannelMembersListItemUserBinding) bindingField.get(callFrame.thisObject);
                 ConstraintLayout layout = (ConstraintLayout) binding.getRoot();
                 ChannelMembersListAdapter.Item.Member user = (ChannelMembersListAdapter.Item.Member) callFrame.args[0];
                 if(user.getUserId() == 298295889720770563L) { 
