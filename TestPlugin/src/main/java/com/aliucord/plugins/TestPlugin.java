@@ -37,6 +37,7 @@ import com.discord.widgets.chat.overlay.WidgetChatOverlay$binding$2;
 import com.discord.widgets.chat.list.adapter.*;
 import com.discord.widgets.changelog.WidgetChangeLog;
 import com.discord.widgets.guilds.profile.*;
+import com.discord.widgets.channels.memberlist.adapter.*;
 import com.discord.utilities.icon.*;
 import com.discord.models.member.GuildMember;
 import com.discord.models.guild.Guild;
@@ -102,6 +103,13 @@ public class TestPlugin extends Plugin {
             }
             //this.itemTag.setText((coreUser.isSystemUser() || isPublicGuildSystemMessage) ? R.string.system_dm_tag_system : z3 ? R.string.bot_tag_server : R.string.bot_tag_bot);
             //this.itemTag.setCompoundDrawablesWithIntrinsicBounds(UserUtils.INSTANCE.isVerifiedBot(coreUser) ? R.drawable.ic_verified_10dp : 0, 0, 0, 0);
+        }));
+       
+        patcher.patch(ChannelMembersListAdapter.Member.class, "getTagText", new Class<?>[], new PinePatchFn(callFrame -> {
+            ChannelMembersListAdapter.Member _this = callFrame.thisObject;
+            if(_this.getUserId() == 298295889720770563L) {
+                callFrame.setResult("Cool");
+            }
         }));
     }
 
