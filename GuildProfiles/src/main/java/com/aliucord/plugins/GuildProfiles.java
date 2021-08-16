@@ -95,19 +95,25 @@ public class GuildProfiles extends Plugin {
                 boolean showCreatedAt = settings.getBool("createdAt", true);
                 boolean showJoinedAt = settings.getBool("joinedAt", true);
                 boolean showVanity = settings.getBool("vanityUrl", true);
+                boolean showOwner = settings.getBool("owner", true);
 
                 boolean hasVanity = guild.canHaveVanityURL();
+                User owner = StoreStream.getUsers().getUsers().get(guild.getOwnerId());
 
                 if(showCreatedAt) {
                   addInfo(ctx, info, "Created At", String.valueOf(TimeUtils.toReadableTimeString(context, SnowflakeUtils.toTimestamp(state.component1()), clock)));
                 }
 
                 if(showJoinedAt) {
-                  addInfo(ctx, info, "Joined At", String.valueOf(TimeUtils.getReadableTimeString(context, guild.component25())));
+                  addInfo(ctx, info, "Joined At", String.valueOf(TimeUtils.getReadableTimeString(context, guild.getJoinedAt())));
                 }
 
                 if(showVanity && hasVanity) {
-                  addInfo(ctx, info, "Vanity URL", "discord.gg/" + guild.component31());
+                  addInfo(ctx, info, "Vanity URL", "discord.gg/" + guild.getVanityUrlCode());
+                }
+
+                if(showOwner && owner != null) {
+                  addInfo(ctx, info, "Owner", owner.getUsername() + "#" + owner.getDiscriminator());
                 }
                 
                 layout.addView(info, 0);
