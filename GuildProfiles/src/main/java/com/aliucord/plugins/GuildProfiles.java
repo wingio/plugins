@@ -95,6 +95,9 @@ public class GuildProfiles extends Plugin {
               if(lo.findViewById(infoId) == null) {
                 boolean showCreatedAt = settings.getBool("createdAt", true);
                 boolean showJoinedAt = settings.getBool("joinedAt", true);
+                boolean showVanity = settings.getBool("vanityUrl", true);
+
+                boolean hasVanity = guild.canHaveVanityURL();
 
                 if(showCreatedAt) {
                   addInfo(ctx, info, "Created At", String.valueOf(TimeUtils.toReadableTimeString(context, SnowflakeUtils.toTimestamp(state.component1()), clock)));
@@ -102,6 +105,10 @@ public class GuildProfiles extends Plugin {
 
                 if(showJoinedAt) {
                   addInfo(ctx, info, "Joined At", String.valueOf(TimeUtils.getReadableTimeString(context, guild.component25())));
+                }
+
+                if(showVanity && hasVanity) {
+                  addInfo(ctx, info, "Vanity URL", "discord.gg/" + guild.component31());
                 }
                 
                 layout.addView(info, 0);
@@ -119,7 +126,7 @@ public class GuildProfiles extends Plugin {
       section.setOrientation(LinearLayout.VERTICAL);
       section.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
       section.setBackgroundColor(Color.TRANSPARENT);
-      section.setPadding(0, Utils.dpToPx(16), 0, 0);
+      section.setPadding(0, Utils.dpToPx(8), 0, 0);
 
       TextView header = new TextView(c, null, 0, R.h.UserProfile_Section_Header);
       header.setText(name);
