@@ -50,7 +50,6 @@ public class GuildProfiles extends Plugin {
         needsResources = true;
     }
     
-    private Drawable pluginIcon;
     public RelativeLayout overlay;
 
     @NonNull
@@ -70,7 +69,6 @@ public class GuildProfiles extends Plugin {
 
     @Override
     public void start(Context context) throws Throwable {
-        pluginIcon = ResourcesCompat.getDrawable(resources, resources.getIdentifier("ic_editfriend", "drawable", "com.aliucord.plugins"), null );
         final int sheetId = Utils.getResId("guild_profile_sheet_actions", "id");
 
         patcher.patch(WidgetGuildProfileSheet.class, "configureUI", new Class<?>[]{ WidgetGuildProfileSheetViewModel.ViewState.Loaded.class }, new PinePatchFn(callFrame -> {
