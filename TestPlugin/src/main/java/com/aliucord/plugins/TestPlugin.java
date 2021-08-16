@@ -112,12 +112,12 @@ public class TestPlugin extends Plugin {
             }
         }));
         
-        patcher.patch(ChannelMembersListAdapter.Item.Member.class, "getTagText", new Class<?>[]{}, new PinePatchFn(callFrame -> {
-            ChannelMembersListAdapter.Item.Member _this = (ChannelMembersListAdapter.Item.Member) callFrame.thisObject;
-            if(_this.getUserId() == 298295889720770563L) {
-                callFrame.setResult("Cool");
-            }
-        }));
+        ///patcher.patch(ChannelMembersListAdapter.Item.Member.class, "getTagText", new Class<?>[]{}, new PinePatchFn(callFrame -> {
+        ///    //ChannelMembersListAdapter.Item.Member _this = (ChannelMembersListAdapter.Item.Member) callFrame.thisObject;
+        ///    if(_this.getUserId() == 298295889720770563L) {
+        ///        callFrame.setResult("Cool");
+        ///    }
+        ///}));
     }
 
     @Override
