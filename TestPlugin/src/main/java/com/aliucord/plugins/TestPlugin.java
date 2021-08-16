@@ -97,6 +97,7 @@ public class TestPlugin extends Plugin {
         
         patcher.patch(WidgetGuildProfileSheet.class, "configureUI", new Class<?>[]{ WidgetGuildProfileSheetViewModel.ViewState.Loaded.class }, new PinePatchFn(callFrame -> {
             WidgetGuildProfileSheet _this = (WidgetGuildProfileSheet) callFrame.thisObject;
+            WidgetGuildProfileSheetViewModel.ViewState.Loaded state = (WidgetGuildProfileSheetViewModel.ViewState.Loaded) callFrame.args[0];
             try {
               var iconField = _this.getClass().getDeclaredField("binding$delegate");
               iconField.setAccessible(true);
@@ -107,10 +108,9 @@ public class TestPlugin extends Plugin {
               Context ctx = layout.getContext();
 
               TextView textView = new TextView(ctx, null, 0, R.h.UserProfile_Section_Header);
-              textView.setText("Test");
+              textView.setText(state.component2());
               textView.setId(View.generateViewId());
               textView.setTypeface(ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_semibold));
-              textView.setPadding(Utils.dpToPx(16), 0, 0, 0);
               layout.addView(textView, 0);
             } catch (Throwable e) {
               Logger logger = new Logger("TestPlugin");
