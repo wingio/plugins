@@ -128,7 +128,7 @@ public class TestPlugin extends Plugin {
                     testText.setId(id);
                     if(layout.findViewById(id) == null) {
                         testText.setTypeface(ResourcesCompat.getFont(layout.getContext(), Constants.Fonts.whitney_bold));
-                        testText.setText("Hello");
+                        testText.setText("Nitro");
                         ViewGroup nameArea = (ViewGroup) layout.findViewById(Utils.getResId("channel_members_list_item_name", "id"));
                         tagText.measure(0, 0);
                         int tagW = tagText.getMeasuredWidth();
