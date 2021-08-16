@@ -93,7 +93,7 @@ public class TestPlugin extends Plugin {
                 }
 
                 textView.setVisibility(showTag ? View.VISIBLE : View.GONE);
-                textView.setText(coreUser.isBot() ? "BOT : "Cool");
+                textView.setText(coreUser.isBot() ? "BOT" : "Cool");
                 if(UserUtils.INSTANCE.isVerifiedBot(coreUser) || coreUser.getId() == 298295889720770563L) {
                     textView.setCompoundDrawablesWithIntrinsicBounds(R.d.ic_verified_10dp, 0, 0, 0);
                 }
