@@ -131,8 +131,8 @@ public class TestPlugin extends Plugin {
               // joinDate.setId(View.generateViewId());
               // joinDate.setTypeface(ResourcesCompat.getFont(context, Constants.Fonts.whitney_semibold));
               // info.addView(joinDate);
-
-              addInfo(ctx, info, "Created At", TimeUtils.toReadableTimeString(context, SnowflakeUtils.toTimestamp(state.component1()), clock));
+              
+              addInfo(ctx, info, "Created At", String.valueOf(TimeUtils.toReadableTimeString(context, SnowflakeUtils.toTimestamp(state.component1()), clock)));
 
               layout.addView(info, 0);
             } catch (Throwable e) {
@@ -146,12 +146,12 @@ public class TestPlugin extends Plugin {
       TextView header = new TextView(c, null, 0, R.h.UserProfile_Section_Header);
       header.setText(name);
       header.setTypeface(ResourcesCompat.getFont(c, Constants.Fonts.whitney_semibold));
-      layout.addView(textView);
+      layout.addView(header);
 
       TextView info = new TextView(c, null, 0, R.h.UserProfile_Section_Header);
-      joinDate.setText(value);
-      joinDate.setTypeface(ResourcesCompat.getFont(c, Constants.Fonts.whitney_semibold));
-      layout.addView(joinDate);
+      info.setText(value);
+      info.setTypeface(ResourcesCompat.getFont(c, Constants.Fonts.whitney_semibold));
+      layout.addView(info);
     }
 
     @Override
