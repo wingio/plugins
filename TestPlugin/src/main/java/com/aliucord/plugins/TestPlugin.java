@@ -110,10 +110,16 @@ public class TestPlugin extends Plugin {
               Context ctx = layout.getContext();
 
               TextView textView = new TextView(ctx, null, 0, R.h.UserProfile_Section_Header);
-              textView.setText(state.component2());
+              textView.setText("Created At");
               textView.setId(View.generateViewId());
-              textView.setTypeface(ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_semibold));
+              textView.setTypeface(ResourcesCompat.getFont(context, Constants.Fonts.whitney_semibold));
+
+              TextView joinDate = new TextView(ctx, null, 0, R.h.UserProfile_Section_Header);
+              joinDate.setText(guild.component25());
+              joinDate.setId(View.generateViewId());
+              joinDate.setTypeface(ResourcesCompat.getFont(context, Constants.Fonts.whitney_semibold));
               layout.addView(textView, 0);
+              layout.addView(joinDate, 1);
             } catch (Throwable e) {
               Logger logger = new Logger("TestPlugin");
               logger.error("Error adding guild info", e);
