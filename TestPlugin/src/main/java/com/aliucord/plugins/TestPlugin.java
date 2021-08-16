@@ -92,7 +92,7 @@ public class TestPlugin extends Plugin {
                 }
 
                 textView.setVisibility(showTag ? View.VISIBLE : View.GONE);
-                textView.setText("Cool");
+                textView.setText("COOL");
             } catch(Throwable e) {
                 Utils.log("error");
             }
