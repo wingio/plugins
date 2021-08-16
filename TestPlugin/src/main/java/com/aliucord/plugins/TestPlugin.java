@@ -119,7 +119,7 @@ public class TestPlugin extends Plugin {
                     TextView tagText = (TextView) layout.findViewById(Utils.getResId("username_tag", "id"));
                     tagText.setText("Cool");
                     tagText.setVisibility(View.VISIBLE);
-                    textView.setCompoundDrawablesWithIntrinsicBounds(R.d.ic_verified_10dp, 0, 0, 0);
+                    tagText.setCompoundDrawablesWithIntrinsicBounds(R.d.ic_verified_10dp, 0, 0, 0);
                 }
             } catch(Throwable e) {Utils.log("error setting bot text");}
         }));
