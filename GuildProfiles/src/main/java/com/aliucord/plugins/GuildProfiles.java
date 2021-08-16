@@ -70,7 +70,7 @@ public class GuildProfiles extends Plugin {
     @Override
     public void start(Context context) throws Throwable {
         final int sheetId = Utils.getResId("guild_profile_sheet_actions", "id");
-
+        final int infoId = View.generateViewId();
         patcher.patch(WidgetGuildProfileSheet.class, "configureUI", new Class<?>[]{ WidgetGuildProfileSheetViewModel.ViewState.Loaded.class }, new PinePatchFn(callFrame -> {
             WidgetGuildProfileSheet _this = (WidgetGuildProfileSheet) callFrame.thisObject;
             WidgetGuildProfileSheetViewModel.ViewState.Loaded state = (WidgetGuildProfileSheetViewModel.ViewState.Loaded) callFrame.args[0];
@@ -86,7 +86,6 @@ public class GuildProfiles extends Plugin {
               var clock = ClockFactory.get();
 
               LinearLayout info = new LinearLayout(ctx);
-              int infoId = View.generateViewId();
               info.setId(infoId);
               info.setOrientation(LinearLayout.VERTICAL);
               info.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
