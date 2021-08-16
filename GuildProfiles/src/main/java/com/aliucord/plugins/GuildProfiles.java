@@ -8,6 +8,7 @@ import android.widget.*;
 import android.os.*;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.widget.NestedScrollView;
@@ -33,6 +34,7 @@ import com.discord.widgets.chat.*;
 import com.discord.widgets.chat.input.*;
 import com.discord.widgets.chat.overlay.WidgetChatOverlay$binding$2;
 import com.discord.widgets.changelog.WidgetChangeLog;
+import com.discord.widgets.user.usersheet.WidgetUserSheet;
 import com.discord.widgets.guilds.profile.*;
 import com.discord.utilities.icon.*;
 import com.discord.models.member.GuildMember;
@@ -101,15 +103,15 @@ public class GuildProfiles extends Plugin {
                 User owner = StoreStream.getUsers().getUsers().get(guild.getOwnerId());
 
                 if(showCreatedAt) {
-                  addInfo(ctx, info, "Created At", String.valueOf(TimeUtils.toReadableTimeString(context, SnowflakeUtils.toTimestamp(state.component1()), clock)));
+                  addInfo(ctx, info, "Created At", String.valueOf(TimeUtils.toReadableTimeString(context, SnowflakeUtils.toTimestamp(state.component1()), clock)), null);
                 }
 
                 if(showJoinedAt) {
-                  addInfo(ctx, info, "Joined At", String.valueOf(TimeUtils.getReadableTimeString(context, guild.getJoinedAt())));
+                  addInfo(ctx, info, "Joined At", String.valueOf(TimeUtils.getReadableTimeString(context, guild.getJoinedAt())), null);
                 }
 
-                if(showVanity && hasVanity) {
-                  addInfo(ctx, info, "Vanity URL", "discord.gg/" + guild.getVanityUrlCode());
+                if(showVanity && hasVanity && guild.getVanityUrlCode() != null) {
+                  addInfo(ctx, info, "Vanity URL", "discord.gg/" + guild.getVanityUrlCode(), null);
                 }
 
                 if(showOwner && owner != null) {
@@ -117,7 +119,10 @@ public class GuildProfiles extends Plugin {
                   while(discrim.length() < 4){
                     discrim = "0" + discrim;
                   }
-                  addInfo(ctx, info, "Owner", owner.getUsername() + "#" + discrim);
+                  addInfo(ctx, info, "Owner", owner.getUsername() + "#" + discrim, e -> {
+                    Fragment f = new Fragment(infoId);
+                    WidgetUserSheet.Companion.show(owner.getId(), f.getParentFragmentManager());
+                  });
                 }
                 
                 layout.addView(info, 0);
@@ -130,18 +135,24 @@ public class GuildProfiles extends Plugin {
         }));
     }
 
-    public void addInfo(Context c, LinearLayout layout, String name, String value) {
+    public void addInfo(Context c, LinearLayout layout, String name, String value, @Nullable View.OnLongClickListener listener) {
       LinearLayout section = new LinearLayout(c);
       section.setOrientation(LinearLayout.VERTICAL);
       section.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
       section.setBackgroundColor(Color.TRANSPARENT);
       section.setPadding(0, Utils.dpToPx(8), 0, 0);
 
-      section.setOnLongClickListener(e -> {
-        Utils.setClipboard(name, value);
-        Utils.showToast(c, "Copied to clipboard");
-        return true;
-      });
+      if(listener != null) {
+        section.setOnLongClickListener(listener);
+      } else {
+        section.setOnLongClickListener(e -> {
+          Utils.setClipboard(name, value);
+          Utils.showToast(c, "Copied to clipboard");
+          return true;
+        });
+      }
+
+      
 
       TextView header = new TextView(c, null, 0, R.h.UserProfile_Section_Header);
       header.setText(name);
