@@ -137,6 +137,11 @@ public class GuildProfiles extends Plugin {
       section.setBackgroundColor(Color.TRANSPARENT);
       section.setPadding(0, Utils.dpToPx(8), 0, 0);
 
+      section.setOnLongClickListener(e -> {
+        Utils.setClipboard(name, value);
+        return true;
+      });
+
       TextView header = new TextView(c, null, 0, R.h.UserProfile_Section_Header);
       header.setText(name);
       header.setTypeface(ResourcesCompat.getFont(c, Constants.Fonts.whitney_bold));
