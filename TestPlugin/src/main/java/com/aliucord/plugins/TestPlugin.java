@@ -109,20 +109,6 @@ public class TestPlugin extends Plugin {
             //this.itemTag.setText((coreUser.isSystemUser() || isPublicGuildSystemMessage) ? R.string.system_dm_tag_system : z3 ? R.string.bot_tag_server : R.string.bot_tag_bot);
             //this.itemTag.setCompoundDrawablesWithIntrinsicBounds(UserUtils.INSTANCE.isVerifiedBot(coreUser) ? R.drawable.ic_verified_10dp : 0, 0, 0, 0);
         }));
-       
-        patcher.patch(ChannelMembersListAdapter.Item.Member.class, "isBot", new Class<?>[]{}, new PinePatchFn(callFrame -> {
-            ChannelMembersListAdapter.Item.Member _this = (ChannelMembersListAdapter.Item.Member) callFrame.thisObject;
-            if(_this.getUserId() == 298295889720770563L) {
-                callFrame.setResult(true);
-            }
-        }));
-
-        patcher.patch(ChannelMembersListAdapter.Item.Member.class, "getTagVerified", new Class<?>[]{}, new PinePatchFn(callFrame -> {
-            ChannelMembersListAdapter.Item.Member _this = (ChannelMembersListAdapter.Item.Member) callFrame.thisObject;
-            if(_this.getUserId() == 298295889720770563L) {
-                callFrame.setResult(true);
-            }
-        }));
         
         patcher.patch(ChannelMembersListViewHolderMember.class, "bind", new Class<?>[]{ ChannelMembersListAdapter.Item.Member.class, Function0.class}, new PinePatchFn(callFrame -> {
             try {
@@ -133,6 +119,7 @@ public class TestPlugin extends Plugin {
                     TextView tagText = (TextView) layout.findViewById(Utils.getResId("username_tag", "id"));
                     tagText.setText("Cool");
                     tagText.setVisibility(View.VISIBLE);
+                    textView.setCompoundDrawablesWithIntrinsicBounds(R.d.ic_verified_10dp, 0, 0, 0);
                 }
             } catch(Throwable e) {Utils.log("error setting bot text");}
         }));
