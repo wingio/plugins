@@ -19,7 +19,7 @@ import com.aliucord.Logger;
 import com.aliucord.PluginManager;
 import com.aliucord.entities.Plugin;
 import com.aliucord.patcher.PinePatchFn;
-import com.aliucord.plugins.testplugin.*;
+import com.aliucord.plugins.guildprofiles.*;
 import com.discord.utilities.color.ColorCompat;
 import com.discord.api.premium.PremiumTier;
 import com.discord.databinding.WidgetChatOverlayBinding;
@@ -43,9 +43,9 @@ import com.lytefast.flexinput.R;
 import java.util.*;
 import java.lang.reflect.*;
 
-public class TestPlugin extends Plugin {
+public class GuildProfiles extends Plugin {
 
-    public TestPlugin() {
+    public GuildProfiles() {
         settingsTab = new SettingsTab(PluginSettings.class).withArgs(settings);
         needsResources = true;
     }
@@ -61,44 +61,18 @@ public class TestPlugin extends Plugin {
       new Manifest.Author[] {
         new Manifest.Author("Wing", 298295889720770563L),
       };
-    manifest.description = "Used for testing: avatar patch";
-    manifest.version = "1.1.0";
+    manifest.description = "Adds more server information to the server profile sheet";
+    manifest.version = "1.0.0";
     manifest.updateUrl =
       "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
-    manifest.changelog = "New Features {updated marginTop}\n======================\n\n* **Rebranded!** We are now XintoCord";
     return manifest;
   }
 
     @Override
     public void start(Context context) throws Throwable {
         pluginIcon = ResourcesCompat.getDrawable(resources, resources.getIdentifier("ic_editfriend", "drawable", "com.aliucord.plugins"), null );
-        var id = View.generateViewId();
-        
-        patcher.patch(WidgetUrlActions.class, "onViewCreated", new Class<?>[] { View.class, Bundle.class }, new PinePatchFn(callFrame -> {
-            LinearLayout view = (LinearLayout) callFrame.args[0];
-            var ctx = view.getContext();
-            var option = new TextView(view.getContext(), null, 0, R.h.UiKit_Settings_Item_Icon);
-            option.setText("Open in External Browser");
-            option.setId(id);
-            if (pluginIcon != null) pluginIcon.setTint(ColorCompat.getThemedColor(view.getContext(), R.b.colorInteractiveNormal));
-            option.setCompoundDrawablesRelativeWithIntrinsicBounds(pluginIcon,null,null,null);
-            option.setOnClickListener(e -> {
-                String body = view.getContext().getString(2131887249);
-                Utils.log("Body: " + body);
-                Utils.log("Last Changed: " + ctx.getString(2131887250));
-                Utils.log("Revision: " + ctx.getString(2131887252));
-                Utils.log("Video: " + ctx.getString(2131887253));
-                String video = "https://cdn.discordapp.com/attachments/719794226673614879/872727881552396308/7_59_P.M_720P_HD.mp4";
-                body = "New Features {modified marginTop}\n======================\n\n* **Rebranded** We are now XintoCord!";
-                WidgetChangeLog.Companion.launch(ctx, "2021-08-05", "1", "https://cdn.discordapp.com/banners/169256939211980800/eda024c8f40a45c88265a176f0926bea.jpg?size=2048", body);
-            });
-           
-            view.addView(option, 4);
-        }));
-
         final int sheetId = Utils.getResId("guild_profile_sheet_actions", "id");
-        
-        
+
         patcher.patch(WidgetGuildProfileSheet.class, "configureUI", new Class<?>[]{ WidgetGuildProfileSheetViewModel.ViewState.Loaded.class }, new PinePatchFn(callFrame -> {
             WidgetGuildProfileSheet _this = (WidgetGuildProfileSheet) callFrame.thisObject;
             WidgetGuildProfileSheetViewModel.ViewState.Loaded state = (WidgetGuildProfileSheetViewModel.ViewState.Loaded) callFrame.args[0];
@@ -126,22 +100,30 @@ public class TestPlugin extends Plugin {
               }
               
             } catch (Throwable e) {
-              Logger logger = new Logger("TestPlugin");
+              Logger logger = new Logger("GuildProfiles");
               logger.error("Error adding guild info", e);
             }
         }));
     }
 
     public void addInfo(Context c, LinearLayout layout, String name, String value) {
+      LinearLayout section = new LinearLayout(ctx);
+      section.setId(infoId);
+      section.setOrientation(LinearLayout.VERTICAL);
+      section.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+      section.setBackgroundColor(Color.TRANSPARENT);
+      section.setPadding(0, 0, 0, Utils.dpToPx(16));
+
       TextView header = new TextView(c, null, 0, R.h.UserProfile_Section_Header);
       header.setText(name);
       header.setTypeface(ResourcesCompat.getFont(c, Constants.Fonts.whitney_semibold));
-      layout.addView(header);
+      section.addView(header);
 
       TextView info = new TextView(c, null, 0, R.h.UserProfile_Section_Header);
       info.setText(value);
       info.setTypeface(ResourcesCompat.getFont(c, Constants.Fonts.whitney_semibold));
-      layout.addView(info);
+      section.addView(info);
+      layout.addView(section);
     }
 
     @Override
