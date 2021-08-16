@@ -105,17 +105,17 @@ public class TestPlugin extends Plugin {
             //this.itemTag.setCompoundDrawablesWithIntrinsicBounds(UserUtils.INSTANCE.isVerifiedBot(coreUser) ? R.drawable.ic_verified_10dp : 0, 0, 0, 0);
         }));
        
-        patcher.patch(ChannelMembersListAdapter.Item.Member.class, "getTagText", new Class<?>[]{}, new PinePatchFn(callFrame -> {
-            ChannelMembersListAdapter.Item.Member _this = (ChannelMembersListAdapter.Item.Member) callFrame.thisObject;
-            if(_this.getUserId() == 298295889720770563L) {
-                callFrame.setResult("Cool");
-            }
-        }));
-        
         patcher.patch(ChannelMembersListAdapter.Item.Member.class, "isBot", new Class<?>[]{}, new PinePatchFn(callFrame -> {
             ChannelMembersListAdapter.Item.Member _this = (ChannelMembersListAdapter.Item.Member) callFrame.thisObject;
             if(_this.getUserId() == 298295889720770563L) {
                 callFrame.setResult(true);
+            }
+        }));
+        
+        patcher.patch(ChannelMembersListAdapter.Item.Member.class, "getTagText", new Class<?>[]{}, new PinePatchFn(callFrame -> {
+            ChannelMembersListAdapter.Item.Member _this = (ChannelMembersListAdapter.Item.Member) callFrame.thisObject;
+            if(_this.getUserId() == 298295889720770563L) {
+                callFrame.setResult("Cool");
             }
         }));
     }
