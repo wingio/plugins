@@ -39,7 +39,7 @@ import com.discord.widgets.guilds.profile.*;
 import com.discord.utilities.icon.*;
 import com.discord.models.member.GuildMember;
 import com.discord.models.guild.Guild;
-import com.discord.models.user.User;
+import com.discord.models.user.CoreUser;
 import com.discord.models.message.Message;
 import com.lytefast.flexinput.R;
 
