@@ -42,12 +42,13 @@ public final class PluginSettings extends SettingsPage {
         var context = view.getContext();
         var layout = getLinearLayout();
 
-        var expHeader = new TextView(context, null, 0, R.h.UiKit_Settings_Item_Header);
-        expHeader.setTypeface(ResourcesCompat.getFont(context, Constants.Fonts.whitney_semibold));
-        expHeader.setText("Experiments");
-        layout.addView(expHeader);
+        // var expHeader = new TextView(context, null, 0, R.h.UiKit_Settings_Item_Header);
+        // expHeader.setTypeface(ResourcesCompat.getFont(context, Constants.Fonts.whitney_semibold));
+        // expHeader.setText("Experiments");
+        // layout.addView(expHeader);
 
         layout.addView(createSwitch(context, settings, "createdAt", "Display 'Created At'", null, true));
+        layout.addView(createSwitch(context, settings, "joinedAt", "Display 'Joined At'", null, true));
         layout.addView(new Divider(context));
     }
 
