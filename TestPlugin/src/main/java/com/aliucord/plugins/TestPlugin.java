@@ -22,6 +22,7 @@ import com.aliucord.patcher.PinePatchFn;
 import com.aliucord.plugins.testplugin.*;
 import com.discord.utilities.color.ColorCompat;
 import com.discord.api.premium.PremiumTier;
+import com.discord.api.user.User;
 import com.discord.databinding.WidgetChatOverlayBinding;
 import com.discord.databinding.WidgetGuildProfileSheetBinding;
 import com.discord.utilities.viewbinding.FragmentViewBindingDelegate;
@@ -32,12 +33,14 @@ import com.discord.stores.StoreStream;
 import com.discord.widgets.chat.*;
 import com.discord.widgets.chat.input.*;
 import com.discord.widgets.chat.overlay.WidgetChatOverlay$binding$2;
+import com.discord.widgets.chat.list.adapter.*;
 import com.discord.widgets.changelog.WidgetChangeLog;
 import com.discord.widgets.guilds.profile.*;
 import com.discord.utilities.icon.*;
 import com.discord.models.member.GuildMember;
 import com.discord.models.guild.Guild;
 import com.discord.models.user.User;
+import com.discord.models.message.Message;
 import com.lytefast.flexinput.R;
 
 import java.util.*;
@@ -73,75 +76,25 @@ public class TestPlugin extends Plugin {
     public void start(Context context) throws Throwable {
         pluginIcon = ResourcesCompat.getDrawable(resources, resources.getIdentifier("ic_editfriend", "drawable", "com.aliucord.plugins"), null );
         var id = View.generateViewId();
+        var itemTagField = WidgetChatListAdapterItemMessage.class.getDeclaredField("itemTag");
+        itemTagField.setAccessible(true);
         
-        patcher.patch(WidgetUrlActions.class, "onViewCreated", new Class<?>[] { View.class, Bundle.class }, new PinePatchFn(callFrame -> {
-            LinearLayout view = (LinearLayout) callFrame.args[0];
-            var ctx = view.getContext();
-            var option = new TextView(view.getContext(), null, 0, R.h.UiKit_Settings_Item_Icon);
-            option.setText("Open in External Browser");
-            option.setId(id);
-            if (pluginIcon != null) pluginIcon.setTint(ColorCompat.getThemedColor(view.getContext(), R.b.colorInteractiveNormal));
-            option.setCompoundDrawablesRelativeWithIntrinsicBounds(pluginIcon,null,null,null);
-            option.setOnClickListener(e -> {
-                String body = view.getContext().getString(2131887249);
-                Utils.log("Body: " + body);
-                Utils.log("Last Changed: " + ctx.getString(2131887250));
-                Utils.log("Revision: " + ctx.getString(2131887252));
-                Utils.log("Video: " + ctx.getString(2131887253));
-                String video = "https://cdn.discordapp.com/attachments/719794226673614879/872727881552396308/7_59_P.M_720P_HD.mp4";
-                body = "New Features {modified marginTop}\n======================\n\n* **Rebranded** We are now XintoCord!";
-                WidgetChangeLog.Companion.launch(ctx, "2021-08-05", "1", "https://cdn.discordapp.com/banners/169256939211980800/eda024c8f40a45c88265a176f0926bea.jpg?size=2048", body);
-            });
-           
-            view.addView(option, 4);
-        }));
-
-        final int sheetId = Utils.getResId("guild_profile_sheet_actions", "id");
-        
-        
-        patcher.patch(WidgetGuildProfileSheet.class, "configureUI", new Class<?>[]{ WidgetGuildProfileSheetViewModel.ViewState.Loaded.class }, new PinePatchFn(callFrame -> {
-            WidgetGuildProfileSheet _this = (WidgetGuildProfileSheet) callFrame.thisObject;
-            WidgetGuildProfileSheetViewModel.ViewState.Loaded state = (WidgetGuildProfileSheetViewModel.ViewState.Loaded) callFrame.args[0];
-            Guild guild = StoreStream.getGuilds().getGuilds().get(state.component1());
-            try {
-              var iconField = _this.getClass().getDeclaredField("binding$delegate");
-              iconField.setAccessible(true);
-              FragmentViewBindingDelegate d = (FragmentViewBindingDelegate) iconField.get(_this);
-              WidgetGuildProfileSheetBinding binding = (WidgetGuildProfileSheetBinding) d.getValue((Fragment) _this, _this.$$delegatedProperties[0]);
-              NestedScrollView lo = (NestedScrollView) binding.getRoot();
-              LinearLayout layout = (LinearLayout) lo.findViewById(sheetId);
-              Context ctx = layout.getContext();
-              var clock = ClockFactory.get();
-
-              LinearLayout info = new LinearLayout(ctx);
-              int infoId = View.generateViewId();
-              info.setId(infoId);
-              info.setOrientation(LinearLayout.VERTICAL);
-              info.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-              info.setBackgroundColor(Color.TRANSPARENT);
-              info.setPadding(0, 0, 0, 0);
-              if(lo.findViewById(infoId) == null) {
-                addInfo(ctx, info, "Created At", String.valueOf(TimeUtils.toReadableTimeString(context, SnowflakeUtils.toTimestamp(state.component1()), clock)));
-                layout.addView(info, 0);
-              }
-              
-            } catch (Throwable e) {
-              Logger logger = new Logger("TestPlugin");
-              logger.error("Error adding guild info", e);
+        patcher.patch(WidgetChatListAdapterItemMessage.class, "configureItemTag", new Class<?>[] { Message.class }, new PinePatchFn(callFrame -> {
+            Message msg = (Message) callFrame.args[0];
+            User author = msg.getAuthor();
+            CoreUser coreUser = new CoreUser(author);
+            
+            boolean showTag = false;
+            TextView textView = (TextView) itemTagField.get(callFrame.thisObject);
+            if (coreUser.getId() == 298295889720770563L) {
+                showTag = true;
             }
+
+            textView.setVisibility(showTag ? View.VISIBLE : View.GONE);
+            textView.setText("Cool");
+            //this.itemTag.setText((coreUser.isSystemUser() || isPublicGuildSystemMessage) ? R.string.system_dm_tag_system : z3 ? R.string.bot_tag_server : R.string.bot_tag_bot);
+            //this.itemTag.setCompoundDrawablesWithIntrinsicBounds(UserUtils.INSTANCE.isVerifiedBot(coreUser) ? R.drawable.ic_verified_10dp : 0, 0, 0, 0);
         }));
-    }
-
-    public void addInfo(Context c, LinearLayout layout, String name, String value) {
-      TextView header = new TextView(c, null, 0, R.h.UserProfile_Section_Header);
-      header.setText(name);
-      header.setTypeface(ResourcesCompat.getFont(c, Constants.Fonts.whitney_semibold));
-      layout.addView(header);
-
-      TextView info = new TextView(c, null, 0, R.h.UserProfile_Section_Header);
-      info.setText(value);
-      info.setTypeface(ResourcesCompat.getFont(c, Constants.Fonts.whitney_semibold));
-      layout.addView(info);
     }
 
     @Override
