@@ -48,6 +48,8 @@ import com.lytefast.flexinput.R;
 import java.util.*;
 import java.lang.reflect.*;
 
+import kotlin.jvm.functions.Function0;
+
 public class TestPlugin extends Plugin {
 
     public TestPlugin() {
@@ -80,6 +82,8 @@ public class TestPlugin extends Plugin {
         var id = View.generateViewId();
         var itemTagField = WidgetChatListAdapterItemMessage.class.getDeclaredField("itemTag");
         itemTagField.setAccessible(true);
+        var bindingField = ChannelMembersListViewHolderMember.getDeclaredField("binding")
+        bindingField.setAccessible(true);
         
         patcher.patch(WidgetChatListAdapterItemMessage.class, "configureItemTag", new Class<?>[] { Message.class }, new PinePatchFn(callFrame -> {
             Message msg = (Message) callFrame.args[0];
@@ -112,12 +116,17 @@ public class TestPlugin extends Plugin {
             }
         }));
         
-        ///patcher.patch(ChannelMembersListAdapter.Item.Member.class, "getTagText", new Class<?>[]{}, new PinePatchFn(callFrame -> {
-        ///    //ChannelMembersListAdapter.Item.Member _this = (ChannelMembersListAdapter.Item.Member) callFrame.thisObject;
-        ///    if(_this.getUserId() == 298295889720770563L) {
-        ///        callFrame.setResult("Cool");
-        ///    }
-        ///}));
+        patcher.patch(ChannelMembersListViewHolderMember.class, "getTagText", new Class<?>[]{ ChannelMembersListAdapter.Item.Member.class, Function0<Unit>.class}, new PinePatchFn(callFrame -> {
+            try {
+                binding = bindingField.get(callFrame.thisObject);
+                ConstraintLayout layout = (ConstraintLayout) binding.getRoot();
+                ChannelMembersListAdapter.Item.Member user = (ChannelMembersListAdapter.Item.Member) callFrame.args[0];
+                if(user.getUserId() == 298295889720770563L) { 
+                    TextView tagText = (TextView) layout.findViewById(Utils.getResId("username_tag", "id"))
+                    tagText.setText("Cool");
+                }
+            } catch(Throwable e) {Utils.log("error setting bot text");}
+        }));
     }
 
     @Override
