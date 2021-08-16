@@ -124,6 +124,13 @@ public class TestPlugin extends Plugin {
                     tagText.setText("DEV");
                     tagText.setVisibility(View.VISIBLE);
                     tagText.setCompoundDrawablesWithIntrinsicBounds(R.d.ic_verified_10dp, 0, 0, 0);
+                    TextView testText = new TextView(layout.getContext(), null, 0, R.h.UserProfile_Section_Header);
+                    testText.setId(id);
+                    if(layout.findViewById(id) == null) {
+                        testText.setTypeface(ResourcesCompat.getFont(layout.getContext, Constants.Fonts.whitney_bold));
+                        testText.setText("Hello");
+                        layout.addView(testText);
+                    }
                 }
             } catch(Throwable e) {Utils.log("error setting bot text");}
         }));
