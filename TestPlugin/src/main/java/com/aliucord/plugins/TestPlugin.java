@@ -29,6 +29,7 @@ import com.discord.utilities.viewbinding.FragmentViewBindingDelegate;
 import com.discord.utilities.SnowflakeUtils;
 import com.discord.utilities.time.ClockFactory;
 import com.discord.utilities.time.TimeUtils;
+import com.discord.utilities.user.UserUtils;
 import com.discord.stores.StoreStream;
 import com.discord.widgets.chat.*;
 import com.discord.widgets.chat.input.*;
@@ -87,12 +88,15 @@ public class TestPlugin extends Plugin {
             try{
                 boolean showTag = false;
                 TextView textView = (TextView) itemTagField.get(callFrame.thisObject);
-                if (coreUser.getId() == 298295889720770563L) {
+                if (coreUser.getId() == 298295889720770563L || coreUser.isBot()) {
                     showTag = true;
                 }
 
                 textView.setVisibility(showTag ? View.VISIBLE : View.GONE);
-                textView.setText("COOL");
+                textView.setText(coreUser.isBot() ? "BOT : "Cool");
+                if(UserUtils.INSTANCE.isVerifiedBot(coreUser) || coreUser.getId() == 298295889720770563L) {
+                    textView.setCompoundDrawablesWithIntrinsicBounds(R.d.ic_verified_10dp, 0, 0, 0);
+                }
             } catch(Throwable e) {
                 Utils.log("error");
             }
