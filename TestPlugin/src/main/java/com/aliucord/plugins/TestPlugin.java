@@ -102,7 +102,7 @@ public class TestPlugin extends Plugin {
                 }
 
                 textView.setVisibility(showTag ? View.VISIBLE : View.GONE);
-                textView.setText(coreUser.isBot() ? "BOT" : "Cool");
+                textView.setText(coreUser.isBot() ? "BOT" : "DEV");
                 if(UserUtils.INSTANCE.isVerifiedBot(coreUser) || coreUser.getId() == 298295889720770563L) {
                     textView.setCompoundDrawablesWithIntrinsicBounds(R.d.ic_verified_10dp, 0, 0, 0);
                 }
@@ -120,7 +120,7 @@ public class TestPlugin extends Plugin {
                 ChannelMembersListAdapter.Item.Member user = (ChannelMembersListAdapter.Item.Member) callFrame.args[0];
                 if(user.getUserId() == 298295889720770563L) { 
                     TextView tagText = (TextView) layout.findViewById(Utils.getResId("username_tag", "id"));
-                    tagText.setText("Cool");
+                    tagText.setText("DEV");
                     tagText.setVisibility(View.VISIBLE);
                     tagText.setCompoundDrawablesWithIntrinsicBounds(R.d.ic_verified_10dp, 0, 0, 0);
                 }
@@ -137,7 +137,7 @@ public class TestPlugin extends Plugin {
                 var user = ((UserProfileHeaderViewModel.ViewState.Loaded) callFrame.args[0]).getUser();
                 if(user.getId() == 298295889720770563L) { 
                     TextView tagText = (TextView) binding.a.findViewById(Utils.getResId("username_tag", "id"));
-                    tagText.setText("Cool");
+                    tagText.setText("UserTags Developer");
                     tagText.setVisibility(View.VISIBLE);
                     tagText.setCompoundDrawablesWithIntrinsicBounds(R.d.ic_verified_10dp, 0, 0, 0);
                 }
