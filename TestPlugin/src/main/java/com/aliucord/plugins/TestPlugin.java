@@ -26,6 +26,7 @@ import com.discord.api.user.User;
 import com.discord.databinding.WidgetChatOverlayBinding;
 import com.discord.databinding.WidgetGuildProfileSheetBinding;
 import com.discord.databinding.WidgetChannelMembersListItemUserBinding;
+import com.discord.databinding.UserProfileHeaderViewBinding;
 import com.discord.utilities.viewbinding.FragmentViewBindingDelegate;
 import com.discord.utilities.SnowflakeUtils;
 import com.discord.utilities.time.ClockFactory;
@@ -39,6 +40,8 @@ import com.discord.widgets.chat.list.adapter.*;
 import com.discord.widgets.changelog.WidgetChangeLog;
 import com.discord.widgets.guilds.profile.*;
 import com.discord.widgets.channels.memberlist.adapter.*;
+import com.discord.widgets.user.profile.UserProfileHeaderView;
+import com.discord.widgets.user.profile.UserProfileHeaderViewModel;
 import com.discord.utilities.icon.*;
 import com.discord.models.member.GuildMember;
 import com.discord.models.guild.Guild;
@@ -117,6 +120,23 @@ public class TestPlugin extends Plugin {
                 ChannelMembersListAdapter.Item.Member user = (ChannelMembersListAdapter.Item.Member) callFrame.args[0];
                 if(user.getUserId() == 298295889720770563L) { 
                     TextView tagText = (TextView) layout.findViewById(Utils.getResId("username_tag", "id"));
+                    tagText.setText("Cool");
+                    tagText.setVisibility(View.VISIBLE);
+                    tagText.setCompoundDrawablesWithIntrinsicBounds(R.d.ic_verified_10dp, 0, 0, 0);
+                }
+            } catch(Throwable e) {Utils.log("error setting bot text");}
+        }));
+
+        var profileBinding = UserProfileHeaderView.class.getDeclaredField("binding");
+        profileBinding.setAccessible(true);
+
+        patcher.patch(UserProfileHeaderView.class, "updateViewState", new Class<?>[]{ UserProfileHeaderViewModel.ViewState.Loaded.class }, new PinePatchFn(callFrame -> {
+            try {
+                UserProfileHeaderViewBinding binding = (UserProfileHeaderViewBinding) profileBinding.get(callFrame.thisObject);
+                
+                var user = ((UserProfileHeaderViewModel.ViewState.Loaded) callFrame.args[0]).getUser();
+                if(user.getId() == 298295889720770563L) { 
+                    TextView tagText = (TextView) binding.a.findViewById(Utils.getResId("username_tag", "id"));
                     tagText.setText("Cool");
                     tagText.setVisibility(View.VISIBLE);
                     tagText.setCompoundDrawablesWithIntrinsicBounds(R.d.ic_verified_10dp, 0, 0, 0);
