@@ -132,6 +132,7 @@ public class TestPlugin extends Plugin {
                 if(user.getUserId() == 298295889720770563L) { 
                     TextView tagText = (TextView) layout.findViewById(Utils.getResId("username_tag", "id"));
                     tagText.setText("Cool");
+                    tagText.setVisibility(View.VISIBLE);
                 }
             } catch(Throwable e) {Utils.log("error setting bot text");}
         }));
