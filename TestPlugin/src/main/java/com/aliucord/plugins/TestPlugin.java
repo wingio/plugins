@@ -84,14 +84,18 @@ public class TestPlugin extends Plugin {
             User author = msg.getAuthor();
             CoreUser coreUser = new CoreUser(author);
             
-            boolean showTag = false;
-            TextView textView = (TextView) itemTagField.get(callFrame.thisObject);
-            if (coreUser.getId() == 298295889720770563L) {
-                showTag = true;
-            }
+            try{
+                boolean showTag = false;
+                TextView textView = (TextView) itemTagField.get(callFrame.thisObject);
+                if (coreUser.getId() == 298295889720770563L) {
+                    showTag = true;
+                }
 
-            textView.setVisibility(showTag ? View.VISIBLE : View.GONE);
-            textView.setText("Cool");
+                textView.setVisibility(showTag ? View.VISIBLE : View.GONE);
+                textView.setText("Cool");
+            } catch(Throwable e) {
+                Utils.log("error");
+            }
             //this.itemTag.setText((coreUser.isSystemUser() || isPublicGuildSystemMessage) ? R.string.system_dm_tag_system : z3 ? R.string.bot_tag_server : R.string.bot_tag_bot);
             //this.itemTag.setCompoundDrawablesWithIntrinsicBounds(UserUtils.INSTANCE.isVerifiedBot(coreUser) ? R.drawable.ic_verified_10dp : 0, 0, 0, 0);
         }));
