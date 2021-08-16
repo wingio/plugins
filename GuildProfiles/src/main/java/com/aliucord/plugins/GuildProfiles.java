@@ -139,6 +139,7 @@ public class GuildProfiles extends Plugin {
 
       section.setOnLongClickListener(e -> {
         Utils.setClipboard(name, value);
+        Utils.showToast(c, "Copied to clipboard");
         return true;
       });
 
