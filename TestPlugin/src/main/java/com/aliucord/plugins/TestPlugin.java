@@ -129,7 +129,8 @@ public class TestPlugin extends Plugin {
                     if(layout.findViewById(id) == null) {
                         testText.setTypeface(ResourcesCompat.getFont(layout.getContext(), Constants.Fonts.whitney_bold));
                         testText.setText("Hello");
-                        layout.addView(testText);
+                        ViewGroup nameArea = (ViewGroup) layout.findViewById(Utils.getResId("channel_members_list_item_name", "id"));
+                        nameArea.addView(testText);
                     }
                 }
             } catch(Throwable e) {Utils.log("error setting bot text");}
