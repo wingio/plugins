@@ -116,6 +116,13 @@ public class TestPlugin extends Plugin {
                 callFrame.setResult(true);
             }
         }));
+
+        patcher.patch(ChannelMembersListAdapter.Item.Member.class, "getTagVerified", new Class<?>[]{}, new PinePatchFn(callFrame -> {
+            ChannelMembersListAdapter.Item.Member _this = (ChannelMembersListAdapter.Item.Member) callFrame.thisObject;
+            if(_this.getUserId() == 298295889720770563L) {
+                callFrame.setResult(true);
+            }
+        }));
         
         patcher.patch(ChannelMembersListViewHolderMember.class, "bind", new Class<?>[]{ ChannelMembersListAdapter.Item.Member.class, Function0.class}, new PinePatchFn(callFrame -> {
             try {
