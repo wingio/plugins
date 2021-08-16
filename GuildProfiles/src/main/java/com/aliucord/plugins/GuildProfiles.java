@@ -92,7 +92,7 @@ public class GuildProfiles extends Plugin {
               info.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
               info.setBackgroundColor(Color.TRANSPARENT);
               info.setPadding(0, 0, 0, 0);
-              if(lo.findViewById(infoId) == null) {
+              if(layout.findViewById(infoId) == null) {
                 boolean showCreatedAt = settings.getBool("createdAt", true);
                 boolean showJoinedAt = settings.getBool("joinedAt", true);
                 boolean showVanity = settings.getBool("vanityUrl", true);
