@@ -128,14 +128,14 @@ public class TestPlugin extends Plugin {
                     testText.setId(id);
                     if(layout.findViewById(id) == null) {
                         testText.setTypeface(ResourcesCompat.getFont(layout.getContext(), Constants.Fonts.whitney_bold));
-                        testText.setText("Nitro");
+                        testText.setText("Owner");
                         ViewGroup nameArea = (ViewGroup) layout.findViewById(Utils.getResId("channel_members_list_item_name", "id"));
                         tagText.measure(0, 0);
                         int tagW = tagText.getMeasuredWidth();
                         View name = layout.getChildAt(0);
                         name.measure(0, 0);
                         int nameW = name.getMeasuredWidth();
-                        ViewGroup.LayoutParams params = (ViewGroup.LayoutParams) nameArea.getLayoutParams();
+                        ViewGroup.LayoutParams params = (ViewGroup.LayoutParams) name.getLayoutParams();
                         testText.setPadding(tagW + nameW + Utils.dpToPx(4), 0, 0, 0);
                         testText.setLayoutParams(params);
                         nameArea.addView(testText);
