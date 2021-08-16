@@ -113,7 +113,11 @@ public class GuildProfiles extends Plugin {
                 }
 
                 if(showOwner && owner != null) {
-                  addInfo(ctx, info, "Owner", owner.getUsername() + "#" + owner.getDiscriminator());
+                  String discrim = String.valueOf(owner.getDiscriminator());
+                  while(discrim.length() < 4){
+                    discrim = "0" + discrim;
+                  }
+                  addInfo(ctx, info, "Owner", owner.getUsername() + "#" + discrim);
                 }
                 
                 layout.addView(info, 0);
