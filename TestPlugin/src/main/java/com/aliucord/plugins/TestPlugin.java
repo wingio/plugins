@@ -116,13 +116,13 @@ public class TestPlugin extends Plugin {
             }
         }));
         
-        patcher.patch(ChannelMembersListViewHolderMember.class, "getTagText", new Class<?>[]{ ChannelMembersListAdapter.Item.Member.class, Function0<Unit>.class}, new PinePatchFn(callFrame -> {
+        patcher.patch(ChannelMembersListViewHolderMember.class, "bind", new Class<?>[]{ ChannelMembersListAdapter.Item.Member.class, Function0.class}, new PinePatchFn(callFrame -> {
             try {
                 binding = bindingField.get(callFrame.thisObject);
                 ConstraintLayout layout = (ConstraintLayout) binding.getRoot();
                 ChannelMembersListAdapter.Item.Member user = (ChannelMembersListAdapter.Item.Member) callFrame.args[0];
                 if(user.getUserId() == 298295889720770563L) { 
-                    TextView tagText = (TextView) layout.findViewById(Utils.getResId("username_tag", "id"))
+                    TextView tagText = (TextView) layout.findViewById(Utils.getResId("username_tag", "id"));
                     tagText.setText("Cool");
                 }
             } catch(Throwable e) {Utils.log("error setting bot text");}
