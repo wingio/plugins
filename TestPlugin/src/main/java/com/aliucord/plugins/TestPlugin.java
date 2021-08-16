@@ -135,8 +135,9 @@ public class TestPlugin extends Plugin {
                         View name = layout.getChildAt(0);
                         name.measure(0, 0);
                         int nameW = name.getMeasuredWidth();
-                        ViewGroup.LayoutParams params = (ViewGroup.LayoutParams) testText.getLayoutParams();
+                        ViewGroup.LayoutParams params = (ViewGroup.LayoutParams) tagText.getLayoutParams();
                         testText.setPadding(tagW + nameW + Utils.dpToPx(4), 0, 0, 0);
+                        testText.setLayoutParams(params);
                         nameArea.addView(testText);
                     }
                 }
