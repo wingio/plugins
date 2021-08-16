@@ -33,6 +33,7 @@ import com.discord.widgets.changelog.WidgetChangeLog;
 import com.discord.widgets.guilds.profile.*;
 import com.discord.utilities.icon.*;
 import com.discord.models.member.GuildMember;
+import com.discord.models.guild.Guild;
 import com.discord.models.user.User;
 import com.lytefast.flexinput.R;
 
@@ -98,6 +99,7 @@ public class TestPlugin extends Plugin {
         patcher.patch(WidgetGuildProfileSheet.class, "configureUI", new Class<?>[]{ WidgetGuildProfileSheetViewModel.ViewState.Loaded.class }, new PinePatchFn(callFrame -> {
             WidgetGuildProfileSheet _this = (WidgetGuildProfileSheet) callFrame.thisObject;
             WidgetGuildProfileSheetViewModel.ViewState.Loaded state = (WidgetGuildProfileSheetViewModel.ViewState.Loaded) callFrame.args[0];
+            Guild guild = StoreStream.getGuilds().getGuilds().get(state.component1());
             try {
               var iconField = _this.getClass().getDeclaredField("binding$delegate");
               iconField.setAccessible(true);
