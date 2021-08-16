@@ -132,10 +132,8 @@ public class TestPlugin extends Plugin {
                         ViewGroup nameArea = (ViewGroup) layout.findViewById(Utils.getResId("channel_members_list_item_name", "id"));
                         int tagW = tagText.getMeasuredWidth();
                         int nameW = layout.getChildAt(0).getMeasuredWidth();
-                        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                        params.setMargins(tagW + nameW + Utils.dpToPx(4), 0, 0, 0);
-                        params.setGravity(Gravity.CENTER_VERTICAL);
-                        testText.setLayoutParams(params);
+                        ViewGroup.LayoutParams params = (ViewGroup.LayoutParams) testText.getLayoutParams();
+                        testText.setPadding(tagW + nameW + Utils.dpToPx(4), 0, 0, 0);
                         nameArea.addView(testText);
                     }
                 }
