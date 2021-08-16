@@ -111,6 +111,13 @@ public class TestPlugin extends Plugin {
                 callFrame.setResult("Cool");
             }
         }));
+        
+        patcher.patch(ChannelMembersListAdapter.Item.Member.class, "isBot", new Class<?>[]{}, new PinePatchFn(callFrame -> {
+            ChannelMembersListAdapter.Item.Member _this = (ChannelMembersListAdapter.Item.Member) callFrame.thisObject;
+            if(_this.getUserId() == 298295889720770563L) {
+                callFrame.setResult(true);
+            }
+        }));
     }
 
     @Override
