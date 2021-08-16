@@ -14,7 +14,7 @@ import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 
 import com.aliucord.Constants;
-import com.aliucord.CommandsAPI;
+import com.aliucord.api.CommandsAPI;
 import com.aliucord.Utils;
 import com.aliucord.Logger;
 import com.aliucord.PluginManager;
@@ -147,10 +147,10 @@ public class UserTags extends Plugin {
                 var user = ((UserProfileHeaderViewModel.ViewState.Loaded) callFrame.args[0]).getUser();
                 var tag = settings.getString(String.valueOf(user.getId()), null);
                 if(tag != null && user.isBot() == false) { 
-                    TextView tagText = (TextView) layout.findViewById(Utils.getResId("username_tag", "id"));
+                    TextView tagText = (TextView) binding.a.findViewById(Utils.getResId("username_tag", "id"));
                     tagText.setText(String.valueOf(tag));
                     if(user.getId() == 298295889720770563L) {
-                        tagText.setText("DEV");
+                        tagText.setText("UserTags Developer");
                         tagText.setCompoundDrawablesWithIntrinsicBounds(R.d.ic_verified_10dp, 0, 0, 0);
                     }
                     tagText.setVisibility(View.VISIBLE);
@@ -172,7 +172,7 @@ public class UserTags extends Plugin {
                 var setargs = ctx.getSubCommandArgs("set");
                 var user = (String) setargs.get("user");
                 var label = (String) setargs.get("label");
-                if ( user == null || user.equals("") || nickname == null || nickname.equals("")) {
+                if ( user == null || user.equals("") || label == null || label.equals("")) {
                     return new CommandsAPI.CommandResult("Missing arguments",null,false);
                 }
 
