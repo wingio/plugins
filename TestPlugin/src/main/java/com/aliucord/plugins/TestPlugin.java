@@ -82,7 +82,7 @@ public class TestPlugin extends Plugin {
         var id = View.generateViewId();
         var itemTagField = WidgetChatListAdapterItemMessage.class.getDeclaredField("itemTag");
         itemTagField.setAccessible(true);
-        var bindingField = ChannelMembersListViewHolderMember.getDeclaredField("binding")
+        var bindingField = ChannelMembersListViewHolderMember.getDeclaredField("binding");
         bindingField.setAccessible(true);
         
         patcher.patch(WidgetChatListAdapterItemMessage.class, "configureItemTag", new Class<?>[] { Message.class }, new PinePatchFn(callFrame -> {
