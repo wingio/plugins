@@ -107,7 +107,7 @@ public class GuildProfiles extends Plugin {
     }
 
     public void addInfo(Context c, LinearLayout layout, String name, String value) {
-      LinearLayout section = new LinearLayout(ctx);
+      LinearLayout section = new LinearLayout(c);
       section.setOrientation(LinearLayout.VERTICAL);
       section.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
       section.setBackgroundColor(Color.TRANSPARENT);
