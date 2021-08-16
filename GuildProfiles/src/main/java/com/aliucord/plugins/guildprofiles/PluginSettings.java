@@ -1,4 +1,4 @@
-package com.aliucord.plugins.testplugin;
+package com.aliucord.plugins.guildprofiles;
 
 import android.annotation.SuppressLint;
 import android.view.View;
@@ -39,12 +39,15 @@ public final class PluginSettings extends SettingsPage {
         setActionBarTitle(plugin);
         setPadding(0);
 
+        var context = view.getContext();
+        var layout = getLinearLayout();
+
         var expHeader = new TextView(context, null, 0, R.h.UiKit_Settings_Item_Header);
         expHeader.setTypeface(ResourcesCompat.getFont(context, Constants.Fonts.whitney_semibold));
         expHeader.setText("Experiments");
         layout.addView(expHeader);
 
-        layout.addView(createSwitch(context, settings, "allBots", "Mark everyone as bots", null, false));
+        layout.addView(createSwitch(context, settings, "createdAt", "Display 'Created At'", null, true));
         layout.addView(new Divider(context));
     }
 
