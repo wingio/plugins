@@ -130,8 +130,11 @@ public class TestPlugin extends Plugin {
                         testText.setTypeface(ResourcesCompat.getFont(layout.getContext(), Constants.Fonts.whitney_bold));
                         testText.setText("Hello");
                         ViewGroup nameArea = (ViewGroup) layout.findViewById(Utils.getResId("channel_members_list_item_name", "id"));
+                        tagText.measure(0, 0);
                         int tagW = tagText.getMeasuredWidth();
-                        int nameW = layout.getChildAt(0).getMeasuredWidth();
+                        View name = layout.getChildAt(0);
+                        name.measure(0, 0);
+                        int nameW = name.getMeasuredWidth();
                         ViewGroup.LayoutParams params = (ViewGroup.LayoutParams) testText.getLayoutParams();
                         testText.setPadding(tagW + nameW + Utils.dpToPx(4), 0, 0, 0);
                         nameArea.addView(testText);
