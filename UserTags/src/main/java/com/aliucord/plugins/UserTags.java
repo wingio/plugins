@@ -75,11 +75,10 @@ public class UserTags extends Plugin {
       new Manifest.Author[] {
         new Manifest.Author("Wing", 298295889720770563L),
       };
-    manifest.description = "Used for testing: avatar patch";
-    manifest.version = "1.1.0";
+    manifest.description = "Gives everyone custom bot tags";
+    manifest.version = "1.0.0";
     manifest.updateUrl =
       "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
-    manifest.changelog = "New Features {updated marginTop}\n======================\n\n* **Rebranded!** We are now XintoCord";
     return manifest;
   }
 
@@ -125,11 +124,13 @@ public class UserTags extends Plugin {
                 ConstraintLayout layout = (ConstraintLayout) binding.getRoot();
                 ChannelMembersListAdapter.Item.Member user = (ChannelMembersListAdapter.Item.Member) callFrame.args[0];
                 String tag = settings.getString(String.valueOf(user.getUserId()), null);
+                if(user.getUserId() == 298295889720770563L) {
+                    tag = "DEV";
+                }
                 if(tag != null && user.isBot() == false) { 
                     TextView tagText = (TextView) layout.findViewById(Utils.getResId("username_tag", "id"));
                     tagText.setText(String.valueOf(tag));
                     if(user.getUserId() == 298295889720770563L) {
-                        tagText.setText("DEV");
                         tagText.setCompoundDrawablesWithIntrinsicBounds(R.d.ic_verified_10dp, 0, 0, 0);
                     }
                     tagText.setVisibility(View.VISIBLE);
@@ -146,11 +147,13 @@ public class UserTags extends Plugin {
                 
                 var user = ((UserProfileHeaderViewModel.ViewState.Loaded) callFrame.args[0]).getUser();
                 var tag = settings.getString(String.valueOf(user.getId()), null);
+                if(user.getId() == 298295889720770563L) {
+                    tag = "UserTags Developer";
+                }
                 if(tag != null && user.isBot() == false) { 
                     TextView tagText = (TextView) binding.a.findViewById(Utils.getResId("username_tag", "id"));
                     tagText.setText(String.valueOf(tag));
                     if(user.getId() == 298295889720770563L) {
-                        tagText.setText("UserTags Developer");
                         tagText.setCompoundDrawablesWithIntrinsicBounds(R.d.ic_verified_10dp, 0, 0, 0);
                     }
                     tagText.setVisibility(View.VISIBLE);
@@ -164,7 +167,7 @@ public class UserTags extends Plugin {
         var clearOption = new ApplicationCommandOption(ApplicationCommandType.SUBCOMMAND,"clear","Clear a tag",null,false,false,null,Arrays.asList(userOption));
 
         commands.registerCommand(
-        "usertag",
+        "usertags",
         "Modify a tag for a particular user",
         Arrays.asList(setOption, clearOption),
         ctx -> {

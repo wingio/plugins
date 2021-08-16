@@ -15,6 +15,10 @@
         "version": "1.0.0",
         "minimumDiscordVersion": 83210
     },
+    "UserTags": {
+        "version": "1.0.0",
+        "minimumDiscordVersion": 83210
+    },
     "default": {
         "minimumDiscordVersion": 1456,
         "version": "1.0.0",
