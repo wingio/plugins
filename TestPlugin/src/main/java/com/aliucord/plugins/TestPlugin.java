@@ -25,6 +25,9 @@ import com.discord.api.premium.PremiumTier;
 import com.discord.databinding.WidgetChatOverlayBinding;
 import com.discord.databinding.WidgetGuildProfileSheetBinding;
 import com.discord.utilities.viewbinding.FragmentViewBindingDelegate;
+import com.discord.utilities.SnowflakeUtils;
+import com.discord.utilities.time.ClockFactory;
+import com.discord.utilities.time.TimeUtils;
 import com.discord.stores.StoreStream;
 import com.discord.widgets.chat.*;
 import com.discord.widgets.chat.input.*;
@@ -108,23 +111,47 @@ public class TestPlugin extends Plugin {
               NestedScrollView lo = (NestedScrollView) binding.getRoot();
               LinearLayout layout = (LinearLayout) lo.findViewById(sheetId);
               Context ctx = layout.getContext();
+              var clock = ClockFactory.get();
 
-              TextView textView = new TextView(ctx, null, 0, R.h.UserProfile_Section_Header);
-              textView.setText("Created At");
-              textView.setId(View.generateViewId());
-              textView.setTypeface(ResourcesCompat.getFont(context, Constants.Fonts.whitney_semibold));
+              LinearLayout info = new LinearLayout(ctx);
+              int infoId = View.generateViewId();
+              info.setId(infoId);
+              info.setOrientation(LinearLayout.VERTICAL);
+              info.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+              info.setBackgroundColor(Color.TRANSPARENT);
+              info.setPadding(0, 0, 0, 0);
 
-              TextView joinDate = new TextView(ctx, null, 0, R.h.UserProfile_Section_Header);
-              joinDate.setText(guild.component25());
-              joinDate.setId(View.generateViewId());
-              joinDate.setTypeface(ResourcesCompat.getFont(context, Constants.Fonts.whitney_semibold));
-              layout.addView(textView, 0);
-              layout.addView(joinDate, 1);
+              // TextView textView = new TextView(ctx, null, 0, R.h.UserProfile_Section_Header);
+              // textView.setText("Created At");
+              // textView.setTypeface(ResourcesCompat.getFont(context, Constants.Fonts.whitney_semibold));
+              // info.addView(textView);
+
+              // TextView joinDate = new TextView(ctx, null, 0, R.h.UserProfile_Section_Header);
+              // joinDate.setText();
+              // joinDate.setId(View.generateViewId());
+              // joinDate.setTypeface(ResourcesCompat.getFont(context, Constants.Fonts.whitney_semibold));
+              // info.addView(joinDate);
+
+              addInfo(ctx, info, "Created At", TimeUtils.toReadableTimeString(context, SnowflakeUtils.toTimestamp(state.component1()), clock));
+
+              layout.addView(info, 0);
             } catch (Throwable e) {
               Logger logger = new Logger("TestPlugin");
               logger.error("Error adding guild info", e);
             }
         }));
+    }
+
+    public void addInfo(Context c, LinearLayout layout, String name, String value) {
+      TextView header = new TextView(c, null, 0, R.h.UserProfile_Section_Header);
+      header.setText(name);
+      header.setTypeface(ResourcesCompat.getFont(c, Constants.Fonts.whitney_semibold));
+      layout.addView(textView);
+
+      TextView info = new TextView(c, null, 0, R.h.UserProfile_Section_Header);
+      joinDate.setText(value);
+      joinDate.setTypeface(ResourcesCompat.getFont(c, Constants.Fonts.whitney_semibold));
+      layout.addView(joinDate);
     }
 
     @Override
