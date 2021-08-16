@@ -127,7 +127,7 @@ public class TestPlugin extends Plugin {
                     TextView testText = new TextView(layout.getContext(), null, 0, R.h.UserProfile_Section_Header);
                     testText.setId(id);
                     if(layout.findViewById(id) == null) {
-                        testText.setTypeface(ResourcesCompat.getFont(layout.getContext, Constants.Fonts.whitney_bold));
+                        testText.setTypeface(ResourcesCompat.getFont(layout.getContext(), Constants.Fonts.whitney_bold));
                         testText.setText("Hello");
                         layout.addView(testText);
                     }
