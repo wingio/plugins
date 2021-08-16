@@ -103,6 +103,7 @@ public class TestPlugin extends Plugin {
 
                 textView.setVisibility(showTag ? View.VISIBLE : View.GONE);
                 textView.setText(coreUser.isBot() ? "BOT" : "DEV");
+                textView.setBackgroundColor(Color.parseColor("#f03a51"));
                 if(UserUtils.INSTANCE.isVerifiedBot(coreUser) || coreUser.getId() == 298295889720770563L) {
                     textView.setCompoundDrawablesWithIntrinsicBounds(R.d.ic_verified_10dp, 0, 0, 0);
                 }
