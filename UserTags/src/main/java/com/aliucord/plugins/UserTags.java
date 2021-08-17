@@ -77,7 +77,7 @@ public class UserTags extends Plugin {
         new Manifest.Author("Wing", 298295889720770563L),
       };
     manifest.description = "Gives everyone custom bot tags";
-    manifest.version = "1.0.1";
+    manifest.version = "1.0.2";
     manifest.updateUrl =
       "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
     return manifest;
@@ -103,14 +103,15 @@ public class UserTags extends Plugin {
                 if (coreUser.getId() == 298295889720770563L || coreUser.isBot() || tag != null) {
                     showTag = true;
                 }
-
-                textView.setVisibility(showTag ? View.VISIBLE : View.GONE);
-                textView.setText(coreUser.isBot() ? "BOT" : String.valueOf(tag));
-                if(coreUser.getId() == 298295889720770563L) {
-                    textView.setText("DEV");
-                }
-                if(UserUtils.INSTANCE.isVerifiedBot(coreUser) || coreUser.getId() == 298295889720770563L) {
-                    textView.setCompoundDrawablesWithIntrinsicBounds(R.d.ic_verified_10dp, 0, 0, 0);
+                if(textView != null){
+                    textView.setVisibility(showTag ? View.VISIBLE : View.GONE);
+                    textView.setText(coreUser.isBot() ? "BOT" : String.valueOf(tag));
+                    if(coreUser.getId() == 298295889720770563L) {
+                        textView.setText("DEV");
+                    }
+                    if(UserUtils.INSTANCE.isVerifiedBot(coreUser) || coreUser.getId() == 298295889720770563L) {
+                        textView.setCompoundDrawablesWithIntrinsicBounds(R.d.ic_verified_10dp, 0, 0, 0);
+                    }
                 }
             } catch(Throwable e) {
                 logger.error("Error adding tag to message", e);
