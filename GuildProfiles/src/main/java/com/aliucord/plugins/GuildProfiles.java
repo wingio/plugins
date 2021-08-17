@@ -123,6 +123,7 @@ public class GuildProfiles extends Plugin {
                   addInfo(ctx, info, "Owner", owner.getUsername() + "#" + discrim, e -> {
                       var fm = context.supportFragmentManager;
                       WidgetUserSheet.Companion.show(owner.getId(), fm);
+                      return true;
                   });
                 }
                 
