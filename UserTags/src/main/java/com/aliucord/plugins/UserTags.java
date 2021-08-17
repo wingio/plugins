@@ -66,6 +66,7 @@ public class UserTags extends Plugin {
     }
     
     public RelativeLayout overlay;
+    public Logger logger = new Logger("UserTags");
 
     @NonNull
   @Override
@@ -76,7 +77,7 @@ public class UserTags extends Plugin {
         new Manifest.Author("Wing", 298295889720770563L),
       };
     manifest.description = "Gives everyone custom bot tags";
-    manifest.version = "1.0.0";
+    manifest.version = "1.0.1";
     manifest.updateUrl =
       "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
     return manifest;
@@ -112,10 +113,8 @@ public class UserTags extends Plugin {
                     textView.setCompoundDrawablesWithIntrinsicBounds(R.d.ic_verified_10dp, 0, 0, 0);
                 }
             } catch(Throwable e) {
-                Utils.log("error");
+                logger.error("Error adding tag to message", e);
             }
-            //this.itemTag.setText((coreUser.isSystemUser() || isPublicGuildSystemMessage) ? R.string.system_dm_tag_system : z3 ? R.string.bot_tag_server : R.string.bot_tag_bot);
-            //this.itemTag.setCompoundDrawablesWithIntrinsicBounds(UserUtils.INSTANCE.isVerifiedBot(coreUser) ? R.drawable.ic_verified_10dp : 0, 0, 0, 0);
         }));
         
         patcher.patch(ChannelMembersListViewHolderMember.class, "bind", new Class<?>[]{ ChannelMembersListAdapter.Item.Member.class, Function0.class}, new PinePatchFn(callFrame -> {
@@ -135,7 +134,7 @@ public class UserTags extends Plugin {
                     }
                     tagText.setVisibility(View.VISIBLE);
                 }
-            } catch(Throwable e) {Utils.log("error setting bot text");}
+            } catch(Throwable e) {logger.error("Error setting bot text in member list", e);}
         }));
 
         var profileBinding = UserProfileHeaderView.class.getDeclaredField("binding");
@@ -158,7 +157,7 @@ public class UserTags extends Plugin {
                     }
                     tagText.setVisibility(View.VISIBLE);
                 }
-            } catch(Throwable e) {Utils.log("error setting bot text");}
+            } catch(Throwable e) {logger.error("Error setting bot text in profile sheet", e);}
         }));
 
         var userOption = new ApplicationCommandOption(ApplicationCommandType.USER,"user","User you want to give a tag to",null,true,true,null,null);
