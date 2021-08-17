@@ -16,8 +16,9 @@
         "minimumDiscordVersion": 83210
     },
     "UserTags": {
-        "version": "1.0.0",
-        "minimumDiscordVersion": 83210
+        "version": "1.0.1",
+        "minimumDiscordVersion": 83210,
+        "changelog": "Misc. {added marginTop}\n======================\n\n* **Updated error logs.** Errors now display where they occured and provide a stacktrace"
     },
     "default": {
         "minimumDiscordVersion": 1456,
