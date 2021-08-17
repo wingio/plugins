@@ -13,6 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.aliucord.Constants;
 import com.aliucord.Utils;
@@ -121,7 +122,7 @@ public class GuildProfiles extends Plugin {
                     discrim = "0" + discrim;
                   }
                   addInfo(ctx, info, "Owner", owner.getUsername() + "#" + discrim, e -> {
-                      var fm = context.getSupportFragmentManager();
+                      var fm = ((AppCompatActivity) context).getSupportFragmentManager();
                       WidgetUserSheet.Companion.show(owner.getId(), fm);
                       return true;
                   });
