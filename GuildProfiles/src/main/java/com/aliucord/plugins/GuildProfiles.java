@@ -120,7 +120,7 @@ public class GuildProfiles extends Plugin {
                     discrim = "0" + discrim;
                   }
                   addInfo(ctx, info, "Owner", owner.getUsername() + "#" + discrim, e -> {
-                    Fragment f = new Fragment(lo.getContentViewResId());
+                    Fragment f = new Fragment(lo.getId());
                     WidgetUserSheet.Companion.show(owner.getId(), f.getParentFragmentManager());
                     return true;
                   });
