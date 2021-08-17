@@ -41,6 +41,7 @@ import com.discord.utilities.icon.*;
 import com.discord.models.member.GuildMember;
 import com.discord.models.guild.Guild;
 import com.discord.models.user.User;
+import com.discord.app.AppBottomSheet;
 import com.lytefast.flexinput.R;
 
 import java.util.*;
@@ -122,7 +123,8 @@ public class GuildProfiles extends Plugin {
                     discrim = "0" + discrim;
                   }
                   addInfo(ctx, info, "Owner", owner.getUsername() + "#" + discrim, e -> {
-                      var fm = ((AppCompatActivity) Utils.getAppContext()).getSupportFragmentManager();
+                      var fm = ((AppCompatActivity)  AppBottomSheet.requireAppActivity().getApplicationContext()).getSupportFragmentManager();
+                     
                       WidgetUserSheet.Companion.show(owner.getId(), fm);
                       return true;
                   });
