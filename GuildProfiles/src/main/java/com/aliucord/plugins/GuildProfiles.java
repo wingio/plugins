@@ -119,14 +119,14 @@ public class GuildProfiles extends Plugin {
                   while(discrim.length() < 4){
                     discrim = "0" + discrim;
                   }
-                  addInfo(ctx, info, "Owner", owner.getUsername() + "#" + discrim, e -> {
-                    Fragment f = new Fragment(Utils.getResId("widget_user_sheet", "layout"));
-                    WidgetUserSheet.Companion.show(owner.getId(), f.getParentFragmentManager());
-                    return true;
-                  });
+                  addInfo(ctx, info, "Owner", owner.getUsername() + "#" + discrim, null);
                 }
                 
                 layout.addView(info, 0);
+              }
+
+              if(showLocale && guild.getPreferredLocale() != null) {
+                  addInfo(ctx, info, "Language", guild.getPreferredLocale(), null);
               }
               
             } catch (Throwable e) {
