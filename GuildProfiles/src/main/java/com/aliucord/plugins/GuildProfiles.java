@@ -122,7 +122,7 @@ public class GuildProfiles extends Plugin {
                     discrim = "0" + discrim;
                   }
                   addInfo(ctx, info, "Owner", owner.getUsername() + "#" + discrim, e -> {
-                      var fm = ((AppCompatActivity) e.getAppActivity()).getSupportFragmentManager();
+                      var fm = ((AppCompatActivity) Utils.getAppContext()).getSupportFragmentManager();
                       WidgetUserSheet.Companion.show(owner.getId(), fm);
                       return true;
                   });
