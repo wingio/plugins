@@ -98,6 +98,7 @@ public class GuildProfiles extends Plugin {
                 boolean showJoinedAt = settings.getBool("joinedAt", true);
                 boolean showVanity = settings.getBool("vanityUrl", true);
                 boolean showOwner = settings.getBool("owner", true);
+                boolean showLocale = settings.getBool("locale", true);
 
                 boolean hasVanity = guild.canHaveVanityURL();
                 User owner = StoreStream.getUsers().getUsers().get(guild.getOwnerId());
@@ -122,12 +123,13 @@ public class GuildProfiles extends Plugin {
                   addInfo(ctx, info, "Owner", owner.getUsername() + "#" + discrim, null);
                 }
                 
+                if(showLocale && guild.getPreferredLocale() != null) {
+                    addInfo(ctx, info, "Language", guild.getPreferredLocale(), null);
+                }
+                
                 layout.addView(info, 0);
               }
 
-              if(showLocale && guild.getPreferredLocale() != null) {
-                  addInfo(ctx, info, "Language", guild.getPreferredLocale(), null);
-              }
               
             } catch (Throwable e) {
               Logger logger = new Logger("GuildProfiles");
