@@ -1,4 +1,4 @@
-include ':UserTags'
+include ':GuildProfiles'
 rootProject.name = "plugins"
 
 include ':DiscordStubs'
