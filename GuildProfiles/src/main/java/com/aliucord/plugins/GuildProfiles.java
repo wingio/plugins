@@ -120,7 +120,10 @@ public class GuildProfiles extends Plugin {
                   while(discrim.length() < 4){
                     discrim = "0" + discrim;
                   }
-                  addInfo(ctx, info, "Owner", owner.getUsername() + "#" + discrim, null);
+                  addInfo(ctx, info, "Owner", owner.getUsername() + "#" + discrim, e -> {
+                      var fm = context.supportFragmentManager;
+                      WidgetUserSheet.Companion.show(owner.getId(), fm);
+                  });
                 }
                 
                 if(showLocale && guild.getPreferredLocale() != null) {
