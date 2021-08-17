@@ -21,7 +21,7 @@ import com.aliucord.Logger;
 import com.aliucord.PluginManager;
 import com.aliucord.entities.Plugin;
 import com.aliucord.patcher.PinePatchFn;
-package com.aliucord.fragments.*;
+import com.aliucord.fragments.*;
 import com.aliucord.plugins.guildprofiles.*;
 import com.discord.utilities.color.ColorCompat;
 import com.discord.api.premium.PremiumTier;
