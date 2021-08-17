@@ -21,6 +21,7 @@ import com.aliucord.Logger;
 import com.aliucord.PluginManager;
 import com.aliucord.entities.Plugin;
 import com.aliucord.patcher.PinePatchFn;
+package com.aliucord.fragments.*;
 import com.aliucord.plugins.guildprofiles.*;
 import com.discord.utilities.color.ColorCompat;
 import com.discord.api.premium.PremiumTier;
@@ -123,7 +124,7 @@ public class GuildProfiles extends Plugin {
                     discrim = "0" + discrim;
                   }
                   addInfo(ctx, info, "Owner", owner.getUsername() + "#" + discrim, e -> {
-                      var fm = ((AppCompatActivity)  new WidgetUserSheet().getAppActivity()).getSupportFragmentManager();
+                      var fm = new SettingsPage().getParentFragmentManager();
                      
                       WidgetUserSheet.Companion.show(owner.getId(), fm);
                       return true;
