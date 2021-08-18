@@ -13,6 +13,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.core.widget.NestedScrollView;
 
 import com.aliucord.Utils;
+import com.aliucord.Logger;
 import com.aliucord.CollectionUtils;
 import com.aliucord.entities.Plugin;
 import com.aliucord.patcher.PinePatchFn;
@@ -41,6 +42,7 @@ public class FavoriteMessages extends Plugin {
     public static Drawable pluginIcon;
     public RelativeLayout overlay;
     public static final Type msgType = TypeToken.getParameterized(HashMap.class, Long.class, StoredMessage.class).getType();
+    public static Logger logger = new Logger("FavoriteMessages");
 
     @NonNull
   @Override

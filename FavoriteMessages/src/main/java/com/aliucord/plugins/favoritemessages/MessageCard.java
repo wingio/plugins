@@ -19,6 +19,7 @@ import androidx.core.content.res.ResourcesCompat;
 import com.aliucord.Constants;
 import com.aliucord.Utils;
 import com.aliucord.views.*;
+import com.aliucord.plugins.FavoriteMessages;
 import com.discord.utilities.color.ColorCompat;
 import com.discord.views.CheckedSetting;
 import com.google.android.material.card.MaterialCardView;
@@ -31,22 +32,19 @@ public class MessageCard extends MaterialCardView {
     public final TextView authorView;
     public final TextView contentView;
     public final ImageView avatarView;
-    public final String avatarUrl;
+    public String avatarUrl;
 
     public static Bitmap getBitmapFromURL(String src) {
         try {
-            Log.e("src",src);
             URL url = new URL(src);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setDoInput(true);
             connection.connect();
             InputStream input = connection.getInputStream();
             Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            Log.e("Bitmap","returned");
             return myBitmap;
         } catch (IOException e) {
-            e.printStackTrace();
-            Log.e("Exception",e.getMessage());
+            FavoriteMessages.logger.error("Error getting bitmap from URL", e);
             return null;
         }
     }
