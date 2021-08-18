@@ -47,6 +47,7 @@ import com.discord.models.member.GuildMember;
 import com.discord.models.guild.Guild;
 import com.discord.models.user.CoreUser;
 import com.discord.models.message.Message;
+import com.discord.utilities.view.text.SimpleDraweeSpanTextView;
 import com.lytefast.flexinput.R;
 
 import java.util.*;
@@ -88,6 +89,8 @@ public class TestPlugin extends Plugin {
         itemTagField.setAccessible(true);
         var avField = WidgetChatListAdapterItemMessage.class.getDeclaredField("itemAvatar");
         avField.setAccessible(true);
+        var textField = WidgetChatListAdapterItemMessage.class.getDeclaredField("itemText");
+        textField.setAccessible(true);
         var bindingField = ChannelMembersListViewHolderMember.class.getDeclaredField("binding");
         bindingField.setAccessible(true);
         
@@ -104,7 +107,9 @@ public class TestPlugin extends Plugin {
                 }
                 ImageView av = (ImageView) avField.get(callFrame.thisObject);
                 av.setVisibility(View.GONE);
-                av.setLayoutParams(new ConstraintLayout.LayoutParams(0, imageView.getLayoutParams().height));
+                av.setLayoutParams(new ConstraintLayout.LayoutParams(0, av.getLayoutParams().height));
+                SimpleDraweeSpanTextView content =  (SimpleDraweeSpanTextView) textField.get(callFrame.thisObject);
+                content.setPadding(0, 0, 0, 0);
 
                 textView.setVisibility(showTag ? View.VISIBLE : View.GONE);
                 textView.setText(coreUser.isBot() ? "BOT" : "DEV");
