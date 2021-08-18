@@ -22,6 +22,7 @@ import com.lytefast.flexinput.R;
 
 import kotlin.Unit;
 import java.util.Arrays;
+import java.lang.CharSequence;
 
 @SuppressLint("SetTextI18n")
 public final class PluginSettings extends SettingsPage {
@@ -50,7 +51,7 @@ public final class PluginSettings extends SettingsPage {
         layout.addView(createSwitch(context, settings, "createdAt", "Display 'Created At'", null, true));
         layout.addView(createSwitch(context, settings, "joinedAt", "Display 'Joined At'", null, true));
         layout.addView(createSwitch(context, settings, "vanityUrl", "Display 'Vanity URL'", null, true));
-        layout.addView(createSwitch(context, settings, "owner", "Display 'Owner'", Utils.renderMd("**Hint**: Long press on this field to open up their profile!"), true));
+        layout.addView(createSwitch(context, settings, "owner", "Display 'Owner'", Utils.renderMD("**Hint**: Long press on this field to open up their profile!"), true));
         layout.addView(createSwitch(context, settings, "locale", "Display 'Language'", null, true));
         layout.addView(new Divider(context));
     }
@@ -60,7 +61,7 @@ public final class PluginSettings extends SettingsPage {
         PluginManager.startPlugin(plugin);
     }
 
-    private CheckedSetting createSwitch(Context context, SettingsAPI sets, String key, String label, String subtext, boolean defaultValue) {
+    private CheckedSetting createSwitch(Context context, SettingsAPI sets, String key, String label, CharSequence subtext, boolean defaultValue) {
         CheckedSetting cs = Utils.createCheckedSetting(context, CheckedSetting.ViewType.SWITCH, label, subtext);
         cs.setChecked(sets.getBool(key, defaultValue));
         cs.setOnCheckedListener(c -> sets.setBool(key, c));
