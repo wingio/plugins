@@ -135,7 +135,7 @@ public class GuildProfiles extends Plugin {
                     addInfo(ctx, info, "Language", guild.getPreferredLocale(), null);
                 }
                 
-                layout.addView(info, 2);
+                layout.addView(info, 3);
               }
 
               
