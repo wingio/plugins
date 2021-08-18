@@ -172,7 +172,7 @@ public class GuildProfiles extends Plugin {
 
       TextView info = new TextView(c, null, 0, R.h.UserProfile_Section_Header);
       info.setText(value);
-      info.setTypeface(ResourcesCompat.getFont(c, Constants.Fonts.whitney_semibold));
+      info.setTypeface(ResourcesCompat.getFont(c, Constants.Fonts.whitney_medium));
       section.addView(info);
       layout.addView(section);
     }
