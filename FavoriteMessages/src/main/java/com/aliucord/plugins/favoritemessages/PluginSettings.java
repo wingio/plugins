@@ -30,6 +30,7 @@ import androidx.core.content.res.ResourcesCompat;
 
 import com.aliucord.PluginManager;
 import com.aliucord.Utils;
+import com.aliucord.Logger;
 import com.aliucord.CollectionUtils;
 import com.aliucord.plugins.FavoriteMessages;
 import com.aliucord.api.SettingsAPI;
@@ -160,9 +161,12 @@ public class PluginSettings extends SettingsPage {
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             StoredMessage msg = data.get(position);
             Long meId = StoreStream.getUsers().getMe().getId();
-            try{
+            try {
                 DraweeSpanStringBuilder cnt = DiscordParser.parseChannelMessage(ctx, msg.content, new MessageRenderContext(ctx, meId, true), new MessagePreprocessor(meId, null),false);
                 holder.card.contentView.setText(cnt);
+            } catch (Throwable e) {
+                Logger l = new Logger("FavoriteMessages");
+                l.error("Error displaying message content", e);
             }
             
             holder.card.setOnLongClickListener(e -> {
