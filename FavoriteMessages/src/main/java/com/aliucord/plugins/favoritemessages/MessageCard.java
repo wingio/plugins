@@ -66,7 +66,6 @@ public class MessageCard extends MaterialCardView {
 
         avatarView = new ImageView(ctx);
         avatarView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        avatarView.setImageResource(R.drawable.ic_avatar_default);
         LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(Utils.dpToPx(38),Utils.dpToPx(38));
         avatarView.setLayoutParams(parms);
         Utils.threadPool.execute(() -> {
