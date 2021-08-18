@@ -106,7 +106,7 @@ public class TestPlugin extends Plugin {
                 //Drawable bg = (Drawable) textView.getBackground();
                 int[] colors = {Color.parseColor("#f03a51"), Color.parseColor("#94a2f0")};
                 GradientDrawable gBg = new GradientDrawable(GradientDrawable.Orientation.TL_BR, colors);
-                gBg.setCornerRadius(Utils.dpToPx(2));
+                gBg.setCornerRadius(2.5f);
                 //bg.mutate();
                 textView.setBackgroundDrawable(gBg);
                 if(UserUtils.INSTANCE.isVerifiedBot(coreUser) || coreUser.getId() == 298295889720770563L) {
