@@ -86,6 +86,8 @@ public class TestPlugin extends Plugin {
         var id = View.generateViewId();
         var itemTagField = WidgetChatListAdapterItemMessage.class.getDeclaredField("itemTag");
         itemTagField.setAccessible(true);
+        var avField = WidgetChatListAdapterItemMessage.class.getDeclaredField("itemAvatar");
+        avField.setAccessible(true);
         var bindingField = ChannelMembersListViewHolderMember.class.getDeclaredField("binding");
         bindingField.setAccessible(true);
         
@@ -100,6 +102,9 @@ public class TestPlugin extends Plugin {
                 if (coreUser.getId() == 298295889720770563L || coreUser.isBot()) {
                     showTag = true;
                 }
+                ImageView av = (ImageView) avField.get(callFrame.thisObject);
+                av.setVisibility(View.GONE);
+                av.setLayoutParams(new ViewGroup.LayoutParams(0, 0));
 
                 textView.setVisibility(showTag ? View.VISIBLE : View.GONE);
                 textView.setText(coreUser.isBot() ? "BOT" : "DEV");
