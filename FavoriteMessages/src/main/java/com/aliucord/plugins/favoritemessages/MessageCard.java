@@ -9,8 +9,9 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.method.LinkMovementMethod;
 import android.view.Gravity;
-import android.view.View;
+import android.view.*;
 import android.widget.*;
+import android.graphics.*;
 
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
@@ -21,13 +22,34 @@ import com.aliucord.views.*;
 import com.discord.utilities.color.ColorCompat;
 import com.discord.views.CheckedSetting;
 import com.google.android.material.card.MaterialCardView;
+import java.net.*;
+import java.io.*;
 import com.lytefast.flexinput.R;
 
 public class MessageCard extends MaterialCardView {
     public final LinearLayout root;
-    // public final TextView authorView;
+    public final TextView authorView;
     public final TextView contentView;
-    // public final ImageView avatarView;
+    public final ImageView avatarView;
+    public final String avatarUrl;
+
+    public static Bitmap getBitmapFromURL(String src) {
+        try {
+            Log.e("src",src);
+            URL url = new URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            Log.e("Bitmap","returned");
+            return myBitmap;
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.e("Exception",e.getMessage());
+            return null;
+        }
+    }
 
     @SuppressLint("SetTextI18n")
     public MessageCard(Context ctx) {
@@ -43,7 +65,28 @@ public class MessageCard extends MaterialCardView {
 
         contentView = new TextView(ctx, null, 0, R.h.UiKit_Settings_Item_Addition);
         contentView.setPadding(p, p, p, p2);
+
+        avatarView = new ImageView(ctx);
+        avatarView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        avatarView.setImageResource(R.drawable.ic_avatar_default);
+        LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(Utils.dpToPx(38),Utils.dpToPx(38));
+        avatarView.setLayoutParams(parms);
+        Utils.threadPool.execute(() -> {
+            avatarView.setImageBitmap(getBitmapFromURL(avatarUrl));
+        });
+
+        authorView = new TextView(ctx);
+        authorView.setTextSize(16.0f);
+        authorView.setTypeface(ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_semibold));
+
+        LinearLayout authorField = new LinearLayout(ctx);
+        authorField.setOrientation(LinearLayout.HORIZONTAL);
+        authorField.addView(avatarView);
+        authorField.addView(authorView);
+
+        root.addView(authorField);
         root.addView(contentView);
+
 
         addView(root);
     }
