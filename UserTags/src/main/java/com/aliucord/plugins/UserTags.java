@@ -186,7 +186,7 @@ public class UserTags extends Plugin {
                 }
 
                 settings.setString(user, String.valueOf(label));
-                settings.setBool(user + "_verified", verified)
+                settings.setBool(user + "_verified", verified);
 
                 return new CommandsAPI.CommandResult("Set tag", null, false);
             }
