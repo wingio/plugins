@@ -77,7 +77,8 @@ public class UserTags extends Plugin {
         new Manifest.Author("Wing", 298295889720770563L),
       };
     manifest.description = "Gives everyone custom bot tags";
-    manifest.version = "1.0.2";
+    manifest.version = "1.1.0";
+    manifest.changelog = "New {added marginTop}\n======================\n\n* **Verified tags!** You can now set a tag as verified when using the '/usertags set' command";
     manifest.updateUrl =
       "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
     return manifest;
@@ -100,6 +101,7 @@ public class UserTags extends Plugin {
                 boolean showTag = false;
                 TextView textView = (TextView) itemTagField.get(callFrame.thisObject);
                 String tag = settings.getString(String.valueOf(coreUser.getId()), null);
+                boolean verified = settings.getBool(coreUser.getId() + "_verified", false);
                 if (coreUser.getId() == 298295889720770563L || coreUser.isBot() || tag != null) {
                     showTag = true;
                 }
@@ -109,7 +111,7 @@ public class UserTags extends Plugin {
                     if(coreUser.getId() == 298295889720770563L) {
                         textView.setText("DEV");
                     }
-                    if(UserUtils.INSTANCE.isVerifiedBot(coreUser) || coreUser.getId() == 298295889720770563L) {
+                    if(UserUtils.INSTANCE.isVerifiedBot(coreUser) || coreUser.getId() == 298295889720770563L || verified == true) {
                         textView.setCompoundDrawablesWithIntrinsicBounds(R.d.ic_verified_10dp, 0, 0, 0);
                     }
                 }
@@ -124,13 +126,14 @@ public class UserTags extends Plugin {
                 ConstraintLayout layout = (ConstraintLayout) binding.getRoot();
                 ChannelMembersListAdapter.Item.Member user = (ChannelMembersListAdapter.Item.Member) callFrame.args[0];
                 String tag = settings.getString(String.valueOf(user.getUserId()), null);
+                boolean verified = settings.getBool(user.getUserId() + "_verified", false);
                 if(user.getUserId() == 298295889720770563L) {
                     tag = "DEV";
                 }
                 if(tag != null && user.isBot() == false) { 
                     TextView tagText = (TextView) layout.findViewById(Utils.getResId("username_tag", "id"));
                     tagText.setText(String.valueOf(tag));
-                    if(user.getUserId() == 298295889720770563L) {
+                    if(user.getUserId() == 298295889720770563L || verified == true) {
                         tagText.setCompoundDrawablesWithIntrinsicBounds(R.d.ic_verified_10dp, 0, 0, 0);
                     }
                     tagText.setVisibility(View.VISIBLE);
@@ -147,13 +150,14 @@ public class UserTags extends Plugin {
                 
                 var user = ((UserProfileHeaderViewModel.ViewState.Loaded) callFrame.args[0]).getUser();
                 var tag = settings.getString(String.valueOf(user.getId()), null);
+                boolean verified = settings.getBool(coreUser.getId() + "_verified", false);
                 if(user.getId() == 298295889720770563L) {
                     tag = "UserTags Developer";
                 }
                 if(tag != null && user.isBot() == false) { 
                     TextView tagText = (TextView) binding.a.findViewById(Utils.getResId("username_tag", "id"));
                     tagText.setText(String.valueOf(tag));
-                    if(user.getId() == 298295889720770563L) {
+                    if(user.getId() == 298295889720770563L || verified == true) {
                         tagText.setCompoundDrawablesWithIntrinsicBounds(R.d.ic_verified_10dp, 0, 0, 0);
                     }
                     tagText.setVisibility(View.VISIBLE);
@@ -163,9 +167,9 @@ public class UserTags extends Plugin {
 
         var userOption = new ApplicationCommandOption(ApplicationCommandType.USER,"user","User you want to give a tag to",null,true,true,null,null);
         var labelOption = new ApplicationCommandOption(ApplicationCommandType.STRING,"label","The label for the tag",null,true,true,null,null);
-        var setOption = new ApplicationCommandOption(ApplicationCommandType.SUBCOMMAND,"set","Set a tag",null,false,false,null,Arrays.asList(userOption, labelOption));
+        var verifiedOption = new ApplicationCommandOption(ApplicationCommandType.BOOLEAN, "verified", "Whether the tag should show as verified", null, false, false, null, null);
+        var setOption = new ApplicationCommandOption(ApplicationCommandType.SUBCOMMAND,"set","Set a tag",null,false,false,null,Arrays.asList(userOption, labelOption, verifiedOption));
         var clearOption = new ApplicationCommandOption(ApplicationCommandType.SUBCOMMAND,"clear","Clear a tag",null,false,false,null,Arrays.asList(userOption));
-
         commands.registerCommand(
         "usertags",
         "Modify a tag for a particular user",
@@ -175,11 +179,14 @@ public class UserTags extends Plugin {
                 var setargs = ctx.getSubCommandArgs("set");
                 var user = (String) setargs.get("user");
                 var label = (String) setargs.get("label");
+                var verified = (Boolean) setargs.get("verified");
+                verified = verified == null ? false : verified;
                 if ( user == null || user.equals("") || label == null || label.equals("")) {
                     return new CommandsAPI.CommandResult("Missing arguments",null,false);
                 }
 
                 settings.setString(user, String.valueOf(label));
+                settings.setBool(user + "_verified", verified)
 
                 return new CommandsAPI.CommandResult("Set tag", null, false);
             }
