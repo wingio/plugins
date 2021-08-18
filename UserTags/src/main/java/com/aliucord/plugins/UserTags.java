@@ -44,6 +44,7 @@ import com.discord.widgets.channels.memberlist.adapter.*;
 import com.discord.widgets.user.profile.UserProfileHeaderView;
 import com.discord.widgets.user.profile.UserProfileHeaderViewModel;
 import com.discord.utilities.icon.*;
+import com.discord.utilities.guilds.*;
 import com.discord.models.member.GuildMember;
 import com.discord.models.guild.Guild;
 import com.discord.models.user.CoreUser;
@@ -77,7 +78,7 @@ public class UserTags extends Plugin {
         new Manifest.Author("Wing", 298295889720770563L),
       };
     manifest.description = "Gives everyone custom bot tags";
-    manifest.version = "1.1.0";
+    manifest.version = "1.1.1";
     manifest.changelog = "New {added marginTop}\n======================\n\n* **Verified tags!** You can now set a tag as verified when using the '/usertags set' command";
     manifest.updateUrl =
       "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
@@ -102,12 +103,13 @@ public class UserTags extends Plugin {
                 TextView textView = (TextView) itemTagField.get(callFrame.thisObject);
                 String tag = settings.getString(String.valueOf(coreUser.getId()), null);
                 boolean verified = settings.getBool(coreUser.getId() + "_verified", false);
+                boolean isServer = PublicGuildUtils.INSTANCE.isPublicGuildSystemMessage(msg);
                 if (coreUser.getId() == 298295889720770563L || coreUser.isBot() || tag != null) {
                     showTag = true;
                 }
                 if(textView != null){
                     textView.setVisibility(showTag ? View.VISIBLE : View.GONE);
-                    textView.setText(coreUser.isBot() ? "BOT" : String.valueOf(tag));
+                    textView.setText(isServer ? "SERVER" : coreUser.isBot() ? "BOT" : String.valueOf(tag));
                     if(coreUser.getId() == 298295889720770563L) {
                         textView.setText("DEV");
                     }
