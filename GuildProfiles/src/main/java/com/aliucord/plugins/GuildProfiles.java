@@ -135,7 +135,7 @@ public class GuildProfiles extends Plugin {
                     addInfo(ctx, info, "Language", guild.getPreferredLocale(), null);
                 }
                 
-                layout.addView(info, 1);
+                layout.addView(info, 2);
               }
 
               
@@ -151,7 +151,7 @@ public class GuildProfiles extends Plugin {
       section.setOrientation(LinearLayout.VERTICAL);
       section.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
       section.setBackgroundColor(Color.TRANSPARENT);
-      section.setPadding(0, Utils.dpToPx(8), 0, 0);
+      section.setPadding(Utils.dpToPx(2), Utils.dpToPx(8), 0, 0);
 
       if(listener != null) {
         section.setOnLongClickListener(listener);
