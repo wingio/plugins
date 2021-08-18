@@ -8,10 +8,12 @@ package com.aliucord.plugins.favoritemessages;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
+import android.graphics.*;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
+import android.graphics.Bitmap.Config;
+import android.graphics.PorterDuff.Mode;
 import android.content.res.Resources;
 import android.content.res.AssetManager;
 import android.net.Uri;
@@ -169,9 +171,11 @@ public class PluginSettings extends SettingsPage {
                 Logger l = new Logger("FavoriteMessages");
                 l.error("Error displaying message content", e);
             }
-            Utils.threadPool.execute(() -> {
-                holder.card.avatarView.setImageBitmap(holder.card.getBitmapFromURL(String.format("https://cdn.discordapp.com/avatars/%s/%s.png", msg.author.id, msg.author.avatar)));
+            Bitmap avatar;
+            Utils.mainThread.execute(() -> {
+                avatar = holder.card.getBitmapFromURL(String.format("https://cdn.discordapp.com/avatars/%s/%s.png", msg.author.id, msg.author.avatar))
             });
+            holder.card.avatarView.setImageBitmap(getRoundedCornerBitmap(avatar, avatar.getWidth() / 2));
             holder.card.authorView.setText(msg.author.name);
             
             holder.card.setOnLongClickListener(e -> {
@@ -184,6 +188,28 @@ public class PluginSettings extends SettingsPage {
             StoredMessage msg = data.get(position);
             Utils.setClipboard("Message Text", msg.content);
             Utils.showToast(ctx, "Copied message content");
+        }
+
+        public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, int pixels) {
+            Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap
+                    .getHeight(), Config.ARGB_8888);
+            Canvas canvas = new Canvas(output);
+
+            final int color = 0xff424242;
+            final Paint paint = new Paint();
+            final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+            final RectF rectF = new RectF(rect);
+            final float roundPx = pixels;
+
+            paint.setAntiAlias(true);
+            canvas.drawARGB(0, 0, 0, 0);
+            paint.setColor(color);
+            canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+
+            paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
+            canvas.drawBitmap(bitmap, rect, rect, paint);
+
+            return output;
         }
 
 
