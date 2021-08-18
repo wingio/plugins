@@ -125,6 +125,7 @@ public class GuildProfiles extends Plugin {
                   }
                   addInfo(ctx, info, "Owner", owner.getUsername() + "#" + discrim, e -> {
                       WidgetUserSheet.Companion.show(owner.getId(), guild.getId(), _this.getParentFragmentManager(), guild.getId());
+
                       return true;
                   });
                 }
