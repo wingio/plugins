@@ -50,7 +50,7 @@ public final class PluginSettings extends SettingsPage {
         layout.addView(createSwitch(context, settings, "createdAt", "Display 'Created At'", null, true));
         layout.addView(createSwitch(context, settings, "joinedAt", "Display 'Joined At'", null, true));
         layout.addView(createSwitch(context, settings, "vanityUrl", "Display 'Vanity URL'", null, true));
-        layout.addView(createSwitch(context, settings, "owner", "Display 'Owner'", null, true));
+        layout.addView(createSwitch(context, settings, "owner", "Display 'Owner'", Utils.renderMd("**Hint**: Long press on this field to open up their profile!"), true));
         layout.addView(createSwitch(context, settings, "locale", "Display 'Language'", null, true));
         layout.addView(new Divider(context));
     }
