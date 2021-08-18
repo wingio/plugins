@@ -135,7 +135,7 @@ public class PluginSettings extends SettingsPage {
         private final AppFragment fragment;
         private final Context ctx;
         private final List<StoredMessage> originalData;
-        private final Bitmap avatar;
+        private Bitmap avatar;
         private List<StoredMessage> data;
 
         public Adapter(AppFragment fragment, Map<Long, StoredMessage> favorites) {
