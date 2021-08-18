@@ -42,11 +42,13 @@ import com.aliucord.views.ToolbarButton;
 import com.aliucord.widgets.PluginCard;
 import com.aliucord.widgets.BottomSheet;
 import com.discord.utilities.color.ColorCompat;
+import com.discord.utilities.textprocessing.*;
 import com.discord.app.AppBottomSheet;
 import com.discord.app.AppFragment;
 import com.discord.widgets.user.usersheet.WidgetUserSheet;
 import com.discord.widgets.changelog.WidgetChangeLog;
 import com.discord.models.message.Message;
+import com.facebook.drawee.span.DraweeSpanStringBuilder;
 import com.lytefast.flexinput.R;
 
 import kotlin.Unit;
@@ -157,9 +159,12 @@ public class PluginSettings extends SettingsPage {
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             StoredMessage msg = data.get(position);
-            holder.card.contentView.setText(Utils.renderMD(msg.content));
-            Bundle bundle = new Bundle();
-            bundle.putString("content", msg.content);
+            Long meId = StoreStream.getUsers().getMe().getId();
+            try{
+                DraweeSpanStringBuilder cnt = DiscordParser.parseChannelMessage(ctx, msg.content, new MessageRenderContext(ctx, meId, true), new MessagePreprocessor(meId, null),false);
+                holder.card.contentView.setText(cnt);
+            }
+            
             holder.card.setOnLongClickListener(e -> {
                 new MessageOptions(msg, holder.card).show(fragment.getParentFragmentManager(), "Message Options");
                 return true;
