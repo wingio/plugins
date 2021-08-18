@@ -104,8 +104,8 @@ public class TestPlugin extends Plugin {
                 textView.setVisibility(showTag ? View.VISIBLE : View.GONE);
                 textView.setText(coreUser.isBot() ? "BOT" : "DEV");
                 //Drawable bg = (Drawable) textView.getBackground();
-                int[] colors = {Color.parseColor("#f03a51"), Color.parseColor("#94a2f0")}
-                GradientDrawable gBg = new GradientDrawable(GradientDrawable.Orientation.TL_BR, colors)
+                int[] colors = {Color.parseColor("#f03a51"), Color.parseColor("#94a2f0")};
+                GradientDrawable gBg = new GradientDrawable(GradientDrawable.Orientation.TL_BR, colors);
                 gBg.setCornerRadius(2f);
                 //bg.mutate();
                 textView.setBackgroundDrawable(gBg);
