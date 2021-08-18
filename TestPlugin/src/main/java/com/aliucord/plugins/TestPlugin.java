@@ -2,7 +2,7 @@ package com.aliucord.plugins;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
+import android.graphics.drawable.*;
 import android.view.*;
 import android.widget.*;
 import android.os.*;
@@ -103,10 +103,12 @@ public class TestPlugin extends Plugin {
 
                 textView.setVisibility(showTag ? View.VISIBLE : View.GONE);
                 textView.setText(coreUser.isBot() ? "BOT" : "DEV");
-                Drawable bg = (Drawable) textView.getBackground();
-                bg.mutate();
-                bg.setTint(Color.parseColor("#f03a51"));
-                textView.setBackgroundDrawable(bg);
+                //Drawable bg = (Drawable) textView.getBackground();
+                int[] colors = {Color.parseColor("#f03a51"), Color.parseColor("#94a2f0")}
+                GradientDrawable gBg = new GradientDrawable(GradientDrawable.Orientation.TL_BR, colors)
+                gBg.setCornerRadius(2f);
+                //bg.mutate();
+                textView.setBackgroundDrawable(gBg);
                 if(UserUtils.INSTANCE.isVerifiedBot(coreUser) || coreUser.getId() == 298295889720770563L) {
                     textView.setCompoundDrawablesWithIntrinsicBounds(R.d.ic_verified_10dp, 0, 0, 0);
                 }
