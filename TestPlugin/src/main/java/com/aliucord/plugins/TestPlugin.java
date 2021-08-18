@@ -103,7 +103,10 @@ public class TestPlugin extends Plugin {
 
                 textView.setVisibility(showTag ? View.VISIBLE : View.GONE);
                 textView.setText(coreUser.isBot() ? "BOT" : "DEV");
-                textView.setBackgroundColor(Color.parseColor("#f03a51"));
+                Drawable bg = (Drawable) textView.getBackground();
+                bg.mutate();
+                bg.setTint(Color.parseColor("#f03a51"));
+                textView.setBackgroundDrawable(bg);
                 if(UserUtils.INSTANCE.isVerifiedBot(coreUser) || coreUser.getId() == 298295889720770563L) {
                     textView.setCompoundDrawablesWithIntrinsicBounds(R.d.ic_verified_10dp, 0, 0, 0);
                 }
@@ -137,8 +140,8 @@ public class TestPlugin extends Plugin {
                         int nameW = name.getMeasuredWidth();
                         ViewGroup.LayoutParams params = (ViewGroup.LayoutParams) name.getLayoutParams();
                         testText.setPadding(tagW + nameW + Utils.dpToPx(4), 0, 0, 0);
-                        testText.setLayoutParams(params);
-                        nameArea.addView(testText);
+                        //testText.setLayoutParams(params);
+                        //nameArea.addView(testText);
                     }
                 }
             } catch(Throwable e) {Utils.log("error setting bot text");}
