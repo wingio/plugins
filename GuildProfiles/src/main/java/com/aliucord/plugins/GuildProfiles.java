@@ -124,7 +124,7 @@ public class GuildProfiles extends Plugin {
                     discrim = "0" + discrim;
                   }
                   addInfo(ctx, info, "Owner", owner.getUsername() + "#" + discrim, e -> {
-                      WidgetUserSheet.Companion.show(owner.getId(), state.component1(), _this.getParentFragmentManager());
+                      WidgetUserSheet.Companion.show(owner.getId(), null, _this.getParentFragmentManager(), state.component1());
                       return true;
                   });
                 }
