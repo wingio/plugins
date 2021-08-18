@@ -78,7 +78,7 @@ public class UserTags extends Plugin {
         new Manifest.Author("Wing", 298295889720770563L),
       };
     manifest.description = "Gives everyone custom bot tags";
-    manifest.version = "1.1.1";
+    manifest.version = "1.1.2";
     manifest.changelog = "New {added marginTop}\n======================\n\n* **Verified tags!** You can now set a tag as verified when using the '/usertags set' command";
     manifest.updateUrl =
       "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
@@ -103,7 +103,7 @@ public class UserTags extends Plugin {
                 TextView textView = (TextView) itemTagField.get(callFrame.thisObject);
                 String tag = settings.getString(String.valueOf(coreUser.getId()), null);
                 boolean verified = settings.getBool(coreUser.getId() + "_verified", false);
-                boolean isServer = PublicGuildUtils.INSTANCE.isPublicGuildSystemMessage(msg);
+                boolean isServer = (msg.getType() == 0 && msg.getMessageReference() != null);
                 if (coreUser.getId() == 298295889720770563L || coreUser.isBot() || tag != null) {
                     showTag = true;
                 }
