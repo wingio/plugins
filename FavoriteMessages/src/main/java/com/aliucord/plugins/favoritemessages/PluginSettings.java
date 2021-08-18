@@ -172,7 +172,7 @@ public class PluginSettings extends SettingsPage {
                 l.error("Error displaying message content", e);
             }
             Bitmap avatar;
-            Utils.mainThread.execute(() -> {
+            Utils.threadPool.execute(() -> {
                 avatar = holder.card.getBitmapFromURL(String.format("https://cdn.discordapp.com/avatars/%s/%s.png", msg.author.id, msg.author.avatar));
             });
             holder.card.avatarView.setImageBitmap(getRoundedCornerBitmap(avatar, avatar.getWidth() / 2));
