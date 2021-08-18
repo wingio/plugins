@@ -35,6 +35,7 @@ public class MessageCard extends MaterialCardView {
 
     public static Bitmap getBitmapFromURL(String src) {
         try {
+            Bitmap bitmap = new Bitmap();
             Utils.threadPool.execute(() -> {
                 URL url = new URL(src);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -42,8 +43,9 @@ public class MessageCard extends MaterialCardView {
                 connection.connect();
                 InputStream input = connection.getInputStream();
                 Bitmap myBitmap = BitmapFactory.decodeStream(input);
-                return myBitmap;
+                bitmap = myBitmap;
             });
+            return bitmap;
         } catch (Throwable e) {
             FavoriteMessages.logger.error("Error getting bitmap from URL", e);
             return null;
