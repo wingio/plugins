@@ -49,6 +49,7 @@ import com.discord.app.AppFragment;
 import com.discord.widgets.user.usersheet.WidgetUserSheet;
 import com.discord.widgets.changelog.WidgetChangeLog;
 import com.discord.models.message.Message;
+import com.discord.stores.*;
 import com.facebook.drawee.span.DraweeSpanStringBuilder;
 import com.lytefast.flexinput.R;
 
@@ -162,7 +163,7 @@ public class PluginSettings extends SettingsPage {
             StoredMessage msg = data.get(position);
             Long meId = StoreStream.getUsers().getMe().getId();
             try {
-                DraweeSpanStringBuilder cnt = DiscordParser.parseChannelMessage(ctx, msg.content, new MessageRenderContext(ctx, meId, true), new MessagePreprocessor(meId, null),false);
+                DraweeSpanStringBuilder cnt = DiscordParser.parseChannelMessage(ctx, msg.content, new MessageRenderContext(ctx, meId, true), new MessagePreprocessor(meId, null), DiscordParser.ParserOptions, false);
                 holder.card.contentView.setText(cnt);
             } catch (Throwable e) {
                 Logger l = new Logger("FavoriteMessages");
