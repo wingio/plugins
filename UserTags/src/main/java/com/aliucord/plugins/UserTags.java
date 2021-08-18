@@ -150,7 +150,7 @@ public class UserTags extends Plugin {
                 
                 var user = ((UserProfileHeaderViewModel.ViewState.Loaded) callFrame.args[0]).getUser();
                 var tag = settings.getString(String.valueOf(user.getId()), null);
-                boolean verified = settings.getBool(coreUser.getId() + "_verified", false);
+                boolean verified = settings.getBool(user.getId() + "_verified", false);
                 if(user.getId() == 298295889720770563L) {
                     tag = "UserTags Developer";
                 }
