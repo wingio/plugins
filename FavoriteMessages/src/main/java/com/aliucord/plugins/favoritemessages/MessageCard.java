@@ -71,14 +71,17 @@ public class MessageCard extends MaterialCardView {
         
 
         authorView = new TextView(ctx);
-        authorView.setTextSize(20.0f);
-        authorView.setTypeface(ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_semibold));
+        authorView.setTextSize(17.0f);
+        authorView.setTypeface(ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_medium));
         authorView.setTextColor(ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal));
 
         LinearLayout authorField = new LinearLayout(ctx);
         authorField.setOrientation(LinearLayout.HORIZONTAL);
+        authorField.setGravity(Gravity.CENTER_VERTICAL);
+        authorField.setPadding(p, p, p, p2);
         authorField.addView(avatarView);
         authorField.addView(authorView);
+        
 
         root.addView(authorField);
         root.addView(contentView);

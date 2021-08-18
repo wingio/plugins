@@ -173,7 +173,7 @@ public class PluginSettings extends SettingsPage {
             }
             Bitmap avatar;
             Utils.mainThread.execute(() -> {
-                avatar = holder.card.getBitmapFromURL(String.format("https://cdn.discordapp.com/avatars/%s/%s.png", msg.author.id, msg.author.avatar))
+                avatar = holder.card.getBitmapFromURL(String.format("https://cdn.discordapp.com/avatars/%s/%s.png", msg.author.id, msg.author.avatar));
             });
             holder.card.avatarView.setImageBitmap(getRoundedCornerBitmap(avatar, avatar.getWidth() / 2));
             holder.card.authorView.setText(msg.author.name);
