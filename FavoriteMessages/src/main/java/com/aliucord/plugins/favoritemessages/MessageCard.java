@@ -32,7 +32,6 @@ public class MessageCard extends MaterialCardView {
     public final TextView authorView;
     public final TextView contentView;
     public final ImageView avatarView;
-    public String avatarUrl;
 
     public static Bitmap getBitmapFromURL(String src) {
         try {
@@ -60,21 +59,21 @@ public class MessageCard extends MaterialCardView {
         int p2 = p / 2;
 
         root = new LinearLayout(ctx);
+        root.setOrientation(LinearLayout.VERTICAL);
 
         contentView = new TextView(ctx, null, 0, R.h.UiKit_Settings_Item_Addition);
         contentView.setPadding(p, p, p, p2);
 
         avatarView = new ImageView(ctx);
         avatarView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(Utils.dpToPx(38),Utils.dpToPx(38));
+        LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(Utils.dpToPx(48),Utils.dpToPx(48));
         avatarView.setLayoutParams(parms);
-        Utils.threadPool.execute(() -> {
-            avatarView.setImageBitmap(getBitmapFromURL(avatarUrl));
-        });
+        
 
         authorView = new TextView(ctx);
-        authorView.setTextSize(16.0f);
+        authorView.setTextSize(20.0f);
         authorView.setTypeface(ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_semibold));
+        authorView.setTextColor(ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal));
 
         LinearLayout authorField = new LinearLayout(ctx);
         authorField.setOrientation(LinearLayout.HORIZONTAL);

@@ -169,7 +169,9 @@ public class PluginSettings extends SettingsPage {
                 Logger l = new Logger("FavoriteMessages");
                 l.error("Error displaying message content", e);
             }
-            holder.card.avatarUrl = String.format("https://cdn.discordapp.com/avatars/%s/%s.png", msg.author.id, msg.author.avatar);
+            Utils.threadPool.execute(() -> {
+                holder.card.avatarView.setImageBitmap(holder.card.getBitmapFromURL(String.format("https://cdn.discordapp.com/avatars/%s/%s.png", msg.author.id, msg.author.avatar)));
+            });
             holder.card.authorView.setText(msg.author.name);
             
             holder.card.setOnLongClickListener(e -> {
