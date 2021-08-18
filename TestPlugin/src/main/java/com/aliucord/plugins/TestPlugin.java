@@ -104,7 +104,7 @@ public class TestPlugin extends Plugin {
                 }
                 ImageView av = (ImageView) avField.get(callFrame.thisObject);
                 av.setVisibility(View.GONE);
-                av.setLayoutParams(new ViewGroup.LayoutParams(0, 0));
+                av.setLayoutParams(new ConstraintLayout.LayoutParams(0, 0));
 
                 textView.setVisibility(showTag ? View.VISIBLE : View.GONE);
                 textView.setText(coreUser.isBot() ? "BOT" : "DEV");
