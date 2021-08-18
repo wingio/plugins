@@ -158,12 +158,18 @@ public class PluginSettings extends SettingsPage {
             return new ViewHolder(this, new MessageCard(ctx));
         }
 
+        public enum ParserOptions { 
+            DiscordParser.DEFAULT,
+            DiscordParser.ALLOW_MASKED_LINKS,
+            DiscordParser.REPLY 
+        }
+
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             StoredMessage msg = data.get(position);
             Long meId = StoreStream.getUsers().getMe().getId();
             try {
-                DraweeSpanStringBuilder cnt = DiscordParser.parseChannelMessage(ctx, msg.content, new MessageRenderContext(ctx, meId, true), new MessagePreprocessor(meId, null), DiscordParser.ParserOptions, false);
+                DraweeSpanStringBuilder cnt = DiscordParser.parseChannelMessage(ctx, msg.content, new MessageRenderContext(ctx, meId, true), new MessagePreprocessor(meId, null), ParserOptions, false);
                 holder.card.contentView.setText(cnt);
             } catch (Throwable e) {
                 Logger l = new Logger("FavoriteMessages");
@@ -181,6 +187,7 @@ public class PluginSettings extends SettingsPage {
             Utils.setClipboard("Message Text", msg.content);
             Utils.showToast(ctx, "Copied message content");
         }
+
 
         private final Adapter _this = this;
 
