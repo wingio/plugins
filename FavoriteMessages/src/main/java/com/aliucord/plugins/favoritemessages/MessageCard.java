@@ -85,6 +85,7 @@ public class MessageCard extends MaterialCardView {
         authorField.setPadding(p, p, p, p2);
         //authorField.addView(avatarView);
         authorField.addView(authorView);
+        authorField.addView(tagView);
         authorField.addView(dateView);
         
 
