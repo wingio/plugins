@@ -33,11 +33,10 @@ public class MessageCard extends MaterialCardView {
     public final TextView authorView;
     public final TextView contentView;
     public final ImageView avatarView;
-    public Bitmap avatar;
 
     public static Bitmap getBitmapFromURL(String src) {
         try {
-            Bitmap avatar = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
+            final Bitmap avatar = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
             Utils.threadPool.execute(() -> {
                 try {
                     URL url = new URL(src);
