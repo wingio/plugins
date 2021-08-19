@@ -90,13 +90,13 @@ public class PluginSettings extends SettingsPage {
             Drawable delIcon = ContextCompat.getDrawable(optCtx, R.d.ic_delete_24dp);
             delIcon.mutate();
             if (delIcon != null) delIcon.setTint(
-                ColorCompat.getThemedColor(optCtx, R.b.colorInteractiveNormal)
+                ColorCompat.getThemedColor(optCtx, R.c.uikit_btn_bg_color_selector_red)
             );
 
             Drawable copyIcon = ContextCompat.getDrawable(optCtx, R.d.ic_copy_24dp);
             copyIcon.mutate();
             if (copyIcon != null) copyIcon.setTint(
-                ColorCompat.getThemedColor(optCtx, R.c.uikit_btn_bg_color_selector_red)
+                ColorCompat.getThemedColor(optCtx, R.b.colorInteractiveNormal)
             );
             
             var copyId = View.generateViewId();
