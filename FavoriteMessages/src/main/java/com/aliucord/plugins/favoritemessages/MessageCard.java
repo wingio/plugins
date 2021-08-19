@@ -35,8 +35,7 @@ public class MessageCard extends MaterialCardView {
     public final TextView authorView;
     public final TextView contentView;
     public final TextView dateView;
-    public final ImageView avatarView;
-    
+    //public final ImageView avatarView;
 
     @SuppressLint("SetTextI18n")
     public MessageCard(Context ctx) {
