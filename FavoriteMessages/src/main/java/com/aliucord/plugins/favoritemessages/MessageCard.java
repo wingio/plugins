@@ -12,7 +12,9 @@ import android.view.Gravity;
 import android.view.*;
 import android.widget.*;
 import android.graphics.*;
+import android.graphics.drawable.shapes.RectShape;
 import android.graphics.Bitmap.Config;
+import android.graphics.PorterDuff.Mode;
 
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
@@ -33,10 +35,36 @@ public class MessageCard extends MaterialCardView {
     public final TextView authorView;
     public final TextView contentView;
     public final ImageView avatarView;
+    public Bitmap avatar;
+
+    public void setAvatar(Bitmap avatar) {
+        this.avatar = avatar;
+    }
+
+    public static Bitmap getRoundedCornerBitmap(Bitmap bitmap) {
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap
+                .getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+
+        final int color = 0xff424242;
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        final RectF rectF = new RectF(rect);
+        final float roundPx = output.getWidth() / 2;
+
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(color);
+        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+
+        paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+
+        return output;
+    }
 
     public static Bitmap getBitmapFromURL(String src) {
         try {
-            final Bitmap avatar = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
             Utils.threadPool.execute(() -> {
                 try {
                     URL url = new URL(src);
@@ -44,12 +72,12 @@ public class MessageCard extends MaterialCardView {
                     connection.setDoInput(true);
                     connection.connect();
                     InputStream input = connection.getInputStream();
-                    avatar = BitmapFactory.decodeStream(input);
+                    Utils.mainThread.post(this.setAvatar(this.getRoundedCornerBitmap(BitmapFactory.decodeStream(input))));
                 } catch (IOException e) {
                     FavoriteMessages.logger.error("Error getting bitmap from URL", e);
                 }
             });
-            return avatar;
+            return this.avatar;
         } catch (Throwable e) {
             FavoriteMessages.logger.error("Error getting bitmap from URL", e);
             return null;
