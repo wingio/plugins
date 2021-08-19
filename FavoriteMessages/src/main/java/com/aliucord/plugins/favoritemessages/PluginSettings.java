@@ -243,7 +243,7 @@ public class PluginSettings extends SettingsPage {
                 if (constraint == null || constraint.equals(""))
                     resultsList = originalData;
                 else {
-                    String search = constraint.toString().toLowerCase().trim();
+                    final String search = constraint.toString().toLowerCase().trim();
                     resultsList = CollectionUtils.filter(originalData, p -> {
                                 String content = p.content;
                                 String guildName = p.guildName;
@@ -251,16 +251,17 @@ public class PluginSettings extends SettingsPage {
                                 String authorName = p.author.name;
                                 String guildId = p.guildId;
                                 String channelId = String.valueOf(p.channelId);
-                                if(search.startsWith("#")){
-                                    search = search.substring(1);
-                                    return channelName.toLowerCase().contains(search);
-                                } else if(search.startsWith("*")){
-                                    search = search.substring(1);
-                                    return guildName.toLowerCase().contains(search);
-                                } else if(search.startsWith("@")){
-                                    search = search.substring(1);
-                                    return authorName.toLowerCase().contains(search);
-                                } else if (content.toLowerCase().contains(search)) return true;
+                                String query = search;
+                                if(query.startsWith("#")){
+                                    query = query.substring(1);
+                                    return channelName.toLowerCase().contains(query);
+                                } else if(query.startsWith("*")){
+                                    query = query.substring(1);
+                                    return guildName.toLowerCase().contains(query);
+                                } else if(query.startsWith("@")){
+                                    query = query.substring(1);
+                                    return authorName.toLowerCase().contains(query);
+                                } else if (content.toLowerCase().contains(query)) return true;
                                 return false;
                             }
                     );
