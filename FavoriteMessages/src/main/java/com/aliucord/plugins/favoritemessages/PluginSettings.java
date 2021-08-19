@@ -246,7 +246,21 @@ public class PluginSettings extends SettingsPage {
                     String search = constraint.toString().toLowerCase().trim();
                     resultsList = CollectionUtils.filter(originalData, p -> {
                                 String content = p.content;
-                                if (content.toLowerCase().contains(search)) return true;
+                                String guildName = p.guildName;
+                                String channelName = p.channelName;
+                                String authorName = p.author.name;
+                                String guildId = p.guildId;
+                                String channelId = String.valueOf(p.channelId);
+                                if(search.startsWith("#")){
+                                    search = search.substring(1);
+                                    return channelName.toLowerCase().contains(search);
+                                } else if(search.startsWith("*")){
+                                    search = search.substring(1);
+                                    return guildName.toLowerCase().contains(search);
+                                } else if(search.startsWith("@")){
+                                    search = search.substring(1);
+                                    return authorName.toLowerCase().contains(search);
+                                } else if (content.toLowerCase().contains(search)) return true;
                                 return false;
                             }
                     );
