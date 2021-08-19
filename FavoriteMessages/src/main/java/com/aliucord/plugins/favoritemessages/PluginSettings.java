@@ -87,9 +87,15 @@ public class PluginSettings extends SettingsPage {
         public void onViewCreated(View view, Bundle bundle) {
             super.onViewCreated(view, bundle);
             Context optCtx = requireContext();
-            Drawable icon = FavoriteMessages.pluginIcon;
-            icon.mutate();
-            if (icon != null) icon.setTint(
+            Drawable delIcon = ContextCompat.getDrawable(optCtx, R.d.ic_delete_24dp);
+            delIcon.mutate();
+            if (delIcon != null) delIcon.setTint(
+                ColorCompat.getThemedColor(optCtx, R.b.colorInteractiveNormal)
+            );
+
+            Drawable copyIcon = ContextCompat.getDrawable(optCtx, R.d.ic_copy_24dp);
+            copyIcon.mutate();
+            if (copyIcon != null) copyIcon.setTint(
                 ColorCompat.getThemedColor(optCtx, R.b.colorInteractiveNormal)
             );
             
@@ -97,7 +103,7 @@ public class PluginSettings extends SettingsPage {
             TextView copyOption = new TextView(optCtx, null, 0, R.h.UiKit_Settings_Item_Icon);
             copyOption.setText("Copy Text");
             copyOption.setId(copyId);
-            copyOption.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
+            copyOption.setCompoundDrawablesWithIntrinsicBounds(copyIcon, null, null, null);
             copyOption.setOnClickListener(e -> {
                 Utils.setClipboard("Message Content", getMessage().content);
                 Utils.showToast(optCtx, "Copied message content");
@@ -108,7 +114,7 @@ public class PluginSettings extends SettingsPage {
             TextView unfavOption = new TextView(optCtx, null, 0, R.h.UiKit_Settings_Item_Icon);
             unfavOption.setText("Unfavorite");
             unfavOption.setId(unfavId);
-            unfavOption.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
+            unfavOption.setCompoundDrawablesWithIntrinsicBounds(delIcon, null, null, null);
             unfavOption.setOnClickListener(e -> {
                 Map<Long, StoredMessage> favorites = sets.getObject("favorites", new HashMap<>(), FavoriteMessages.msgType);
                 favorites.remove(getMessage().id);
