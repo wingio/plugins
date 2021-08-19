@@ -135,6 +135,7 @@ public class PluginSettings extends SettingsPage {
         private final AppFragment fragment;
         private final Context ctx;
         private final List<StoredMessage> originalData;
+        private Bitmap avatar;
         private List<StoredMessage> data;
 
         public Adapter(AppFragment fragment, Map<Long, StoredMessage> favorites) {
@@ -171,8 +172,10 @@ public class PluginSettings extends SettingsPage {
                 Logger l = new Logger("FavoriteMessages");
                 l.error("Error displaying message content", e);
             }
-            Bitmap avatar = holder.card.getBitmapFromURL(String.format("https://cdn.discordapp.com/avatars/%s/%s.png", msg.author.id, msg.author.avatar));
-            holder.card.avatarView.setImageBitmap(getRoundedCornerBitmap(avatar, avatar.getWidth() / 2));
+            Utils.threadPool.execute(() -> {
+                avatar = holder.card.getBitmapFromURL(String.format("https://cdn.discordapp.com/avatars/%s/%s.png", msg.author.id, msg.author.avatar));
+            });
+            holder.card.avatarView.setImageBitmap(getRoundedCornerBitmap(avatar, Utils.dpToPx(24)));
             holder.card.authorView.setText(msg.author.name);
             
             holder.card.setOnLongClickListener(e -> {

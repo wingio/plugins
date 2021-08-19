@@ -12,7 +12,6 @@ import android.view.Gravity;
 import android.view.*;
 import android.widget.*;
 import android.graphics.*;
-import android.graphics.Bitmap.Config;
 
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
@@ -36,17 +35,13 @@ public class MessageCard extends MaterialCardView {
 
     public static Bitmap getBitmapFromURL(String src) {
         try {
-            Bitmap bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
-            Utils.threadPool.execute(() -> {
-                URL url = new URL(src);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setDoInput(true);
-                connection.connect();
-                InputStream input = connection.getInputStream();
-                Bitmap myBitmap = BitmapFactory.decodeStream(input);
-                bitmap = myBitmap;
-            });
-            return bitmap;
+            URL url = new URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            return myBitmap;
         } catch (Throwable e) {
             FavoriteMessages.logger.error("Error getting bitmap from URL", e);
             return null;
