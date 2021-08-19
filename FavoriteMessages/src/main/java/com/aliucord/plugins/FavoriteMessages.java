@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.widget.NestedScrollView;
+import androidx.core.content.ContextCompat;
 
 import com.aliucord.Utils;
 import com.aliucord.Logger;
@@ -62,7 +63,7 @@ public class FavoriteMessages extends Plugin {
 
     @Override
     public void start(Context context) throws Throwable {
-      pluginIcon = ResourcesCompat.getDrawable(resources, resources.getIdentifier("ic_editfriend", "drawable", "com.aliucord.plugins"), null );
+      pluginIcon = ContextCompat.getDrawable(context, R.d.ic_star_24dp);
       var id = View.generateViewId();
       Drawable icon = pluginIcon;
       
