@@ -52,7 +52,7 @@ public class MessageCard extends MaterialCardView {
         root.setOrientation(LinearLayout.VERTICAL);
 
         contentView = new TextView(ctx, null, 0, R.h.UiKit_Settings_Item_Addition);
-        contentView.setPadding(p, p, p, p2);
+        contentView.setPadding(p, p, p, p);
 
         // Too much of a pain, might do later
         // avatarView = new ImageView(ctx);
@@ -76,14 +76,14 @@ public class MessageCard extends MaterialCardView {
         tagView.setTextSize(9.0f);
         tagView.setTypeface(ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_medium));
         tagView.setTextColor(Color.WHITE);
-        tagView.setPadding(Utils.dpToPx(2), Utils.dpToPx(2), Utils.dpToPx(2), Utils.dpToPx(2));
+        tagView.setPadding(Utils.dpToPx(2), Utils.dpToPx(1), Utils.dpToPx(2), Utils.dpToPx(1));
         tagView.setBackgroundDrawable(ContextCompat.getDrawable(ctx, R.d.drawable_button_brand_neutral));
         tagView.setText("BOT");
 
         LinearLayout authorField = new LinearLayout(ctx);
         authorField.setOrientation(LinearLayout.HORIZONTAL);
         authorField.setGravity(Gravity.CENTER_VERTICAL);
-        authorField.setPadding(p, p, p, p2);
+        authorField.setPadding(p, p, Utils.dpToPx(2), p2);
         //authorField.addView(avatarView);
         authorField.addView(authorView);
         authorField.addView(tagView);
