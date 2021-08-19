@@ -66,7 +66,7 @@ public class MessageCard extends MaterialCardView {
         authorView.setTextSize(17.0f);
         authorView.setTypeface(ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_semibold));
         authorView.setTextColor(ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal));
-        authorView.setEllipsize(TextUtils.TruncateAt.END);
+        authorView.setEllipsize(TextUtils.TruncateAt.START);
         authorView.setHorizontallyScrolling(false);
         authorView.setSingleLine();
 
