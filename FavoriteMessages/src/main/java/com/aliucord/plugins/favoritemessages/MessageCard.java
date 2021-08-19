@@ -78,7 +78,6 @@ public class MessageCard extends MaterialCardView {
         tagView.setTextColor(Color.WHITE);
         tagView.setPadding(Utils.dpToPx(2), Utils.dpToPx(2), Utils.dpToPx(2), Utils.dpToPx(2));
         tagView.setBackgroundDrawable(ContextCompat.getDrawable(ctx, R.d.drawable_button_brand_neutral));
-        tagView.setVisibility(View.GONE);
 
         LinearLayout authorField = new LinearLayout(ctx);
         authorField.setOrientation(LinearLayout.HORIZONTAL);
