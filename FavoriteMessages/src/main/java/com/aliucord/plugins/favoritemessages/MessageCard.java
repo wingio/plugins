@@ -12,6 +12,7 @@ import android.view.Gravity;
 import android.view.*;
 import android.widget.*;
 import android.graphics.*;
+import android.graphics.Bitmap.Config;
 
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
@@ -32,16 +33,24 @@ public class MessageCard extends MaterialCardView {
     public final TextView authorView;
     public final TextView contentView;
     public final ImageView avatarView;
+    public Bitmap avatar;
 
     public static Bitmap getBitmapFromURL(String src) {
         try {
-            URL url = new URL(src);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            return myBitmap;
+            Bitmap avatar = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
+            Utils.threadPool.execute(() -> {
+                try {
+                    URL url = new URL(src);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setDoInput(true);
+                    connection.connect();
+                    InputStream input = connection.getInputStream();
+                    avatar = BitmapFactory.decodeStream(input);
+                } catch (IOException e) {
+                    FavoriteMessages.logger.error("Error getting bitmap from URL", e);
+                }
+            });
+            return avatar;
         } catch (Throwable e) {
             FavoriteMessages.logger.error("Error getting bitmap from URL", e);
             return null;
@@ -69,7 +78,6 @@ public class MessageCard extends MaterialCardView {
         LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(Utils.dpToPx(48),Utils.dpToPx(48));
         avatarView.setLayoutParams(parms);
         
-
         authorView = new TextView(ctx);
         authorView.setTextSize(17.0f);
         authorView.setTypeface(ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_medium));

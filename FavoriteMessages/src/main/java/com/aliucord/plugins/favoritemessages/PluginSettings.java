@@ -135,7 +135,6 @@ public class PluginSettings extends SettingsPage {
         private final AppFragment fragment;
         private final Context ctx;
         private final List<StoredMessage> originalData;
-        private Bitmap avatar;
         private List<StoredMessage> data;
 
         public Adapter(AppFragment fragment, Map<Long, StoredMessage> favorites) {
@@ -172,10 +171,8 @@ public class PluginSettings extends SettingsPage {
                 Logger l = new Logger("FavoriteMessages");
                 l.error("Error displaying message content", e);
             }
-            Utils.threadPool.execute(() -> {
-                avatar = holder.card.getBitmapFromURL(String.format("https://cdn.discordapp.com/avatars/%s/%s.png", msg.author.id, msg.author.avatar));
-            });
-            holder.card.avatarView.setImageBitmap(getRoundedCornerBitmap(avatar, Utils.dpToPx(24)));
+            Bitmap avatar = holder.card.getBitmapFromURL(String.format("https://cdn.discordapp.com/avatars/%s/%s.png", msg.author.id, msg.author.avatar));
+            holder.card.avatarView.setImageBitmap(getRoundedCornerBitmap(avatar));
             holder.card.authorView.setText(msg.author.name);
             
             holder.card.setOnLongClickListener(e -> {
@@ -190,7 +187,7 @@ public class PluginSettings extends SettingsPage {
             Utils.showToast(ctx, "Copied message content");
         }
 
-        public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, int pixels) {
+        public static Bitmap getRoundedCornerBitmap(Bitmap bitmap) {
             Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap
                     .getHeight(), Config.ARGB_8888);
             Canvas canvas = new Canvas(output);
@@ -199,7 +196,7 @@ public class PluginSettings extends SettingsPage {
             final Paint paint = new Paint();
             final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
             final RectF rectF = new RectF(rect);
-            final float roundPx = pixels;
+            final float roundPx = output.getWidth() / 2;
 
             paint.setAntiAlias(true);
             canvas.drawARGB(0, 0, 0, 0);
