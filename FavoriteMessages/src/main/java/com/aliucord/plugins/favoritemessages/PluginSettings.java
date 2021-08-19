@@ -89,9 +89,7 @@ public class PluginSettings extends SettingsPage {
             Context optCtx = requireContext();
             Drawable delIcon = ContextCompat.getDrawable(optCtx, R.d.ic_delete_24dp);
             delIcon.mutate();
-            if (delIcon != null) delIcon.setTint(
-                ColorCompat.getThemedColor(optCtx, R.c.uikit_btn_bg_color_selector_red)
-            );
+            if (delIcon != null) delIcon.setTint(0xFFED4245);
 
             Drawable copyIcon = ContextCompat.getDrawable(optCtx, R.d.ic_copy_24dp);
             copyIcon.mutate();
@@ -115,7 +113,7 @@ public class PluginSettings extends SettingsPage {
             unfavOption.setText("Unfavorite");
             unfavOption.setId(unfavId);
             unfavOption.setCompoundDrawablesWithIntrinsicBounds(delIcon, null, null, null);
-            unfavOption.setTextColor(ColorCompat.getThemedColor(optCtx, R.c.uikit_btn_bg_color_selector_red));
+            unfavOption.setTextColor(0xFFED4245);
             unfavOption.setOnClickListener(e -> {
                 Map<Long, StoredMessage> favorites = sets.getObject("favorites", new HashMap<>(), FavoriteMessages.msgType);
                 favorites.remove(getMessage().id);
