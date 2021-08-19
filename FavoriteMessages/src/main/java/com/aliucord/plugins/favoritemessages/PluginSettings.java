@@ -139,7 +139,7 @@ public class PluginSettings extends SettingsPage {
             openOption.setId(openId);
             openOption.setCompoundDrawablesWithIntrinsicBounds(jumpIcon, null, null, null);
             openOption.setOnClickListener(e -> {
-                String msg = getMessage();
+                StoredMessage msg = getMessage();
                 StoreStream.Companion.getMessagesLoader().jumpToMessage(msg.channelId, msg.id);
                 dismiss();
             });
