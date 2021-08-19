@@ -69,7 +69,7 @@ public class MessageCard extends MaterialCardView {
         dateView.setTextSize(12.0f);
         dateView.setTypeface(ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_medium));
         dateView.setTextColor(ColorCompat.getThemedColor(ctx, R.b.colorTextMuted));
-        dateView.setPadding(p2, 0, 0, 0);
+        dateView.setPadding(p2, Utils.dpToPx(2), 0, 0);
 
         LinearLayout authorField = new LinearLayout(ctx);
         authorField.setOrientation(LinearLayout.HORIZONTAL);
