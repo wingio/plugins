@@ -71,12 +71,12 @@ public class PluginSettings extends SettingsPage {
 
     public static class MessageOptions extends BottomSheet {
         private StoredMessage message;
-        private MessageCard messageCard;
+        private AppFragment fragment;
         private SettingsAPI sets = PluginManager.plugins.get("FavoriteMessages").settings;
 
-        public MessageOptions(StoredMessage msg, MessageCard msgCard) {
+        public MessageOptions(StoredMessage msg, AppFragment frag) {
             this.message = msg;
-            this.messageCard = msgCard;
+            this.fragment = frag;
         }
 
         private StoredMessage getMessage() {
@@ -114,6 +114,7 @@ public class PluginSettings extends SettingsPage {
                 favorites.remove(getMessage().id);
                 sets.setObject("favorites", favorites);
                 Utils.showToast(optCtx, "Unfavorited message");
+                fragment.reRender();
                 dismiss();
             });
 
@@ -183,7 +184,7 @@ public class PluginSettings extends SettingsPage {
             holder.card.tagView.setVisibility(msg.author.isBot ? View.VISIBLE : View.GONE);
             
             holder.card.setOnLongClickListener(e -> {
-                new MessageOptions(msg, holder.card).show(fragment.getParentFragmentManager(), "Message Options");
+                new MessageOptions(msg, fragment).show(fragment.getParentFragmentManager(), "Message Options");
                 return true;
             });
         }
