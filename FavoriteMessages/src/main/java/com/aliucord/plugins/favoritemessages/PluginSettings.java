@@ -118,7 +118,7 @@ public class PluginSettings extends SettingsPage {
                 if (android.os.Build.VERSION.SDK_INT >= 26) {
                    ft.setReorderingAllowed(false);
                 }
-                ft.detach(PluginSettings.class).attach(PluginSettings.class).commit()
+                ft.detach(PluginSettings.class).attach(PluginSettings.class).commit();
                 dismiss();
             });
 
