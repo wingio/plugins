@@ -41,7 +41,7 @@ public class StoredMessage {
         channelId = message.getChannelId();
         var channel = StoreStream.getChannels().getChannel(message.getChannelId());
         var guildIdStr = channel != null && ChannelWrapper.getGuildId(channel) != 0 ? String.valueOf(ChannelWrapper.getGuildId(channel)) : "@me";
-        channelName = channel != null ? channel.getName() : "Deleted Channel";
+        channelName = channel != null ? ChannelWrapper.getName(channel) : "Deleted Channel";
         var guild = channel != null && ChannelWrapper.getGuildId(channel) != 0 ? StoreStream.getGuilds().getGuilds().get(ChannelWrapper.getGuildId(channel)) : null;
         guildName = guild != null ? guild.getName() : "Direct Messages";
         guildId = guildIdStr;
