@@ -46,6 +46,9 @@ import com.aliucord.widgets.PluginCard;
 import com.aliucord.widgets.BottomSheet;
 import com.discord.utilities.color.ColorCompat;
 import com.discord.utilities.textprocessing.*;
+import com.discord.utilities.time.ClockFactory;
+import com.discord.utilities.time.TimeUtils;
+import com.discord.utilities.SnowflakeUtils;
 import com.discord.app.AppBottomSheet;
 import com.discord.app.AppFragment;
 import com.discord.widgets.user.usersheet.WidgetUserSheet;
@@ -171,9 +174,12 @@ public class PluginSettings extends SettingsPage {
                 Logger l = new Logger("FavoriteMessages");
                 l.error("Error displaying message content", e);
             }
-            Bitmap avatar = holder.card.getBitmapFromURL(String.format("https://cdn.discordapp.com/avatars/%s/%s.png", msg.author.id, msg.author.avatar));
-            holder.card.avatarView.setImageBitmap(avatar);
+            // Bitmap avatar = holder.card.getBitmapFromURL(String.format("https://cdn.discordapp.com/avatars/%s/%s.png", msg.author.id, msg.author.avatar));
+            // holder.card.avatarView.setImageBitmap(avatar);
+            var clock = ClockFactory.get();
+            var timestamp = String.valueOf(TimeUtils.toReadableTimeString(ctx, SnowflakeUtils.toTimestamp(msg.id), clock))
             holder.card.authorView.setText(msg.author.name);
+            holder.card.dateView.setText(timestamp);
             
             holder.card.setOnLongClickListener(e -> {
                 new MessageOptions(msg, holder.card).show(fragment.getParentFragmentManager(), "Message Options");

@@ -34,55 +34,9 @@ public class MessageCard extends MaterialCardView {
     public final LinearLayout root;
     public final TextView authorView;
     public final TextView contentView;
+    public final TextView dateView;
     public final ImageView avatarView;
-    public static Bitmap avatar;
-
-    public static void setAvatar(Bitmap av) {
-        avatar = av;
-    }
-
-    public static Bitmap getRoundedCornerBitmap(Bitmap bitmap) {
-        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap
-                .getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(output);
-
-        final int color = 0xff424242;
-        final Paint paint = new Paint();
-        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-        final RectF rectF = new RectF(rect);
-        final float roundPx = output.getWidth() / 2;
-
-        paint.setAntiAlias(true);
-        canvas.drawARGB(0, 0, 0, 0);
-        paint.setColor(color);
-        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
-
-        paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
-        canvas.drawBitmap(bitmap, rect, rect, paint);
-
-        return output;
-    }
-
-    public static Bitmap getBitmapFromURL(String src) {
-        try {
-            Utils.threadPool.execute(() -> {
-                try {
-                    URL url = new URL(src);
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    connection.setDoInput(true);
-                    connection.connect();
-                    InputStream input = connection.getInputStream();
-                    setAvatar(getRoundedCornerBitmap(BitmapFactory.decodeStream(input)));
-                } catch (IOException e) {
-                    FavoriteMessages.logger.error("Error getting bitmap from URL", e);
-                }
-            });
-            return avatar;
-        } catch (Throwable e) {
-            FavoriteMessages.logger.error("Error getting bitmap from URL", e);
-            return null;
-        }
-    }
+    
 
     @SuppressLint("SetTextI18n")
     public MessageCard(Context ctx) {
@@ -100,22 +54,31 @@ public class MessageCard extends MaterialCardView {
         contentView = new TextView(ctx, null, 0, R.h.UiKit_Settings_Item_Addition);
         contentView.setPadding(p, p, p, p2);
 
-        avatarView = new ImageView(ctx);
-        avatarView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(Utils.dpToPx(48),Utils.dpToPx(48));
-        avatarView.setLayoutParams(parms);
+        // Too much of a pain, might do later
+        // avatarView = new ImageView(ctx);
+        // avatarView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        // LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(Utils.dpToPx(48),Utils.dpToPx(48));
+        // avatarView.setLayoutParams(parms);
+        
         
         authorView = new TextView(ctx);
         authorView.setTextSize(17.0f);
         authorView.setTypeface(ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_medium));
         authorView.setTextColor(ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal));
 
+        dateView = new TextView(ctx);
+        dateView.setTextSize(15.0f);
+        dateView.setTypeface(ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_medium));
+        dateView.setTextColor(ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal));
+        dateView.setPadding(p2, 0, 0, 0);
+
         LinearLayout authorField = new LinearLayout(ctx);
         authorField.setOrientation(LinearLayout.HORIZONTAL);
         authorField.setGravity(Gravity.CENTER_VERTICAL);
         authorField.setPadding(p, p, p, p2);
-        authorField.addView(avatarView);
+        //authorField.addView(avatarView);
         authorField.addView(authorView);
+        authorField.addView(dateView);
         
 
         root.addView(authorField);
