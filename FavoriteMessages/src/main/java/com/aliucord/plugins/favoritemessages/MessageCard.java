@@ -37,8 +37,8 @@ public class MessageCard extends MaterialCardView {
     public final ImageView avatarView;
     public Bitmap avatar;
 
-    public void setAvatar(Bitmap avatar) {
-        this.avatar = avatar;
+    public void setAvatar(Bitmap av) {
+        avatar = av;
     }
 
     public static Bitmap getRoundedCornerBitmap(Bitmap bitmap) {
@@ -72,12 +72,12 @@ public class MessageCard extends MaterialCardView {
                     connection.setDoInput(true);
                     connection.connect();
                     InputStream input = connection.getInputStream();
-                    Utils.mainThread.post(this.setAvatar(this.getRoundedCornerBitmap(BitmapFactory.decodeStream(input))));
+                    setAvatar(getRoundedCornerBitmap(BitmapFactory.decodeStream(input)));
                 } catch (IOException e) {
                     FavoriteMessages.logger.error("Error getting bitmap from URL", e);
                 }
             });
-            return this.avatar;
+            return avatar;
         } catch (Throwable e) {
             FavoriteMessages.logger.error("Error getting bitmap from URL", e);
             return null;
