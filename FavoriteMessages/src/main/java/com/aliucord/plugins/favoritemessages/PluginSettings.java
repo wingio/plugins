@@ -119,7 +119,6 @@ public class PluginSettings extends SettingsPage {
                    ft.setReorderingAllowed(false);
                 }
                 ft.detach(PluginSettings.class).attach(PluginSettings.class).commit()
-                fragment.reRender();
                 dismiss();
             });
 
