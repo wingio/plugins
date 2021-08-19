@@ -155,7 +155,9 @@ public class PluginSettings extends SettingsPage {
                 dismiss();
             });
 
+            addView(openOption);
             addView(copyOption);
+            addView(copyUrlOption);
             addView(unfavOption);
         }
     }
