@@ -61,14 +61,6 @@ public class MessageCard extends MaterialCardView {
         // LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(Utils.dpToPx(48),Utils.dpToPx(48));
         // avatarView.setLayoutParams(parms);
         
-        
-        authorView = new TextView(ctx);
-        authorView.setTextSize(17.0f);
-        authorView.setTypeface(ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_semibold));
-        authorView.setTextColor(ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal));
-        authorView.setEllipsize(TextUtils.TruncateAt.START);
-        authorView.setHorizontallyScrolling(false);
-        authorView.setSingleLine();
 
         dateView = new TextView(ctx);
         dateView.setTextSize(12.0f);
@@ -76,7 +68,7 @@ public class MessageCard extends MaterialCardView {
         dateView.setTextColor(ColorCompat.getThemedColor(ctx, R.b.colorTextMuted));
         dateView.setPadding(p2, Utils.dpToPx(2), 0, 0);
         dateView.setSingleLine(true);
-        dateView.setMinimumWidth(Utils.dpToPx(118));
+        //dateView.setMinimumWidth(Utils.dpToPx(118));
 
         tagView = new TextView(ctx);
         tagView.setTextSize(9.0f);
@@ -89,7 +81,22 @@ public class MessageCard extends MaterialCardView {
         params.setMargins(Utils.dpToPx(4),0,0,0);
         tagView.setLayoutParams(params);
         tagView.setSingleLine(true);
-        tagView.setMinimumWidth(Utils.dpToPx(21));
+        //tagView.setMinimumWidth(Utils.dpToPx(21));
+
+        authorView = new TextView(ctx);
+        authorView.setTextSize(17.0f);
+        authorView.setTypeface(ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_semibold));
+        authorView.setTextColor(ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal));
+        authorView.setEllipsize(TextUtils.TruncateAt.END);
+        authorView.setHorizontallyScrolling(false);
+        authorView.setSingleLine();
+        authorView.measure(0, 0);
+        tagView.measure(0, 0);
+        dateView.measure(0, 0);
+        var width = authorView.getMeasuredWidth();
+        var tagWidth = tagView.getMeasuredWidth();
+        var dateWidth = dateView.getMeasuredWidth();
+        authorView.setMaxWidth((width + tagWidth + dateWidth) * 0.8f);
 
         LinearLayout authorField = new LinearLayout(ctx);
         authorField.setOrientation(LinearLayout.HORIZONTAL);
