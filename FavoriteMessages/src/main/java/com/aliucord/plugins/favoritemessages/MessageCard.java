@@ -35,9 +35,9 @@ public class MessageCard extends MaterialCardView {
     public final TextView authorView;
     public final TextView contentView;
     public final ImageView avatarView;
-    public Bitmap avatar;
+    public static Bitmap avatar;
 
-    public void setAvatar(Bitmap av) {
+    public static void setAvatar(Bitmap av) {
         avatar = av;
     }
 
