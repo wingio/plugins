@@ -79,11 +79,14 @@ public class MessageCard extends MaterialCardView {
         tagView.setPadding(Utils.dpToPx(2), Utils.dpToPx(1), Utils.dpToPx(2), Utils.dpToPx(1));
         tagView.setBackgroundDrawable(ContextCompat.getDrawable(ctx, R.d.drawable_button_brand_neutral));
         tagView.setText("BOT");
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.setMargins(Utils.dpToPx(2),0,0,0);
+        tagView.setLayoutParams(params);
 
         LinearLayout authorField = new LinearLayout(ctx);
         authorField.setOrientation(LinearLayout.HORIZONTAL);
         authorField.setGravity(Gravity.CENTER_VERTICAL);
-        authorField.setPadding(p, p, Utils.dpToPx(2), p2);
+        authorField.setPadding(p, p, p, p2);
         //authorField.addView(avatarView);
         authorField.addView(authorView);
         authorField.addView(tagView);
