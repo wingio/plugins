@@ -180,6 +180,7 @@ public class PluginSettings extends SettingsPage {
             var timestamp = String.valueOf(TimeUtils.toReadableTimeString(ctx, SnowflakeUtils.toTimestamp(msg.id), clock));
             holder.card.authorView.setText(msg.author.name);
             holder.card.dateView.setText(timestamp);
+            holder.card.tagView.setVisibility(msg.author.bot ? View.VISIBLE : View.GONE);
             
             holder.card.setOnLongClickListener(e -> {
                 new MessageOptions(msg, holder.card).show(fragment.getParentFragmentManager(), "Message Options");

@@ -34,6 +34,7 @@ public class MessageCard extends MaterialCardView {
     public final LinearLayout root;
     public final TextView authorView;
     public final TextView contentView;
+    public final TextView tagView;
     public final TextView dateView;
     //public final ImageView avatarView;
 
@@ -70,6 +71,14 @@ public class MessageCard extends MaterialCardView {
         dateView.setTypeface(ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_medium));
         dateView.setTextColor(ColorCompat.getThemedColor(ctx, R.b.colorTextMuted));
         dateView.setPadding(p2, Utils.dpToPx(2), 0, 0);
+
+        tagView = new TextView(ctx);
+        tagView.setTextSize(9.0f);
+        tagView.setTypeface(ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_medium));
+        tagView.setTextColor(Color.WHITE);
+        tagView.setPadding(Utils.dpToPx(2), Utils.dpToPx(2), Utils.dpToPx(2), Utils.dpToPx(2));
+        tagView.setBackgroundDrawable(R.d.drawable_button_brand_neutral);
+        tagView.setVisibility(View.GONE);
 
         LinearLayout authorField = new LinearLayout(ctx);
         authorField.setOrientation(LinearLayout.HORIZONTAL);
