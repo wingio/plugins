@@ -90,13 +90,7 @@ public class MessageCard extends MaterialCardView {
         authorView.setEllipsize(TextUtils.TruncateAt.END);
         authorView.setHorizontallyScrolling(false);
         authorView.setSingleLine();
-        authorView.measure(0, 0);
-        tagView.measure(0, 0);
-        dateView.measure(0, 0);
-        var width = authorView.getMeasuredWidth();
-        var tagWidth = tagView.getMeasuredWidth();
-        var dateWidth = dateView.getMeasuredWidth();
-        authorView.setMaxWidth((width + tagWidth + dateWidth) * 0.8f);
+        authorView.setMaxWidth(Utils.dpToPx(120));
 
         LinearLayout authorField = new LinearLayout(ctx);
         authorField.setOrientation(LinearLayout.HORIZONTAL);
