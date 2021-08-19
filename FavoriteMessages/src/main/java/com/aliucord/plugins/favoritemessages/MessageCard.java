@@ -80,7 +80,7 @@ public class MessageCard extends MaterialCardView {
         tagView.setBackgroundDrawable(ContextCompat.getDrawable(ctx, R.d.drawable_button_brand_neutral));
         tagView.setText("BOT");
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.setMargins(Utils.dpToPx(2),0,0,0);
+        params.setMargins(Utils.dpToPx(4),0,0,0);
         tagView.setLayoutParams(params);
 
         LinearLayout authorField = new LinearLayout(ctx);
