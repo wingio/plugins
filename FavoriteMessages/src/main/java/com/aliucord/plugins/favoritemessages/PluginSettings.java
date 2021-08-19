@@ -172,7 +172,7 @@ public class PluginSettings extends SettingsPage {
                 l.error("Error displaying message content", e);
             }
             Bitmap avatar = holder.card.getBitmapFromURL(String.format("https://cdn.discordapp.com/avatars/%s/%s.png", msg.author.id, msg.author.avatar));
-            holder.card.avatarView.setImageBitmap(getRoundedCornerBitmap(avatar));
+            holder.card.avatarView.setImageBitmap(avatar);
             holder.card.authorView.setText(msg.author.name);
             
             holder.card.setOnLongClickListener(e -> {
@@ -186,9 +186,6 @@ public class PluginSettings extends SettingsPage {
             Utils.setClipboard("Message Text", msg.content);
             Utils.showToast(ctx, "Copied message content");
         }
-
-        
-
 
         private final Adapter _this = this;
 
