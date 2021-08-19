@@ -108,8 +108,7 @@ public class MessageLinkContext extends Plugin {
           );
           view.setOnClickListener(
             e -> {
-              setClipboard(
-                context,
+              setClipboard(context,
                 String.format(
                   "https://discord.com/channels/%s/%s/%s",
                   guildId,

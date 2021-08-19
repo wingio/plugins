@@ -96,6 +96,12 @@ public class PluginSettings extends SettingsPage {
             if (copyIcon != null) copyIcon.setTint(
                 ColorCompat.getThemedColor(optCtx, R.b.colorInteractiveNormal)
             );
+
+            Drawable jumpIcon = ContextCompat.getDrawable(optCtx, R.d.ic_reply_24dp);
+            jumpIcon.mutate();
+            if (jumpIcon != null) jumpIcon.setTint(
+                ColorCompat.getThemedColor(optCtx, R.b.colorInteractiveNormal)
+            );
             
             var copyId = View.generateViewId();
             TextView copyOption = new TextView(optCtx, null, 0, R.h.UiKit_Settings_Item_Icon);
@@ -124,6 +130,28 @@ public class PluginSettings extends SettingsPage {
                    ft.setReorderingAllowed(false);
                 }
                 ft.detach(fragment).attach(fragment).commit();
+                dismiss();
+            });
+
+            var openId = View.generateViewId();
+            TextView openOption = new TextView(optCtx, null, 0, R.h.UiKit_Settings_Item_Icon);
+            openOption.setText("Jump To Message");
+            openOption.setId(openId);
+            openOption.setCompoundDrawablesWithIntrinsicBounds(jumpIcon, null, null, null);
+            openOption.setOnClickListener(e -> {
+                String url = getMessage().getUrl();
+                Utils.launchUrl(url);
+                dismiss();
+            });
+
+            var copyUrlId = View.generateViewId();
+            TextView copyUrlOption = new TextView(optCtx, null, 0, R.h.UiKit_Settings_Item_Icon);
+            copyUrlOption.setText("Copy Message Link");
+            copyUrlOption.setId(copyUrlId);
+            copyUrlOption.setCompoundDrawablesWithIntrinsicBounds(copyIcon, null, null, null);
+            copyUrlOption.setOnClickListener(e -> {
+                String url = getMessage().getUrl();
+                Utils.setClipboard("Message Link", url);
                 dismiss();
             });
 
