@@ -114,6 +114,11 @@ public class PluginSettings extends SettingsPage {
                 favorites.remove(getMessage().id);
                 sets.setObject("favorites", favorites);
                 Utils.showToast(optCtx, "Unfavorited message");
+                var ft = fragment.getFragmentManager().beginTransaction();
+                if (android.os.Build.VERSION.SDK_INT >= 26) {
+                   ft.setReorderingAllowed(false);
+                }
+                ft.detach(PluginSettings.class).attach(PluginSettings.class).commit()
                 fragment.reRender();
                 dismiss();
             });
