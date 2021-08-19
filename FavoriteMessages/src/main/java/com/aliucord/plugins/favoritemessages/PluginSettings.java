@@ -177,7 +177,7 @@ public class PluginSettings extends SettingsPage {
             // Bitmap avatar = holder.card.getBitmapFromURL(String.format("https://cdn.discordapp.com/avatars/%s/%s.png", msg.author.id, msg.author.avatar));
             // holder.card.avatarView.setImageBitmap(avatar);
             var clock = ClockFactory.get();
-            var timestamp = String.valueOf(TimeUtils.toReadableTimeString(ctx, SnowflakeUtils.toTimestamp(msg.id), clock))
+            var timestamp = String.valueOf(TimeUtils.toReadableTimeString(ctx, SnowflakeUtils.toTimestamp(msg.id), clock));
             holder.card.authorView.setText(msg.author.name);
             holder.card.dateView.setText(timestamp);
             
