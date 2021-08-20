@@ -54,7 +54,7 @@ public class FavoriteMessages extends Plugin {
         new Manifest.Author("Wing", 298295889720770563L),
       };
     manifest.description = "Organize your favorite messages";
-    manifest.version = "1.0.0";
+    manifest.version = "1.0.1";
     manifest.updateUrl =
       "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
     return manifest;
@@ -107,7 +107,7 @@ public class FavoriteMessages extends Plugin {
 
       commands.registerCommand(
             "clearfavorites",
-            "Lists installed plugins",
+            "Clears your list of favorite messages",
             Collections.emptyList(),
             ctx -> {
                 settings.setObject("favorites", null);
