@@ -55,7 +55,6 @@ public class FavoriteMessages extends Plugin {
       };
     manifest.description = "Organize your favorite messages";
     manifest.version = "1.0.0";
-    manifest.changelog = "Initial Release";
     manifest.updateUrl =
       "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
     return manifest;
@@ -100,7 +99,7 @@ public class FavoriteMessages extends Plugin {
             Utils.showToast(context, "Unfavorited Message");
             _this.dismiss();
           });
-          layout.addView(view);
+          layout.addView(view, 6);
         }
         
         
