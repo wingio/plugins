@@ -55,6 +55,7 @@ import com.discord.widgets.user.usersheet.WidgetUserSheet;
 import com.discord.widgets.changelog.WidgetChangeLog;
 import com.discord.models.message.Message;
 import com.discord.stores.*;
+import com.discord.widgets.tabs.NavigationTab;
 import com.facebook.drawee.span.DraweeSpanStringBuilder;
 import com.lytefast.flexinput.R;
 
@@ -141,6 +142,7 @@ public class PluginSettings extends SettingsPage {
             openOption.setOnClickListener(e -> {
                 StoredMessage msg = getMessage();
                 StoreStream.Companion.getMessagesLoader().jumpToMessage(msg.channelId, msg.id);
+                StoreStream.Companion.getTabsNavigation().selectTab(NavigationTab.HOME, true);
                 dismiss();
             });
 
