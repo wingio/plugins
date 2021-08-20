@@ -54,7 +54,7 @@ public class FavoriteMessages extends Plugin {
         new Manifest.Author("Wing", 298295889720770563L),
       };
     manifest.description = "Organize your favorite messages";
-    manifest.version = "1.0.1";
+    manifest.version = "1.0.2";
     manifest.updateUrl =
       "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
     return manifest;
@@ -81,7 +81,6 @@ public class FavoriteMessages extends Plugin {
           ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal)
         );
         view.setCompoundDrawablesRelativeWithIntrinsicBounds(icon,null,null,null);
-        Utils.log(String.valueOf(favorites));
         if (favorites.containsKey(msg.getId()) == false) {
           view.setText("Favorite Message");
           view.setOnClickListener(e -> {
