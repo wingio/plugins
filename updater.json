@@ -21,7 +21,7 @@
         "changelog": "New {added marginTop}\n======================\n\n* **Verified tags!** You can now set a tag as verified when using the '/usertags set' command"
     },
     "FavoriteMessages": {
-        "version": "1.0.0",
+        "version": "1.0.1",
         "minimumDiscordVersion": 83210
     },
     "default": {
