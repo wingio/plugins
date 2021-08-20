@@ -138,7 +138,7 @@ public class PluginSettings extends SettingsPage {
                 StoredMessage msg = getMessage();
                 StoreStream.Companion.getMessagesLoader().jumpToMessage(msg.channelId, msg.id);
                 dismiss();
-                frag.getActivity().onBackPressed();
+                fragment.getActivity().onBackPressed();
                 StoreStream.Companion.getTabsNavigation().selectTab(NavigationTab.HOME, true);
             });
 
