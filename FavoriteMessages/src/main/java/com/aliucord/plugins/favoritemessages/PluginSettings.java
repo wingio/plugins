@@ -1,8 +1,3 @@
-/*
- * Copyright (c) 2021 Juby210 & Vendicated
- * Licensed under the Open Software License version 3.0
- */
-
 package com.aliucord.plugins.favoritemessages;
 
 import android.annotation.SuppressLint;
@@ -142,8 +137,9 @@ public class PluginSettings extends SettingsPage {
             openOption.setOnClickListener(e -> {
                 StoredMessage msg = getMessage();
                 StoreStream.Companion.getMessagesLoader().jumpToMessage(msg.channelId, msg.id);
-                StoreStream.Companion.getTabsNavigation().selectTab(NavigationTab.HOME, true);
                 dismiss();
+                frag.getActivity().onBackPressed();
+                StoreStream.Companion.getTabsNavigation().selectTab(NavigationTab.HOME, true);
             });
 
             var copyUrlId = View.generateViewId();
