@@ -101,7 +101,7 @@ public class GuildProfiles extends Plugin {
               mutualBtn.setText("Friends");
               mutualBtn.setCompoundDrawablesWithIntrinsicBounds(0, R.d.ic_tab_friends, 0, 0);
               mutualBtn.setTypeface(ResourcesCompat.getFont(tabs.getContext(), Constants.Fonts.whitney_semibold));
-              mutualBtn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+              mutualBtn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT));
               if(tabs.findViewById(tabId) == null) {
                   tabs.addView(mutualBtn);
               }
