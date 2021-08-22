@@ -94,46 +94,47 @@ public class TestPlugin extends Plugin {
         var bindingField = ChannelMembersListViewHolderMember.class.getDeclaredField("binding");
         bindingField.setAccessible(true);
         
-        patcher.patch(WidgetChatListAdapterItemMessage.class, "configureItemTag", new Class<?>[] { Message.class }, new PinePatchFn(callFrame -> {
-            Message msg = (Message) callFrame.args[0];
-            User author = msg.getAuthor();
-            CoreUser coreUser = new CoreUser(author);
-            
-            try{
-                boolean showTag = false;
-                TextView textView = (TextView) itemTagField.get(callFrame.thisObject);
-                if (coreUser.getId() == 298295889720770563L || coreUser.isBot()) {
-                    showTag = true;
-                }
-                ImageView av = (ImageView) avField.get(callFrame.thisObject);
-                av.setVisibility(View.GONE);
-                av.setLayoutParams(new ConstraintLayout.LayoutParams(0, av.getLayoutParams().height));
-                SimpleDraweeSpanTextView content =  (SimpleDraweeSpanTextView) textField.get(callFrame.thisObject);
-                content.setPadding(0, 0, 0, 0);
-
-                textView.setVisibility(showTag ? View.VISIBLE : View.GONE);
-                textView.setText(coreUser.isBot() ? "BOT" : "DEV");
-                //Drawable bg = (Drawable) textView.getBackground();
-                int[] colors = {Color.parseColor("#f03a51"), Color.parseColor("#94a2f0")};
-                GradientDrawable gBg = new GradientDrawable(GradientDrawable.Orientation.TL_BR, colors);
-                gBg.setCornerRadius(Utils.dpToPx(2.5f));
-                //bg.mutate();
-                textView.setBackgroundDrawable(gBg);
-                if(UserUtils.INSTANCE.isVerifiedBot(coreUser) || coreUser.getId() == 298295889720770563L) {
-                    textView.setCompoundDrawablesWithIntrinsicBounds(R.d.ic_verified_10dp, 0, 0, 0);
-                }
-            } catch(Throwable e) {
-                Utils.log("error");
-            }
-            //this.itemTag.setText((coreUser.isSystemUser() || isPublicGuildSystemMessage) ? R.string.system_dm_tag_system : z3 ? R.string.bot_tag_server : R.string.bot_tag_bot);
-            //this.itemTag.setCompoundDrawablesWithIntrinsicBounds(UserUtils.INSTANCE.isVerifiedBot(coreUser) ? R.drawable.ic_verified_10dp : 0, 0, 0, 0);
-        }));
+        //patcher.patch(WidgetChatListAdapterItemMessage.class, "configureItemTag", new Class<?>[] { Message.class }, new PinePatchFn(callFrame -> {
+        //    Message msg = (Message) callFrame.args[0];
+        //    User author = msg.getAuthor();
+        //    CoreUser coreUser = new CoreUser(author);
+        //    
+        //    try{
+        //        boolean showTag = false;
+        //        TextView textView = (TextView) itemTagField.get(callFrame.thisObject);
+        //        if (coreUser.getId() == 298295889720770563L || coreUser.isBot()) {
+        //            showTag = true;
+        //        }
+        //        ImageView av = (ImageView) avField.get(callFrame.thisObject);
+        //        av.setVisibility(View.GONE);
+        //        av.setLayoutParams(new ConstraintLayout.LayoutParams(0, av.getLayoutParams().height));
+        //        SimpleDraweeSpanTextView content =  (SimpleDraweeSpanTextView) textField.get(callFrame.thisObject);
+        //        content.setPadding(0, 0, 0, 0);
+        //
+        //        textView.setVisibility(showTag ? View.VISIBLE : View.GONE);
+        //        textView.setText(coreUser.isBot() ? "BOT" : "DEV");
+        //        //Drawable bg = (Drawable) textView.getBackground();
+        //        int[] colors = {Color.parseColor("#f03a51"), Color.parseColor("#94a2f0")};
+        //        GradientDrawable gBg = new GradientDrawable(GradientDrawable.Orientation.TL_BR, colors);
+        //        gBg.setCornerRadius(Utils.dpToPx(2.5f));
+        //        //bg.mutate();
+        //        textView.setBackgroundDrawable(gBg);
+        //        if(UserUtils.INSTANCE.isVerifiedBot(coreUser) || coreUser.getId() == 298295889720770563L) {
+        //            textView.setCompoundDrawablesWithIntrinsicBounds(R.d.ic_verified_10dp, 0, 0, 0);
+        //        }
+        //    } catch(Throwable e) {
+        //        Utils.log("error");
+        //    }
+        //    //this.itemTag.setText((coreUser.isSystemUser() || isPublicGuildSystemMessage) ? R.string.system_dm_tag_system : z3 ? R.string.bot_tag_server : R.string.bot_tag_bot);
+        //    //this.itemTag.setCompoundDrawablesWithIntrinsicBounds(UserUtils.INSTANCE.isVerifiedBot(coreUser) ? R.drawable.ic_verified_10dp : 0, 0, 0, 0);
+        //}));
 
         patcher.patch(Guild.class, "getFeatures", new Class<?>[]{ }, new PinePatchFn(callFrame -> {
              Set<GuildFeature> features = new HashSet<>();
              Guild g = (Guild) callFrame.thisObject;
              features.add(GuildFeature.PARTNERED);
              features.add(GuildFeature.VERIFIED);
+             features.add(GuildFeature.BANNER);
              if(g.getId() == 631297712939204608L){
                  callFrame.setResult(features);
              }
