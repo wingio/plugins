@@ -134,7 +134,7 @@ public class TestPlugin extends Plugin {
              Guild g = (Guild) callFrame.thisObject;
              features.add(GuildFeature.PARTNERED);
              features.add(GuildFeature.VERIFIED);
-             if(g.getId() = 631297712939204608L){
+             if(g.getId() == 631297712939204608L){
                  callFrame.setResult(features);
              }
         }));
