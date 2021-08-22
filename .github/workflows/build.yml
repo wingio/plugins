@@ -56,7 +56,7 @@ jobs:
 
       - name: Build Plugins
         run: |
-          cd $GITHUB_WORKSPACE/src
+          cd $GITHUB_WORKSPACE/repo
           chmod +x gradlew
           ./gradlew make
           cp **/build/*.zip $GITHUB_WORKSPACE/test-builds
