@@ -23,6 +23,7 @@ import com.aliucord.plugins.testplugin.*;
 import com.discord.utilities.color.ColorCompat;
 import com.discord.api.premium.PremiumTier;
 import com.discord.api.user.User;
+import com.discord.api.guild.GuildFeature;
 import com.discord.databinding.WidgetChatOverlayBinding;
 import com.discord.databinding.WidgetGuildProfileSheetBinding;
 import com.discord.databinding.WidgetChannelMembersListItemUserBinding;
@@ -52,6 +53,7 @@ import com.lytefast.flexinput.R;
 
 import java.util.*;
 import java.lang.reflect.*;
+import java.lang.*;
 
 import kotlin.jvm.functions.Function0;
 
@@ -73,7 +75,7 @@ public class TestPlugin extends Plugin {
       new Manifest.Author[] {
         new Manifest.Author("Wing", 298295889720770563L),
       };
-    manifest.description = "Used for testing: avatar patch";
+    manifest.description = "Used for testing: partner patch";
     manifest.version = "1.1.0";
     manifest.updateUrl =
       "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
@@ -128,52 +130,17 @@ public class TestPlugin extends Plugin {
             //this.itemTag.setText((coreUser.isSystemUser() || isPublicGuildSystemMessage) ? R.string.system_dm_tag_system : z3 ? R.string.bot_tag_server : R.string.bot_tag_bot);
             //this.itemTag.setCompoundDrawablesWithIntrinsicBounds(UserUtils.INSTANCE.isVerifiedBot(coreUser) ? R.drawable.ic_verified_10dp : 0, 0, 0, 0);
         }));
-        
-        patcher.patch(ChannelMembersListViewHolderMember.class, "bind", new Class<?>[]{ ChannelMembersListAdapter.Item.Member.class, Function0.class}, new PinePatchFn(callFrame -> {
-            try {
-                WidgetChannelMembersListItemUserBinding binding = (WidgetChannelMembersListItemUserBinding) bindingField.get(callFrame.thisObject);
-                ConstraintLayout layout = (ConstraintLayout) binding.getRoot();
-                ChannelMembersListAdapter.Item.Member user = (ChannelMembersListAdapter.Item.Member) callFrame.args[0];
-                if(user.getUserId() == 298295889720770563L) { 
-                    TextView tagText = (TextView) layout.findViewById(Utils.getResId("username_tag", "id"));
-                    tagText.setText("DEV");
-                    tagText.setVisibility(View.VISIBLE);
-                    tagText.setCompoundDrawablesWithIntrinsicBounds(R.d.ic_verified_10dp, 0, 0, 0);
-                    TextView testText = new TextView(layout.getContext(), null, 0, R.h.UserProfile_Section_Header);
-                    testText.setId(id);
-                    if(layout.findViewById(id) == null) {
-                        testText.setTypeface(ResourcesCompat.getFont(layout.getContext(), Constants.Fonts.whitney_bold));
-                        testText.setText("Text");
-                        ViewGroup nameArea = (ViewGroup) layout.findViewById(Utils.getResId("channel_members_list_item_name", "id"));
-                        tagText.measure(0, 0);
-                        int tagW = tagText.getMeasuredWidth();
-                        View name = layout.getChildAt(0);
-                        name.measure(0, 0);
-                        int nameW = name.getMeasuredWidth();
-                        ViewGroup.LayoutParams params = (ViewGroup.LayoutParams) name.getLayoutParams();
-                        testText.setPadding(tagW + nameW + Utils.dpToPx(4), 0, 0, 0);
-                        //testText.setLayoutParams(params);
-                        //nameArea.addView(testText);
-                    }
-                }
-            } catch(Throwable e) {Utils.log("error setting bot text");}
+
+        patcher.patch(Guild.class, "getFeatures", new Class<?>[]{ }, new PinePatchFn(callFrame -> {
+             Set<GuildFeature> features = new Set<GuildFeature>();
+             features.put(GuildFeature.PARTNERED);
+             callFrame.setResult(features);
         }));
 
-        var profileBinding = UserProfileHeaderView.class.getDeclaredField("binding");
-        profileBinding.setAccessible(true);
-
-        patcher.patch(UserProfileHeaderView.class, "updateViewState", new Class<?>[]{ UserProfileHeaderViewModel.ViewState.Loaded.class }, new PinePatchFn(callFrame -> {
-            try {
-                UserProfileHeaderViewBinding binding = (UserProfileHeaderViewBinding) profileBinding.get(callFrame.thisObject);
-                
-                var user = ((UserProfileHeaderViewModel.ViewState.Loaded) callFrame.args[0]).getUser();
-                if(user.getId() == 298295889720770563L) { 
-                    TextView tagText = (TextView) binding.a.findViewById(Utils.getResId("username_tag", "id"));
-                    tagText.setText("UserTags Developer");
-                    tagText.setVisibility(View.VISIBLE);
-                    tagText.setCompoundDrawablesWithIntrinsicBounds(R.d.ic_verified_10dp, 0, 0, 0);
-                }
-            } catch(Throwable e) {Utils.log("error setting bot text");}
+        patcher.patch(Guild.class, "getFeatures", new Class<?>[]{ }, new PinePatchFn(callFrame -> {
+             Set<GuildFeature> features = new Set<GuildFeature>();
+             features.put(GuildFeature.PARTNERED);
+             callFrame.setResult(features);
         }));
     }
 
