@@ -7,6 +7,8 @@ import android.view.*;
 import android.widget.*;
 import android.os.*;
 
+import com.google.android.material.button.*;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -77,6 +79,7 @@ public class GuildProfiles extends Plugin {
     public void start(Context context) throws Throwable {
         final int sheetId = Utils.getResId("guild_profile_sheet_actions", "id");
         final int infoId = View.generateViewId();
+        final int tabId = View.generateViewId();
         patcher.patch(WidgetGuildProfileSheet.class, "configureUI", new Class<?>[]{ WidgetGuildProfileSheetViewModel.ViewState.Loaded.class }, new PinePatchFn(callFrame -> {
             WidgetGuildProfileSheet _this = (WidgetGuildProfileSheet) callFrame.thisObject;
             WidgetGuildProfileSheetViewModel.ViewState.Loaded state = (WidgetGuildProfileSheetViewModel.ViewState.Loaded) callFrame.args[0];
@@ -93,10 +96,14 @@ public class GuildProfiles extends Plugin {
               var clock = ClockFactory.get();
 
               LinearLayout tabs = (LinearLayout) lo.findViewById(Utils.getResId("guild_profile_sheet_tab_items", "id"));
-              Button mutualBtn = new Button(tabs.getContext(), null, 0, Utils.getResId("GuildProfileSheet.TabItems.Button", "style"));
+              MaterialButton mutualBtn = new MaterialButton(tabs.getContext(), null, 0, Utils.getResId("GuildProfileSheet.TabItems.Button", "style"));
+              mutualBtn.setId(tabId);
               mutualBtn.setText("Friends");
               mutualBtn.setCompoundDrawablesWithIntrinsicBounds(0, R.d.ic_tab_friends, 0, 0);
-              tabs.addView(mutualBtn);
+              mutualBtn.setTypeface(ResourcesCompat.getFont(c, Constants.Fonts.whitney_semibold));
+              if(tabs.findViewById(tabId) == null) {
+                  tabs.addView(mutualBtn);
+              }
 
               GridLayout info = new GridLayout(ctx);
               info.setColumnCount(2);
