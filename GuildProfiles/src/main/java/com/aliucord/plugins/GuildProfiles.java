@@ -144,19 +144,19 @@ public class GuildProfiles extends Plugin {
                 if(showVerificationLevel) {
                     String level = "";
                     switch (guild.getVerificationLevel()) {
-                        case GuildVerificationLevel.NONE:
+                        case 0:
                             level = "None";
                             break;
-                        case GuildVerificationLevel.LOW:
+                        case 1:
                             level = "Low";
                             break;
-                        case GuildVerificationLevel.MEDIUM:
+                        case 2:
                             level = "Medium";
                             break;
-                        case GuildVerificationLevel.HIGH:
+                        case 3:
                             level = "High";
                             break;
-                        case GuildVerificationLevel.HIGHEST:
+                        case 4:
                             level = "Very High";
                             break;
                     }
