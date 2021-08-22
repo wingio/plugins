@@ -96,11 +96,12 @@ public class GuildProfiles extends Plugin {
               var clock = ClockFactory.get();
 
               LinearLayout tabs = (LinearLayout) lo.findViewById(Utils.getResId("guild_profile_sheet_tab_items", "id"));
-              MaterialButton mutualBtn = new MaterialButton(tabs.getContext(), null, 0, Utils.getResId("GuildProfileSheet.TabItems.Button", "style"));
+              Button mutualBtn = new Button(tabs.getContext(), null, 0, Utils.getResId("GuildProfileSheet.TabItems.Button", "style"));
               mutualBtn.setId(tabId);
               mutualBtn.setText("Friends");
               mutualBtn.setCompoundDrawablesWithIntrinsicBounds(0, R.d.ic_tab_friends, 0, 0);
-              mutualBtn.setTypeface(ResourcesCompat.getFont(c, Constants.Fonts.whitney_semibold));
+              mutualBtn.setTypeface(ResourcesCompat.getFont(tabs.getContext(), Constants.Fonts.whitney_semibold));
+              mutualBtn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
               if(tabs.findViewById(tabId) == null) {
                   tabs.addView(mutualBtn);
               }
