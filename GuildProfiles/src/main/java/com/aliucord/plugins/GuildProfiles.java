@@ -99,10 +99,11 @@ public class GuildProfiles extends Plugin {
               TextView mutualBtn = new TextView(actions.getContext(), null, 0, Utils.getResId("GuildProfileSheet.Actions.Title", "style"));
               mutualBtn.setId(tabId);
               mutualBtn.setText("Mutual Friends");
-              //mutualBtn.setCompoundDrawablesWithIntrinsicBounds(0, R.d.ic_tab_friends, 0, 0);
+              mutualBtn.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.d.ic_chevron_right_grey_12dp, 0);
               mutualBtn.setTypeface(ResourcesCompat.getFont(actions.getContext(), Constants.Fonts.whitney_semibold));
               mutualBtn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
               mutualBtn.setPadding(Utils.dpToPx(16), Utils.dpToPx(16), Utils.dpToPx(16), Utils.dpToPx(16));
+              mutualBtn.setOnClickListener(e -> {Utils.showToast(actions.getContext(), "Hi");});
               if(actions.findViewById(tabId) == null) {
                   actions.addView(mutualBtn, 2);
               }
