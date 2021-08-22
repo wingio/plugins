@@ -3,7 +3,7 @@ name: Build
 on:
   push:
     branches:
-      - main
+      - test
 
 jobs:
   build:
@@ -17,8 +17,8 @@ jobs:
       - name: Checkout builds
         uses: actions/checkout@master
         with:
-          ref: "builds"
-          path: "builds"
+          ref: "test-builds"
+          path: "test-builds"
 
       - name: Checkout Aliucord
         uses: actions/checkout@master
@@ -45,7 +45,7 @@ jobs:
             --arg ALIUCORD "$GITHUB_WORKSPACE/repo" \
             --arg PLUGINS "$GITHUB_WORKSPACE/src" \
             --arg SDK "$ANDROID_HOME" \
-            --arg OUTPUT_PLUGINS "$GITHUB_WORKSPACE/builds" \
+            --arg OUTPUT_PLUGINS "$GITHUB_WORKSPACE/test-builds" \
             '{
               aliucord: $ALIUCORD,
               plugins: $PLUGINS,
@@ -55,14 +55,18 @@ jobs:
             }' <<< "{}" > ~/config.json
 
       - name: Build Plugins
-        run: ~/bin/buildtool --config ~/config.json -p \*
+        run: |
+          cd $GITHUB_WORKSPACE/src
+          chmod +x gradlew
+          ./gradlew make
+          cp **/build/*.zip $GITHUB_WORKSPACE/test-builds
 
       - name: Push builds
         run: |
-          cd $GITHUB_WORKSPACE/builds
+          cd $GITHUB_WORKSPACE/test-builds
           cp ../src/updater.json .
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
           git add *
           git commit -m "Build $GITHUB_SHA" || exit 0   # do not error if nothing to commit
-          git push
+          git push -u origin test-builds
