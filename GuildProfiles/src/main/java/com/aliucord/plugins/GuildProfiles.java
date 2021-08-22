@@ -81,6 +81,7 @@ public class GuildProfiles extends Plugin {
             WidgetGuildProfileSheet _this = (WidgetGuildProfileSheet) callFrame.thisObject;
             WidgetGuildProfileSheetViewModel.ViewState.Loaded state = (WidgetGuildProfileSheetViewModel.ViewState.Loaded) callFrame.args[0];
             Guild guild = StoreStream.getGuilds().getGuilds().get(state.component1());
+            
             try {
               var iconField = _this.getClass().getDeclaredField("binding$delegate");
               iconField.setAccessible(true);
@@ -90,6 +91,12 @@ public class GuildProfiles extends Plugin {
               LinearLayout layout = (LinearLayout) lo.findViewById(sheetId);
               Context ctx = layout.getContext();
               var clock = ClockFactory.get();
+
+              LinearLayout tabs = (LinearLayout) lo.findViewById(Utils.getResId("guild_profile_sheet_tab_items", "id"));
+              Button mutualBtn = new Button(tabs.getContext(), null, 0, Utils.getResId("GuildProfileSheet.TabItems.Button", "style"));
+              mutualBtn.setText("Friends");
+              mutualBtn.setCompoundDrawablesWithIntrinsicBounds(0, R.d.ic_tab_friends, 0, 0);
+              tabs.addView(mutualBtn);
 
               GridLayout info = new GridLayout(ctx);
               info.setColumnCount(2);
