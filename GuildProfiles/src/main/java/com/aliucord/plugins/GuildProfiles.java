@@ -149,8 +149,8 @@ public class GuildProfiles extends Plugin {
       LinearLayout section = new LinearLayout(c);
       section.setOrientation(LinearLayout.VERTICAL);
       LayoutParams param = new GridLayout.LayoutParams();
-      param.RowSpec = GridLayout.InvokeSpec(GridLayout.Undefined, 1f);
-      param.ColumnSpec = GridLayout.InvokeSpec(GridLayout.Undefined, 1f);
+      param.RowSpec = GridLayout.InvokeSpec(GridLayout.UNDEFINED, 1f);
+      param.ColumnSpec = GridLayout.InvokeSpec(GridLayout.UNDEFINED, 1f);
       section.setLayoutParams(param);
       section.setBackgroundColor(Color.TRANSPARENT);
       section.setPadding(Utils.dpToPx(2), Utils.dpToPx(8), 0, 0);
