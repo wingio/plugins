@@ -148,7 +148,7 @@ public class GuildProfiles extends Plugin {
     public void addInfo(Context c, GridLayout layout, String name, String value, @Nullable View.OnLongClickListener listener) {
       LinearLayout section = new LinearLayout(c);
       section.setOrientation(LinearLayout.VERTICAL);
-      section.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+      section.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
       section.setBackgroundColor(Color.TRANSPARENT);
       section.setPadding(Utils.dpToPx(2), Utils.dpToPx(8), 0, 0);
 
