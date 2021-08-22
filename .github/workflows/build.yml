@@ -55,7 +55,10 @@ jobs:
             }' <<< "{}" > ~/config.json
 
       - name: Build Plugins
-        run: ~/bin/buildtool --config ~/config.json -p \*
+          cd $GITHUB_WORKSPACE/src
+          chmod +x gradlew
+          ./gradlew make
+          cp **/build/*.zip $GITHUB_WORKSPACE/test-builds
 
       - name: Push builds
         run: |
