@@ -105,7 +105,7 @@ public class GuildProfiles extends Plugin {
               mutualBtn.setPadding(Utils.dpToPx(16), Utils.dpToPx(16), Utils.dpToPx(16), Utils.dpToPx(16));
               mutualBtn.setOnClickListener(e -> {Utils.showToast(actions.getContext(), "Hi");});
               if(actions.findViewById(tabId) == null) {
-                  actions.addView(mutualBtn, 2);
+                  actions.addView(mutualBtn, 1);
               }
 
               GridLayout info = new GridLayout(ctx);
