@@ -103,7 +103,7 @@ public class GuildProfiles extends Plugin {
               mutualBtn.setTypeface(ResourcesCompat.getFont(actions.getContext(), Constants.Fonts.whitney_semibold));
               mutualBtn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
               mutualBtn.setPadding(Utils.dpToPx(16), Utils.dpToPx(16), Utils.dpToPx(16), Utils.dpToPx(16));
-              mutualBtn.setOnClickListener(e -> {Utils.showToast(actions.getContext(), "Hi");});
+              mutualBtn.setOnClickListener(e -> {Utils.openPageWithProxy(actions.getContext(), new PluginSettings(settings));});
               if(actions.findViewById(tabId) == null) {
                   actions.addView(mutualBtn, 1);
               }
