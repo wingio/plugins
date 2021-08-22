@@ -1,4 +1,3 @@
-include(":GuildProfiles")
-project(":GuildProfiles").projectDir = File("./GuildProfiles")
+include(":TestPlugin")
 
 rootProject.name = "plugins"
