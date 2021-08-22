@@ -25,6 +25,7 @@ import com.aliucord.fragments.*;
 import com.aliucord.plugins.guildprofiles.*;
 import com.discord.utilities.color.ColorCompat;
 import com.discord.api.premium.PremiumTier;
+import com.discord.api.guild.GuildVerificationLevel;
 import com.discord.databinding.WidgetChatOverlayBinding;
 import com.discord.databinding.WidgetGuildProfileSheetBinding;
 import com.discord.utilities.viewbinding.FragmentViewBindingDelegate;
@@ -103,6 +104,7 @@ public class GuildProfiles extends Plugin {
                 boolean showOwner = settings.getBool("owner", true);
                 boolean showLocale = settings.getBool("locale", true);
                 boolean showTier = settings.getBool("tier", true);
+                boolean showVerificationLevel = settings.getBool("verificationLevel", true);
 
                 boolean hasVanity = guild.canHaveVanityURL();
                 User owner = StoreStream.getUsers().getUsers().get(guild.getOwnerId());
@@ -137,6 +139,28 @@ public class GuildProfiles extends Plugin {
 
                 if(showTier && guild.getPremiumSubscriptionCount() > 2) {
                     addInfo(ctx, info, "Boost Level", String.valueOf(guild.getPremiumTier()), null);
+                }
+
+                if(showVerificationLevel) {
+                    String level = "";
+                    switch (guild.getVerificationLevel()) {
+                        case GuildVerificationLevel.NONE:
+                            level = "None";
+                            break;
+                        case GuildVerificationLevel.LOW:
+                            level = "Low";
+                            break;
+                        case GuildVerificationLevel.MEDIUM:
+                            level = "Medium";
+                            break;
+                        case GuildVerificationLevel.HIGH:
+                            level = "High";
+                            break;
+                        case GuildVerificationLevel.HIGHEST:
+                            level = "Very High";
+                            break;
+                    }
+                    addInfo(ctx, info, "Verification Level", level, null);
                 }
                 
                 layout.addView(info, 3);

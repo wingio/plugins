@@ -53,6 +53,8 @@ public final class PluginSettings extends SettingsPage {
         layout.addView(createSwitch(context, settings, "vanityUrl", "Display 'Vanity URL'", null, true));
         layout.addView(createSwitch(context, settings, "owner", "Display 'Owner'", Utils.renderMD("**Hint**: Long press on this field to open up their profile!"), true));
         layout.addView(createSwitch(context, settings, "locale", "Display 'Language'", null, true));
+        layout.addView(createSwitch(context, settings, "tier", "Display 'Boost Level'", null, true));
+        layout.addView(createSwitch(context, settings, "verificationLevel", "Display 'Verification Level'", null, true));
         layout.addView(new Divider(context));
     }
 
