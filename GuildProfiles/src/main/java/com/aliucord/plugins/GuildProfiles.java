@@ -102,6 +102,7 @@ public class GuildProfiles extends Plugin {
                 boolean showVanity = settings.getBool("vanityUrl", true);
                 boolean showOwner = settings.getBool("owner", true);
                 boolean showLocale = settings.getBool("locale", true);
+                boolean showTier = settings.getBool("tier", true);
 
                 boolean hasVanity = guild.canHaveVanityURL();
                 User owner = StoreStream.getUsers().getUsers().get(guild.getOwnerId());
@@ -132,6 +133,10 @@ public class GuildProfiles extends Plugin {
 
                 if(showLocale && guild.getPreferredLocale() != null) {
                     addInfo(ctx, info, "Language", guild.getPreferredLocale(), null);
+                }
+
+                if(showTier && guild.getPremiumSubscriptionCount() > 2) {
+                    addInfo(ctx, info, "Boost Level", String.valueOf(guild.getPremiumTier()), null);
                 }
                 
                 layout.addView(info, 3);
