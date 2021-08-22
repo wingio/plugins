@@ -64,7 +64,6 @@ public class TestPlugin extends Plugin {
         needsResources = true;
     }
     
-    private Drawable pluginIcon;
     public RelativeLayout overlay;
 
     @NonNull
@@ -85,7 +84,6 @@ public class TestPlugin extends Plugin {
 
     @Override
     public void start(Context context) throws Throwable {
-        pluginIcon = ResourcesCompat.getDrawable(resources, resources.getIdentifier("ic_editfriend", "drawable", "com.aliucord.plugins"), null );
         var id = View.generateViewId();
         var itemTagField = WidgetChatListAdapterItemMessage.class.getDeclaredField("itemTag");
         itemTagField.setAccessible(true);
