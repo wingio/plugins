@@ -138,27 +138,17 @@ public class GuildProfiles extends Plugin {
                 }
 
                 if(showTier && guild.getPremiumSubscriptionCount() > 2) {
-                    addInfo(ctx, info, "Boost Level", String.valueOf(guild.getPremiumTier()), null);
+                    addInfo(ctx, info, "Boost Level","Tier " + guild.getPremiumTier(), null);
                 }
 
                 if(showVerificationLevel) {
                     String level = "";
                     switch (guild.getVerificationLevel()) {
-                        case NONE:
-                            level = "None";
-                            break;
-                        case LOW:
-                            level = "Low";
-                            break;
-                        case MEDIUM:
-                            level = "Medium";
-                            break;
-                        case HIGH:
-                            level = "High";
-                            break;
-                        case HIGHEST:
-                            level = "Very High";
-                            break;
+                        case NONE: level = "None"; break;
+                        case LOW: level = "Low"; break;
+                        case MEDIUM: level = "Medium"; break;
+                        case HIGH: level = "High"; break;
+                        case HIGHEST: level = "Very High"; break;
                     }
                     addInfo(ctx, info, "Verification Level", level, null);
                 }
