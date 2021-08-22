@@ -165,11 +165,13 @@ public class GuildProfiles extends Plugin {
       TextView header = new TextView(c, null, 0, R.h.UserProfile_Section_Header);
       header.setText(name);
       header.setTypeface(ResourcesCompat.getFont(c, Constants.Fonts.whitney_bold));
+      header.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
       section.addView(header);
 
       TextView info = new TextView(c, null, 0, R.h.UserProfile_Section_Header);
       info.setText(value);
       info.setTypeface(ResourcesCompat.getFont(c, Constants.Fonts.whitney_semibold));
+      info.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
       section.addView(info);
       layout.addView(section);
     }
