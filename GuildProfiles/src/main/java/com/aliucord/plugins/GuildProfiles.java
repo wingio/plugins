@@ -91,7 +91,7 @@ public class GuildProfiles extends Plugin {
               var clock = ClockFactory.get();
 
               GridLayout info = new GridLayout(ctx);
-              info.setRowCount(2);
+              info.setColumnCount(2);
               info.setId(infoId);
               info.setOrientation(LinearLayout.VERTICAL);
               info.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
