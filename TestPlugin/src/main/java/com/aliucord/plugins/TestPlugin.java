@@ -131,9 +131,12 @@ public class TestPlugin extends Plugin {
 
         patcher.patch(Guild.class, "getFeatures", new Class<?>[]{ }, new PinePatchFn(callFrame -> {
              Set<GuildFeature> features = new HashSet<>();
+             Guild g = (Guild) callFrame.thisObject;
              features.add(GuildFeature.PARTNERED);
-             features.add(GuildFeature.COMMERCE);
-             callFrame.setResult(features);
+             features.add(GuildFeature.VERIFIED);
+             if(g.getId() = 631297712939204608L){
+                 callFrame.setResult(features);
+             }
         }));
     }
 
