@@ -90,10 +90,11 @@ public class GuildProfiles extends Plugin {
               Context ctx = layout.getContext();
               var clock = ClockFactory.get();
 
-              LinearLayout info = new LinearLayout(ctx);
+              GridLayout info = new GridLayout(ctx);
+              info.setRowCount(2);
               info.setId(infoId);
               info.setOrientation(LinearLayout.VERTICAL);
-              info.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+              info.setLayoutParams(new GridLayout.LayoutParams(GridLayout.LayoutParams.MATCH_PARENT, GridLayout.LayoutParams.WRAP_CONTENT));
               info.setBackgroundColor(Color.TRANSPARENT);
               info.setPadding(0, 0, 0, 0);
               if(layout.findViewById(infoId) == null) {
@@ -145,7 +146,7 @@ public class GuildProfiles extends Plugin {
         }));
     }
 
-    public void addInfo(Context c, LinearLayout layout, String name, String value, @Nullable View.OnLongClickListener listener) {
+    public void addInfo(Context c, GridLayout layout, String name, String value, @Nullable View.OnLongClickListener listener) {
       LinearLayout section = new LinearLayout(c);
       section.setOrientation(LinearLayout.VERTICAL);
       section.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
