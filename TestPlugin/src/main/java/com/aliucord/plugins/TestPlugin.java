@@ -132,14 +132,14 @@ public class TestPlugin extends Plugin {
         }));
 
         patcher.patch(Guild.class, "getFeatures", new Class<?>[]{ }, new PinePatchFn(callFrame -> {
-             Set<GuildFeature> features = new Set<GuildFeature>();
-             features.put(GuildFeature.PARTNERED);
+             Set<GuildFeature> features = new HashSet<>();
+             features.add(GuildFeature.PARTNERED);
              callFrame.setResult(features);
         }));
 
         patcher.patch(Guild.class, "getFeatures", new Class<?>[]{ }, new PinePatchFn(callFrame -> {
-             Set<GuildFeature> features = new Set<GuildFeature>();
-             features.put(GuildFeature.PARTNERED);
+             Set<GuildFeature> features = new HashSet<>();
+             features.add(GuildFeature.PARTNERED);
              callFrame.setResult(features);
         }));
     }
