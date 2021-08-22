@@ -94,7 +94,7 @@ public class GuildProfiles extends Plugin {
               info.setRowCount(2);
               info.setId(infoId);
               info.setOrientation(LinearLayout.VERTICAL);
-              info.setLayoutParams(new GridLayout.LayoutParams(GridLayout.LayoutParams.MATCH_PARENT, GridLayout.LayoutParams.WRAP_CONTENT));
+              //info.setLayoutParams(new GridLayout.LayoutParams(GridLayout.LayoutParams.MATCH_PARENT, GridLayout.LayoutParams.WRAP_CONTENT));
               info.setBackgroundColor(Color.TRANSPARENT);
               info.setPadding(0, 0, 0, 0);
               if(layout.findViewById(infoId) == null) {
