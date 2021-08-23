@@ -25,6 +25,7 @@ import com.aliucord.entities.Plugin;
 import com.aliucord.patcher.PinePatchFn;
 import com.aliucord.fragments.*;
 import com.aliucord.plugins.guildprofiles.*;
+import com.aliucord.plugins.guildprofiles.pages.*;
 import com.discord.utilities.color.ColorCompat;
 import com.discord.api.premium.PremiumTier;
 import com.discord.api.guild.GuildVerificationLevel;
@@ -83,7 +84,8 @@ public class GuildProfiles extends Plugin {
         patcher.patch(WidgetGuildProfileSheet.class, "configureUI", new Class<?>[]{ WidgetGuildProfileSheetViewModel.ViewState.Loaded.class }, new PinePatchFn(callFrame -> {
             WidgetGuildProfileSheet _this = (WidgetGuildProfileSheet) callFrame.thisObject;
             WidgetGuildProfileSheetViewModel.ViewState.Loaded state = (WidgetGuildProfileSheetViewModel.ViewState.Loaded) callFrame.args[0];
-            Guild guild = StoreStream.getGuilds().getGuilds().get(state.component1());
+            var guildStore = StoreStream.getGuilds();
+            Guild guild = guildStore.getGuilds().get(state.component1());
             
             try {
               var iconField = _this.getClass().getDeclaredField("binding$delegate");
@@ -103,7 +105,7 @@ public class GuildProfiles extends Plugin {
               mutualBtn.setTypeface(ResourcesCompat.getFont(actions.getContext(), Constants.Fonts.whitney_semibold));
               mutualBtn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
               mutualBtn.setPadding(Utils.dpToPx(16), Utils.dpToPx(16), Utils.dpToPx(16), Utils.dpToPx(16));
-              mutualBtn.setOnClickListener(e -> {Utils.openPageWithProxy(actions.getContext(), new PluginSettings(settings));});
+              mutualBtn.setOnClickListener(e -> {Utils.openPageWithProxy(actions.getContext(), new MutualFriendsPage(guildStore.getMembers().get(guild.getId()), guild.getName()));});
               if(actions.findViewById(tabId) == null) {
                   actions.addView(mutualBtn, 1);
               }
