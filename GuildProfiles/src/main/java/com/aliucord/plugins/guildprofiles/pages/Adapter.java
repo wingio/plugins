@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.annotation.DimenRes;
 
 import com.aliucord.Utils;
+import com.aliucord.Http;
 import com.discord.models.member.GuildMember;
 import com.discord.models.user.User;
 import com.discord.utilities.color.ColorCompat;
@@ -26,7 +27,6 @@ import kotlin.jvm.functions.Function1;
 import java.util.List;
 import java.lang.*;
 import java.io.*;
-import java.net.*;
 
 public class Adapter extends RecyclerView.Adapter<ViewHolder> {
     private static final int layoutId = Utils.getResId("widget_user_profile_adapter_item_server", "layout");
