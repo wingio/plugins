@@ -87,7 +87,7 @@ public class Adapter extends RecyclerView.Adapter<ViewHolder> {
         var friend = friends.get(position);
         try {
             final FragmentActivity activity = (FragmentActivity) ctx;
-            WidgetUserSheet.Companion.show(friend.getUserId(), activity.supportFragmentManager);
+            WidgetUserSheet.Companion.show(friend.getUserId(), activity.getSupportFragmentManager());
         } catch (Throwable e) {  logger.error("Error opening user sheet", e);}
     }
 }
