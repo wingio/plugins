@@ -26,6 +26,7 @@ import kotlin.jvm.functions.Function1;
 import java.util.List;
 import java.lang.*;
 import java.io.*;
+import java.net.*;
 
 public class Adapter extends RecyclerView.Adapter<ViewHolder> {
     private static final int layoutId = Utils.getResId("widget_user_profile_adapter_item_server", "layout");
