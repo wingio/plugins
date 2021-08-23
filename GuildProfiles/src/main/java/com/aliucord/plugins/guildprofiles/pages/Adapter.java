@@ -96,7 +96,7 @@ public class Adapter extends RecyclerView.Adapter<ViewHolder> {
             try (var baos = new ByteArrayOutputStream()) {
                 res.pipe(baos);
                 var b64 = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
-                return String.format("data:image/%s;base64,%s", "png", b64);
+                return String.format("%s", b64);
             }
         } catch (IOException ex) {return null; }
     }
