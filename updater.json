@@ -25,6 +25,10 @@
         "version": "1.0.2",
         "minimumDiscordVersion": 83210
     },
+    "GuildProfiles": {
+        "version": "1.0.0",
+        "minimumDiscordVersion": 83210
+    },
     "default": {
         "minimumDiscordVersion": 1456,
         "version": "1.0.0",
