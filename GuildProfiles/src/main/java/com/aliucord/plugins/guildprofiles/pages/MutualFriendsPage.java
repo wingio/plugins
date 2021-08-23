@@ -39,7 +39,7 @@ public class MutualFriendsPage extends SettingsPage {
     public void onViewBound(View view) {
         super.onViewBound(view);
         var storeUserRelationships = StoreStream.getUserRelationships();
-        var users = (members.entrySet().stream().filter(aLong -> storeUserRelationships.getRelationships().get(aLong.getKey()) == 1).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        var users = members.entrySet().stream().filter(aLong -> storeUserRelationships.getRelationships().get(aLong.getKey()) == 1).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
         setActionBarTitle(users.size() + " Mutual Friends");
         setActionBarSubtitle(name);
