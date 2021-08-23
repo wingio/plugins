@@ -1,7 +1,8 @@
 {
     "DN": {
         "version": "1.3",
-        "minimumDiscordVersion": 1498
+        "minimumDiscordVersion": 83210,
+        "changelog": "It's back. {added marginTop}\n======================"
     },
     "MessageLinkContext": {
         "version": "1.6.1",
