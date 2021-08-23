@@ -52,7 +52,8 @@ public class Adapter extends RecyclerView.Adapter<ViewHolder> {
         var friendUser = StoreStream.getUsers().getUsers().get(friend.getUserId());
         var color = Integer.valueOf(ColorCompat.getThemedColor(holder.itemView.getContext(), R.b.colorBackgroundPrimary));
         if (friend.hasAvatar()) {
-            this.setAvatar(holder.icon, friendUser, false, Utils.getResId("avatar_size_unrestricted", "dimen"), friend);
+            int asu = Utils.getResId("avatar_size_unrestricted", "dimen");
+            this.setAvatar(holder.icon, friendUser, false, 0, friend);
             holder.iconText.setVisibility(View.GONE);
         } else {
             holder.icon.setVisibility(View.GONE);
@@ -66,10 +67,10 @@ public class Adapter extends RecyclerView.Adapter<ViewHolder> {
         int dimensionPixelSize = simpleDraweeView.getResources().getDimensionPixelSize(i);
         int iconResId = Utils.getResId("uikit_icon_url", "id");
         String forGuildMemberOrUser = IconUtils.INSTANCE.getForGuildMemberOrUser(user, guildMember, dimensionPixelSize > 0 ? Integer.valueOf(IconUtils.getMediaProxySize(dimensionPixelSize)) : null);
-        IconUtils.setIcon$default(simpleDraweeView, forGuildMemberOrUser, i, (Function1) null, (MGImages.ChangeDetector) null, 24, (Object) null);
-        // if (!m.areEqual(forGuildMemberOrUser, simpleDraweeView.getTag(iconResId))) {
-        //     simpleDraweeView.setTag(iconResId, forGuildMemberOrUser);
-        // }
+        if (!m.areEqual(forGuildMemberOrUser, simpleDraweeView.getTag(iconResId))) {
+            simpleDraweeView.setTag(iconResId, forGuildMemberOrUser);
+            IconUtils.setIcon$default(simpleDraweeView, forGuildMemberOrUser, i, (Function1) null, (MGImages.ChangeDetector) null, 24, (Object) null);
+        }
     }
 
     public void onClick(Context ctx, int position) {
