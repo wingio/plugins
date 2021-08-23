@@ -12,6 +12,7 @@ import androidx.annotation.DimenRes;
 
 import com.aliucord.Utils;
 import com.aliucord.Http;
+import com.aliucord.Logger;
 import com.discord.models.member.GuildMember;
 import com.discord.models.user.User;
 import com.discord.utilities.color.ColorCompat;
@@ -58,7 +59,9 @@ public class Adapter extends RecyclerView.Adapter<ViewHolder> {
         var color = Integer.valueOf(ColorCompat.getThemedColor(holder.itemView.getContext(), R.b.colorBackgroundPrimary));
         if (friend.hasAvatar()) {
             Utils.threadPool.execute(() -> {
-                var avUri = imageToDataUri("https://cdn.discordapp.com/avatars/" + friendUser.getId() + "/" + friend.getAvatarHash() + ".png");
+                var imgUrl = "https://cdn.discordapp.com/avatars/" + friendUser.getId() + "/" + friend.getAvatarHash() + ".png";
+                Logger.log(imgUrl);
+                var avUri = imageToDataUri(imgUrl);
                 byte[] decodedString = Base64.decode(avUri, Base64.DEFAULT);
                 Bitmap bitMap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                 Utils.mainThread.post(() -> {

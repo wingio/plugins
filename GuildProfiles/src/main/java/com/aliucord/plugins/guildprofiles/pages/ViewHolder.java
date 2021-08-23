@@ -20,6 +20,7 @@ public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
     public final ImageView icon;
     public final TextView iconText;
     public final TextView name;
+    public final TextView nick;
 
     public ViewHolder(Adapter adapter, @NonNull RelativeLayout layout) {
         super(layout);
@@ -28,7 +29,7 @@ public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
         icon = (ImageView) layout.findViewById(iconId);
         iconText = (TextView) layout.findViewById(iconTextId);
         name = (TextView) layout.findViewById(serverNameId);
-        layout.findViewById(serverNickId).setVisibility(View.GONE);
+        nick = (TextView) layout.findViewById(serverNickId);
 
         layout.setOnClickListener(this);
     }

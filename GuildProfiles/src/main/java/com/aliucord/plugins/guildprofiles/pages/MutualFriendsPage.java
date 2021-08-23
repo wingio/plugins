@@ -50,8 +50,6 @@ public class MutualFriendsPage extends SettingsPage {
 
         var ctx = view.getContext();
 
-        Utils.showToast(ctx, String.valueOf(storeUserRelationships.getRelationships()));
-
         setPadding(0);
 
         var recycler = new RecyclerView(ctx);
