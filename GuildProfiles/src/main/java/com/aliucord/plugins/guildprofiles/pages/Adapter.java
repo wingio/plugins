@@ -6,14 +6,21 @@ import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.annotation.DimenRes;
 
 import com.aliucord.Utils;
 import com.discord.models.member.GuildMember;
+import com.discord.models.user.User;
 import com.discord.utilities.color.ColorCompat;
 import com.discord.utilities.extensions.SimpleDraweeViewExtensionsKt;
+import com.discord.utilities.icon.IconUtils;
+import com.discord.utilities.images.MGImages;
 import com.discord.stores.*;
 import com.lytefast.flexinput.R;
+import d0.z.d.m;
+import com.facebook.drawee.view.SimpleDraweeView;
 
+import kotlin.jvm.functions.Function1;
 import java.util.List;
 
 public class Adapter extends RecyclerView.Adapter<ViewHolder> {
@@ -45,13 +52,23 @@ public class Adapter extends RecyclerView.Adapter<ViewHolder> {
         var friendUser = StoreStream.getUsers().getUsers().get(friend.getUserId());
         var color = Integer.valueOf(ColorCompat.getThemedColor(holder.itemView.getContext(), R.b.colorBackgroundPrimary));
         if (friend.hasAvatar()) {
-            SimpleDraweeViewExtensionsKt.setAvatar(holder.icon, friendUser, false, Utils.getResId("avatar_size_unrestricted", "dimen"), friend);
+            this..setAvatar(holder.icon, friendUser, false, Utils.getResId("avatar_size_unrestricted", "dimen"), friend);
             holder.iconText.setVisibility(View.GONE);
         } else {
             holder.icon.setVisibility(View.GONE);
         }
 
         holder.name.setText(friendUser.getUsername());
+    }
+
+    public final void setAvatar(SimpleDraweeView simpleDraweeView, User user, boolean z2, @DimenRes int i, GuildMember guildMember) {
+        //m.checkNotNullParameter(simpleDraweeView, "$this$setAvatar");
+        int dimensionPixelSize = simpleDraweeView.getResources().getDimensionPixelSize(i);
+        String forGuildMemberOrUser = IconUtils.INSTANCE.getForGuildMemberOrUser(user, guildMember, dimensionPixelSize > 0 ? Integer.valueOf(IconUtils.getMediaProxySize(dimensionPixelSize)) : null, z2);
+        if (!m.areEqual(forGuildMemberOrUser, simpleDraweeView.getTag(Utils.getResId("uikit_icon_url", "id")))) {
+            simpleDraweeView.setTag(R.id.uikit_icon_url, forGuildMemberOrUser);
+            IconUtils.setIcon$default(simpleDraweeView, forGuildMemberOrUser, i, (Function1) null, (MGImages.ChangeDetector) null, 24, (Object) null);
+        }
     }
 
     public void onClick(Context ctx, int position) {

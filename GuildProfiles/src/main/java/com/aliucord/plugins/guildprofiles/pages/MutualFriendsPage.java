@@ -20,8 +20,7 @@ import com.discord.utilities.rest.RestAPI;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class MutualFriendsPage extends SettingsPage {
