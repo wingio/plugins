@@ -64,7 +64,7 @@ public class Adapter extends RecyclerView.Adapter<ViewHolder> {
 
     public final void setAvatar(SimpleDraweeView simpleDraweeView, User user, boolean z2, @DimenRes int i, GuildMember guildMember) {
         //m.checkNotNullParameter(simpleDraweeView, "$this$setAvatar");
-        int dimensionPixelSize = simpleDraweeView.getResources().getDimensionPixelSize(i);
+        int dimensionPixelSize = 1024;
         int iconResId = Utils.getResId("uikit_icon_url", "id");
         String forGuildMemberOrUser = IconUtils.INSTANCE.getForGuildMemberOrUser(user, guildMember, dimensionPixelSize > 0 ? Integer.valueOf(IconUtils.getMediaProxySize(dimensionPixelSize)) : null);
         if (!m.areEqual(forGuildMemberOrUser, simpleDraweeView.getTag(iconResId))) {
