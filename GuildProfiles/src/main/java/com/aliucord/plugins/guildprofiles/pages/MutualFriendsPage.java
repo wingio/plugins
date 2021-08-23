@@ -47,10 +47,11 @@ public class MutualFriendsPage extends SettingsPage {
         userList.addAll(users.values());
         setActionBarTitle(userList.size() + " Mutual Friends");
         setActionBarSubtitle(name);
-        Utils.showToast(ctx, String.valueOf(storeUserRelationships.getRelationships()));
 
         var ctx = view.getContext();
 
+        Utils.showToast(ctx, String.valueOf(storeUserRelationships.getRelationships()));
+        
         setPadding(0);
 
         var recycler = new RecyclerView(ctx);
