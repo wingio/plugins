@@ -98,6 +98,8 @@ public class GuildProfiles extends Plugin {
               Context ctx = layout.getContext();
               var clock = ClockFactory.get();
               var p = Utils.dpToPx(16);
+              boolean showFriendsAct = settings.getBool("friendsAct", true);
+              boolean showBlockedAct = settings.getBool("blockedAct", true);
 
               LinearLayout actions = (LinearLayout) ((FrameLayout) lo.findViewById(Utils.getResId("guild_profile_sheet_secondary_actions", "id"))).getChildAt(0);
               TextView mutualBtn = new TextView(actions.getContext(), null, 0, Utils.getResId("GuildProfileSheet.Actions.Title", "style"));
@@ -108,19 +110,19 @@ public class GuildProfiles extends Plugin {
               mutualBtn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
               mutualBtn.setPadding(p, p, p, p);
               mutualBtn.setOnClickListener(e -> {Utils.openPageWithProxy(actions.getContext(), new MutualFriendsPage(guildStore.getMembers().get(guild.getId()), guild.getName()));});
-              if(actions.findViewById(tabId) == null) {
+              if(actions.findViewById(tabId) == null && showFriendsAct) {
                   actions.addView(mutualBtn, 1);
               }
 
               TextView blockedBtn = new TextView(actions.getContext(), null, 0, Utils.getResId("GuildProfileSheet.Actions.Title", "style"));
-              blockedBtn.setId(tabId);
+              blockedBtn.setId(blockedId);
               blockedBtn.setText("Blocked Users");
               blockedBtn.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.d.ic_chevron_right_grey_12dp, 0);
               blockedBtn.setTypeface(ResourcesCompat.getFont(actions.getContext(), Constants.Fonts.whitney_semibold));
               blockedBtn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
               blockedBtn.setPadding(p, p, p, p);
               blockedBtn.setOnClickListener(e -> {Utils.openPageWithProxy(actions.getContext(), new BlockedUsersPage(guildStore.getMembers().get(guild.getId()), guild.getName()));});
-              if(actions.findViewById(blockedId) == null) {
+              if(actions.findViewById(blockedId) == null && showBlockedAct) {
                   actions.addView(blockedBtn, 2);
               }
 

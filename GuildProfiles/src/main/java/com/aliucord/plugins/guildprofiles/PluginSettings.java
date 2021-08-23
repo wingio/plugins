@@ -43,9 +43,17 @@ public final class PluginSettings extends SettingsPage {
         var context = view.getContext();
         var layout = getLinearLayout();
 
+        var actHeader = new TextView(context, null, 0, R.h.UiKit_Settings_Item_Header);
+        actHeader.setTypeface(ResourcesCompat.getFont(context, Constants.Fonts.whitney_semibold));
+        actHeader.setText("Actions");
+        layout.addView(actHeader);
+        layout.addView(createSwitch(context, settings, "friendsAct", "Display 'Friends'", null, true));
+        layout.addView(createSwitch(context, settings, "blockedAct", "Display 'Blocked Users'", null, true));
+        layout.addView(new Divider(context));
+
         var expHeader = new TextView(context, null, 0, R.h.UiKit_Settings_Item_Header);
         expHeader.setTypeface(ResourcesCompat.getFont(context, Constants.Fonts.whitney_semibold));
-        expHeader.setText("Settings");
+        expHeader.setText("Details");
         layout.addView(expHeader);
 
         layout.addView(createSwitch(context, settings, "createdAt", "Display 'Created At'", null, true));
