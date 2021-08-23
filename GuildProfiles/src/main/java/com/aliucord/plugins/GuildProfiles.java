@@ -161,7 +161,7 @@ public class GuildProfiles extends Plugin {
                   if(owner == null) {
                     StoreStream.getUsers().fetchUsers(Arrays.asList(guild.getOwnerId()));
                     final User gOwner = StoreStream.getUsers().getUsers().get(guild.getOwnerId());
-                    if(gOwner == null) return;
+                    if(gOwner != null) {
                     String discrim = String.valueOf(gOwner.getDiscriminator());
                     while(discrim.length() < 4){
                       discrim = "0" + discrim;
@@ -170,6 +170,7 @@ public class GuildProfiles extends Plugin {
                       WidgetUserSheet.Companion.show(gOwner.getId(), guild.getId(), _this.getParentFragmentManager(), guild.getId());
                       return true;
                     });
+                    }
                   } else if(owner != null){
                     String discrim = String.valueOf(owner.getDiscriminator());
                     while(discrim.length() < 4){
