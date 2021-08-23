@@ -70,7 +70,7 @@ public class GuildProfiles extends Plugin {
         new Manifest.Author("Wing", 298295889720770563L),
       };
     manifest.description = "Adds more server information to the server profile sheet";
-    manifest.version = "1.0.0";
+    manifest.version = "1.0.3";
     manifest.updateUrl =
       "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
     return manifest;
@@ -157,16 +157,31 @@ public class GuildProfiles extends Plugin {
                   addInfo(ctx, info, "Vanity URL", "discord.gg/" + guild.getVanityUrlCode(), null);
                 }
 
-                if(showOwner && owner != null) {
-                  String discrim = String.valueOf(owner.getDiscriminator());
-                  while(discrim.length() < 4){
-                    discrim = "0" + discrim;
-                  }
-                  addInfo(ctx, info, "Owner", owner.getUsername() + "#" + discrim, e -> {
-                      WidgetUserSheet.Companion.show(owner.getId(), guild.getId(), _this.getParentFragmentManager(), guild.getId());
-
+                if(showOwner) {
+                  if(owner == null) {
+                    StoreStream.getUsers().fetchUsers(Arrays.asList(guild.getOwnerId()));
+                    final User gOwner = StoreStream.getUsers().getUsers().get(guild.getOwnerId());
+                    if(gOwner != null) {
+                    String discrim = String.valueOf(gOwner.getDiscriminator());
+                    while(discrim.length() < 4){
+                      discrim = "0" + discrim;
+                    }
+                    addInfo(ctx, info, "Owner", gOwner.getUsername() + "#" + discrim, e -> {
+                      WidgetUserSheet.Companion.show(gOwner.getId(), guild.getId(), _this.getParentFragmentManager(), guild.getId());
                       return true;
-                  });
+                    });
+                    }
+                  } else if(owner != null){
+                    String discrim = String.valueOf(owner.getDiscriminator());
+                    while(discrim.length() < 4){
+                      discrim = "0" + discrim;
+                    }
+                    final User gOwner = owner;
+                    addInfo(ctx, info, "Owner", owner.getUsername() + "#" + discrim, e -> {
+                      WidgetUserSheet.Companion.show(gOwner.getId(), guild.getId(), _this.getParentFragmentManager(), guild.getId());
+                      return true;
+                    });
+                  }
                 }
 
                 if(showLocale && guild.getPreferredLocale() != null) {

@@ -17,7 +17,7 @@ public class DN extends Plugin {
     public Manifest getManifest() {
         Manifest manifest = new Manifest();
         manifest.authors = new Manifest.Author[]{ new Manifest.Author("Wing", 298295889720770563L) };
-        manifest.description = "Deez nuts";
+        manifest.description = "Deez Nuts";
         manifest.version = "1.3";
         manifest.updateUrl = "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
         return manifest;
