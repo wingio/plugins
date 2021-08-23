@@ -49,7 +49,9 @@ public class MutualFriendsPage extends SettingsPage {
 
         var recycler = new RecyclerView(ctx);
         recycler.setLayoutManager(new LinearLayoutManager(ctx, RecyclerView.VERTICAL, false));
-        var adapter = new Adapter(this, users.values());
+        List<GuildMember> userList = new ArrayList<>();
+        userList.addAll(users.values());
+        var adapter = new Adapter(this, userList);
         recycler.setAdapter(adapter);
 
         addView(recycler);
