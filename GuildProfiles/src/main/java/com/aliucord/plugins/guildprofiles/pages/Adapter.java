@@ -96,9 +96,9 @@ public class Adapter extends RecyclerView.Adapter<ViewHolder> {
     Bitmap output;
 
     if (bitmap.getWidth() > bitmap.getHeight()) {
-        output = Bitmap.createBitmap(bitmap.getHeight(), bitmap.getHeight(), Config.ARGB_8888);
+        output = Bitmap.createBitmap(bitmap.getHeight(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
     } else {
-        output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getWidth(), Config.ARGB_8888);
+        output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getWidth(), Bitmap.Config.ARGB_8888);
     }
 
     Canvas canvas = new Canvas(output);
