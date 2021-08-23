@@ -23,12 +23,12 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class MutualFriendsPage extends SettingsPage {
+public class BlockedUsersPage extends SettingsPage {
 
     private final Map<Long, GuildMember> members;
     private final String name;
 
-    public MutualFriendsPage(Map<Long, GuildMember> members, String name) {
+    public BlockedUsersPage(Map<Long, GuildMember> members, String name) {
         this.members = members;
         this.name = name;
     }

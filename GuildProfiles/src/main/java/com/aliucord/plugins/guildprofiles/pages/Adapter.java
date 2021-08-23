@@ -38,6 +38,7 @@ public class Adapter extends RecyclerView.Adapter<ViewHolder> {
 
     private final List<GuildMember> friends;
     private final SettingsPage page;
+    public Logger logger = new Logger("GP");
 
     public Adapter(SettingsPage page, List<GuildMember> friends) {
         this.friends = friends;
@@ -61,7 +62,7 @@ public class Adapter extends RecyclerView.Adapter<ViewHolder> {
         var friend = friends.get(position);
         var friendUser = StoreStream.getUsers().getUsers().get(friend.getUserId());
         var color = Integer.valueOf(ColorCompat.getThemedColor(holder.itemView.getContext(), R.b.colorBackgroundPrimary));
-        Logger logger = new Logger("GP");
+        
         AvatarUtils avUtil = new AvatarUtils(friendUser);
         if (friendUser.getAvatar() != null) {
             Utils.threadPool.execute(() -> {
@@ -82,6 +83,9 @@ public class Adapter extends RecyclerView.Adapter<ViewHolder> {
 
     public void onClick(Context ctx, int position) {
         var friend = friends.get(position);
-        WidgetUserSheet.Companion.show(friend.getUserId(), getParentFragmentManager());
+        try {
+            final Activity activity = (Activity) ctx;
+            WidgetUserSheet.Companion.show(friend.getUserId(), activity.getFragmentManager());
+        } catch (Throwable e) {  logger.error("Error opening user sheet", e);}
     }
 }
