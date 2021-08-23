@@ -66,10 +66,10 @@ public class Adapter extends RecyclerView.Adapter<ViewHolder> {
         int dimensionPixelSize = simpleDraweeView.getResources().getDimensionPixelSize(i);
         int iconResId = Utils.getResId("uikit_icon_url", "id");
         String forGuildMemberOrUser = IconUtils.INSTANCE.getForGuildMemberOrUser(user, guildMember, dimensionPixelSize > 0 ? Integer.valueOf(IconUtils.getMediaProxySize(dimensionPixelSize)) : null);
-        if (!m.areEqual(forGuildMemberOrUser, simpleDraweeView.getTag(iconResId))) {
-            simpleDraweeView.setTag(iconResId, forGuildMemberOrUser);
-            IconUtils.setIcon$default(simpleDraweeView, forGuildMemberOrUser, i, (Function1) null, (MGImages.ChangeDetector) null, 24, (Object) null);
-        }
+        IconUtils.setIcon$default(simpleDraweeView, forGuildMemberOrUser, i, (Function1) null, (MGImages.ChangeDetector) null, 24, (Object) null);
+        // if (!m.areEqual(forGuildMemberOrUser, simpleDraweeView.getTag(iconResId))) {
+        //     simpleDraweeView.setTag(iconResId, forGuildMemberOrUser);
+        // }
     }
 
     public void onClick(Context ctx, int position) {
