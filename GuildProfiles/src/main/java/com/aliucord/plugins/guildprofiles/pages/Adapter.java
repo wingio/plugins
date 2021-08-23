@@ -57,7 +57,7 @@ public class Adapter extends RecyclerView.Adapter<ViewHolder> {
         var friend = friends.get(position);
         var friendUser = StoreStream.getUsers().getUsers().get(friend.getUserId());
         var color = Integer.valueOf(ColorCompat.getThemedColor(holder.itemView.getContext(), R.b.colorBackgroundPrimary));
-        if (friend.getAvatarHash() != null) {
+        if (friendUser.getAvatar() != null) {
             Utils.threadPool.execute(() -> {
                 var imgUrl = "https://cdn.discordapp.com/avatars/" + friendUser.getId() + "/" + friend.getAvatarHash() + ".png";
                 Utils.log(imgUrl);
