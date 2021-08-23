@@ -63,7 +63,7 @@ public class Adapter extends RecyclerView.Adapter<ViewHolder> {
                 Utils.mainThread.post(() -> {
                     holder.icon.setImageBitmap(bitMap);
                 });
-            })
+            });
             holder.iconText.setVisibility(View.GONE);
         } else {
             holder.icon.setVisibility(View.GONE);
