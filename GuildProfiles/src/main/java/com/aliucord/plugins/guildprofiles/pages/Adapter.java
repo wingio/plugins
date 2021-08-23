@@ -52,7 +52,7 @@ public class Adapter extends RecyclerView.Adapter<ViewHolder> {
         var friendUser = StoreStream.getUsers().getUsers().get(friend.getUserId());
         var color = Integer.valueOf(ColorCompat.getThemedColor(holder.itemView.getContext(), R.b.colorBackgroundPrimary));
         if (friend.hasAvatar()) {
-            this..setAvatar(holder.icon, friendUser, false, Utils.getResId("avatar_size_unrestricted", "dimen"), friend);
+            this.setAvatar(holder.icon, friendUser, false, Utils.getResId("avatar_size_unrestricted", "dimen"), friend);
             holder.iconText.setVisibility(View.GONE);
         } else {
             holder.icon.setVisibility(View.GONE);
