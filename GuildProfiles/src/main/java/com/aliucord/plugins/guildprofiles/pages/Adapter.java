@@ -11,6 +11,7 @@ import com.aliucord.Utils;
 import com.discord.models.member.GuildMember;
 import com.discord.utilities.color.ColorCompat;
 import com.discord.utilities.extensions.SimpleDraweeViewExtensionsKt;
+import com.discord.stores.*;
 import com.lytefast.flexinput.R;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class Adapter extends RecyclerView.Adapter<ViewHolder> {
     private final MutualFriendsPage page;
 
     public Adapter(MutualFriendsPage page, List<GuildMember> friends) {
-        this.friends = guilds;
+        this.friends = friends;
         this.page = page;
     }
 
@@ -41,16 +42,16 @@ public class Adapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         var friend = friends.get(position);
-
+        var friendUser = StoreStream.getUsers().getUsers().get(friend.getUserId());
         var color = Integer.valueOf(ColorCompat.getThemedColor(holder.itemView.getContext(), R.b.colorBackgroundPrimary));
         if (friend.hasAvatar()) {
-            SimpleDraweeViewExtensionsKt.setAvatar(holder.icon, StoreStream.getUsers().getUsers().get(friend.getUserId()), false, Utils.getResId("avatar_size_unrestricted", "dimen"), friend);
+            SimpleDraweeViewExtensionsKt.setAvatar(holder.icon, friendUser, false, Utils.getResId("avatar_size_unrestricted", "dimen"), friend);
             holder.iconText.setVisibility(View.GONE);
         } else {
             holder.icon.setVisibility(View.GONE);
         }
 
-        holder.name.setText(friend.getUsername());
+        holder.name.setText(friendUser.getUsername());
     }
 
     public void onClick(Context ctx, int position) {

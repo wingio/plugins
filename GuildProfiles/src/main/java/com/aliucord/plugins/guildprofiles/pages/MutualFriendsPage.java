@@ -9,14 +9,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aliucord.*;
 import com.aliucord.fragments.SettingsPage;
-import com.aliucord.plugins.EmojiUtility;
 import com.aliucord.utils.RxUtils;
 import com.discord.api.permission.Permission;
 import com.discord.models.guild.Guild;
 import com.discord.models.member.GuildMember;
 import com.discord.restapi.RestAPIParams;
-import com.discord.stores.StoreGuilds;
-import com.discord.stores.StoreStream;
+import com.discord.stores.*;
 import com.discord.utilities.permissions.PermissionUtils;
 import com.discord.utilities.rest.RestAPI;
 
@@ -24,6 +22,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class MutualFriendsPage extends SettingsPage {
 
