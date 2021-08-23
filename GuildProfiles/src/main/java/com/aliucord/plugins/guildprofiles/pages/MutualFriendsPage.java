@@ -37,10 +37,17 @@ public class MutualFriendsPage extends SettingsPage {
     public void onViewBound(View view) {
         super.onViewBound(view);
         var storeUserRelationships = StoreStream.getUserRelationships();
-        var users = members.entrySet().stream().filter(aLong -> storeUserRelationships.getRelationships().get(aLong.getKey()) == 1).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        var users = members
+                        .entrySet()
+                        .stream()
+                        .filter(r -> storeUserRelationships.getRelationships().get(r.getKey()) == 1)
+                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
-        setActionBarTitle(users.size() + " Mutual Friends");
+        List<GuildMember> userList = new ArrayList<>();
+        userList.addAll(users.values());
+        setActionBarTitle(userList.size() + " Mutual Friends");
         setActionBarSubtitle(name);
+        Utils.showToast(ctx, String.valueOf(storeUserRelationships.getRelationships()));
 
         var ctx = view.getContext();
 
@@ -48,8 +55,7 @@ public class MutualFriendsPage extends SettingsPage {
 
         var recycler = new RecyclerView(ctx);
         recycler.setLayoutManager(new LinearLayoutManager(ctx, RecyclerView.VERTICAL, false));
-        List<GuildMember> userList = new ArrayList<>();
-        userList.addAll(users.values());
+        
         var adapter = new Adapter(this, userList);
         recycler.setAdapter(adapter);
 
