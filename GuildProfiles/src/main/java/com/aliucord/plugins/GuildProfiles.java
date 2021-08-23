@@ -70,7 +70,7 @@ public class GuildProfiles extends Plugin {
         new Manifest.Author("Wing", 298295889720770563L),
       };
     manifest.description = "Adds more server information to the server profile sheet";
-    manifest.version = "1.0.2";
+    manifest.version = "1.0.3";
     manifest.updateUrl =
       "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
     return manifest;
@@ -161,6 +161,7 @@ public class GuildProfiles extends Plugin {
                   if(owner == null) {
                     StoreStream.getUsers().fetchUsers(Arrays.asList(guild.getOwnerId()));
                     final User gOwner = StoreStream.getUsers().getUsers().get(guild.getOwnerId());
+                    if(gOwner == null) return;
                     String discrim = String.valueOf(gOwner.getDiscriminator());
                     while(discrim.length() < 4){
                       discrim = "0" + discrim;
