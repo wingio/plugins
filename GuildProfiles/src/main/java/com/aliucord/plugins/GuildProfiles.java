@@ -81,6 +81,7 @@ public class GuildProfiles extends Plugin {
         final int sheetId = Utils.getResId("guild_profile_sheet_actions", "id");
         final int infoId = View.generateViewId();
         final int tabId = View.generateViewId();
+        final int blockedId = View.generateViewId();
         patcher.patch(WidgetGuildProfileSheet.class, "configureUI", new Class<?>[]{ WidgetGuildProfileSheetViewModel.ViewState.Loaded.class }, new PinePatchFn(callFrame -> {
             WidgetGuildProfileSheet _this = (WidgetGuildProfileSheet) callFrame.thisObject;
             WidgetGuildProfileSheetViewModel.ViewState.Loaded state = (WidgetGuildProfileSheetViewModel.ViewState.Loaded) callFrame.args[0];
@@ -96,18 +97,31 @@ public class GuildProfiles extends Plugin {
               LinearLayout layout = (LinearLayout) lo.findViewById(sheetId);
               Context ctx = layout.getContext();
               var clock = ClockFactory.get();
+              var p = Utils.dpToPx(16);
 
               LinearLayout actions = (LinearLayout) ((FrameLayout) lo.findViewById(Utils.getResId("guild_profile_sheet_secondary_actions", "id"))).getChildAt(0);
               TextView mutualBtn = new TextView(actions.getContext(), null, 0, Utils.getResId("GuildProfileSheet.Actions.Title", "style"));
               mutualBtn.setId(tabId);
-              mutualBtn.setText("Mutual Friends");
+              mutualBtn.setText("Friends");
               mutualBtn.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.d.ic_chevron_right_grey_12dp, 0);
               mutualBtn.setTypeface(ResourcesCompat.getFont(actions.getContext(), Constants.Fonts.whitney_semibold));
               mutualBtn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-              mutualBtn.setPadding(Utils.dpToPx(16), Utils.dpToPx(16), Utils.dpToPx(16), Utils.dpToPx(16));
+              mutualBtn.setPadding(p, p, p, p);
               mutualBtn.setOnClickListener(e -> {Utils.openPageWithProxy(actions.getContext(), new MutualFriendsPage(guildStore.getMembers().get(guild.getId()), guild.getName()));});
               if(actions.findViewById(tabId) == null) {
                   actions.addView(mutualBtn, 1);
+              }
+
+              TextView blockedBtn = new TextView(actions.getContext(), null, 0, Utils.getResId("GuildProfileSheet.Actions.Title", "style"));
+              blockedBtn.setId(tabId);
+              blockedBtn.setText("Blocked Users");
+              blockedBtn.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.d.ic_chevron_right_grey_12dp, 0);
+              blockedBtn.setTypeface(ResourcesCompat.getFont(actions.getContext(), Constants.Fonts.whitney_semibold));
+              blockedBtn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+              blockedBtn.setPadding(p, p, p, p);
+              blockedBtn.setOnClickListener(e -> {Utils.openPageWithProxy(actions.getContext(), new BlockedUsersPage(guildStore.getMembers().get(guild.getId()), guild.getName()));});
+              if(actions.findViewById(blockedId) == null) {
+                  actions.addView(blockedBtn, 2);
               }
 
               GridLayout info = new GridLayout(ctx);

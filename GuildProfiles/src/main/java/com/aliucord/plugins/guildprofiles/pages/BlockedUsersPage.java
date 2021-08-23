@@ -40,12 +40,12 @@ public class MutualFriendsPage extends SettingsPage {
         var users = members
                         .entrySet()
                         .stream()
-                        .filter(r -> Objects.equals(storeUserRelationships.getRelationships().get(r.getKey()), 1))
+                        .filter(r -> Objects.equals(storeUserRelationships.getRelationships().get(r.getKey()), 2))
                         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
         List<GuildMember> userList = new ArrayList<>();
         userList.addAll(users.values());
-        setActionBarTitle(userList.size() + " Friends");
+        setActionBarTitle(userList.size() + " Blocked Users");
         setActionBarSubtitle(name);
 
         var ctx = view.getContext();
