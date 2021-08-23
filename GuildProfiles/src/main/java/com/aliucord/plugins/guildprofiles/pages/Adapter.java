@@ -64,9 +64,10 @@ public class Adapter extends RecyclerView.Adapter<ViewHolder> {
     public final void setAvatar(SimpleDraweeView simpleDraweeView, User user, boolean z2, @DimenRes int i, GuildMember guildMember) {
         //m.checkNotNullParameter(simpleDraweeView, "$this$setAvatar");
         int dimensionPixelSize = simpleDraweeView.getResources().getDimensionPixelSize(i);
-        String forGuildMemberOrUser = IconUtils.INSTANCE.getForGuildMemberOrUser(user, guildMember, dimensionPixelSize > 0 ? Integer.valueOf(IconUtils.getMediaProxySize(dimensionPixelSize)) : null, z2);
-        if (!m.areEqual(forGuildMemberOrUser, simpleDraweeView.getTag(Utils.getResId("uikit_icon_url", "id")))) {
-            simpleDraweeView.setTag(R.id.uikit_icon_url, forGuildMemberOrUser);
+        int iconResId = Utils.getResId("uikit_icon_url", "id");
+        String forGuildMemberOrUser = IconUtils.INSTANCE.getForGuildMemberOrUser(user, guildMember, dimensionPixelSize > 0 ? Integer.valueOf(IconUtils.getMediaProxySize(dimensionPixelSize)) : null);
+        if (!m.areEqual(forGuildMemberOrUser, simpleDraweeView.getTag(iconResId))) {
+            simpleDraweeView.setTag(iconResId, forGuildMemberOrUser);
             IconUtils.setIcon$default(simpleDraweeView, forGuildMemberOrUser, i, (Function1) null, (MGImages.ChangeDetector) null, 24, (Object) null);
         }
     }
