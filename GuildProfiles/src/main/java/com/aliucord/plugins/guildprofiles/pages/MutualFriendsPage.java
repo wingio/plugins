@@ -40,7 +40,7 @@ public class MutualFriendsPage extends SettingsPage {
         var users = members
                         .entrySet()
                         .stream()
-                        .filter(r -> storeUserRelationships.getRelationships().get(r.getKey()) == 1)
+                        .filter(r -> Objects.equals(storeUserRelationships.getRelationships().get(r.getKey()), 1))
                         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
         List<GuildMember> userList = new ArrayList<>();
@@ -51,7 +51,7 @@ public class MutualFriendsPage extends SettingsPage {
         var ctx = view.getContext();
 
         Utils.showToast(ctx, String.valueOf(storeUserRelationships.getRelationships()));
-        
+
         setPadding(0);
 
         var recycler = new RecyclerView(ctx);
