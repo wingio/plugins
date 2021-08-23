@@ -7,6 +7,8 @@ import android.view.*;
 import android.widget.*;
 import android.os.*;
 
+import com.google.android.material.button.*;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -23,8 +25,10 @@ import com.aliucord.entities.Plugin;
 import com.aliucord.patcher.PinePatchFn;
 import com.aliucord.fragments.*;
 import com.aliucord.plugins.guildprofiles.*;
+import com.aliucord.plugins.guildprofiles.pages.*;
 import com.discord.utilities.color.ColorCompat;
 import com.discord.api.premium.PremiumTier;
+import com.discord.api.guild.GuildVerificationLevel;
 import com.discord.databinding.WidgetChatOverlayBinding;
 import com.discord.databinding.WidgetGuildProfileSheetBinding;
 import com.discord.utilities.viewbinding.FragmentViewBindingDelegate;
@@ -76,10 +80,14 @@ public class GuildProfiles extends Plugin {
     public void start(Context context) throws Throwable {
         final int sheetId = Utils.getResId("guild_profile_sheet_actions", "id");
         final int infoId = View.generateViewId();
+        final int tabId = View.generateViewId();
+        final int blockedId = View.generateViewId();
         patcher.patch(WidgetGuildProfileSheet.class, "configureUI", new Class<?>[]{ WidgetGuildProfileSheetViewModel.ViewState.Loaded.class }, new PinePatchFn(callFrame -> {
             WidgetGuildProfileSheet _this = (WidgetGuildProfileSheet) callFrame.thisObject;
             WidgetGuildProfileSheetViewModel.ViewState.Loaded state = (WidgetGuildProfileSheetViewModel.ViewState.Loaded) callFrame.args[0];
-            Guild guild = StoreStream.getGuilds().getGuilds().get(state.component1());
+            var guildStore = StoreStream.getGuilds();
+            Guild guild = guildStore.getGuilds().get(state.component1());
+            
             try {
               var iconField = _this.getClass().getDeclaredField("binding$delegate");
               iconField.setAccessible(true);
@@ -89,10 +97,38 @@ public class GuildProfiles extends Plugin {
               LinearLayout layout = (LinearLayout) lo.findViewById(sheetId);
               Context ctx = layout.getContext();
               var clock = ClockFactory.get();
+              var p = Utils.dpToPx(16);
+              boolean showFriendsAct = settings.getBool("friendsAct", true);
+              boolean showBlockedAct = settings.getBool("blockedAct", true);
 
-              LinearLayout info = new LinearLayout(ctx);
+              LinearLayout actions = (LinearLayout) ((FrameLayout) lo.findViewById(Utils.getResId("guild_profile_sheet_secondary_actions", "id"))).getChildAt(0);
+              TextView mutualBtn = new TextView(actions.getContext(), null, 0, Utils.getResId("GuildProfileSheet.Actions.Title", "style"));
+              mutualBtn.setId(tabId);
+              mutualBtn.setText("Friends");
+              mutualBtn.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.d.ic_chevron_right_grey_12dp, 0);
+              mutualBtn.setTypeface(ResourcesCompat.getFont(actions.getContext(), Constants.Fonts.whitney_semibold));
+              mutualBtn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+              mutualBtn.setPadding(p, p, p, p);
+              mutualBtn.setOnClickListener(e -> {Utils.openPageWithProxy(actions.getContext(), new MutualFriendsPage(guildStore.getMembers().get(guild.getId()), guild.getName()));});
+              if(actions.findViewById(tabId) == null && showFriendsAct) {
+                  actions.addView(mutualBtn, 1);
+              }
+
+              TextView blockedBtn = new TextView(actions.getContext(), null, 0, Utils.getResId("GuildProfileSheet.Actions.Title", "style"));
+              blockedBtn.setId(blockedId);
+              blockedBtn.setText("Blocked Users");
+              blockedBtn.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.d.ic_chevron_right_grey_12dp, 0);
+              blockedBtn.setTypeface(ResourcesCompat.getFont(actions.getContext(), Constants.Fonts.whitney_semibold));
+              blockedBtn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+              blockedBtn.setPadding(p, p, p, p);
+              blockedBtn.setOnClickListener(e -> {Utils.openPageWithProxy(actions.getContext(), new BlockedUsersPage(guildStore.getMembers().get(guild.getId()), guild.getName()));});
+              if(actions.findViewById(blockedId) == null && showBlockedAct) {
+                  actions.addView(blockedBtn, 2);
+              }
+
+              GridLayout info = new GridLayout(ctx);
+              info.setColumnCount(2);
               info.setId(infoId);
-              info.setOrientation(LinearLayout.VERTICAL);
               info.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
               info.setBackgroundColor(Color.TRANSPARENT);
               info.setPadding(0, 0, 0, 0);
@@ -102,6 +138,9 @@ public class GuildProfiles extends Plugin {
                 boolean showVanity = settings.getBool("vanityUrl", true);
                 boolean showOwner = settings.getBool("owner", true);
                 boolean showLocale = settings.getBool("locale", true);
+                boolean showTier = settings.getBool("tier", true);
+                boolean showVerificationLevel = settings.getBool("verificationLevel", true);
+                boolean showContentFilter = settings.getBool("contentFilter", true);
 
                 boolean hasVanity = guild.canHaveVanityURL();
                 User owner = StoreStream.getUsers().getUsers().get(guild.getOwnerId());
@@ -133,6 +172,32 @@ public class GuildProfiles extends Plugin {
                 if(showLocale && guild.getPreferredLocale() != null) {
                     addInfo(ctx, info, "Language", guild.getPreferredLocale(), null);
                 }
+
+                if(showTier && guild.getPremiumSubscriptionCount() > 2) {
+                    addInfo(ctx, info, "Boost Level","Tier " + guild.getPremiumTier(), null);
+                }
+
+                if(showVerificationLevel) {
+                    String level = "";
+                    switch (guild.getVerificationLevel()) {
+                        case NONE: level = "None"; break;
+                        case LOW: level = "Low"; break;
+                        case MEDIUM: level = "Medium"; break;
+                        case HIGH: level = "High"; break;
+                        case HIGHEST: level = "Very High"; break;
+                    }
+                    addInfo(ctx, info, "Verification Level", level, null);
+                }
+
+                if(showContentFilter) {
+                    String level = "";
+                    switch (guild.getExplicitContentFilter()) {
+                        case NONE: level = "Don't scan"; break;
+                        case SOME: level = "Scan those without a role"; break;
+                        case ALL: level = "Scan everyone"; break;
+                    }
+                    addInfo(ctx, info, "Content Filter", level, null);
+                }
                 
                 layout.addView(info, 3);
               }
@@ -145,10 +210,11 @@ public class GuildProfiles extends Plugin {
         }));
     }
 
-    public void addInfo(Context c, LinearLayout layout, String name, String value, @Nullable View.OnLongClickListener listener) {
+    public void addInfo(Context c, GridLayout layout, String name, String value, @Nullable View.OnLongClickListener listener) {
       LinearLayout section = new LinearLayout(c);
       section.setOrientation(LinearLayout.VERTICAL);
-      section.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+      GridLayout.LayoutParams params = new GridLayout.LayoutParams(GridLayout.spec(GridLayout.UNDEFINED, 1f), GridLayout.spec(GridLayout.UNDEFINED, 1f));
+      section.setLayoutParams(params);
       section.setBackgroundColor(Color.TRANSPARENT);
       section.setPadding(Utils.dpToPx(2), Utils.dpToPx(8), 0, 0);
 
@@ -165,11 +231,13 @@ public class GuildProfiles extends Plugin {
       TextView header = new TextView(c, null, 0, R.h.UserProfile_Section_Header);
       header.setText(name);
       header.setTypeface(ResourcesCompat.getFont(c, Constants.Fonts.whitney_bold));
+      header.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
       section.addView(header);
 
       TextView info = new TextView(c, null, 0, R.h.UserProfile_Section_Header);
       info.setText(value);
       info.setTypeface(ResourcesCompat.getFont(c, Constants.Fonts.whitney_semibold));
+      info.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
       section.addView(info);
       layout.addView(section);
     }

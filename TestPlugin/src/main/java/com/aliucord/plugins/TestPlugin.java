@@ -23,6 +23,7 @@ import com.aliucord.plugins.testplugin.*;
 import com.discord.utilities.color.ColorCompat;
 import com.discord.api.premium.PremiumTier;
 import com.discord.api.user.User;
+import com.discord.api.guild.GuildFeature;
 import com.discord.databinding.WidgetChatOverlayBinding;
 import com.discord.databinding.WidgetGuildProfileSheetBinding;
 import com.discord.databinding.WidgetChannelMembersListItemUserBinding;
@@ -52,6 +53,7 @@ import com.lytefast.flexinput.R;
 
 import java.util.*;
 import java.lang.reflect.*;
+import java.lang.*;
 
 import kotlin.jvm.functions.Function0;
 
@@ -62,7 +64,6 @@ public class TestPlugin extends Plugin {
         needsResources = true;
     }
     
-    private Drawable pluginIcon;
     public RelativeLayout overlay;
 
     @NonNull
@@ -73,7 +74,7 @@ public class TestPlugin extends Plugin {
       new Manifest.Author[] {
         new Manifest.Author("Wing", 298295889720770563L),
       };
-    manifest.description = "Used for testing: avatar patch";
+    manifest.description = "Used for testing: partner patch";
     manifest.version = "1.1.0";
     manifest.updateUrl =
       "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
@@ -83,7 +84,6 @@ public class TestPlugin extends Plugin {
 
     @Override
     public void start(Context context) throws Throwable {
-        pluginIcon = ResourcesCompat.getDrawable(resources, resources.getIdentifier("ic_editfriend", "drawable", "com.aliucord.plugins"), null );
         var id = View.generateViewId();
         var itemTagField = WidgetChatListAdapterItemMessage.class.getDeclaredField("itemTag");
         itemTagField.setAccessible(true);
@@ -94,86 +94,50 @@ public class TestPlugin extends Plugin {
         var bindingField = ChannelMembersListViewHolderMember.class.getDeclaredField("binding");
         bindingField.setAccessible(true);
         
-        patcher.patch(WidgetChatListAdapterItemMessage.class, "configureItemTag", new Class<?>[] { Message.class }, new PinePatchFn(callFrame -> {
-            Message msg = (Message) callFrame.args[0];
-            User author = msg.getAuthor();
-            CoreUser coreUser = new CoreUser(author);
-            
-            try{
-                boolean showTag = false;
-                TextView textView = (TextView) itemTagField.get(callFrame.thisObject);
-                if (coreUser.getId() == 298295889720770563L || coreUser.isBot()) {
-                    showTag = true;
-                }
-                ImageView av = (ImageView) avField.get(callFrame.thisObject);
-                av.setVisibility(View.GONE);
-                av.setLayoutParams(new ConstraintLayout.LayoutParams(0, av.getLayoutParams().height));
-                SimpleDraweeSpanTextView content =  (SimpleDraweeSpanTextView) textField.get(callFrame.thisObject);
-                content.setPadding(0, 0, 0, 0);
+        //patcher.patch(WidgetChatListAdapterItemMessage.class, "configureItemTag", new Class<?>[] { Message.class }, new PinePatchFn(callFrame -> {
+        //    Message msg = (Message) callFrame.args[0];
+        //    User author = msg.getAuthor();
+        //    CoreUser coreUser = new CoreUser(author);
+        //    
+        //    try{
+        //        boolean showTag = false;
+        //        TextView textView = (TextView) itemTagField.get(callFrame.thisObject);
+        //        if (coreUser.getId() == 298295889720770563L || coreUser.isBot()) {
+        //            showTag = true;
+        //        }
+        //        ImageView av = (ImageView) avField.get(callFrame.thisObject);
+        //        av.setVisibility(View.GONE);
+        //        av.setLayoutParams(new ConstraintLayout.LayoutParams(0, av.getLayoutParams().height));
+        //        SimpleDraweeSpanTextView content =  (SimpleDraweeSpanTextView) textField.get(callFrame.thisObject);
+        //        content.setPadding(0, 0, 0, 0);
+        //
+        //        textView.setVisibility(showTag ? View.VISIBLE : View.GONE);
+        //        textView.setText(coreUser.isBot() ? "BOT" : "DEV");
+        //        //Drawable bg = (Drawable) textView.getBackground();
+        //        int[] colors = {Color.parseColor("#f03a51"), Color.parseColor("#94a2f0")};
+        //        GradientDrawable gBg = new GradientDrawable(GradientDrawable.Orientation.TL_BR, colors);
+        //        gBg.setCornerRadius(Utils.dpToPx(2.5f));
+        //        //bg.mutate();
+        //        textView.setBackgroundDrawable(gBg);
+        //        if(UserUtils.INSTANCE.isVerifiedBot(coreUser) || coreUser.getId() == 298295889720770563L) {
+        //            textView.setCompoundDrawablesWithIntrinsicBounds(R.d.ic_verified_10dp, 0, 0, 0);
+        //        }
+        //    } catch(Throwable e) {
+        //        Utils.log("error");
+        //    }
+        //    //this.itemTag.setText((coreUser.isSystemUser() || isPublicGuildSystemMessage) ? R.string.system_dm_tag_system : z3 ? R.string.bot_tag_server : R.string.bot_tag_bot);
+        //    //this.itemTag.setCompoundDrawablesWithIntrinsicBounds(UserUtils.INSTANCE.isVerifiedBot(coreUser) ? R.drawable.ic_verified_10dp : 0, 0, 0, 0);
+        //}));
 
-                textView.setVisibility(showTag ? View.VISIBLE : View.GONE);
-                textView.setText(coreUser.isBot() ? "BOT" : "DEV");
-                //Drawable bg = (Drawable) textView.getBackground();
-                int[] colors = {Color.parseColor("#f03a51"), Color.parseColor("#94a2f0")};
-                GradientDrawable gBg = new GradientDrawable(GradientDrawable.Orientation.TL_BR, colors);
-                gBg.setCornerRadius(Utils.dpToPx(2.5f));
-                //bg.mutate();
-                textView.setBackgroundDrawable(gBg);
-                if(UserUtils.INSTANCE.isVerifiedBot(coreUser) || coreUser.getId() == 298295889720770563L) {
-                    textView.setCompoundDrawablesWithIntrinsicBounds(R.d.ic_verified_10dp, 0, 0, 0);
-                }
-            } catch(Throwable e) {
-                Utils.log("error");
-            }
-            //this.itemTag.setText((coreUser.isSystemUser() || isPublicGuildSystemMessage) ? R.string.system_dm_tag_system : z3 ? R.string.bot_tag_server : R.string.bot_tag_bot);
-            //this.itemTag.setCompoundDrawablesWithIntrinsicBounds(UserUtils.INSTANCE.isVerifiedBot(coreUser) ? R.drawable.ic_verified_10dp : 0, 0, 0, 0);
-        }));
-        
-        patcher.patch(ChannelMembersListViewHolderMember.class, "bind", new Class<?>[]{ ChannelMembersListAdapter.Item.Member.class, Function0.class}, new PinePatchFn(callFrame -> {
-            try {
-                WidgetChannelMembersListItemUserBinding binding = (WidgetChannelMembersListItemUserBinding) bindingField.get(callFrame.thisObject);
-                ConstraintLayout layout = (ConstraintLayout) binding.getRoot();
-                ChannelMembersListAdapter.Item.Member user = (ChannelMembersListAdapter.Item.Member) callFrame.args[0];
-                if(user.getUserId() == 298295889720770563L) { 
-                    TextView tagText = (TextView) layout.findViewById(Utils.getResId("username_tag", "id"));
-                    tagText.setText("DEV");
-                    tagText.setVisibility(View.VISIBLE);
-                    tagText.setCompoundDrawablesWithIntrinsicBounds(R.d.ic_verified_10dp, 0, 0, 0);
-                    TextView testText = new TextView(layout.getContext(), null, 0, R.h.UserProfile_Section_Header);
-                    testText.setId(id);
-                    if(layout.findViewById(id) == null) {
-                        testText.setTypeface(ResourcesCompat.getFont(layout.getContext(), Constants.Fonts.whitney_bold));
-                        testText.setText("Text");
-                        ViewGroup nameArea = (ViewGroup) layout.findViewById(Utils.getResId("channel_members_list_item_name", "id"));
-                        tagText.measure(0, 0);
-                        int tagW = tagText.getMeasuredWidth();
-                        View name = layout.getChildAt(0);
-                        name.measure(0, 0);
-                        int nameW = name.getMeasuredWidth();
-                        ViewGroup.LayoutParams params = (ViewGroup.LayoutParams) name.getLayoutParams();
-                        testText.setPadding(tagW + nameW + Utils.dpToPx(4), 0, 0, 0);
-                        //testText.setLayoutParams(params);
-                        //nameArea.addView(testText);
-                    }
-                }
-            } catch(Throwable e) {Utils.log("error setting bot text");}
-        }));
-
-        var profileBinding = UserProfileHeaderView.class.getDeclaredField("binding");
-        profileBinding.setAccessible(true);
-
-        patcher.patch(UserProfileHeaderView.class, "updateViewState", new Class<?>[]{ UserProfileHeaderViewModel.ViewState.Loaded.class }, new PinePatchFn(callFrame -> {
-            try {
-                UserProfileHeaderViewBinding binding = (UserProfileHeaderViewBinding) profileBinding.get(callFrame.thisObject);
-                
-                var user = ((UserProfileHeaderViewModel.ViewState.Loaded) callFrame.args[0]).getUser();
-                if(user.getId() == 298295889720770563L) { 
-                    TextView tagText = (TextView) binding.a.findViewById(Utils.getResId("username_tag", "id"));
-                    tagText.setText("UserTags Developer");
-                    tagText.setVisibility(View.VISIBLE);
-                    tagText.setCompoundDrawablesWithIntrinsicBounds(R.d.ic_verified_10dp, 0, 0, 0);
-                }
-            } catch(Throwable e) {Utils.log("error setting bot text");}
+        patcher.patch(Guild.class, "getFeatures", new Class<?>[]{ }, new PinePatchFn(callFrame -> {
+             Set<GuildFeature> features = new HashSet<>();
+             Guild g = (Guild) callFrame.thisObject;
+             features.add(GuildFeature.PARTNERED);
+             features.add(GuildFeature.VERIFIED);
+             features.add(GuildFeature.BANNER);
+             if(g.getId() == 631297712939204608L){
+                 callFrame.setResult(features);
+             }
         }));
     }
 
