@@ -12,6 +12,7 @@ import android.app.*;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.annotation.DimenRes;
+import androidx.fragment.app.FragmentActivity;
 
 import com.aliucord.Utils;
 import com.aliucord.Http;
@@ -85,8 +86,8 @@ public class Adapter extends RecyclerView.Adapter<ViewHolder> {
     public void onClick(Context ctx, int position) {
         var friend = friends.get(position);
         try {
-            final Activity activity = (Activity) ctx;
-            WidgetUserSheet.Companion.show(friend.getUserId(), activity.getFragmentManager());
+            final FragmentActivity activity = (FragmentActivity) ctx;
+            WidgetUserSheet.Companion.show(friend.getUserId(), activity.supportFragmentManager);
         } catch (Throwable e) {  logger.error("Error opening user sheet", e);}
     }
 }
