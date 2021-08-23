@@ -57,7 +57,7 @@ public class Adapter extends RecyclerView.Adapter<ViewHolder> {
         var friend = friends.get(position);
         var friendUser = StoreStream.getUsers().getUsers().get(friend.getUserId());
         var color = Integer.valueOf(ColorCompat.getThemedColor(holder.itemView.getContext(), R.b.colorBackgroundPrimary));
-        if (friend.hasAvatar()) {
+        if (friend.getAvatarHash() != null) {
             Utils.threadPool.execute(() -> {
                 var imgUrl = "https://cdn.discordapp.com/avatars/" + friendUser.getId() + "/" + friend.getAvatarHash() + ".png";
                 Utils.log(imgUrl);
@@ -74,6 +74,7 @@ public class Adapter extends RecyclerView.Adapter<ViewHolder> {
         }
 
         holder.name.setText(friendUser.getUsername());
+        holder.nick.setVisibility(View.GONE);
     }
 
     public final void setAvatar(SimpleDraweeView simpleDraweeView, User user, boolean z2, @DimenRes int i, GuildMember guildMember) {
