@@ -60,7 +60,7 @@ public class Adapter extends RecyclerView.Adapter<ViewHolder> {
         if (friend.hasAvatar()) {
             Utils.threadPool.execute(() -> {
                 var imgUrl = "https://cdn.discordapp.com/avatars/" + friendUser.getId() + "/" + friend.getAvatarHash() + ".png";
-                Logger.log(imgUrl);
+                Utils.log(imgUrl);
                 var avUri = imageToDataUri(imgUrl);
                 byte[] decodedString = Base64.decode(avUri, Base64.DEFAULT);
                 Bitmap bitMap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
