@@ -1,8 +1,7 @@
 package com.aliucord.plugins.guildprofiles.pages;
 
 import android.view.View;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.*;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,7 +17,7 @@ public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
 
     private final Adapter adapter;
 
-    public final SimpleDraweeView icon;
+    public final ImageView icon;
     public final TextView iconText;
     public final TextView name;
 
@@ -26,7 +25,7 @@ public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
         super(layout);
         this.adapter = adapter;
 
-        icon = (SimpleDraweeView) layout.findViewById(iconId);
+        icon = (ImageView) layout.findViewById(iconId);
         iconText = (TextView) layout.findViewById(iconTextId);
         name = (TextView) layout.findViewById(serverNameId);
         layout.findViewById(serverNickId).setVisibility(View.GONE);
