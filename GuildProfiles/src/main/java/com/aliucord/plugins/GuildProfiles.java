@@ -167,8 +167,8 @@ public class GuildProfiles extends Plugin {
                     while(discrim.length() < 4){
                       discrim = "0" + discrim;
                     }
+                    final User gOwner = owner;
                     addInfo(ctx, info, "Owner", owner.getUsername() + "#" + discrim, e -> {
-                      User gOwner = owner;  
                       WidgetUserSheet.Companion.show(gOwner.getId(), guild.getId(), _this.getParentFragmentManager(), guild.getId());
                       return true;
                     });
