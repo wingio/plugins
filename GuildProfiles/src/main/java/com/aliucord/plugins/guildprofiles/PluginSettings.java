@@ -63,6 +63,7 @@ public final class PluginSettings extends SettingsPage {
         layout.addView(createSwitch(context, settings, "locale", "Display 'Language'", null, true));
         layout.addView(createSwitch(context, settings, "tier", "Display 'Boost Level'", null, true));
         layout.addView(createSwitch(context, settings, "verificationLevel", "Display 'Verification Level'", null, true));
+        layout.addView(createSwitch(context, settings, "contentFilter", "Display 'Content Filter'", null, true));
         layout.addView(new Divider(context));
     }
 

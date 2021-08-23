@@ -140,6 +140,7 @@ public class GuildProfiles extends Plugin {
                 boolean showLocale = settings.getBool("locale", true);
                 boolean showTier = settings.getBool("tier", true);
                 boolean showVerificationLevel = settings.getBool("verificationLevel", true);
+                boolean showContentFilter = settings.getBool("contentFilter", true);
 
                 boolean hasVanity = guild.canHaveVanityURL();
                 User owner = StoreStream.getUsers().getUsers().get(guild.getOwnerId());
@@ -186,6 +187,16 @@ public class GuildProfiles extends Plugin {
                         case HIGHEST: level = "Very High"; break;
                     }
                     addInfo(ctx, info, "Verification Level", level, null);
+                }
+
+                if(showContentFilter) {
+                    String level = "";
+                    switch (guild.getExplicitContentFilter()) {
+                        case NONE: level = "Don't scan"; break;
+                        case SOME: level = "Scan those without a role"; break;
+                        case ALL: level = "Scan everyone"; break;
+                    }
+                    addInfo(ctx, info, "Content Filter", level, null);
                 }
                 
                 layout.addView(info, 3);
