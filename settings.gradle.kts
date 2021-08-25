@@ -1,3 +1,3 @@
-include(":GuildProfiles")
+include(":TestPlugin")
 
 rootProject.name = "plugins"
