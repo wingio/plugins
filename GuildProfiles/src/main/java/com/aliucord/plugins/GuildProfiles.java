@@ -128,7 +128,7 @@ public class GuildProfiles extends Plugin {
                   actions.addView(blockedBtn, 2);
               }
 
-              addFeatures(ctx, layout, guild.getFeatures());
+              addFeatures(ctx, layout, guild);
 
               GridLayout info = new GridLayout(ctx);
               info.setColumnCount(2);
@@ -261,7 +261,7 @@ public class GuildProfiles extends Plugin {
       layout.addView(section);
     }
 
-    public void addFeatures(Context c, LinearLayout layout, Set<GuildFeature> features) {
+    public void addFeatures(Context c, LinearLayout layout, Guild guild) {
       LinearLayout section = new LinearLayout(c);
       section.setOrientation(LinearLayout.VERTICAL);
       section.setBackgroundColor(Color.TRANSPARENT);
@@ -273,43 +273,38 @@ public class GuildProfiles extends Plugin {
       header.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
       section.addView(header);
 
-      addFeatureIcons(c, section, features);
+      addFeatureIcons(c, section, guild);
       
       layout.addView(section, 3);
     }
 
-    public void addFeatureIcons(Context c, LinearLayout layout, Set<GuildFeature> features) {
+    public void addFeatureIcons(Context c, LinearLayout layout, Guild guild) {
       LinearLayout fList = new LinearLayout(c);
       fList.setOrientation(LinearLayout.HORIZONTAL);
       fList.setBackgroundColor(Color.TRANSPARENT);
       fList.setPadding(Utils.dpToPx(2), Utils.dpToPx(8), 0, 0);
-
-      for(GuildFeature feature : features) {
-        ImageView icon = new ImageView(c);
-        Drawable d = null;
-        //make icon 10dp
-        int size = Utils.dpToPx(20);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(size, size);
-        icon.setLayoutParams(layoutParams);
-        switch (feature) {
-          case VIP_REGIONS:
-            d = ContextCompat.getDrawable(c, R.d.ic_star_24dp);
-            icon.setOnClickListener(e -> { Utils.showToast(c, "VIP Regions"); });
-            d.mutate();
-            d.setTint(ColorCompat.getThemedColor(c, R.b.colorInteractiveNormal));
-            icon.setImageDrawable(d);
-            break;
-          case INVITE_SPLASH:
-            d = ContextCompat.getDrawable(c, R.d.ic_flex_input_image_24dp_dark);
-            icon.setOnClickListener(e -> { Utils.showToast(c, "Invite Splash"); });
-            d.mutate();
-            d.setTint(ColorCompat.getThemedColor(c, R.b.colorInteractiveNormal));
-            break;
-        }
-        fList.addView(icon);
+      
+      if(guild.hasFeature(GuildFeature.VIP_REGIONS)) {
+        addIcon(c, fList, R.d.ic_star_24dp, "VIP Regions");
+      }
+      if(guild.hasFeature(GuildFeature.INVITE_SPLASH)) {
+        addIcon(c, fList, R.d.ic_flex_input_image_24dp_dark, "Invite Splash");
       }
 
       layout.addView(fList);
+    }
+
+    public void addIcon(Context c, LinearLayout layout, int icon, String name) {
+      ImageView icon = new ImageView(c);
+      Drawable d = ContextCompat.getDrawable(c, icon);
+      int size = Utils.dpToPx(20);
+      LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(size, size);
+      icon.setLayoutParams(layoutParams);
+      d.mutate();
+      d.setTint(ColorCompat.getThemedColor(c, R.b.colorInteractiveNormal));
+      icon.setImageDrawable(d);
+      icon.setOnClickListener(e -> { Utils.showToast(c, name); });
+      layout.addView(icon);
     }
 
     @Override
