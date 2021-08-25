@@ -283,7 +283,7 @@ public class GuildProfiles extends Plugin {
       fList.setOrientation(LinearLayout.HORIZONTAL);
       fList.setBackgroundColor(Color.TRANSPARENT);
       fList.setPadding(Utils.dpToPx(2), Utils.dpToPx(8), 0, 0);
-      
+
       if(guild.hasFeature(GuildFeature.VIP_REGIONS)) {
         addIcon(c, fList, R.d.ic_star_24dp, "VIP Regions");
       }
@@ -294,9 +294,9 @@ public class GuildProfiles extends Plugin {
       layout.addView(fList);
     }
 
-    public void addIcon(Context c, LinearLayout layout, int icon, String name) {
+    public void addIcon(Context c, LinearLayout layout, int iconId, String name) {
       ImageView icon = new ImageView(c);
-      Drawable d = ContextCompat.getDrawable(c, icon);
+      Drawable d = ContextCompat.getDrawable(c, iconId);
       int size = Utils.dpToPx(20);
       LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(size, size);
       icon.setLayoutParams(layoutParams);
