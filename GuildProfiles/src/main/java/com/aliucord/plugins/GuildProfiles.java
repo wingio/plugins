@@ -293,11 +293,11 @@ public class GuildProfiles extends Plugin {
         icon.setLayoutParams(layoutParams);
         switch (feature) {
           case VIP_REGIONS:
-            d = ContextCompat.getDrawable(c, R.d.ic_flex_input_image_24dp_dark);
+            d = ContextCompat.getDrawable(c, R.d.ic_star_24dp);
             icon.setOnClickListener(e -> { Utils.showToast(c, "VIP Regions"); });
             break;
           case INVITE_SPLASH:
-            d = ContextCompat.getDrawable(c, R.d.ic_star_24dp);
+            d = ContextCompat.getDrawable(c, R.d.ic_flex_input_image_24dp_dark);
             icon.setOnClickListener(e -> { Utils.showToast(c, "Invite Splash"); });
             break;
         }
