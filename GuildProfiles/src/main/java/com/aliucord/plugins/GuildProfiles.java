@@ -16,6 +16,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.aliucord.Constants;
 import com.aliucord.Utils;
@@ -29,6 +30,7 @@ import com.aliucord.plugins.guildprofiles.pages.*;
 import com.discord.utilities.color.ColorCompat;
 import com.discord.api.premium.PremiumTier;
 import com.discord.api.guild.GuildVerificationLevel;
+import com.discord.api.guild.GuildFeature;
 import com.discord.databinding.WidgetChatOverlayBinding;
 import com.discord.databinding.WidgetGuildProfileSheetBinding;
 import com.discord.utilities.viewbinding.FragmentViewBindingDelegate;
@@ -125,6 +127,8 @@ public class GuildProfiles extends Plugin {
               if(actions.findViewById(blockedId) == null && showBlockedAct) {
                   actions.addView(blockedBtn, 2);
               }
+              
+              addFeatures(ctx, layout, guild.getFeatures());
 
               GridLayout info = new GridLayout(ctx);
               info.setColumnCount(2);
@@ -255,6 +259,67 @@ public class GuildProfiles extends Plugin {
       info.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
       section.addView(info);
       layout.addView(section);
+    }
+
+    public void addFeatures(Context c, LinearLayout layout, Set<GuildFeature> features) {
+      LinearLayout section = new LinearLayout(c);
+      section.setOrientation(LinearLayout.VERTICAL);
+      section.setBackgroundColor(Color.TRANSPARENT);
+      section.setPadding(Utils.dpToPx(2), Utils.dpToPx(8), 0, 0);
+
+      if(listener != null) {
+        section.setOnLongClickListener(listener);
+      } else {
+        section.setOnLongClickListener(e -> {
+          Utils.setClipboard(name, value);
+          Utils.showToast(c, "Copied to clipboard");
+          return true;
+        });
+      }
+
+      TextView header = new TextView(c, null, 0, R.h.UserProfile_Section_Header);
+      header.setText("Features");
+      header.setTypeface(ResourcesCompat.getFont(c, Constants.Fonts.whitney_bold));
+      header.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+      section.addView(header);
+
+      addFeatureIcons(c, section, features);
+      
+      layout.addView(section, 3);
+    }
+
+    public void addFeatureIcons(Context c, LinearLayout layout, Set<GuildFeature> features) {
+      LinearLayout fList = new LinearLayout(c);
+      fList.setOrientation(LinearLayout.HORIZONTAL);
+      fList.setBackgroundColor(Color.TRANSPARENT);
+      fList.setPadding(Utils.dpToPx(2), Utils.dpToPx(8), 0, 0);
+
+      Drawable vipIcon = ResourcesCompat.getDrawable(resources, resources.getIdentifier("ic_vip", "drawable", "com.aliucord.plugins"),null);
+
+      for(GuildFeature feature : features) {
+        ImageView icon = new ImageView(c);
+        Drawable d = null;
+        //make icon 10dp
+        int size = Utils.dpToPx(20);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(size, size);
+        icon.setLayoutParams(layoutParams);
+        switch (feature) {
+          case VIP_REGIONS:
+            d = vipIcon;
+            icon.setOnClickListener(e -> { Utils.showToast(c, "VIP Regions"); });
+            break;
+          case INVITE_SPLASH:
+            d = ContextCompat.getDrawable(c, R.d.ic_flex_input_image_24dp_dark);
+            icon.setOnClickListener(e -> { Utils.showToast(c, "Invite Splash"); });
+            break;
+        }
+        d.mutate();
+        d.setTint(ColorCompat.getThemedColor(c, R.b.colorInteractiveNormal));
+        icon.setImageDrawable(d);
+        fList.addView(icon);
+      }
+
+      layout.addView(fList);
     }
 
     @Override

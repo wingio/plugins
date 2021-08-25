@@ -109,11 +109,7 @@ public class FriendNicknames extends Plugin {
       )
     );
 
-    pluginIcon = ResourcesCompat.getDrawable(
-      resources,
-      resources.getIdentifier("ic_editfriend", "drawable", "com.aliucord.plugins"),
-      null
-    );
+    pluginIcon = ResourcesCompat.getDrawable(resources, resources.getIdentifier("ic_editfriend", "drawable", "com.aliucord.plugins"),null);
 
     // patcher.patch(
     //   IconUtils.class,
