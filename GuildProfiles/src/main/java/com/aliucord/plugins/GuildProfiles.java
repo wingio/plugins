@@ -286,7 +286,7 @@ public class GuildProfiles extends Plugin {
 
       for(GuildFeature feature : features) {
         ImageView icon = new ImageView(c);
-        Drawable d;
+        Drawable d = null;
         //make icon 10dp
         int size = Utils.dpToPx(20);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(size, size);
@@ -295,15 +295,17 @@ public class GuildProfiles extends Plugin {
           case VIP_REGIONS:
             d = ContextCompat.getDrawable(c, R.d.ic_star_24dp);
             icon.setOnClickListener(e -> { Utils.showToast(c, "VIP Regions"); });
+            d.mutate();
+            d.setTint(ColorCompat.getThemedColor(c, R.b.colorInteractiveNormal));
+            icon.setImageDrawable(d);
             break;
           case INVITE_SPLASH:
             d = ContextCompat.getDrawable(c, R.d.ic_flex_input_image_24dp_dark);
             icon.setOnClickListener(e -> { Utils.showToast(c, "Invite Splash"); });
+            d.mutate();
+            d.setTint(ColorCompat.getThemedColor(c, R.b.colorInteractiveNormal));
             break;
         }
-        d.mutate();
-        d.setTint(ColorCompat.getThemedColor(c, R.b.colorInteractiveNormal));
-        icon.setImageDrawable(d);
         fList.addView(icon);
       }
 
