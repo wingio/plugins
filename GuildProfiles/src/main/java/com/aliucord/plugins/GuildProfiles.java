@@ -284,8 +284,6 @@ public class GuildProfiles extends Plugin {
       fList.setBackgroundColor(Color.TRANSPARENT);
       fList.setPadding(Utils.dpToPx(2), Utils.dpToPx(8), 0, 0);
 
-      Drawable vipIcon = ResourcesCompat.getDrawable(resources, resources.getIdentifier("ic_vip", "drawable", "com.aliucord.plugins"),null);
-
       for(GuildFeature feature : features) {
         ImageView icon = new ImageView(c);
         Drawable d = null;
@@ -295,11 +293,11 @@ public class GuildProfiles extends Plugin {
         icon.setLayoutParams(layoutParams);
         switch (feature) {
           case VIP_REGIONS:
-            d = vipIcon;
+            d = ContextCompat.getDrawable(c, R.d.ic_flex_input_image_24dp_dark);
             icon.setOnClickListener(e -> { Utils.showToast(c, "VIP Regions"); });
             break;
           case INVITE_SPLASH:
-            d = ContextCompat.getDrawable(c, R.d.ic_flex_input_image_24dp_dark);
+            d = ContextCompat.getDrawable(c, R.d.ic_star_24dp);
             icon.setOnClickListener(e -> { Utils.showToast(c, "Invite Splash"); });
             break;
         }
