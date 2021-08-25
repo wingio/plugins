@@ -286,7 +286,7 @@ public class GuildProfiles extends Plugin {
 
       for(GuildFeature feature : features) {
         ImageView icon = new ImageView(c);
-        Drawable d = null;
+        Drawable d;
         //make icon 10dp
         int size = Utils.dpToPx(20);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(size, size);
