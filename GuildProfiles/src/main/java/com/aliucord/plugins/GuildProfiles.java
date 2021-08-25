@@ -127,7 +127,7 @@ public class GuildProfiles extends Plugin {
               if(actions.findViewById(blockedId) == null && showBlockedAct) {
                   actions.addView(blockedBtn, 2);
               }
-              
+
               addFeatures(ctx, layout, guild.getFeatures());
 
               GridLayout info = new GridLayout(ctx);
@@ -266,16 +266,6 @@ public class GuildProfiles extends Plugin {
       section.setOrientation(LinearLayout.VERTICAL);
       section.setBackgroundColor(Color.TRANSPARENT);
       section.setPadding(Utils.dpToPx(2), Utils.dpToPx(8), 0, 0);
-
-      if(listener != null) {
-        section.setOnLongClickListener(listener);
-      } else {
-        section.setOnLongClickListener(e -> {
-          Utils.setClipboard(name, value);
-          Utils.showToast(c, "Copied to clipboard");
-          return true;
-        });
-      }
 
       TextView header = new TextView(c, null, 0, R.h.UserProfile_Section_Header);
       header.setText("Features");
