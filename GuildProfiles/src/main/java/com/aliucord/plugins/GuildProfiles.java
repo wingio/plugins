@@ -319,12 +319,12 @@ public class GuildProfiles extends Plugin {
       int size = Utils.dpToPx(20);
       int p = Utils.dpToPx(5);
       LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(size, size);
+      layoutParams.setMargins(0, 0, p, 0);
       icon.setLayoutParams(layoutParams);
       if(changeTint) {
           d.mutate();
           d.setTint(ColorCompat.getThemedColor(c, R.b.colorInteractiveNormal));
       }
-      icon.setPadding(p, p, p, p);
       icon.setImageDrawable(d);
       icon.setOnClickListener(e -> { Utils.showToast(c, name); });
       layout.addView(icon);
