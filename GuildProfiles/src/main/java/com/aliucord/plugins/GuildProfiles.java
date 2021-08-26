@@ -130,7 +130,7 @@ public class GuildProfiles extends Plugin {
               }
 
               if(layout.findViewById(featuresId) == null) {
-                addFeatures(ctx, layout, guild);
+                addFeatures(ctx, layout, guild, featuresId);
               }
 
               GridLayout info = new GridLayout(ctx);
@@ -264,11 +264,12 @@ public class GuildProfiles extends Plugin {
       layout.addView(section);
     }
 
-    public void addFeatures(Context c, LinearLayout layout, Guild guild) {
+    public void addFeatures(Context c, LinearLayout layout, Guild guild, int resId) {
       LinearLayout section = new LinearLayout(c);
       section.setOrientation(LinearLayout.VERTICAL);
       section.setBackgroundColor(Color.TRANSPARENT);
       section.setPadding(Utils.dpToPx(2), Utils.dpToPx(8), 0, 0);
+      section.setId(resId);
 
       TextView header = new TextView(c, null, 0, R.h.UserProfile_Section_Header);
       header.setText("Features");
@@ -297,10 +298,10 @@ public class GuildProfiles extends Plugin {
         addIcon(c, fList, R.d.ic_link_white_24dp, "Vanity URL");
       }
       if(guild.hasFeature(GuildFeature.PARTNERED)) {
-        addIcon(c, fList, R.d.ic_partnered_badge, "Partnered");
+        addIcon(c, fList, R.d.ic_profile_badge_partner_32dp, "Partnered");
       }
       if(guild.hasFeature(GuildFeature.VERIFIED)) {
-        addIcon(c, fList, R.d.ic_verified_badge, "Verified");
+        addIcon(c, fList, R.d.ic_verified_10dp, "Verified");
       }
       if(guild.hasFeature(GuildFeature.MORE_EMOJI)) {
         addIcon(c, fList, R.d.ic_add_reaction_grey_a60_24dp, "More Emoji");
