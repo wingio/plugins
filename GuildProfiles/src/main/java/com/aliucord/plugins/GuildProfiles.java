@@ -84,6 +84,7 @@ public class GuildProfiles extends Plugin {
         final int infoId = View.generateViewId();
         final int tabId = View.generateViewId();
         final int blockedId = View.generateViewId();
+        final int featuresId = View.generateViewId();
         patcher.patch(WidgetGuildProfileSheet.class, "configureUI", new Class<?>[]{ WidgetGuildProfileSheetViewModel.ViewState.Loaded.class }, new PinePatchFn(callFrame -> {
             WidgetGuildProfileSheet _this = (WidgetGuildProfileSheet) callFrame.thisObject;
             WidgetGuildProfileSheetViewModel.ViewState.Loaded state = (WidgetGuildProfileSheetViewModel.ViewState.Loaded) callFrame.args[0];
@@ -128,7 +129,9 @@ public class GuildProfiles extends Plugin {
                   actions.addView(blockedBtn, 2);
               }
 
-              addFeatures(ctx, layout, guild);
+              if(layout.findViewById(featuresId) == null) {
+                addFeatures(ctx, layout, guild);
+              }
 
               GridLayout info = new GridLayout(ctx);
               info.setColumnCount(2);
@@ -282,13 +285,28 @@ public class GuildProfiles extends Plugin {
       LinearLayout fList = new LinearLayout(c);
       fList.setOrientation(LinearLayout.HORIZONTAL);
       fList.setBackgroundColor(Color.TRANSPARENT);
-      fList.setPadding(Utils.dpToPx(2), Utils.dpToPx(8), 0, 0);
+      fList.setPadding(0, Utils.dpToPx(8), 0, 0);
 
       if(guild.hasFeature(GuildFeature.VIP_REGIONS)) {
         addIcon(c, fList, R.d.ic_star_24dp, "VIP Regions");
       }
       if(guild.hasFeature(GuildFeature.INVITE_SPLASH)) {
         addIcon(c, fList, R.d.ic_flex_input_image_24dp_dark, "Invite Splash");
+      }
+      if(guild.hasFeature(GuildFeature.VANITY_URL)) {
+        addIcon(c, fList, R.d.ic_link_white_24dp, "Vanity URL");
+      }
+      if(guild.hasFeature(GuildFeature.PARTNERED)) {
+        addIcon(c, fList, R.d.ic_partnered_badge, "Partnered");
+      }
+      if(guild.hasFeature(GuildFeature.VERIFIED)) {
+        addIcon(c, fList, R.d.ic_verified_badge, "Verified");
+      }
+      if(guild.hasFeature(GuildFeature.MORE_EMOJI)) {
+        addIcon(c, fList, R.d.ic_add_reaction_grey_a60_24dp, "More Emoji");
+      }
+      if(guild.hasFeature(GuildFeature.BANNER)) {
+        addIcon(c, fList, R.d.ic_flex_input_image_24dp_dark, "Banner");
       }
 
       layout.addView(fList);
