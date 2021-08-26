@@ -289,38 +289,40 @@ public class GuildProfiles extends Plugin {
       fList.setPadding(0, Utils.dpToPx(8), 0, 0);
 
       if(guild.hasFeature(GuildFeature.VIP_REGIONS)) {
-        addIcon(c, fList, R.d.ic_star_24dp, "VIP Regions");
+        addIcon(c, fList, R.d.ic_star_24dp, "VIP Regions", true);
       }
       if(guild.hasFeature(GuildFeature.INVITE_SPLASH)) {
-        addIcon(c, fList, R.d.ic_flex_input_image_24dp_dark, "Invite Splash");
+        addIcon(c, fList, R.d.ic_flex_input_image_24dp_dark, "Invite Splash", true);
       }
       if(guild.hasFeature(GuildFeature.VANITY_URL)) {
-        addIcon(c, fList, R.d.ic_link_white_24dp, "Vanity URL");
+        addIcon(c, fList, R.d.ic_link_white_24dp, "Vanity URL", true);
       }
       if(guild.hasFeature(GuildFeature.PARTNERED)) {
-        addIcon(c, fList, R.d.ic_profile_badge_partner_32dp, "Partnered");
+        addIcon(c, fList, R.d.ic_profile_badge_partner_32dp, "Partnered", true);
       }
       if(guild.hasFeature(GuildFeature.VERIFIED)) {
-        addIcon(c, fList, R.d.ic_verified_10dp, "Verified");
+        addIcon(c, fList, R.d.ic_verified_badge, "Verified", false);
       }
       if(guild.hasFeature(GuildFeature.MORE_EMOJI)) {
-        addIcon(c, fList, R.d.ic_add_reaction_grey_a60_24dp, "More Emoji");
+        addIcon(c, fList, R.d.ic_add_reaction_grey_a60_24dp, "More Emoji", true);
       }
       if(guild.hasFeature(GuildFeature.BANNER)) {
-        addIcon(c, fList, R.d.ic_flex_input_image_24dp_dark, "Banner");
+        addIcon(c, fList, R.d.ic_flex_input_image_24dp_dark, "Banner", true);
       }
 
       layout.addView(fList);
     }
 
-    public void addIcon(Context c, LinearLayout layout, int iconId, String name) {
+    public void addIcon(Context c, LinearLayout layout, int iconId, String name, boolean changeTint) {
       ImageView icon = new ImageView(c);
       Drawable d = ContextCompat.getDrawable(c, iconId);
       int size = Utils.dpToPx(20);
       LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(size, size);
       icon.setLayoutParams(layoutParams);
-      d.mutate();
-      d.setTint(ColorCompat.getThemedColor(c, R.b.colorInteractiveNormal));
+      if(changeTint) {
+          d.mutate();
+          d.setTint(ColorCompat.getThemedColor(c, R.b.colorInteractiveNormal));
+      }
       icon.setImageDrawable(d);
       icon.setOnClickListener(e -> { Utils.showToast(c, name); });
       layout.addView(icon);
