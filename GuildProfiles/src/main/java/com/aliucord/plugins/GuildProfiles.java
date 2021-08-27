@@ -72,7 +72,8 @@ public class GuildProfiles extends Plugin {
         new Manifest.Author("Wing", 298295889720770563L),
       };
     manifest.description = "Adds more server information to the server profile sheet";
-    manifest.version = "1.0.3";
+    manifest.version = "1.1.0";
+    manifest.changelog = "New {added marginTop}\n======================\n\n* **Features Section** You can now view the features a server has!"
     manifest.updateUrl =
       "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
     return manifest;
