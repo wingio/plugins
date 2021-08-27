@@ -2,7 +2,7 @@ package com.aliucord.plugins.guildprofiles;
 
 import android.annotation.SuppressLint;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.*;
 import android.content.Context;
 
 import androidx.core.content.res.ResourcesCompat;
@@ -41,7 +41,7 @@ public final class PluginSettings extends SettingsPage {
         setPadding(0);
 
         var context = view.getContext();
-        var layout = getLinearLayout();
+        LinearLayout layout = getLinearLayout();
 
         var actHeader = new TextView(context, null, 0, R.h.UiKit_Settings_Item_Header);
         actHeader.setTypeface(ResourcesCompat.getFont(context, Constants.Fonts.whitney_semibold));
@@ -64,6 +64,7 @@ public final class PluginSettings extends SettingsPage {
         layout.addView(createSwitch(context, settings, "tier", "Display 'Boost Level'", null, true));
         layout.addView(createSwitch(context, settings, "verificationLevel", "Display 'Verification Level'", null, true));
         layout.addView(createSwitch(context, settings, "contentFilter", "Display 'Content Filter'", null, true));
+        layout.addView(createSwitch(context, settings, "features", "Display 'Features'", null, true));
         layout.addView(new Divider(context));
     }
 

@@ -103,6 +103,7 @@ public class GuildProfiles extends Plugin {
               var p = Utils.dpToPx(16);
               boolean showFriendsAct = settings.getBool("friendsAct", true);
               boolean showBlockedAct = settings.getBool("blockedAct", true);
+              boolean showFeatures = settings.getBool("features", true);
 
               LinearLayout actions = (LinearLayout) ((FrameLayout) lo.findViewById(Utils.getResId("guild_profile_sheet_secondary_actions", "id"))).getChildAt(0);
               TextView mutualBtn = new TextView(actions.getContext(), null, 0, Utils.getResId("GuildProfileSheet.Actions.Title", "style"));
@@ -129,7 +130,7 @@ public class GuildProfiles extends Plugin {
                   actions.addView(blockedBtn, 2);
               }
 
-              if(layout.findViewById(featuresId) == null) {
+              if(layout.findViewById(featuresId) == null && showFeatures) {
                 addFeatures(ctx, layout, guild, featuresId);
               }
 
@@ -283,39 +284,38 @@ public class GuildProfiles extends Plugin {
     }
 
     public void addFeatureIcons(Context c, LinearLayout layout, Guild guild) {
-      LinearLayout fList = new LinearLayout(c);
-      fList.setOrientation(LinearLayout.HORIZONTAL);
+      GridLayout fList = new GridLayout(c);
+      fList.setColumnCount(14);
+      fList.setOrientation(GridLayout.HORIZONTAL);
       fList.setBackgroundColor(Color.TRANSPARENT);
+      LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+      fList.setLayoutParams(params);
       fList.setPadding(0, Utils.dpToPx(8), 0, 0);
 
-      if(guild.hasFeature(GuildFeature.VIP_REGIONS)) {
-        addIcon(c, fList, R.d.ic_star_24dp, "VIP Regions", true);
-      }
-      if(guild.hasFeature(GuildFeature.INVITE_SPLASH)) {
-        addIcon(c, fList, R.d.ic_flex_input_image_24dp_dark, "Invite Splash", true);
-      }
-      if(guild.hasFeature(GuildFeature.VANITY_URL)) {
-        addIcon(c, fList, R.d.ic_link_white_24dp, "Vanity URL", true);
-      }
-      if(guild.hasFeature(GuildFeature.PARTNERED)) {
-        addIcon(c, fList, R.d.ic_profile_badge_partner_32dp, "Partnered", true);
-      }
-      if(guild.hasFeature(GuildFeature.VERIFIED)) {
-        addIcon(c, fList, R.d.ic_verified_badge, "Verified", false);
-      }
-      if(guild.hasFeature(GuildFeature.MORE_EMOJI)) {
-        addIcon(c, fList, R.d.ic_add_reaction_grey_a60_24dp, "More Emoji", true);
-      }
-      if(guild.hasFeature(GuildFeature.BANNER)) {
-        addIcon(c, fList, R.d.ic_flex_input_image_24dp_dark, "Banner", true);
-      }
+      if(guild.hasFeature(GuildFeature.VIP_REGIONS)) addIcon(c, fList, R.d.ic_star_24dp, "VIP Regions", true);
+      if(guild.hasFeature(GuildFeature.INVITE_SPLASH)) addIcon(c, fList, R.d.ic_person_add_new_primary_500_24dp, "Invite Splash", true);
+      if(guild.hasFeature(GuildFeature.VANITY_URL)) addIcon(c, fList, R.d.ic_link_white_24dp, "Vanity URL", true);
+      if(guild.hasFeature(GuildFeature.PARTNERED)) addIcon(c, fList, R.d.ic_profile_badge_partner_32dp, "Partnered", true);
+      if(guild.hasFeature(GuildFeature.VERIFIED)) addIcon(c, fList, R.d.ic_verified_badge, "Verified", false);
+      if(guild.hasFeature(GuildFeature.MORE_EMOJI)) addIcon(c, fList, R.d.ic_add_reaction_grey_a60_24dp, "More Emoji", true);
+      if(guild.hasFeature(GuildFeature.BANNER)) addIcon(c, fList, R.d.ic_flex_input_image_24dp_dark, "Banner", true);
+      if(guild.hasFeature(GuildFeature.NEWS)) addIcon(c, fList, R.d.ic_channel_announcements, "Announcements", true);
+      if(guild.hasFeature(GuildFeature.DISCOVERABLE)) addIcon(c, fList, R.d.ic_search_16dp, "Discoverable", true);
+      if(guild.hasFeature(GuildFeature.ANIMATED_ICON)) addIcon(c, fList, R.d.gif, "Animated Icon", true);
+      if(guild.hasFeature(GuildFeature.COMMUNITY)) addIcon(c, fList, R.d.ic_people_white_24dp, "Community", true);
+      if(guild.hasFeature(GuildFeature.MEMBER_VERIFICATION_GATE_ENABLED)) addIcon(c, fList, R.d.ic_small_lock_green_24dp, "Welcome Screen Enabled", true);
+      if(guild.hasFeature(GuildFeature.PREVIEW_ENABLED)) addIcon(c, fList, R.d.design_password_eye, "Preview Enabled", true);
+      if(guild.hasFeature(GuildFeature.THREADS_ENABLED)) addIcon(c, fList, R.d.ic_flex_input_create_thread_24dp_dark, "Threads Enabled", true);
+      if(guild.hasFeature(GuildFeature.PRIVATE_THREADS)) addIcon(c, fList, R.d.ic_channel_text_locked, "Private Threads", true);
+      if(guild.hasFeature(GuildFeature.ROLE_ICONS)) addIcon(c, fList, R.d.ic_shieldstar_24dp, "Role Icons", true);
 
       layout.addView(fList);
     }
 
-    public void addIcon(Context c, LinearLayout layout, int iconId, String name, boolean changeTint) {
+    public void addIcon(Context c, GridLayout layout, int iconId, String name, boolean changeTint) {
       ImageView icon = new ImageView(c);
       Drawable d = ContextCompat.getDrawable(c, iconId);
+      if(d == null) d = ResourcesCompat.getDrawable(resources, iconId, null);
       int size = Utils.dpToPx(20);
       int p = Utils.dpToPx(5);
       LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(size, size);
