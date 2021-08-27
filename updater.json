@@ -26,8 +26,9 @@
         "minimumDiscordVersion": 83210
     },
     "GuildProfiles": {
-        "version": "1.0.3",
-        "minimumDiscordVersion": 83210
+        "version": "1.1.0",
+        "minimumDiscordVersion": 83210,
+        "changelog": "New {added marginTop}\n======================\n\n* **Features Section** You can now view the features a server has!"
     },
     "default": {
         "minimumDiscordVersion": 1456,
