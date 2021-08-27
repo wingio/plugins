@@ -73,7 +73,7 @@ public class GuildProfiles extends Plugin {
       };
     manifest.description = "Adds more server information to the server profile sheet";
     manifest.version = "1.1.0";
-    manifest.changelog = "New {added marginTop}\n======================\n\n* **Features Section** You can now view the features a server has!"
+    manifest.changelog = "New {added marginTop}\n======================\n\n* **Features Section** You can now view the features a server has!";
     manifest.updateUrl =
       "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
     return manifest;
