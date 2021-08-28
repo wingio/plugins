@@ -14,6 +14,7 @@ import android.content.res.AssetManager;
 import android.net.Uri;
 import android.text.*;
 import android.text.style.ClickableSpan;
+import android.util.Base64;
 import android.view.*;
 import android.widget.*;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import com.aliucord.Utils;
 import com.aliucord.Logger;
 import com.aliucord.CollectionUtils;
 import com.aliucord.plugins.FavoriteMessages;
+import com.aliucord.plugins.favoritemessages.util.*;
 import com.aliucord.api.SettingsAPI;
 import com.aliucord.entities.Plugin;
 import com.aliucord.fragments.ConfirmDialog;
@@ -55,12 +57,13 @@ import com.facebook.drawee.span.DraweeSpanStringBuilder;
 import com.lytefast.flexinput.R;
 
 import kotlin.Unit;
-import java.io.File;
+import java.io.*;
 import java.util.*;
 
 public class PluginSettings extends SettingsPage {
     private static final int uniqueId = View.generateViewId();
     private final SettingsAPI settings;
+    private static final int settingsId = View.generateViewId(); 
     public PluginSettings(SettingsAPI settings) {
         this.settings = settings;
     }
@@ -68,11 +71,13 @@ public class PluginSettings extends SettingsPage {
     public static class MessageOptions extends BottomSheet {
         private StoredMessage message;
         private AppFragment fragment;
+        private SettingsPage page;
         private SettingsAPI sets = PluginManager.plugins.get("FavoriteMessages").settings;
 
-        public MessageOptions(StoredMessage msg, AppFragment frag) {
+        public MessageOptions(StoredMessage msg, AppFragment frag, SettingsPage page) {
             this.message = msg;
             this.fragment = frag;
+            this.page = page;
         }
 
         private StoredMessage getMessage() {
@@ -121,11 +126,7 @@ public class PluginSettings extends SettingsPage {
                 favorites.remove(getMessage().id);
                 sets.setObject("favorites", favorites);
                 Utils.showToast(optCtx, "Unfavorited message");
-                var ft = fragment.getFragmentManager().beginTransaction();
-                if (android.os.Build.VERSION.SDK_INT >= 26) {
-                   ft.setReorderingAllowed(false);
-                }
-                ft.detach(fragment).attach(fragment).commit();
+                page.reRender();
                 dismiss();
             });
 
@@ -174,11 +175,12 @@ public class PluginSettings extends SettingsPage {
         }
 
         private final AppFragment fragment;
+        private final SettingsPage page;
         private final Context ctx;
         private final List<StoredMessage> originalData;
         private List<StoredMessage> data;
 
-        public Adapter(AppFragment fragment, Map<Long, StoredMessage> favorites) {
+        public Adapter(AppFragment fragment, Map<Long, StoredMessage> favorites, SettingsPage page) {
             super();
 
             this.fragment = fragment;
@@ -186,6 +188,8 @@ public class PluginSettings extends SettingsPage {
             
             this.originalData = new ArrayList<StoredMessage>(favorites.values());
             originalData.sort(Comparator.comparing(p -> p.content));
+
+            this.page = page;
 
             data = originalData;
         }
@@ -205,6 +209,7 @@ public class PluginSettings extends SettingsPage {
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             StoredMessage msg = data.get(position);
             Long meId = StoreStream.getUsers().getMe().getId();
+            boolean showAvatar = PluginManager.plugins.get("FavoriteMessages").settings.getBool("avatars", true);
             try {
                 DraweeSpanStringBuilder cnt = DiscordParser.parseChannelMessage(ctx, msg.content, new MessageRenderContext(ctx, meId, true), new MessagePreprocessor(meId, null), DiscordParser.ParserOptions.DEFAULT, false);
                 holder.card.contentView.setText(cnt);
@@ -212,16 +217,33 @@ public class PluginSettings extends SettingsPage {
                 Logger l = new Logger("FavoriteMessages");
                 l.error("Error displaying message content", e);
             }
-            // Bitmap avatar = holder.card.getBitmapFromURL(String.format("https://cdn.discordapp.com/avatars/%s/%s.png", msg.author.id, msg.author.avatar));
-            // holder.card.avatarView.setImageBitmap(avatar);
+            
+            if(showAvatar){
+                Utils.threadPool.execute(() -> {
+                    byte[] decodedString = Base64.decode(AvatarUtils.toBase64("https://cdn.discordapp.com/avatars/" + msg.author.id + "/" + msg.author.avatar + ".png"), Base64.DEFAULT);
+                    Bitmap bitMap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                    Utils.mainThread.post(() -> {
+                        holder.card.avatarView.setImageBitmap(AvatarUtils.makeCircle(bitMap));
+                    });
+                });
+            }
+            holder.card.avatarView.setVisibility(showAvatar ? View.VISIBLE : View.GONE);
+
+        
             var clock = ClockFactory.get();
             var timestamp = String.valueOf(TimeUtils.toReadableTimeString(ctx, SnowflakeUtils.toTimestamp(msg.id), clock));
             holder.card.authorView.setText(msg.author.name);
             holder.card.dateView.setText(timestamp);
             holder.card.tagView.setVisibility(msg.author.isBot ? View.VISIBLE : View.GONE);
-            
+
+            int p = Utils.getDefaultPadding();
+            int p2 = p / 2;
+            if(showAvatar == false){
+                holder.card.setPadding(p, 0, p, 0);
+            }
+
             holder.card.setOnLongClickListener(e -> {
-                new MessageOptions(msg, fragment).show(fragment.getParentFragmentManager(), "Message Options");
+                new MessageOptions(msg, fragment, page).show(fragment.getParentFragmentManager(), "Message Options");
                 return true;
             });
         }
@@ -307,22 +329,26 @@ public class PluginSettings extends SettingsPage {
         super.onViewBound(view);
         //noinspection ResultOfMethodCallIgnored
         setActionBarTitle("Favorite Messages");
+        setPadding(0);
 
         Context context = requireContext();
         int padding = Utils.getDefaultPadding();
         int p = padding / 2;
 
         TextInput input = new TextInput(context);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.setMargins(padding, padding, padding, 0);
+        input.setLayoutParams(params);
         input.setHint(context.getString(R.g.search));
 
         RecyclerView recyclerView = new RecyclerView(context);
         recyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
         Map<Long, StoredMessage> favorites = settings.getObject("favorites", new HashMap<>(), FavoriteMessages.msgType);
-        Adapter adapter = new Adapter(this, favorites);
+        Adapter adapter = new Adapter(this, favorites, this);
         recyclerView.setAdapter(adapter);
         ShapeDrawable shape = new ShapeDrawable(new RectShape());
         shape.setTint(Color.TRANSPARENT);
-        shape.setIntrinsicHeight(padding);
+        shape.setIntrinsicHeight(0);
         DividerItemDecoration decoration = new DividerItemDecoration(context, DividerItemDecoration.VERTICAL);
         decoration.setDrawable(shape);
         recyclerView.addItemDecoration(decoration);
@@ -330,6 +356,20 @@ public class PluginSettings extends SettingsPage {
 
         addView(input);
         addView(recyclerView);
+
+        Toolbar.LayoutParams marginEndParams = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
+        marginEndParams.gravity = Gravity.END;
+        marginEndParams.setMarginEnd(padding);
+        ToolbarButton settingsBtn = new ToolbarButton(context);
+        settingsBtn.setLayoutParams(marginEndParams);
+        settingsBtn.setImageDrawable(ContextCompat.getDrawable(context, R.d.ic_guild_settings_24dp));
+        settingsBtn.setId(settingsId);
+
+        settingsBtn.setOnClickListener(e -> {
+            new SettingsSheet(this).show(getParentFragmentManager(), "Settings");
+        });
+
+        if(getHeaderBar().findViewById(settingsId) == null) addHeaderButton(settingsBtn);
 
         EditText editText = input.getEditText();
         if (editText != null) {

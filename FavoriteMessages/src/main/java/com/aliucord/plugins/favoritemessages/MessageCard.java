@@ -24,6 +24,7 @@ import com.aliucord.Constants;
 import com.aliucord.Utils;
 import com.aliucord.views.*;
 import com.aliucord.plugins.FavoriteMessages;
+import com.aliucord.views.Divider;
 import com.discord.utilities.color.ColorCompat;
 import com.discord.views.CheckedSetting;
 import com.google.android.material.card.MaterialCardView;
@@ -31,36 +32,49 @@ import java.net.*;
 import java.io.*;
 import com.lytefast.flexinput.R;
 
-public class MessageCard extends MaterialCardView {
+public class MessageCard extends LinearLayout {
     public final LinearLayout root;
     public final TextView authorView;
     public final TextView contentView;
     public final TextView tagView;
     public final TextView dateView;
-    //public final ImageView avatarView;
+    public final ImageView avatarView;
 
     @SuppressLint("SetTextI18n")
     public MessageCard(Context ctx) {
         super(ctx);
-        setRadius(Utils.getDefaultCardRadius());
-        setCardBackgroundColor(ColorCompat.getThemedColor(ctx, R.b.colorBackgroundSecondary));
+        //setRadius(Utils.getDefaultCardRadius());
+        //setCardBackgroundColor(Color.TRANSPARENT);
+        setBackgroundColor(Color.TRANSPARENT);
+        setOrientation(LinearLayout.VERTICAL);
         setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 
         int p = Utils.getDefaultPadding();
         int p2 = p / 2;
 
         root = new LinearLayout(ctx);
-        root.setOrientation(LinearLayout.VERTICAL);
+        root.setOrientation(LinearLayout.HORIZONTAL);
+
+        LinearLayout cnt = new LinearLayout(ctx);
+        cnt.setOrientation(LinearLayout.VERTICAL);
+        LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        cnt.setLayoutParams(lparams);
 
         contentView = new TextView(ctx, null, 0, R.h.UiKit_Settings_Item_Addition);
-        contentView.setPadding(p, p, p, p);
-
-        // Too much of a pain, might do later
-        // avatarView = new ImageView(ctx);
-        // avatarView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        // LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(Utils.dpToPx(48),Utils.dpToPx(48));
-        // avatarView.setLayoutParams(parms);
-        
+        contentView.setPadding(0, 0, p, p2);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        contentView.setLayoutParams(lp);
+        LinearLayout avSection = new LinearLayout(ctx);
+        avSection.setOrientation(LinearLayout.VERTICAL);
+        avSection.setGravity(Gravity.TOP);
+        //make height fill container
+        avSection.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
+        avatarView = new ImageView(ctx);
+        avatarView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(Utils.dpToPx(38),Utils.dpToPx(38));
+        parms.setMargins(p2, p2, p2 + (p / 3), p2);
+        avatarView.setLayoutParams(parms);
+        avSection.addView(avatarView);
 
         dateView = new TextView(ctx);
         dateView.setTextSize(12.0f);
@@ -79,13 +93,14 @@ public class MessageCard extends MaterialCardView {
         tagView.setText("BOT");
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         params.setMargins(Utils.dpToPx(4),0,0,0);
+        params.gravity = Gravity.CENTER_VERTICAL;
         tagView.setLayoutParams(params);
         tagView.setSingleLine(true);
         //tagView.setMinimumWidth(Utils.dpToPx(21));
 
         authorView = new TextView(ctx);
-        authorView.setTextSize(17.0f);
-        authorView.setTypeface(ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_semibold));
+        authorView.setTextSize(16.0f);
+        authorView.setTypeface(ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_medium));
         authorView.setTextColor(ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal));
         authorView.setEllipsize(TextUtils.TruncateAt.END);
         authorView.setHorizontallyScrolling(false);
@@ -94,17 +109,16 @@ public class MessageCard extends MaterialCardView {
 
         LinearLayout authorField = new LinearLayout(ctx);
         authorField.setOrientation(LinearLayout.HORIZONTAL);
-        authorField.setGravity(Gravity.CENTER_VERTICAL);
-        authorField.setPadding(p, p, p, p2);
-        //authorField.addView(avatarView);
+        authorField.setPadding(0, p2, p, 0);
         authorField.addView(authorView);
         authorField.addView(tagView);
         authorField.addView(dateView);
-        
 
-        root.addView(authorField);
-        root.addView(contentView);
+        cnt.addView(authorField);
+        cnt.addView(contentView);
 
+        root.addView(avSection);
+        root.addView(cnt);
 
         addView(root);
     }

@@ -1,3 +1,3 @@
-include(":GuildProfiles")
+include(":FavoriteMessages")
 
 rootProject.name = "plugins"
