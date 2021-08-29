@@ -22,9 +22,9 @@
         "changelog": "New {added marginTop}\n======================\n\n* **Verified tags!** You can now set a tag as verified when using the '/usertags set' command"
     },
     "FavoriteMessages": {
-        "version": "1.1.0",
+        "version": "1.1.1",
         "minimumDiscordVersion": 83210,
-        "changelog": "Improved {improved marginTop}\n======================\n\n* **Avatars!** Messages will now include the author's avatar\n* **New Look.** The message card has been redesigned to be more in line with regular messages\n\nAdded {added marginTop}\n======================\n\n* **Setting to disable avatars**"
+        "changelog": "Added {added marginTop}\n======================\n\n* **View author's profile.** You can now view the profile of a message author by either tapping on the avatar or username, or using the context menu."
     },
     "GuildProfiles": {
         "version": "1.1.0",

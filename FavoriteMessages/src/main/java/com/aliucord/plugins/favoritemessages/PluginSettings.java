@@ -103,6 +103,12 @@ public class PluginSettings extends SettingsPage {
             if (jumpIcon != null) jumpIcon.setTint(
                 ColorCompat.getThemedColor(optCtx, R.b.colorInteractiveNormal)
             );
+
+            Drawable profileIcon = ContextCompat.getDrawable(optCtx, R.d.ic_profile_24dp);
+            profileIcon.mutate();
+            if (profileIcon != null) profileIcon.setTint(
+                ColorCompat.getThemedColor(optCtx, R.b.colorInteractiveNormal)
+            );
             
             var copyId = View.generateViewId();
             TextView copyOption = new TextView(optCtx, null, 0, R.h.UiKit_Settings_Item_Icon);
@@ -154,7 +160,18 @@ public class PluginSettings extends SettingsPage {
                 dismiss();
             });
 
+            var profileId = View.generateViewId();
+            TextView profileOption = new TextView(optCtx, null, 0, R.h.UiKit_Settings_Item_Icon);
+            profileOption.setText("View Profile");
+            profileOption.setId(copyUrlId);
+            profileOption.setCompoundDrawablesWithIntrinsicBounds(profileIcon, null, null, null);
+            profileOption.setOnClickListener(e -> {
+                WidgetUserSheet.Companion.show(getMessage().author.id, fragment.getParentFragmentManager());
+                dismiss();
+            });
+
             addView(openOption);
+            addView(profileOption);
             addView(copyOption);
             addView(copyUrlOption);
             addView(unfavOption);
@@ -226,6 +243,9 @@ public class PluginSettings extends SettingsPage {
                         holder.card.avatarView.setImageBitmap(AvatarUtils.makeCircle(bitMap));
                     });
                 });
+                holder.card.avatarView.setOnClickListener(e -> {
+                    WidgetUserSheet.Companion.show(msg.author.id, fragment.getParentFragmentManager());
+                });
             }
             holder.card.avatarView.setVisibility(showAvatar ? View.VISIBLE : View.GONE);
 
@@ -233,6 +253,9 @@ public class PluginSettings extends SettingsPage {
             var clock = ClockFactory.get();
             var timestamp = String.valueOf(TimeUtils.toReadableTimeString(ctx, SnowflakeUtils.toTimestamp(msg.id), clock));
             holder.card.authorView.setText(msg.author.name);
+            holder.card.authorView.setOnClickListener(e -> {
+                WidgetUserSheet.Companion.show(msg.author.id, fragment.getParentFragmentManager());
+            });
             holder.card.dateView.setText(timestamp);
             holder.card.tagView.setVisibility(msg.author.isBot ? View.VISIBLE : View.GONE);
 

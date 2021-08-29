@@ -54,10 +54,10 @@ public class FavoriteMessages extends Plugin {
         new Manifest.Author("Wing", 298295889720770563L),
       };
     manifest.description = "Organize your favorite messages";
-    manifest.version = "1.1.0";
+    manifest.version = "1.1.1";
     manifest.updateUrl =
       "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
-    manifest.changelog = "Improved {improved marginTop}\n======================\n\n* **Avatars!** Messages will now include the author's avatar\n* **New Look.** The message card has been redesigned to be more in line with regular messages\n\nAdded {added marginTop}\n======================\n\n* **Setting to disable avatars**";
+    manifest.changelog = "Added {added marginTop}\n======================\n\n* **View author's profile.** You can now view the profile of a message author by either tapping on the avatar or username, or using the context menu.";
     return manifest;
   }
 
