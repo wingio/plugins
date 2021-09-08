@@ -1,3 +1,3 @@
-include(":FavoriteMessages")
+include(":CustomBadges")
 
 rootProject.name = "plugins"

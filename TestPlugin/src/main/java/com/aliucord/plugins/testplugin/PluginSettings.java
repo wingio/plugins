@@ -1,11 +1,13 @@
 package com.aliucord.plugins.testplugin;
 
 import android.annotation.SuppressLint;
-import android.view.View;
-import android.widget.TextView;
+import android.view.*;
+import android.widget.*;
 import android.content.Context;
+import android.util.AttributeSet;
 
 import androidx.core.content.res.ResourcesCompat;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.aliucord.Constants;
 import com.aliucord.Utils;
@@ -18,6 +20,9 @@ import com.aliucord.entities.NotificationData;
 
 import com.discord.views.CheckedSetting;
 import com.discord.views.RadioManager;
+import com.discord.widgets.user.profile.UserProfileHeaderView;
+import com.discord.stores.*;
+import com.discord.models.user.User;
 import com.lytefast.flexinput.R;
 
 import kotlin.Unit;
@@ -41,25 +46,17 @@ public final class PluginSettings extends SettingsPage {
 
         var context = view.getContext();
         var layout = getLinearLayout();
-        NotificationData notD = new NotificationData();
-                notD.setTitle("Achievement Unlocked");
-                notD.setBody(Utils.renderMD("**Baby Steps**: Open achievement list for the first time!"));
-                notD.setAutoDismissPeriodSecs(5);
-                notD.setIconUrl("https://media.discordapp.net/attachments/656712865344126997/869987570090655784/76018874.png");
-                notD.setOnClick(v -> {
-                    Utils.log("Achievement Unlocked");
-                    return Unit.a;
-                });
- 
-        NotificationsAPI.display(notD);
+        User testUser = StoreStream.getUsers().getUsers().get(298295889720770563L);
+        ProfileWidget profile = new ProfileWidget(context, testUser);
+        layout.addView(profile);
 
-        var expHeader = new TextView(context, null, 0, R.h.UiKit_Settings_Item_Header);
-        expHeader.setTypeface(ResourcesCompat.getFont(context, Constants.Fonts.whitney_semibold));
-        expHeader.setText("Experiments");
-        layout.addView(expHeader);
-
-        layout.addView(createSwitch(context, settings, "allBots", "Mark everyone as bots", null, false));
-        layout.addView(new Divider(context));
+        // var expHeader = new TextView(context, null, 0, R.h.UiKit_Settings_Item_Header);
+        // expHeader.setTypeface(ResourcesCompat.getFont(context, Constants.Fonts.whitney_semibold));
+        // expHeader.setText("Experiments");
+        // layout.addView(expHeader);
+        
+        // layout.addView(createSwitch(context, settings, "allBots", "Mark everyone as bots", null, false));
+        // layout.addView(new Divider(context));
     }
 
     public void reloadPlugin() {

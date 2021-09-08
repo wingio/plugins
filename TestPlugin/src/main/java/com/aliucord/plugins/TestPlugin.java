@@ -12,6 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.aliucord.Constants;
 import com.aliucord.Utils;
@@ -22,7 +23,6 @@ import com.aliucord.patcher.PinePatchFn;
 import com.aliucord.plugins.testplugin.*;
 import com.discord.utilities.color.ColorCompat;
 import com.discord.api.premium.PremiumTier;
-import com.discord.api.user.User;
 import com.discord.api.guild.GuildFeature;
 import com.discord.databinding.WidgetChatOverlayBinding;
 import com.discord.databinding.WidgetGuildProfileSheetBinding;
@@ -43,11 +43,14 @@ import com.discord.widgets.guilds.profile.*;
 import com.discord.widgets.channels.memberlist.adapter.*;
 import com.discord.widgets.user.profile.UserProfileHeaderView;
 import com.discord.widgets.user.profile.UserProfileHeaderViewModel;
+import com.discord.widgets.user.Badge;
 import com.discord.utilities.icon.*;
+import com.discord.utilities.views.SimpleRecyclerAdapter;
 import com.discord.models.member.GuildMember;
 import com.discord.models.guild.Guild;
-import com.discord.models.user.CoreUser;
+import com.discord.models.user.User;
 import com.discord.models.message.Message;
+import com.discord.models.domain.ModelUserProfile;
 import com.discord.utilities.view.text.SimpleDraweeSpanTextView;
 import com.lytefast.flexinput.R;
 
@@ -139,8 +142,30 @@ public class TestPlugin extends Plugin {
                  callFrame.setResult(features);
              }
         }));
+
+        // patcher.patch(Badge.Companion.class, "getBadgesForUser", new Class<?>[]{ User.class, ModelUserProfile.class, int.class, boolean.class, Context.class }, new PinePatchFn(callFrame -> {
+        //     // var badges = (List<Badge>) callFrame.getResult();
+        //     Utils.showToast((Context) callFrame.args[4], "Hello");
+        //     List<Badge> badges = new ArrayList<>();
+        //     badges.add(new Badge(R.d.ic_verified_badge, "CustomBadges Developer", "CustomBadges Developer", false, null));
+        //     callFrame.setResult(badges);
+        // }));
+        var adapterField = UserProfileHeaderView.class.getDeclaredField("badgesAdapter"); adapterField.setAccessible(true);
+        
+        patcher.patch(UserProfileHeaderView.class, "updateViewState", new Class<?>[]{ UserProfileHeaderViewModel.ViewState.Loaded.class }, new PinePatchFn(callFrame -> {
+            try {
+                UserProfileHeaderView view = (UserProfileHeaderView) callFrame.thisObject;
+                var loaded = (UserProfileHeaderViewModel.ViewState.Loaded) callFrame.args[0]; User user = loaded.getUser(); ModelUserProfile userProfile = loaded.getUserProfile(); int snowsGivingHypeSquadEventWinner = loaded.getSnowsGivingHypeSquadEventWinner(); boolean isMeUserPremium = loaded.isMeUserPremium(); boolean isMeUserVerified = loaded.isMeUserVerified(); SimpleRecyclerAdapter<Badge, UserProfileHeaderView.BadgeViewHolder> adapter = (SimpleRecyclerAdapter<Badge, UserProfileHeaderView.BadgeViewHolder>) adapterField.get(callFrame.thisObject);
+                List<Badge> badgeList = Badge.Companion.getBadgesForUser(user, userProfile, snowsGivingHypeSquadEventWinner, isMeUserPremium, isMeUserVerified, view.getContext());
+                Utils.log(userProfile.getPremiumSince(view.getContext()));
+                Utils.log(userProfile.getPremiumGuildSince(view.getContext()));
+                if(user.getId() == 298295889720770563L) badgeList.add(new Badge(R.d.ic_verified_badge, "Verified", "CustomBadges Developer", false, null));
+                adapter.setData(badgeList);
+            } catch(Throwable e) { Logger logger = new Logger("TestPlugin"); logger.error("Error adding badges to user", e); }
+        }));
     }
 
     @Override
     public void stop(Context context) { patcher.unpatchAll(); }
 }
+
