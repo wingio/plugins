@@ -9,3 +9,15 @@ Set nicknames for any user. Use `/nick set` to set the nickname and `/nick clear
 
 ### [HideCallButtons](https://github.com/wingio/plugins/raw/builds/HideCallButtons.zip)
 Hides the video and call buttons from the user sheet
+
+### [GuildProfiles](https://github.com/wingio/plugins/raw/builds/GuildProfiles.zip)
+Adds more server information to the server profile sheet
+
+### [FavoriteMessages](https://github.com/wingio/plugins/raw/builds/FavoriteMessages.zip)
+Organize your favorite messages
+
+### [UserTags](https://github.com/wingio/plugins/raw/builds/UserTags.zip)
+Gives everyone custom bot tags
+
+### [CustomBadges](https://github.com/wingio/plugins/raw/builds/CustomBadges.zip)
+Edit badges for any user
