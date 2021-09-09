@@ -14,6 +14,7 @@ import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.aliucord.annotations.AliucordPlugin;
 import com.aliucord.Constants;
 import com.aliucord.Utils;
 import com.aliucord.Logger;
