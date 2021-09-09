@@ -31,6 +31,10 @@
         "minimumDiscordVersion": 83210,
         "changelog": "New {added marginTop}\n======================\n\n* **Features Section** You can now view the features a server has!"
     },
+    "CustomBadges": {
+        "version": "1.0.0",
+        "minimumDiscordVersion": 83210
+    },
     "default": {
         "minimumDiscordVersion": 1456,
         "version": "1.0.0",
