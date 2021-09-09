@@ -61,6 +61,7 @@ import java.lang.*;
 
 import kotlin.jvm.functions.Function0;
 
+@AliucordPlugin
 public class CustomBadges extends Plugin {
 
     public CustomBadges() {
