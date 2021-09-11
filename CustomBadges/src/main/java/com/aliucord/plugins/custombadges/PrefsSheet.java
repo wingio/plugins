@@ -43,6 +43,8 @@ import com.discord.views.CheckedSetting;
 import com.discord.utilities.color.ColorCompat;
 import com.lytefast.flexinput.R;
 
+import com.aliucord.plugins.custombadges.util.BadgeDB;
+
 import kotlin.Unit;
 import java.io.*;
 import java.util.*;
@@ -50,17 +52,36 @@ import java.util.*;
 public class PrefsSheet extends BottomSheet {
     private SettingsPage page;
     private SettingsAPI settings;
+    private BadgeDB badgeDB;
 
-    public PrefsSheet(SettingsPage page, SettingsAPI settings) {
+    public PrefsSheet(SettingsPage page, SettingsAPI settings, BadgeDB badgeDB) {
         this.page = page;
         this.settings = settings;
+        this.badgeDB = badgeDB;
     }
 
     @Override
     public void onViewCreated(View view, Bundle bundle) {
         super.onViewCreated(view, bundle);
+        int p = Utils.dpToPx(8);
         Context ctx = requireContext();
+        addView(createSwitch(ctx, settings, "use_badge_db", "Use BadgeDB", "Wether to show badges from BadgeDB (github.com/wingio/BadgeDB)", true, false));
         addView(createSwitch(ctx, settings, "replace_badges", "Replace Badges", "Whether to replace badges with custom badges or to just add to current badges.", true, false));
+        Button clearCache = new Button(ctx);
+        clearCache.setText("Clear BadgeDB Cache");
+        clearCache.setOnClickListener(v -> {
+            try {
+                badgeDB.clearCache();
+                Utils.showToast(ctx, "Cache cleared");
+            } catch (Exception e) {
+                Utils.showToast(ctx, "Failed to clear cache");
+            }
+        });
+        LinearLayout clearCacheView = new LinearLayout(ctx);
+        clearCacheView.setOrientation(LinearLayout.VERTICAL);
+        clearCacheView.addView(clearCache);
+        clearCacheView.setPadding(p, p, p, p);
+        addView(clearCacheView);
     }
 
     private CheckedSetting createSwitch(Context context, SettingsAPI sets, String key, String label, CharSequence subtext, boolean defaultValue, boolean reRender) {

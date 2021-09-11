@@ -36,6 +36,8 @@ import com.discord.stores.*;
 import com.discord.models.user.User;
 import com.lytefast.flexinput.R;
 
+import com.aliucord.plugins.custombadges.util.BadgeDB;
+
 import kotlin.Unit;
 import java.util.*;
 
@@ -43,8 +45,10 @@ import java.util.*;
 public final class PluginSettings extends SettingsPage {
     private final int settingsId = View.generateViewId();
     private final SettingsAPI settings;
-    public PluginSettings(SettingsAPI settings) {
+    private BadgeDB badgeDB;
+    public PluginSettings(SettingsAPI settings, BadgeDB badgeDB) {
         this.settings = settings;
+        this.badgeDB = badgeDB;
     }
 
     @Override
@@ -61,7 +65,7 @@ public final class PluginSettings extends SettingsPage {
         RecyclerView recyclerView = new RecyclerView(context);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         var userList = new ArrayList<>(users.values());
-        recyclerView.setAdapter(new UserAdapter(this, userList));
+        recyclerView.setAdapter(new UserAdapter(this, userList, badgeDB));
         
 
         Button addUserButton = new Button(context);
@@ -80,7 +84,7 @@ public final class PluginSettings extends SettingsPage {
                 try{
                     var id = Long.parseLong(text);
                     StoreStream.getUsers().fetchUsers(Arrays.asList(id));
-                    Utils.openPageWithProxy(context, new EditUser(settings, id));
+                    Utils.openPageWithProxy(context, new EditUser(settings, id, badgeDB));
                 } catch (Throwable err) {
                     Logger logger = new Logger("CustomBadges");
                     logger.error("Error adding user", err);
@@ -107,7 +111,7 @@ public final class PluginSettings extends SettingsPage {
         toolbarButtons.addView(settingsBtn);
 
         settingsBtn.setOnClickListener(e -> {
-            new PrefsSheet(this, settings).show(getParentFragmentManager(), "Settings");
+            new PrefsSheet(this, settings, badgeDB).show(getParentFragmentManager(), "Settings");
         });
         ViewGroup toolbar = (ViewGroup) getHeaderBar();
         if(toolbar.findViewById(settingsId) == null) toolbar.addView(toolbarButtons);

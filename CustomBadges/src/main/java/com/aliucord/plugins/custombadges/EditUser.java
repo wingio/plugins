@@ -31,13 +31,17 @@ import com.lytefast.flexinput.R;
 import kotlin.Unit;
 import java.util.*;
 
+import com.aliucord.plugins.custombadges.util.BadgeDB;
+
 @SuppressLint("SetTextI18n")
 public final class EditUser extends SettingsPage {
     private User user;
     private final SettingsAPI settings;
-    public EditUser(SettingsAPI settings, Long userId) {
+    private BadgeDB badgeDB;
+    public EditUser(SettingsAPI settings, Long userId, BadgeDB badgeDB) {
         this.user = StoreStream.getUsers().getUsers().get(userId);
         this.settings = settings;
+        this.badgeDB = badgeDB;
     }
 
     @Override
@@ -54,7 +58,7 @@ public final class EditUser extends SettingsPage {
             setPadding(0);
 
             var layout = getLinearLayout();
-            ProfileWidget profile = new ProfileWidget(context, user);
+            ProfileWidget profile = new ProfileWidget(context, user, badgeDB);
             layout.addView(profile);
             
             Button addBadge = new Button(context);

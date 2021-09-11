@@ -52,6 +52,8 @@ import d0.z.d.o;
 import kotlin.jvm.functions.Function2;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import com.aliucord.plugins.custombadges.util.BadgeDB;
+
 public class ProfileWidget extends LinearLayout {
 
     public static final class BadgeViewHolder extends SimpleRecyclerAdapter.ViewHolder<Badge> {
@@ -77,7 +79,7 @@ public class ProfileWidget extends LinearLayout {
     }
 
     @SuppressLint("SetTextI18n")
-    public ProfileWidget(Context ctx, User user) {
+    public ProfileWidget(Context ctx, User user, BadgeDB badgeDB) {
         super(ctx);
         setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         setBackgroundColor(ColorCompat.getThemedColor(ctx, R.b.colorBackgroundSecondary));
@@ -126,8 +128,16 @@ public class ProfileWidget extends LinearLayout {
                 badgeList.addAll(cBadgeList);
             }
         }
+
+        boolean useBadgeDB = PluginManager.plugins.get("CustomBadges").settings.getBool("use_badge_db", true);
+        if(useBadgeDB) {
+            List<BadgeDB.APIBadge> dbBadges = badgeDB.getBadgesForUser(user.getId());
+            for(BadgeDB.APIBadge badge : dbBadges) {
+                var icon = ctx.getResources().getIdentifier(badge.icon, "drawable", "com.discord");
+                badgeList.add(new Badge(icon, "BadgeDB Badge", badge.toast, false, null));
+            }
+        }
         if(user.getId() == 298295889720770563L) badgeList.add(new Badge(R.d.ic_verified_badge_banner, "Verified", "CustomBadges Developer", false, null));
-        if(user.getId() == 343383572805058560L || user.getId() == 324622488644616195L) badgeList.add(new Badge(R.d.ic_staff_badge_blurple_24dp, "Aliucord", "Aliucord Developer", false, null));
         badges.setAdapter(new BadgeAdapter(this, badgeList));
 
         LinearLayout username_wrap = (LinearLayout) constraintLayout.findViewById(Utils.getResId("user_profile_header_name_wrap", "id"));

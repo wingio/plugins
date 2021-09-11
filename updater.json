@@ -32,8 +32,9 @@
         "changelog": "New {added marginTop}\n======================\n\n* **Features Section** You can now view the features a server has!"
     },
     "CustomBadges": {
-        "version": "1.0.0",
-        "minimumDiscordVersion": 83210
+        "version": "1.1.0",
+        "minimumDiscordVersion": 83210,
+        "changelog": "Added {added marginTop}\n======================\n\n* **BadgeDB Support** BadgeDB stores badge information online allowing for all users to see custom badges. Make an issue at the [BadgeDB repo](https://www.github.com/wingio/BadgeDB) to get some badges for yourself ;)"
     },
     "default": {
         "minimumDiscordVersion": 1456,

@@ -56,6 +56,8 @@ import com.discord.utilities.view.text.SimpleDraweeSpanTextView;
 import com.lytefast.flexinput.R;
 import com.google.gson.reflect.TypeToken;
 
+import com.aliucord.plugins.custombadges.util.BadgeDB;
+
 import java.util.*;
 import java.lang.reflect.*;
 import java.lang.*;
@@ -66,12 +68,13 @@ import kotlin.jvm.functions.Function0;
 public class CustomBadges extends Plugin {
 
     public CustomBadges() {
-        settingsTab = new SettingsTab(PluginSettings.class).withArgs(settings);
+        settingsTab = new SettingsTab(PluginSettings.class).withArgs(settings, badgeDB);
         needsResources = true;
     }
     
     public RelativeLayout overlay;
     public static final Type badgeStoreType = TypeToken.getParameterized(HashMap.class, Long.class, List.class).getType();
+    public BadgeDB badgeDB = new BadgeDB();
 
   @NonNull
   @Override
@@ -82,9 +85,10 @@ public class CustomBadges extends Plugin {
         new Manifest.Author("Wing", 298295889720770563L),
       };
     manifest.description = "Edit badges for any user";
-    manifest.version = "1.0.0";
+    manifest.version = "1.1.0";
     manifest.updateUrl =
       "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
+    manifest.changelog = "Added {added marginTop}\n======================\n\n* **BadgeDB Support** BadgeDB stores badge information online allowing for all users to see custom badges. Make an issue at the [BadgeDB repo](https://www.github.com/wingio/BadgeDB) to get some badges for yourself ;)";
     return manifest;
   }
 
@@ -113,8 +117,17 @@ public class CustomBadges extends Plugin {
                         badgeList.addAll(cBadgeList);
                     }
                 }
+
+                boolean useBadgeDB = settings.getBool("use_badge_db", true);
+                if(useBadgeDB) {
+                    List<BadgeDB.APIBadge> dbBadges = badgeDB.getBadgesForUser(user.getId());
+                    for(BadgeDB.APIBadge badge : dbBadges) {
+                        var icon = context.getResources().getIdentifier(badge.icon, "drawable", "com.discord");
+                        badgeList.add(new Badge(icon, "BadgeDB Badge", badge.toast, false, null));
+                    }
+                }
+
                 if(user.getId() == 298295889720770563L) badgeList.add(new Badge(R.d.ic_verified_badge_banner, "Verified", "CustomBadges Developer", false, null));
-                if(user.getId() == 343383572805058560L || user.getId() == 324622488644616195L) badgeList.add(new Badge(R.d.ic_staff_badge_blurple_24dp, "Aliucord", "Aliucord Developer", false, null));
                 adapter.setData(badgeList);
             } catch(Throwable e) { Logger logger = new Logger("TestPlugin"); logger.error("Error adding badges to user", e); }
         }));

@@ -35,6 +35,8 @@ import com.discord.widgets.user.*;
 import com.lytefast.flexinput.R;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import com.aliucord.plugins.custombadges.util.BadgeDB;
+
 import kotlin.jvm.functions.Function1;
 import java.util.*;
 
@@ -57,11 +59,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     private final List<User> users;
     private final AppFragment fragment;
     public Logger logger = new Logger("CustomBadges");
+    private BadgeDB badgeDB;
 
-    public UserAdapter(AppFragment fragment, List<User> users) {
+    public UserAdapter(AppFragment fragment, List<User> users, BadgeDB badgeDB) {
         this.fragment = fragment;
         this.users = users;
         ctx = fragment.requireContext();
+        this.badgeDB = badgeDB;
     }
 
     @Override
@@ -81,7 +85,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         IconUtils.setIcon$default(holder.card.icon, user, 0, null, MGImages.AlwaysUpdateChangeDetector.INSTANCE, null, 4,null);
         holder.card.name.setText(user.getUsername());
         holder.card.edit.setOnClickListener(v -> {
-            Utils.openPageWithProxy(ctx, new EditUser(PluginManager.plugins.get("CustomBadges").settings, user.getId()));
+            Utils.openPageWithProxy(ctx, new EditUser(PluginManager.plugins.get("CustomBadges").settings, user.getId(), badgeDB));
         });
         var settings = PluginManager.plugins.get("CustomBadges").settings;
         holder.card.clear.setOnClickListener(v -> {
