@@ -1,4 +1,4 @@
-package com.aliucord.plugins.testplugin;
+package xyz.wingio.plugins.testplugin;
 
 import android.annotation.SuppressLint;
 import android.view.*;
@@ -46,22 +46,6 @@ public final class PluginSettings extends SettingsPage {
 
         var context = view.getContext();
         var layout = getLinearLayout();
-        User testUser = StoreStream.getUsers().getUsers().get(298295889720770563L);
-        ProfileWidget profile = new ProfileWidget(context, testUser);
-        layout.addView(profile);
-
-        // var expHeader = new TextView(context, null, 0, R.h.UiKit_Settings_Item_Header);
-        // expHeader.setTypeface(ResourcesCompat.getFont(context, Constants.Fonts.whitney_semibold));
-        // expHeader.setText("Experiments");
-        // layout.addView(expHeader);
-        
-        // layout.addView(createSwitch(context, settings, "allBots", "Mark everyone as bots", null, false));
-        // layout.addView(new Divider(context));
-    }
-
-    public void reloadPlugin() {
-        PluginManager.stopPlugin(plugin);
-        PluginManager.startPlugin(plugin);
     }
 
     private CheckedSetting createSwitch(Context context, SettingsAPI sets, String key, String label, String subtext, boolean defaultValue) {
