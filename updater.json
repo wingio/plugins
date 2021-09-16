@@ -37,8 +37,9 @@
         "changelog": "Added {added marginTop}\n======================\n\n* **BadgeDB Support** BadgeDB stores badge information online allowing for all users to see custom badges. Make an issue at the [BadgeDB repo](https://www.github.com/wingio/BadgeDB) to get some badges for yourself ;)"
     },
     "ShowPerms": {
-        "version": "1.0.0",
-        "minimumDiscordVersion": 83210
+        "version": "1.1.0",
+        "minimumDiscordVersion": 83210,
+        "changelog": "Added {added marginTop}\n======================\n\n* **View individual role permissions!** Long press the permissions section to see all the roles a user has and their permissions.\n\nImproved {improved marginTop}\n======================\n\n* **Show all admin perms.** You can now enable a setting to show all permissions when they have the Administrator permission."
     },
     "default": {
         "minimumDiscordVersion": 1456,
