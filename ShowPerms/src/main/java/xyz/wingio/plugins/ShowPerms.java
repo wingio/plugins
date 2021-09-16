@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.*;
 
 import xyz.wingio.plugins.showperms.*;
 import xyz.wingio.plugins.showperms.util.*;
+import xyz.wingio.plugins.showperms.pages.*;
 
 import com.aliucord.Constants;
 import com.aliucord.Utils;
@@ -65,9 +66,10 @@ public class ShowPerms extends Plugin {
     new Manifest.Author("Wing", 298295889720770563L),
     };
     manifest.description = "Shows user permissions in the profile sheet";
-    manifest.version = "1.0.0";
+    manifest.version = "1.1.0";
     manifest.updateUrl =
     "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
+    manifest.changelog = "Added {added marginTop}\n======================\n\n* **View individual role permissions!** Long press the permissions section to see all the roles a user has and their permissions.\n\nImproved {improved marginTop}\n======================\n\n* **Show all admin perms.** You can now enable a setting to show all permissions when they have the Administrator permission.";
     return manifest;
   }
 
@@ -87,6 +89,10 @@ public class ShowPerms extends Plugin {
         LinearLayout section = new LinearLayout(ctx); section.setId(sectionId); section.setOrientation(LinearLayout.VERTICAL);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT); params.setMargins(p, 0, p, 0);
         section.setLayoutParams(params);
+        section.setOnLongClickListener(v -> {
+          Utils.openPageWithProxy(ctx, new UserPerms(loaded.getRoleItems(), loaded.getUser(), loaded.getGuildName()));
+          return true;
+        });
 
         TextView permHeader = new TextView(ctx, null, 0, R.h.UserProfile_Section_Header); permHeader.setText("Permissions"); 
         LinearLayout.LayoutParams headerParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT); headerParams.setMargins(0, 0, 0, p / 2);

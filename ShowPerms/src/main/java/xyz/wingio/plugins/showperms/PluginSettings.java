@@ -27,9 +27,11 @@ public class PluginSettings extends AppBottomSheet {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Context context = inflater.getContext();
         LinearLayout layout = new LinearLayout(context);
+        layout.setOrientation(LinearLayout.VERTICAL);
         layout.setBackgroundColor(ColorCompat.getThemedColor(context, R.b.colorBackgroundPrimary));
 
-        layout.addView(createSwitch(context, settings, "showDot", "Show Chip Dot", "Show the colored dot used to denote which role the permission came from", true));
+        layout.addView(createSwitch(context, settings, "showDot", "Show Chip Dot", "Show the colored dot used to denote which role the permission came from.", true));
+        layout.addView(createSwitch(context, settings, "showFullAdmin", "Show All Permissions for Admin", "Show every permission if at least one of the roles has admin permissions.", false));
         return layout;
     }
 
