@@ -3,6 +3,7 @@ package xyz.wingio.plugins.showperms.util;
 import xyz.wingio.plugins.ShowPerms;
 import xyz.wingio.plugins.showperms.PermData;
 
+import com.aliucord.api.SettingsAPI;
 import com.aliucord.PluginManager;
 import com.aliucord.utils.ReflectUtils;
 import com.discord.api.role.GuildRole;
@@ -17,7 +18,7 @@ public class PermUtils {
     public PermUtils INSTANCE = new PermUtils();
     public static Field[] fields = Permission.class.getDeclaredFields();
     public static List<String> ignoredFieldsList = Arrays.asList("INSTANCE", "DEFAULT", "ALL", "NONE", "ELEVATED", "MODERATOR_PERMISSIONS", "MANAGEMENT_PERMISSIONS");
-    public static boolean showFullAdmin = PluginManager.plugins.get("ShowPerms").settings.getBool("showFullAdmin", false);
+    public static SettingsAPI settings = PluginManager.plugins.get("ShowPerms").settings;
 
     public PermUtils() {}
 
@@ -48,9 +49,11 @@ public class PermUtils {
 
     public static List<String> getPermissions(Long bits) throws Throwable {
         List<String> permissions = new ArrayList<>();
+        int format = settings.getInt("format", 0);
+        boolean showFullAdmin = (format == 1);
         for(Field field : fields){
             if(!ignoredFieldsList.contains(field.getName())){
-            Long permBit = (Long) field.get(Permission.INSTANCE);
+                Long permBit = (Long) field.get(Permission.INSTANCE);
                 if(PermissionUtils.can(permBit, bits) || (PermissionUtils.can(Permission.ADMINISTRATOR, bits) && showFullAdmin)){
                     permissions.add(capitalizeString(field.getName().replaceAll("_", " ").toLowerCase()));
                 }

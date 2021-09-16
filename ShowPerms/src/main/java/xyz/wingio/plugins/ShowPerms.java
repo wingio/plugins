@@ -39,6 +39,7 @@ import com.discord.stores.*;
 import com.discord.utilities.permissions.PermissionUtils;
 import com.discord.utilities.auditlogs.AuditLogChangeUtils;
 import com.discord.widgets.user.usersheet.*;
+import com.discord.widgets.roles.RolesListView;
 
 import com.lytefast.flexinput.R;
 
@@ -66,10 +67,10 @@ public class ShowPerms extends Plugin {
     new Manifest.Author("Wing", 298295889720770563L),
     };
     manifest.description = "Shows user permissions in the profile sheet";
-    manifest.version = "1.1.0";
+    manifest.version = "1.2.0";
     manifest.updateUrl =
     "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
-    manifest.changelog = "Added {added marginTop}\n======================\n\n* **View individual role permissions!** Long press the permissions section to see all the roles a user has and their permissions.\n\nImproved {improved marginTop}\n======================\n\n* **Show all admin perms.** You can now enable a setting to show all permissions when they have the Administrator permission.";
+    manifest.changelog = "Improved {improved marginTop}\n======================\n\n* **View individual role permissions 2 : The Sequel!** Long press a role chip to view its permissions.\n* **Time to declutter the profile sheet!** Added an option to show only the Administrator permission when it's granted.\n* **Revamped settings.** All settings that effect the permissions list have been moved to a radio menu.";
     return manifest;
   }
 
@@ -78,6 +79,9 @@ public class ShowPerms extends Plugin {
     int sectionId = View.generateViewId();
     patcher.patch(WidgetUserSheet.class, "configureGuildSection", new Class<?>[]{WidgetUserSheetViewModel.ViewState.Loaded.class}, new PinePatchFn(callFrame -> {
       try {
+        int format = settings.getInt("format", 0);
+        boolean showFullAdmin = (format == 1);
+        boolean showMinAdmin = (format == 2);
         WidgetUserSheetViewModel.ViewState.Loaded loaded = (WidgetUserSheetViewModel.ViewState.Loaded) callFrame.args[0];
         WidgetUserSheet _this = (WidgetUserSheet) callFrame.thisObject;
 
@@ -104,13 +108,27 @@ public class ShowPerms extends Plugin {
         ChipGroup permView = new ChipGroup(ctx); permView.setChipSpacingVertical(p / 4); permView.setChipSpacingHorizontal(p / 4);
         for(String perm : perms.keySet()){
           PermChip chip = new PermChip(ctx, perm, perms.get(perm));
-          permView.addView(chip);
+          if(showMinAdmin && perm.equals("Administrator")){permView.addView(chip);} else if(showMinAdmin && !perms.containsKey("Administrator")) {permView.addView(chip);} else if (!showMinAdmin){permView.addView(chip);}
         }
         section.addView(permView);
 
         if(content.findViewById(sectionId) == null && perms.size() > 0) content.addView(section, connectionsHeaderIndex);
       } catch (Throwable e) {logger.error("Error showing permissions", e);}
     }));
+
+    patcher.patch(RolesListView.class, "updateView", new Class<?>[]{List.class, int.class, long.class}, new PinePatchFn(callFrame -> {
+        List<GuildRole> roles = (List<GuildRole>) callFrame.args[0];
+        RolesListView _this = (RolesListView) callFrame.thisObject;
+        for(int i = 0; i < roles.size(); i++){
+          GuildRole role = roles.get(i);
+          View view = _this.getChildAt(i);
+          view.setOnLongClickListener(v -> {
+            Utils.openPageWithProxy(view.getContext(), new PermissionViewer(role));
+            return true;
+          });
+        }
+    }));
+
   }
 
   @Override

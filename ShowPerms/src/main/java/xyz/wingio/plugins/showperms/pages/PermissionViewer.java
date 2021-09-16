@@ -28,8 +28,8 @@ public class PermissionViewer extends SettingsPage {
     public int getContentViewResId() { return 0; }
     private final Long permissions;
     private final GuildRole role;
-    public PermissionViewer(Long permissions, GuildRole role) {
-        this.permissions = permissions;
+    public PermissionViewer(GuildRole role) {
+        this.permissions = role.h();
         this.role = role;
     }
 

@@ -15,7 +15,7 @@ public class PermData {
       this.name = name;
     }
 
-    public PermData setColor(GuildRole role){
+    public PermData setRole(GuildRole role){
       this.role = role;
       return this;
     }

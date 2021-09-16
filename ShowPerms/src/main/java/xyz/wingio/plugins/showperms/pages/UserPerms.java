@@ -61,7 +61,7 @@ public class UserPerms extends SettingsPage {
             roleView.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
             roleView.setTextColor(role.b() == 0 ? ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal) : clr);
             roleView.setOnClickListener(v -> {
-                Utils.openPageWithProxy(ctx, new PermissionViewer(role.h(), role));
+                Utils.openPageWithProxy(ctx, new PermissionViewer(role));
             });
             addView(roleView);
         }
