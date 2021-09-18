@@ -1,3 +1,3 @@
-include(":ShowPerms")
+include(":CustomBadges")
 
 rootProject.name = "plugins"

@@ -1,4 +1,4 @@
-package com.aliucord.plugins.custombadges;
+package xyz.wingio.plugins.custombadges;
 
 import android.content.Context;
 import android.view.*;
@@ -15,7 +15,7 @@ import androidx.annotation.DimenRes;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.*;
 
-import com.aliucord.plugins.CustomBadges;
+import xyz.wingio.plugins.CustomBadges;
 import com.aliucord.Utils;
 import com.aliucord.Http;
 import com.aliucord.Logger;

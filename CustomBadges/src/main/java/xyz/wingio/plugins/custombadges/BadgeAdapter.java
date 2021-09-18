@@ -1,4 +1,4 @@
-package com.aliucord.plugins.custombadges;
+package xyz.wingio.plugins.custombadges;
 
 import android.content.Context;
 import android.view.*;

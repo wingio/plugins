@@ -1,4 +1,4 @@
-package com.aliucord.plugins.custombadges;
+package xyz.wingio.plugins.custombadges;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -26,7 +26,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.*;
 import androidx.core.content.res.ResourcesCompat;
 
-import com.aliucord.plugins.CustomBadges;
+import xyz.wingio.plugins.CustomBadges;
 import com.aliucord.Utils;
 import com.aliucord.Logger;
 import com.aliucord.PluginManager;

@@ -1,4 +1,4 @@
-package com.aliucord.plugins.custombadges.util;
+package xyz.wingio.plugins.custombadges.util;
 
 import com.aliucord.Http;
 import com.aliucord.Utils;

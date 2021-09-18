@@ -1,4 +1,4 @@
-package com.aliucord.plugins.custombadges;
+package xyz.wingio.plugins.custombadges;
 
 import com.google.gson.internal.LinkedTreeMap;
 import java.util.*;

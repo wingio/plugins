@@ -1,4 +1,4 @@
-package com.aliucord.plugins.custombadges;
+package xyz.wingio.plugins.custombadges;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -26,7 +26,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.*;
 import androidx.core.content.res.ResourcesCompat;
 
-import com.aliucord.plugins.CustomBadges;
+import xyz.wingio.plugins.CustomBadges;
 import com.aliucord.Utils;
 import com.aliucord.Logger;
 import com.aliucord.PluginManager;
@@ -43,7 +43,7 @@ import com.discord.views.CheckedSetting;
 import com.discord.utilities.color.ColorCompat;
 import com.lytefast.flexinput.R;
 
-import com.aliucord.plugins.custombadges.util.BadgeDB;
+import xyz.wingio.plugins.custombadges.util.BadgeDB;
 
 import kotlin.Unit;
 import java.io.*;

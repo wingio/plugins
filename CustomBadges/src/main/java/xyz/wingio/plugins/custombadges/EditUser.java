@@ -1,4 +1,4 @@
-package com.aliucord.plugins.custombadges;
+package xyz.wingio.plugins.custombadges;
 
 import android.annotation.SuppressLint;
 import android.view.*;
@@ -10,7 +10,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.*;
 
-import com.aliucord.plugins.CustomBadges;
+import xyz.wingio.plugins.CustomBadges;
 import com.aliucord.Constants;
 import com.aliucord.Utils;
 import com.aliucord.PluginManager;
@@ -31,7 +31,7 @@ import com.lytefast.flexinput.R;
 import kotlin.Unit;
 import java.util.*;
 
-import com.aliucord.plugins.custombadges.util.BadgeDB;
+import xyz.wingio.plugins.custombadges.util.BadgeDB;
 
 @SuppressLint("SetTextI18n")
 public final class EditUser extends SettingsPage {

@@ -1,4 +1,4 @@
-package com.aliucord.plugins.custombadges;
+package xyz.wingio.plugins.custombadges;
 
 import android.content.Context;
 import android.view.*;
@@ -20,7 +20,7 @@ import com.aliucord.Http;
 import com.aliucord.Logger;
 import com.aliucord.PluginManager;
 import com.aliucord.fragments.SettingsPage;
-import com.aliucord.plugins.CustomBadges;
+import xyz.wingio.plugins.CustomBadges;
 import com.discord.app.*;
 import com.discord.models.member.GuildMember;
 import com.discord.models.user.User;
@@ -35,7 +35,7 @@ import com.discord.widgets.user.*;
 import com.lytefast.flexinput.R;
 import com.facebook.drawee.view.SimpleDraweeView;
 
-import com.aliucord.plugins.custombadges.util.BadgeDB;
+import xyz.wingio.plugins.custombadges.util.BadgeDB;
 
 import kotlin.jvm.functions.Function1;
 import java.util.*;

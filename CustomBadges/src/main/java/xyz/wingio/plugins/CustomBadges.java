@@ -1,4 +1,4 @@
-package com.aliucord.plugins;
+package xyz.wingio.plugins;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -21,7 +21,7 @@ import com.aliucord.Logger;
 import com.aliucord.PluginManager;
 import com.aliucord.entities.Plugin;
 import com.aliucord.patcher.PinePatchFn;
-import com.aliucord.plugins.custombadges.*;
+import xyz.wingio.plugins.custombadges.*;
 import com.discord.utilities.color.ColorCompat;
 import com.discord.api.premium.PremiumTier;
 import com.discord.api.guild.GuildFeature;
@@ -56,7 +56,7 @@ import com.discord.utilities.view.text.SimpleDraweeSpanTextView;
 import com.lytefast.flexinput.R;
 import com.google.gson.reflect.TypeToken;
 
-import com.aliucord.plugins.custombadges.util.BadgeDB;
+import xyz.wingio.plugins.custombadges.util.BadgeDB;
 
 import java.util.*;
 import java.lang.reflect.*;
@@ -85,10 +85,10 @@ public class CustomBadges extends Plugin {
         new Manifest.Author("Wing", 298295889720770563L),
       };
     manifest.description = "Edit badges for any user";
-    manifest.version = "1.1.0";
+    manifest.version = "1.1.1";
     manifest.updateUrl =
       "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
-    manifest.changelog = "Added {added marginTop}\n======================\n\n* **BadgeDB Support** BadgeDB stores badge information online allowing for all users to see custom badges. Make an issue at the [BadgeDB repo](https://www.github.com/wingio/BadgeDB) to get some badges for yourself ;)";
+    manifest.changelog = "Fixed {fixed marginTop}\n======================\n\n* Fixed crash on badge editing page";
     return manifest;
   }
 

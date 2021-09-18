@@ -1,4 +1,4 @@
-package com.aliucord.plugins.custombadges;
+package xyz.wingio.plugins.custombadges;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -28,7 +28,7 @@ import com.discord.utilities.color.ColorCompat;
 import com.discord.utilities.icon.IconUtils;
 import com.discord.utilities.images.MGImages;
 
-import com.aliucord.plugins.CustomBadges;
+import xyz.wingio.plugins.CustomBadges;
 import com.aliucord.Constants;
 import com.aliucord.PluginManager;
 import com.discord.databinding.UserProfileHeaderBadgeBinding;
@@ -52,7 +52,7 @@ import d0.z.d.o;
 import kotlin.jvm.functions.Function2;
 import com.facebook.drawee.view.SimpleDraweeView;
 
-import com.aliucord.plugins.custombadges.util.BadgeDB;
+import xyz.wingio.plugins.custombadges.util.*;
 
 public class ProfileWidget extends LinearLayout {
 
@@ -100,8 +100,8 @@ public class ProfileWidget extends LinearLayout {
         String userTag = (String) userUtils.getUserNameWithDiscriminator(user, null, null);
         Spannable username_string = new SpannableString(userTag);
         username_string.setSpan(new ForegroundColorSpan(ColorCompat.getThemedColor(ctx, R.b.colorHeaderPrimary)), 0, user.getUsername().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        username_string.setSpan(new TypefaceSpan(ResourcesCompat.getFont(ctx, Constants.Fonts.ginto_bold)), 0, user.getUsername().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        username_string.setSpan(new TypefaceSpan(ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_semibold)), user.getUsername().length(), user.getUsername().length() + 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        username_string.setSpan(new CustomTypefaceSpan("", ResourcesCompat.getFont(ctx, Constants.Fonts.ginto_bold)), 0, user.getUsername().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        username_string.setSpan(new CustomTypefaceSpan("", ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_semibold)), user.getUsername().length(), user.getUsername().length() + 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         username.setText(username_string);
 
         RecyclerView badges = (RecyclerView) constraintLayout.findViewById(Utils.getResId("user_profile_header_badges_recycler", "id"));

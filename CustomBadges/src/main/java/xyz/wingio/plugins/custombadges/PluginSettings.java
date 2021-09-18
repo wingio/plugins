@@ -1,4 +1,4 @@
-package com.aliucord.plugins.custombadges;
+package xyz.wingio.plugins.custombadges;
 
 import android.annotation.SuppressLint;
 import android.view.*;
@@ -13,7 +13,7 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import com.aliucord.plugins.CustomBadges;
+import xyz.wingio.plugins.CustomBadges;
 import com.aliucord.Constants;
 import com.aliucord.Utils;
 import com.aliucord.Logger;
@@ -36,7 +36,7 @@ import com.discord.stores.*;
 import com.discord.models.user.User;
 import com.lytefast.flexinput.R;
 
-import com.aliucord.plugins.custombadges.util.BadgeDB;
+import xyz.wingio.plugins.custombadges.util.BadgeDB;
 
 import kotlin.Unit;
 import java.util.*;
