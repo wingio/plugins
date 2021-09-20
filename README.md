@@ -21,3 +21,6 @@ Gives everyone custom bot tags
 
 ### [CustomBadges](https://github.com/wingio/plugins/raw/builds/CustomBadges.zip)
 Edit badges for any user
+
+### [BetterChannelIcons](https://github.com/wingio/plugins/raw/builds/BetterChannelIcons.zip)
+Adds an array of new channel icons

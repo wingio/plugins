@@ -25,7 +25,6 @@ import com.aliucord.patcher.PinePatchFn;
 import com.aliucord.annotations.AliucordPlugin;
 import com.aliucord.wrappers.*;
 import com.aliucord.utils.ReflectUtils;
-import xyz.wingio.plugins.testplugin.*;
 
 import com.discord.api.channel.Channel;
 import com.discord.databinding.WidgetChannelsListItemChannelVoiceBinding;
@@ -41,15 +40,13 @@ import java.lang.reflect.*;
 import java.lang.*;
 
 @AliucordPlugin
-public class TestPlugin extends Plugin {
+public class BetterChannelIcons extends Plugin {
 
-  public TestPlugin() {
-    settingsTab = new SettingsTab(PluginSettings.class).withArgs(settings);
+  public BetterChannelIcons() {
     needsResources = true;
   }
   
-  public Logger logger = new Logger("TestPlugin");
-  //private Drawable pluginIcon;
+  public Logger logger = new Logger("BetterChannelIcons");
 
   @NonNull
   @Override
@@ -59,17 +56,15 @@ public class TestPlugin extends Plugin {
     new Manifest.Author[] {
     new Manifest.Author("Wing", 298295889720770563L),
     };
-    manifest.description = "Used for testing: permission viewer";
-    manifest.version = "1.1.0";
+    manifest.description = "Adds an array of new channel icons";
+    manifest.version = "1.0.0";
     manifest.updateUrl =
     "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
-    manifest.changelog = "New Features {updated marginTop}\n======================\n\n* **Rebranded!** We are now XintoCord";
     return manifest;
   }
 
   @Override
   public void start(Context context) throws Throwable {
-    //pluginIcon = ResourcesCompat.getDrawable(resources, resources.getIdentifier("ic_rules_24dp", "drawable", "xyz.wingio.plugins"),null);
     int sectionId = View.generateViewId();
     patcher.patch(WidgetChannelsListAdapter.ItemChannelText.class, "getHashIcon", new Class<?>[]{ChannelListItemTextChannel.class}, new PinePatchFn(callFrame -> {
       try {
