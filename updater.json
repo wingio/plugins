@@ -42,7 +42,7 @@
         "changelog": "Improved {improved marginTop}\n======================\n\n* **View individual role permissions 2 : The Sequel!** Long press a role chip to view its permissions.\n* **Time to declutter the profile sheet!** Added an option to show only the Administrator permission when it's granted.\n* **Revamped settings.** All settings that effect the permissions list have been moved to a radio menu."
     },
     "BetterChannelIcons": {
-        "version": "1.0.0",
+        "version": "1.0.1",
         "minimumDiscordVersion": 83210
     },
     "default": {
