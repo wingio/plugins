@@ -57,7 +57,7 @@ public class BetterChannelIcons extends Plugin {
     new Manifest.Author("Wing", 298295889720770563L),
     };
     manifest.description = "Adds an array of new channel icons";
-    manifest.version = "1.0.0";
+    manifest.version = "1.0.1";
     manifest.updateUrl =
     "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
     return manifest;
@@ -71,8 +71,8 @@ public class BetterChannelIcons extends Plugin {
         ChannelListItemTextChannel channelItem = (ChannelListItemTextChannel) callFrame.args[0];
         Channel apiChannel = channelItem.getChannel();
         ChannelWrapper channel = new ChannelWrapper(apiChannel);
-        int icon = getChannelIcon(channel);
-        if(icon != 0) callFrame.setResult(icon);
+        var icon = getChannelIcon(channel);
+        if(icon != null) callFrame.setResult(icon);
       } catch (Throwable e) {logger.error("Error setting channel icon", e);}
     }));
 
@@ -81,8 +81,8 @@ public class BetterChannelIcons extends Plugin {
         ChannelListItemTextChannel channelItem = (ChannelListItemTextChannel) callFrame.args[0];
         Channel apiChannel = channelItem.getChannel();
         ChannelWrapper channel = new ChannelWrapper(apiChannel);
-        int icon = getChannelIcon(channel);
-        if(icon != 0) callFrame.setResult(icon);
+        var icon = getChannelIcon(channel);
+        if(icon != null) callFrame.setResult(icon);
       } catch (Throwable e) {logger.error("Error setting channel icon", e);}
     }));
 
@@ -93,8 +93,8 @@ public class BetterChannelIcons extends Plugin {
         ChannelListItemVoiceChannel channelItem = (ChannelListItemVoiceChannel) channelListItem;
         Channel apiChannel = channelItem.getChannel();
         ChannelWrapper channel = new ChannelWrapper(apiChannel);
-        int icon = getChannelIcon(channel);
-        if(icon != 0) {
+        var icon = getChannelIcon(channel);
+        if(icon != null) {
           WidgetChannelsListItemChannelVoiceBinding binding = (WidgetChannelsListItemChannelVoiceBinding) ReflectUtils.getField(_this, "binding");
           ((ImageView) binding.getRoot().findViewById(Utils.getResId("channels_item_voice_channel_speaker", "id"))).setImageResource(icon);
         }
@@ -102,7 +102,7 @@ public class BetterChannelIcons extends Plugin {
     }));
   }
 
-  private int getChannelIcon(ChannelWrapper channel) {
+  private Integer getChannelIcon(ChannelWrapper channel) {
     var name = channel.getName().toLowerCase();
     if(channel.isGuild()) {
       Guild guild = StoreStream.getGuilds().getGuilds().get(channel.getGuildId());
