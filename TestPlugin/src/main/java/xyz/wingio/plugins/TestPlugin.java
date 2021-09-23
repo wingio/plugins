@@ -49,7 +49,6 @@ public class TestPlugin extends Plugin {
   }
   
   public Logger logger = new Logger("TestPlugin");
-  //private Drawable pluginIcon;
 
   @NonNull
   @Override
@@ -69,108 +68,8 @@ public class TestPlugin extends Plugin {
 
   @Override
   public void start(Context context) throws Throwable {
-    //pluginIcon = ResourcesCompat.getDrawable(resources, resources.getIdentifier("ic_rules_24dp", "drawable", "xyz.wingio.plugins"),null);
-    int sectionId = View.generateViewId();
-    patcher.patch(WidgetChannelsListAdapter.ItemChannelText.class, "getHashIcon", new Class<?>[]{ChannelListItemTextChannel.class}, new PinePatchFn(callFrame -> {
-      try {
-        ChannelListItemTextChannel channelItem = (ChannelListItemTextChannel) callFrame.args[0];
-        Channel apiChannel = channelItem.getChannel();
-        ChannelWrapper channel = new ChannelWrapper(apiChannel);
-        int icon = getChannelIcon(channel);
-        if(icon != 0) callFrame.setResult(icon);
-      } catch (Throwable e) {logger.error("Error setting channel icon", e);}
-    }));
 
-    patcher.patch(WidgetChannelsListAdapter.ItemChannelText.class, "getAnnouncementsIcon", new Class<?>[]{ChannelListItemTextChannel.class}, new PinePatchFn(callFrame -> {
-      try {
-        ChannelListItemTextChannel channelItem = (ChannelListItemTextChannel) callFrame.args[0];
-        Channel apiChannel = channelItem.getChannel();
-        ChannelWrapper channel = new ChannelWrapper(apiChannel);
-        int icon = getChannelIcon(channel);
-        if(icon != 0) callFrame.setResult(icon);
-      } catch (Throwable e) {logger.error("Error setting channel icon", e);}
-    }));
-
-    patcher.patch(WidgetChannelsListAdapter.ItemChannelVoice.class, "onConfigure", new Class<?>[]{int.class, ChannelListItem.class}, new PinePatchFn(callFrame -> {
-      try {
-        WidgetChannelsListAdapter.ItemChannelVoice _this = (WidgetChannelsListAdapter.ItemChannelVoice) callFrame.thisObject;
-        ChannelListItem channelListItem = (ChannelListItem) callFrame.args[1];
-        ChannelListItemVoiceChannel channelItem = (ChannelListItemVoiceChannel) channelListItem;
-        Channel apiChannel = channelItem.getChannel();
-        ChannelWrapper channel = new ChannelWrapper(apiChannel);
-        int icon = getChannelIcon(channel);
-        if(icon != 0) {
-          WidgetChannelsListItemChannelVoiceBinding binding = (WidgetChannelsListItemChannelVoiceBinding) ReflectUtils.getField(_this, "binding");
-          ((ImageView) binding.getRoot().findViewById(Utils.getResId("channels_item_voice_channel_speaker", "id"))).setImageResource(icon);
-        }
-      } catch (Throwable e) {logger.error("Error setting channel icon", e);}
-    }));
   }
-
-  private int getChannelIcon(ChannelWrapper channel) {
-    var name = channel.getName().toLowerCase();
-    if(channel.isGuild()) {
-      Guild guild = StoreStream.getGuilds().getGuilds().get(channel.getGuildId());
-      if(guild.getRulesChannelId() != null){if(guild.getRulesChannelId() == channel.getId()) return R.d.ic_info_24dp;}
-    }
-    if(name.endsWith("-logs") || name.endsWith("-log")) return R.d.ic_channels_24dp;
-    if(channel.getType() == Channel.GUILD_VOICE) {
-      if(name.startsWith("discord.gg/") || name.startsWith(".gg/") || name.startsWith("gg/") || name.startsWith("dsc.gg/")) return R.d.ic_diag_link_24dp;
-      if(name.startsWith("member count") || name.startsWith("members") || name.startsWith("member count")) return R.d.ic_people_white_24dp;
-      return voiceChannelIcons.get(name);
-    }
-    return channelIcons.get(name);
-  }
-
-  private Map<String, Integer> channelIcons = new HashMap<String, Integer>() {{
-    put("faq", R.d.ic_help_24dp);
-    put("help", R.d.ic_help_24dp);
-    put("info", R.d.ic_info_24dp);
-    put("roles", R.d.ic_shieldstar_24dp);
-    put("role-info", R.d.ic_shieldstar_24dp);
-    put("offtopic", R.d.ic_chat_message_white_24dp);
-    put("off-topic", R.d.ic_chat_message_white_24dp);
-    put("general", R.d.ic_chat_message_white_24dp);
-    put("general-chat", R.d.ic_chat_message_white_24dp);
-    put("general-talk", R.d.ic_chat_message_white_24dp);
-    put("talk", R.d.ic_chat_message_white_24dp);
-    put("chat", R.d.ic_chat_message_white_24dp);
-    put("art", R.d.ic_theme_24dp);
-    put("fanart", R.d.ic_theme_24dp);
-    put("fan-art", R.d.ic_theme_24dp);
-    put("bot", R.d.ic_slash_command_24dp);
-    put("bots", R.d.ic_slash_command_24dp);
-    put("bot-spam", R.d.ic_slash_command_24dp);
-    put("bot-commands", R.d.ic_slash_command_24dp);
-    put("commands", R.d.ic_slash_command_24dp);
-    put("memes", R.d.ic_emoji_picker_category_people);
-    put("meme", R.d.ic_emoji_picker_category_people);
-    put("meme-chat", R.d.ic_emoji_picker_category_people);
-    put("introductions", R.d.ic_raised_hand_action_24dp);
-    put("introduce-yourself", R.d.ic_raised_hand_action_24dp);
-    put("welcome", R.d.ic_raised_hand_action_24dp);
-    put("welcomes", R.d.ic_raised_hand_action_24dp);
-    put("intros", R.d.ic_raised_hand_action_24dp);
-    put("media", R.d.ic_flex_input_image_24dp_dark);
-    put("changes", R.d.ic_history_white_24dp);
-    put("changelog", R.d.ic_history_white_24dp);
-    put("logs", R.d.ic_channels_24dp);
-    put("modlogs", R.d.ic_channels_24dp);
-    put("starboard", R.d.ic_star_24dp);
-    put("resources", R.d.ic_diag_link_24dp);
-    put("links", R.d.ic_diag_link_24dp);
-    put("socials", R.d.ic_diag_link_24dp);
-    put("vc", R.d.ic_mic_grey_24dp);
-    put("muted", R.d.ic_mic_grey_24dp);
-    put("vc-chat", R.d.ic_mic_grey_24dp);
-    put("voice-chat", R.d.ic_mic_grey_24dp);
-    put("music", R.d.ic_headset_24dp);
-  }};
-
-  private Map<String, Integer> voiceChannelIcons = new HashMap<String, Integer>() {{
-    put("music", R.d.ic_headset_24dp);
-  }};
-
 
   @Override
   public void stop(Context context) { patcher.unpatchAll(); }

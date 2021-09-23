@@ -16,7 +16,6 @@ import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.*;
 
-import com.aliucord.Constants;
 import com.aliucord.Utils;
 import com.aliucord.Logger;
 import com.aliucord.PluginManager;
@@ -33,20 +32,26 @@ import com.discord.stores.*;
 import com.discord.widgets.channels.list.WidgetChannelsListAdapter;
 import com.discord.widgets.channels.list.items.*;
 
+import com.google.gson.reflect.TypeToken;
+
 import com.lytefast.flexinput.R;
 
 import java.util.*;
 import java.lang.reflect.*;
 import java.lang.*;
 
+import xyz.wingio.plugins.betterchannelicons.*;
+
 @AliucordPlugin
 public class BetterChannelIcons extends Plugin {
 
   public BetterChannelIcons() {
+    settingsTab = new SettingsTab(PluginSettings.class).withArgs(settings);
     needsResources = true;
   }
   
   public Logger logger = new Logger("BetterChannelIcons");
+  public static final Type iconStoreType = TypeToken.getParameterized(HashMap.class, String.class, Integer.class).getType();
 
   @NonNull
   @Override
@@ -57,9 +62,10 @@ public class BetterChannelIcons extends Plugin {
     new Manifest.Author("Wing", 298295889720770563L),
     };
     manifest.description = "Adds an array of new channel icons";
-    manifest.version = "1.0.1";
+    manifest.version = "1.1.0";
     manifest.updateUrl =
     "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
+    manifest.changelog = "Added {added marginTop}\n======================\n\n* Ability to set a custom icon for a channel name";
     return manifest;
   }
 
@@ -102,13 +108,16 @@ public class BetterChannelIcons extends Plugin {
     }));
   }
 
-  private Integer getChannelIcon(ChannelWrapper channel) {
+  private Integer getChannelIcon(ChannelWrapper channel) throws Throwable {
     var name = channel.getName().toLowerCase();
+    Map<String, Integer> icons = settings.getObject("icons", new HashMap<>(), iconStoreType);
+    if(icons.containsKey(name)) return Constants.getIcons().get(icons.get(name));
     if(channel.isGuild()) {
       Guild guild = StoreStream.getGuilds().getGuilds().get(channel.getGuildId());
       if(guild.getRulesChannelId() != null){if(guild.getRulesChannelId() == channel.getId()) return R.d.ic_info_24dp;}
     }
     if(name.endsWith("-logs") || name.endsWith("-log")) return R.d.ic_channels_24dp;
+    if(name.endsWith("-support") || name.endsWith("-help")) return R.d.ic_help_24dp;
     if(channel.getType() == Channel.GUILD_VOICE) {
       if(name.startsWith("discord.gg/") || name.startsWith(".gg/") || name.startsWith("gg/") || name.startsWith("dsc.gg/")) return R.d.ic_diag_link_24dp;
       if(name.startsWith("member count") || name.startsWith("members") || name.startsWith("member count")) return R.d.ic_people_white_24dp;
@@ -120,6 +129,7 @@ public class BetterChannelIcons extends Plugin {
   private Map<String, Integer> channelIcons = new HashMap<String, Integer>() {{
     put("faq", R.d.ic_help_24dp);
     put("help", R.d.ic_help_24dp);
+    put("support", R.d.ic_help_24dp);
     put("info", R.d.ic_info_24dp);
     put("roles", R.d.ic_shieldstar_24dp);
     put("role-info", R.d.ic_shieldstar_24dp);
@@ -141,6 +151,7 @@ public class BetterChannelIcons extends Plugin {
     put("memes", R.d.ic_emoji_picker_category_people);
     put("meme", R.d.ic_emoji_picker_category_people);
     put("meme-chat", R.d.ic_emoji_picker_category_people);
+    put("shitpost", R.d.ic_emoji_picker_category_people);
     put("introductions", R.d.ic_raised_hand_action_24dp);
     put("introduce-yourself", R.d.ic_raised_hand_action_24dp);
     put("welcome", R.d.ic_raised_hand_action_24dp);
@@ -159,7 +170,11 @@ public class BetterChannelIcons extends Plugin {
     put("muted", R.d.ic_mic_grey_24dp);
     put("vc-chat", R.d.ic_mic_grey_24dp);
     put("voice-chat", R.d.ic_mic_grey_24dp);
+    put("no-mic", R.d.ic_mic_grey_24dp);
     put("music", R.d.ic_headset_24dp);
+    put("github", R.d.ic_github_white);
+    put("github-commits", R.d.ic_github_white);
+    put("github-notifications", R.d.ic_github_white);
   }};
 
   private Map<String, Integer> voiceChannelIcons = new HashMap<String, Integer>() {{
