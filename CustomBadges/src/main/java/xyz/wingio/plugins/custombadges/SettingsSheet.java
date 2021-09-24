@@ -13,6 +13,7 @@ import android.content.res.Resources;
 import android.content.res.AssetManager;
 import android.net.Uri;
 import android.text.*;
+import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.util.Base64;
 import android.view.*;
@@ -41,6 +42,8 @@ import com.discord.app.AppBottomSheet;
 import com.discord.app.AppFragment;
 import com.discord.views.CheckedSetting;
 import com.discord.utilities.color.ColorCompat;
+import com.discord.stores.StoreStream;
+import com.discord.widgets.tabs.NavigationTab;
 import com.lytefast.flexinput.R;
 
 import kotlin.Unit;
@@ -48,19 +51,19 @@ import java.io.*;
 import java.util.*;
 
 public class SettingsSheet extends BottomSheet {
-    private SettingsPage page;
+    private EditUser page;
     private SettingsAPI settings;
     private Long userId;
     private StoredBadge currBadge;
     private int index;
 
-    public SettingsSheet(SettingsPage page, SettingsAPI settings, Long userId) {
+    public SettingsSheet(EditUser page, SettingsAPI settings, Long userId) {
         this.page = page;
         this.settings = settings;
         this.userId = userId;
     }
 
-    public SettingsSheet(SettingsPage page, SettingsAPI settings, Long userId, StoredBadge currBadge, int index) {
+    public SettingsSheet(EditUser page, SettingsAPI settings, Long userId, StoredBadge currBadge, int index) {
         this.page = page;
         this.settings = settings;
         this.userId = userId;
@@ -76,7 +79,7 @@ public class SettingsSheet extends BottomSheet {
         setPadding(p);
         Context ctx = requireContext();
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.setMargins(0, 0, 0, p);
+        params.setMargins(0, 0, 0, p/2);
 
 
         LinearLayout iconLayout = new LinearLayout(ctx);
@@ -169,8 +172,26 @@ public class SettingsSheet extends BottomSheet {
             });
         }
 
+        TextView instructions = new TextView(ctx);
+        SpannableStringBuilder builder = new SpannableStringBuilder("Icon Guide");
+        builder.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+                StoreStream.Companion.getMessagesLoader().jumpToMessage(847566769258233926L, 890729756444725268L);
+                getActivity().onBackPressed();
+                page.getActivity().onBackPressed();
+                page.fragment.getActivity().onBackPressed();
+                StoreStream.Companion.getTabsNavigation().selectTab(NavigationTab.HOME, true);
+            }
+        }, 0, "Icon Guide".length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        instructions.setMovementMethod(LinkMovementMethod.getInstance());
+        instructions.setText(builder);
+        instructions.setGravity(Gravity.CENTER);
+        instructions.setLayoutParams(params);
+
         addView(iconLayout);
         addView(toastText);
+        addView(instructions);
         addView(add);
     }
 

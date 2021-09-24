@@ -56,11 +56,11 @@ public class EditableBadgeAdapter extends RecyclerView.Adapter<EditableBadgeAdap
 
     private final Context ctx;
     private final List<StoredBadge> badges;
-    private final SettingsPage fragment;
+    private final EditUser fragment;
     private final Long userId;
     public Logger logger = new Logger("CustomBadges");
 
-    public EditableBadgeAdapter(SettingsPage fragment, List<StoredBadge> badges, Long userId) {
+    public EditableBadgeAdapter(EditUser fragment, List<StoredBadge> badges, Long userId) {
         this.fragment = fragment;
         this.badges = badges;
         this.userId = userId;

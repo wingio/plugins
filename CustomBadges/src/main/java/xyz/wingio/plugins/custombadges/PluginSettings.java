@@ -84,7 +84,7 @@ public final class PluginSettings extends SettingsPage {
                 try{
                     var id = Long.parseLong(text);
                     StoreStream.getUsers().fetchUsers(Arrays.asList(id));
-                    Utils.openPageWithProxy(context, new EditUser(settings, id, badgeDB));
+                    Utils.openPageWithProxy(context, new EditUser(settings, id, badgeDB, this));
                 } catch (Throwable err) {
                     Logger logger = new Logger("CustomBadges");
                     logger.error("Error adding user", err);

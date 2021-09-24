@@ -21,11 +21,12 @@ import com.aliucord.views.Divider;
 import com.aliucord.views.Button;
 import com.aliucord.entities.NotificationData;
 
+import com.discord.app.AppFragment;
+import com.discord.models.user.User;
+import com.discord.stores.*;
 import com.discord.views.CheckedSetting;
 import com.discord.views.RadioManager;
 import com.discord.widgets.user.profile.UserProfileHeaderView;
-import com.discord.stores.*;
-import com.discord.models.user.User;
 import com.lytefast.flexinput.R;
 
 import kotlin.Unit;
@@ -38,10 +39,12 @@ public final class EditUser extends SettingsPage {
     private User user;
     private final SettingsAPI settings;
     private BadgeDB badgeDB;
-    public EditUser(SettingsAPI settings, Long userId, BadgeDB badgeDB) {
+    public AppFragment fragment;
+    public EditUser(SettingsAPI settings, Long userId, BadgeDB badgeDB, AppFragment fragment) {
         this.user = StoreStream.getUsers().getUsers().get(userId);
         this.settings = settings;
         this.badgeDB = badgeDB;
+        this.fragment = fragment;
     }
 
     @Override
@@ -72,6 +75,7 @@ public final class EditUser extends SettingsPage {
             int p = Utils.dpToPx(16);
             buttons.setPadding(p,p,p,0);
             buttons.addView(addBadge);
+
             layout.addView(buttons);
 
             Map<Long, List> userBadges = settings.getObject("userBadges", new HashMap<>(), CustomBadges.badgeStoreType);

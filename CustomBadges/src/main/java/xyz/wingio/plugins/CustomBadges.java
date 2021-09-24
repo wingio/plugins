@@ -85,10 +85,10 @@ public class CustomBadges extends Plugin {
         new Manifest.Author("Wing", 298295889720770563L),
       };
     manifest.description = "Edit badges for any user";
-    manifest.version = "1.1.1";
+    manifest.version = "1.1.2";
     manifest.updateUrl =
       "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
-    manifest.changelog = "Fixed {fixed marginTop}\n======================\n\n* Fixed crash on badge editing page";
+    manifest.changelog = "Improved {improved marginTop}\n======================\n\n* Added link to badge guide in the creation sheet";
     return manifest;
   }
 

@@ -85,7 +85,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         IconUtils.setIcon$default(holder.card.icon, user, 0, null, MGImages.AlwaysUpdateChangeDetector.INSTANCE, null, 4,null);
         holder.card.name.setText(user.getUsername());
         holder.card.edit.setOnClickListener(v -> {
-            Utils.openPageWithProxy(ctx, new EditUser(PluginManager.plugins.get("CustomBadges").settings, user.getId(), badgeDB));
+            Utils.openPageWithProxy(ctx, new EditUser(PluginManager.plugins.get("CustomBadges").settings, user.getId(), badgeDB, fragment));
         });
         var settings = PluginManager.plugins.get("CustomBadges").settings;
         holder.card.clear.setOnClickListener(v -> {
