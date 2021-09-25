@@ -50,7 +50,7 @@ import java.util.*;
 public class AddChannelSheet extends BottomSheet {
     private SettingsPage page;
     private SettingsAPI settings;
-    private Integer currentIcon;
+    private String currentIcon;
     private ImageView icon;
 
     public AddChannelSheet(SettingsPage page, SettingsAPI settings) {
@@ -62,7 +62,7 @@ public class AddChannelSheet extends BottomSheet {
     public void onViewCreated(View view, Bundle bundle) {
         super.onViewCreated(view, bundle);
         int p = Utils.dpToPx(16);
-        Map<String, Integer> iconSets = settings.getObject("icons", new HashMap<>(), BetterChannelIcons.iconStoreType);
+        Map<String, String> iconSets = settings.getObject("icons", new HashMap<>(), BetterChannelIcons.iconStoreType);
         
         setPadding(p);
         Context ctx = requireContext();
@@ -107,11 +107,10 @@ public class AddChannelSheet extends BottomSheet {
                 Toast.makeText(ctx, "Please enter a channel name", Toast.LENGTH_SHORT).show();
             } else {
                 try {
-                    var ic = ContextCompat.getDrawable(ctx, currentIcon);
-                    var i = Constants.getIcons().indexOf(currentIcon);
-                    var chName = name.toLowerCase().replace(" ", "-");
+                    var ic = ContextCompat.getDrawable(ctx, Utils.getResId(currentIcon, "drawable"));
+                    var chName = name.toLowerCase();
                     if(!iconSets.containsKey(chName)){
-                        iconSets.put(chName, i);
+                        iconSets.put(chName, currentIcon);
                         settings.setObject("icons", iconSets);
                         Toast.makeText(ctx, "Added icon", Toast.LENGTH_SHORT).show();
                     }
@@ -119,7 +118,7 @@ public class AddChannelSheet extends BottomSheet {
                     dismiss();
                 } catch (Throwable e) {
                     Logger logger = new Logger("BCI");
-                    logger.error("Error setting badge", e);
+                    logger.error("Error setting icon", e);
                     Toast.makeText(ctx, "Drawable not found", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -129,10 +128,10 @@ public class AddChannelSheet extends BottomSheet {
         addView(add);
     }
 
-    public void setCurrentIcon(Integer icon) {
+    public void setCurrentIcon(String icon) {
         this.currentIcon = icon;
         if(this.icon != null){
-            var ic = ContextCompat.getDrawable(requireContext(), icon).mutate();
+            var ic = ContextCompat.getDrawable(requireContext(), Utils.getResId(icon, "drawable")).mutate();
             ic.setTint(ColorCompat.getThemedColor(requireContext(), R.b.colorInteractiveNormal));
             this.icon.setImageDrawable(ic);
         }

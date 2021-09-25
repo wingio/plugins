@@ -1,4 +1,4 @@
-package com.aliucord.plugins;
+package xyz.wingio.plugins;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -15,37 +15,42 @@ import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.aliucord.*;
+import com.aliucord.Logger;
+import com.aliucord.PluginManager;
+import com.aliucord.Utils;
+import com.aliucord.Constants;
 import com.aliucord.api.SettingsAPI;
 import com.aliucord.entities.Plugin;
 import com.aliucord.patcher.PinePatchFn;
 import com.aliucord.utils.ReflectUtils;
 import com.aliucord.views.Divider;
 import com.aliucord.fragments.SettingsPage;
+import com.aliucord.annotations.AliucordPlugin;
 
-import com.aliucord.plugins.achievements.*;
+import xyz.wingio.plugins.achievements.*;
 
 import com.discord.app.AppBottomSheet;
 import com.discord.databinding.WidgetSettingsBinding;
 import com.discord.utilities.color.ColorCompat;
 import com.discord.widgets.settings.WidgetSettings;
-import com.lytefast.flexinput.*;
+import com.lytefast.flexinput.R;
 
 import java.util.*;
 
+@AliucordPlugin
 @SuppressWarnings({ "unchecked", "unused" })
 public class Achievements extends Plugin {
   private Drawable pluginIcon;
 
   public Achievements() {
-      settingsTab = new SettingsTab(PluginSettings.class).withArgs(settings);
+      settingsTab = new SettingsTab(PluginSettings.class).withArgs(settings, this);
       needsResources = true;
   }
 
   public static Logger logger = new Logger("Achievements");
   
-
-  public static ArrayList<Achievement> basics;
+  public Map<String, Achievement> basics = new HashMap<>();
+    
   public static final Map<String, Achievement> pluginAchs = new HashMap<>();
 
   public Achievement createAchievement(String name, String description, String id) {
@@ -69,23 +74,19 @@ public class Achievements extends Plugin {
     return manifest;
   }
 
+  private void loadBasicAchievements(){
+    basics.put("babysteps", new Achievement("Baby Steps", "Open achievement list for the first time!", "babysteps"));
+    basics.put("usethread", new Achievement("Threading the Needle", "Participate in a thread", "usethread"));
+    basics.put("addstar", new Achievement("Showing Appreciation", "React with a star to a message", "addstar"));
+  }
+
   @Override
   @SuppressWarnings({ "unchecked", "ConstantConditions" })
   public void start(Context context) throws Throwable{
     
     logger.tag = "[Achievements]";
-    var babysteps = new Achievement("Baby Steps", "Open achievement list for the first time!", "babysteps");
-    var usethread = new Achievement("Threading the Needle", "Participate in a thread", "usethread");
-    var addstar = new Achievement("Showing Appreciation", "React with a star to a message", "addstar");
-
-    basics = new ArrayList<Achievement>();
-    basics.add(babysteps);
-    basics.add(usethread);
-    basics.add(addstar);
-
-    // basics.put("babysteps", new Achievement("Baby Steps", "Open achievement list for the first time!", "babysteps"));
-    // basics.put("usethread", new Achievement("Threading the Needle", "Participate in a thread", "usethread"));
-    // basics.put("addstar", new Achievement("Showing Appreciation", "React with a star to a message", "addstar"));
+    
+    loadBasicAchievements();
 
     // RxUtils.subscribe(RxUtils.onBackpressureBuffer(StoreStream.getGatewaySocket().getMessageCreate()), RxUtils.createActionSubscriber(message -> {
 		// 	if (message == null) return;
@@ -107,8 +108,6 @@ public class Achievements extends Plugin {
       null
     );
 
-
-
     final var getBinding = WidgetSettings.class.getDeclaredMethod("getBinding");
     getBinding.setAccessible(true);
     var achId = View.generateViewId();
@@ -125,14 +124,14 @@ public class Achievements extends Plugin {
       if(layout.findViewById(achId) == null) {
         var font = ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_medium);
         
-        var expview = new TextView(ctx, null, 0, R$h.UiKit_Settings_Item_Icon);
+        var expview = new TextView(ctx, null, 0, R.h.UiKit_Settings_Item_Icon);
         expview.setId(achId);
         expview.setText("Achievements");
         expview.setTypeface(font);
 
         var icon = ResourcesCompat.getDrawable(resources, resources.getIdentifier("ic_trophy", "drawable", "com.aliucord.plugins"), null);
         icon = icon.mutate();
-        icon.setTint(ColorCompat.getThemedColor(ctx, R$b.colorInteractiveNormal));
+        icon.setTint(ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal));
         expview.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
 
         expview.setOnClickListener(e -> {
@@ -145,7 +144,7 @@ public class Achievements extends Plugin {
                   Utils.openPageWithProxy(ctx, page);
             }
           } catch (Throwable th){
-            PluginManager.logger.error(ctx, "Failed to launch plugin settings", th);
+            PluginManager.logger.error(ctx, "Failed to open achievements list", th);
           }
         });
 

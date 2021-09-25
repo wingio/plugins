@@ -1,4 +1,4 @@
-package com.aliucord.plugins.achievements;
+package xyz.wingio.plugins.achievements;
 
 import android.annotation.SuppressLint;
 import android.view.View;
@@ -8,7 +8,8 @@ import android.content.Context;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.aliucord.Constants;
-import com.aliucord.*;
+import com.aliucord.PluginManager;
+import com.aliucord.Utils;
 import com.aliucord.api.SettingsAPI;
 import com.aliucord.api.NotificationsAPI;
 import com.aliucord.fragments.SettingsPage;
@@ -17,7 +18,7 @@ import com.aliucord.entities.NotificationData;
 
 import com.discord.views.CheckedSetting;
 import com.discord.views.RadioManager;
-import com.lytefast.flexinput.R$h;
+import com.lytefast.flexinput.R;
 
 import kotlin.Unit;
 import java.util.Arrays;

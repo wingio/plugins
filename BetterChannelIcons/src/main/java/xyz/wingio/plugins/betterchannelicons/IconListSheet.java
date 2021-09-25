@@ -82,8 +82,7 @@ public class IconListSheet extends BottomSheet {
             button.setOnClickListener(v -> {
                 String iconName = drName.getEditText().getText().toString();
                 if(!iconName.isEmpty()){
-                    var iconId = resources.getIdentifier(iconName, "drawable", "com.discord");
-                    returnAndSetIcon(iconId);
+                    returnAndSetIcon(iconName);
                 }
             });
         } else {
@@ -92,7 +91,7 @@ public class IconListSheet extends BottomSheet {
             var iconList = new ArrayList<String>(iconMap.keySet());
             for(String i : iconList){
                 var iconId = iconMap.get(i);
-                var icon = ContextCompat.getDrawable(ctx, iconId).mutate();
+                var icon = ContextCompat.getDrawable(ctx, Utils.getResId(iconId, "drawable")).mutate();
                 icon.setTint(ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal));
                 TextView tv = new TextView(ctx, null, 0, R.h.UiKit_Settings_Item_Icon);
                 tv.setText(i);
@@ -107,9 +106,10 @@ public class IconListSheet extends BottomSheet {
         addView(items);
     }
 
-    private void returnAndSetIcon(Integer icon){
+    private void returnAndSetIcon(String icon){
+        var resources = requireContext().getResources();
         try {
-            ResourcesCompat.getDrawable(requireContext().getResources(), icon, null);
+            ResourcesCompat.getDrawable(resources, Utils.getResId(icon, "drawable"), null);
         } catch(Throwable e) {
             Utils.showToast(getContext(), "Icon not found");
             return;

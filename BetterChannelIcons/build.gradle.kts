@@ -1,11 +1,12 @@
-version = "1.1.0"
+version = "1.1.1"
 description = "Adds an array of new channel icons"
 
 aliucord.changelog.set(
     """
-    Added {added marginTop}
+    Improved {improved marginTop}
     ======================
     
-    * Ability to set a custom icon for a channel name
+    * Updated how icons are stored for better future proofing
+    * Added slash command icon to the preset icons list
     """.trimIndent()
 )

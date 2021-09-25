@@ -1,3 +1,3 @@
-include(":CustomBadges")
+include(":BetterChannelIcons")
 
 rootProject.name = "plugins"

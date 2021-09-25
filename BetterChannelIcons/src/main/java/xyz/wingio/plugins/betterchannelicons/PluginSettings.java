@@ -40,7 +40,7 @@ public class PluginSettings extends SettingsPage {
 
         RecyclerView recyclerView = new RecyclerView(ctx);
         recyclerView.setLayoutManager(new LinearLayoutManager(ctx));
-        Map<String, Integer> icons = settings.getObject("icons", new HashMap<>(), BetterChannelIcons.iconStoreType);
+        Map<String, String> icons = settings.getObject("icons", new HashMap<>(), BetterChannelIcons.iconStoreType);
         
         
         recyclerView.setAdapter(new IconListAdapter(this, icons));

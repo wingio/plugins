@@ -9,25 +9,26 @@ import java.lang.reflect.*;
 
 public class Constants {
     public static Field[] fields = R.d.class.getDeclaredFields();
-    public static final Map<String, Integer> iconMap = new HashMap<>() {{
-        put("Chat Bubble", R.d.ic_chat_message_white_24dp);
-        put("Help", R.d.ic_help_24dp);
-        put("Info", R.d.ic_info_24dp);
-        put("Role", R.d.ic_shieldstar_24dp);
-        put("Art", R.d.ic_theme_24dp);
-        put("Laughing", R.d.ic_emoji_picker_category_people);
-        put("Hand Raised/Waving", R.d.ic_raised_hand_action_24dp);
-        put("Media", R.d.ic_flex_input_image_24dp_dark);
-        put("Changelog", R.d.ic_history_white_24dp);
-        put("Logs/Channels", R.d.ic_channels_24dp);
-        put("Star", R.d.ic_star_24dp);
-        put("Link", R.d.ic_diag_link_24dp);
-        put("Microphone", R.d.ic_mic_grey_24dp);
-        put("Mic Muted", R.d.ic_mic_muted_grey_24dp);
-        put("Headset", R.d.ic_headset_24dp);
-        put("Github", R.d.ic_github_white);
-        put("D-Pad", R.d.ic_games_24dp);
-        put("Controller", R.d.ic_controller_24dp);
+    public static final Map<String, String> iconMap = new HashMap<>() {{
+        put("Chat Bubble", "ic_chat_message_white_24dp");
+        put("Help", "ic_help_24dp");
+        put("Info", "ic_info_24dp");
+        put("Role", "ic_shieldstar_24dp");
+        put("Art", "ic_theme_24dp");
+        put("Laughing", "ic_emoji_picker_category_people");
+        put("Hand Raised/Waving", "ic_raised_hand_action_24dp");
+        put("Media", "ic_flex_input_image_24dp_dark");
+        put("Changelog", "ic_history_white_24dp");
+        put("Logs/Channels", "ic_channels_24dp");
+        put("Star", "ic_star_24dp");
+        put("Link", "ic_diag_link_24dp");
+        put("Microphone", "ic_mic_grey_24dp");
+        put("Mic Muted", "ic_mic_muted_grey_24dp");
+        put("Headset", "ic_headset_24dp");
+        put("Github", "ic_github_white");
+        put("D-Pad", "ic_games_24dp");
+        put("Controller", "ic_controller_24dp");
+        put("Slash Command", "ic_slash_command_24dp");
     }};
 
     public static List<Integer> getIcons() throws Throwable{
@@ -37,4 +38,21 @@ public class Constants {
         }
         return icons;
     }
+
+    public static Map<Integer, String> getIconNameMap() throws Throwable {
+        Map<Integer, String> iconMap = new HashMap<>();
+        for(Field field : fields) {
+            iconMap.put((Integer) field.get(R.d.class), field.getName());
+        }
+        return iconMap;
+    }
+
+    public static Map<String, Integer> getIconMap() throws Throwable {
+        Map<String, Integer> iconMap = new HashMap<>();
+        for(Field field : fields) {
+            iconMap.put(field.getName(), (Integer) field.get(R.d.class));
+        }
+        return iconMap;
+    }
+
 }

@@ -1,4 +1,4 @@
-package xyz.wingio.plugins.betterchannelicons.recycler;
+package xyz.wingio.plugins.achievements.recycler;
 
 import android.content.Context;
 import android.view.*;
@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.annotation.DimenRes;
 import androidx.fragment.app.FragmentActivity;
 import androidx.core.content.ContextCompat;
+
+import xyz.wingio.plugins.achievements.Achievement;
 
 import com.aliucord.PluginManager;
 import com.aliucord.Utils;
@@ -35,17 +37,15 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import kotlin.jvm.functions.Function1;
 import java.util.*;
 
-import xyz.wingio.plugins.betterchannelicons.*;
-
 import java.io.*;
 
-public class IconListAdapter extends RecyclerView.Adapter<IconListAdapter.IconListHolder> {
+public class AchListAdapter extends RecyclerView.Adapter<AchListAdapter.AchListHolder> {
 
-    public class IconListHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private final IconListAdapter adapter;
+    public class AchListHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private final AchListAdapter adapter;
         public final RecyclerItem item;
 
-        public IconListHolder(IconListAdapter adapter, RecyclerItem item) {
+        public AchListHolder(AchListAdapter adapter, RecyclerItem item) {
             super(item);
             this.adapter = adapter;
             this.item = item;
@@ -57,45 +57,35 @@ public class IconListAdapter extends RecyclerView.Adapter<IconListAdapter.IconLi
     }
 
     private final Context ctx;
-    private final Map<String, String> icons;
+    private final Map<String, Achievement> achievements;
     private final SettingsPage page;
     public Logger logger = new Logger("BCI");
 
-    public IconListAdapter(SettingsPage page, Map<String, String> icons) {
-        this.icons = icons;
+    public AchListAdapter(SettingsPage page, Map<String, Achievement> achievements) {
+        this.achievements = achievements;
         this.page = page;
         ctx = page.getContext();
     }
 
     @Override
     public int getItemCount() {
-        return new ArrayList<>(icons.keySet()).size();
+        return new ArrayList<>(achievements.keySet()).size();
     }
 
     @NonNull
     @Override
-    public IconListHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new IconListHolder(this, new RecyclerItem(ctx));
+    public AchListHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new AchListHolder(this, new RecyclerItem(ctx));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull IconListHolder holder, int position) {
-        String name = new ArrayList<>(icons.keySet()).get(position);
-        String iconId = icons.get(name);
-
-        holder.item.name.setText(name);
-        holder.item.delete.setOnClickListener(v -> {
-            icons.remove(name);
-            PluginManager.plugins.get("BetterChannelIcons").settings.setObject("icons", icons);
-            notifyDataSetChanged();
-        });
-        try {
-            Drawable icon = ContextCompat.getDrawable(ctx, Utils.getResId(iconId, "drawable")).mutate();
-            icon.setTint(ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal));
-            holder.item.name.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
-        } catch (Throwable e) {
-            logger.error("Failed to load icon", e);
-        }
+    public void onBindViewHolder(@NonNull AchListHolder holder, int position) {
+        String name = new ArrayList<>(achievements.keySet()).get(position);
+        Achievement ach = achievements.get(name);
+        holder.item.name.setText(ach.getName());
+        Drawable icon = ContextCompat.getDrawable(ctx, R.d.ic_slash_command_24dp).mutate();
+        icon.setTint(ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal));
+        holder.item.name.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
     }
 
     public void onClick(Context ctx, int position) {
