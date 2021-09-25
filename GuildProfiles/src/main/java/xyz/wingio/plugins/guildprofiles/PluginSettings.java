@@ -1,4 +1,4 @@
-package com.aliucord.plugins.guildprofiles;
+package xyz.wingio.plugins.guildprofiles;
 
 import android.annotation.SuppressLint;
 import android.view.View;

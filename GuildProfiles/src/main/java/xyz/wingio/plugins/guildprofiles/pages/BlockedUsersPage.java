@@ -1,4 +1,4 @@
-package com.aliucord.plugins.guildprofiles.pages;
+package xyz.wingio.plugins.guildprofiles.pages;
 
 import android.content.Context;
 import android.util.Base64;
@@ -23,12 +23,12 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class MutualFriendsPage extends SettingsPage {
+public class BlockedUsersPage extends SettingsPage {
 
     private final Map<Long, GuildMember> members;
     private final String name;
 
-    public MutualFriendsPage(Map<Long, GuildMember> members, String name) {
+    public BlockedUsersPage(Map<Long, GuildMember> members, String name) {
         this.members = members;
         this.name = name;
     }
@@ -40,12 +40,12 @@ public class MutualFriendsPage extends SettingsPage {
         var users = members
                         .entrySet()
                         .stream()
-                        .filter(r -> Objects.equals(storeUserRelationships.getRelationships().get(r.getKey()), 1))
+                        .filter(r -> Objects.equals(storeUserRelationships.getRelationships().get(r.getKey()), 2))
                         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
         List<GuildMember> userList = new ArrayList<>();
         userList.addAll(users.values());
-        setActionBarTitle(userList.size() + " Friends");
+        setActionBarTitle(userList.size() + " Blocked Users");
         setActionBarSubtitle(name);
 
         var ctx = view.getContext();

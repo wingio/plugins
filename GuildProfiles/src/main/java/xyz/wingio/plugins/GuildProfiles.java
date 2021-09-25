@@ -25,12 +25,14 @@ import com.aliucord.PluginManager;
 import com.aliucord.entities.Plugin;
 import com.aliucord.patcher.PinePatchFn;
 import com.aliucord.fragments.*;
-import com.aliucord.plugins.guildprofiles.*;
-import com.aliucord.plugins.guildprofiles.pages.*;
+import xyz.wingio.plugins.guildprofiles.*;
+import xyz.wingio.plugins.guildprofiles.pages.*;
+import com.aliucord.annotations.AliucordPlugin;
 import com.discord.utilities.color.ColorCompat;
-import com.discord.api.premium.PremiumTier;
 import com.discord.api.guild.GuildVerificationLevel;
 import com.discord.api.guild.GuildFeature;
+import com.discord.api.premium.PremiumTier;
+import com.discord.api.role.GuildRole;
 import com.discord.databinding.WidgetChatOverlayBinding;
 import com.discord.databinding.WidgetGuildProfileSheetBinding;
 import com.discord.utilities.viewbinding.FragmentViewBindingDelegate;
@@ -54,6 +56,7 @@ import com.lytefast.flexinput.R;
 import java.util.*;
 import java.lang.reflect.*;
 
+@AliucordPlugin
 public class GuildProfiles extends Plugin {
 
     public GuildProfiles() {
@@ -225,8 +228,6 @@ public class GuildProfiles extends Plugin {
                 
                 layout.addView(info, 3);
               }
-
-              
             } catch (Throwable e) {
               Logger logger = new Logger("GuildProfiles");
               logger.error("Error adding guild info", e);

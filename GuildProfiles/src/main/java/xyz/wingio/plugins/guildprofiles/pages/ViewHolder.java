@@ -1,4 +1,4 @@
-package com.aliucord.plugins.guildprofiles.pages;
+package xyz.wingio.plugins.guildprofiles.pages;
 
 import android.view.View;
 import android.widget.*;

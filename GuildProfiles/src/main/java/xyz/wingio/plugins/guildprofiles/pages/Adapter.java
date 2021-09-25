@@ -1,4 +1,4 @@
-package com.aliucord.plugins.guildprofiles.pages;
+package xyz.wingio.plugins.guildprofiles.pages;
 
 import android.content.Context;
 import android.view.*;
@@ -17,7 +17,7 @@ import androidx.fragment.app.FragmentActivity;
 import com.aliucord.Utils;
 import com.aliucord.Http;
 import com.aliucord.Logger;
-import com.aliucord.plugins.guildprofiles.util.*;
+import xyz.wingio.plugins.guildprofiles.util.*;
 import com.aliucord.fragments.SettingsPage;
 import com.discord.models.member.GuildMember;
 import com.discord.models.user.User;

@@ -1,4 +1,4 @@
-package com.aliucord.plugins.guildprofiles.util;
+package xyz.wingio.plugins.guildprofiles.util;
 
 import android.util.Base64;
 import android.graphics.*;
