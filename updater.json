@@ -37,9 +37,9 @@
         "changelog": "Improved {improved marginTop}\n======================\n\n* Added link to badge guide in the creation sheet"
     },
     "ShowPerms": {
-        "version": "1.2.1",
+        "version": "1.2.2",
         "minimumDiscordVersion": 83210,
-        "changelog": "Improved {improved marginTop}\n======================\n\n* Fixed the default roles permissions from not showing up\n* Added role count"
+        "changelog": "Fixed {fixed marginTop}\n======================\n\n* Fixed permission order"
     },
     "BetterChannelIcons": {
         "version": "1.1.1",
