@@ -35,6 +35,7 @@ public class PluginSettings extends AppBottomSheet {
         layout.setBackgroundColor(ColorCompat.getThemedColor(context, R.b.colorBackgroundPrimary));
 
         layout.addView(createSwitch(context, settings, "showDot", "Show Chip Dot", "Show the colored dot used to denote which role the permission came from.", true));
+        layout.addView(createSwitch(context, settings, "showRoleCount", "Show Role Count", "Show the number of roles a user has by the server name", true));
         TextView header = new TextView(context, null, 0, R.h.UiKit_Settings_Item_Header);
         header.setText("List Behavior");
         header.setPadding(p, p, p, p);

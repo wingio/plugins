@@ -11,6 +11,7 @@ import android.os.*;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.*;
@@ -57,6 +58,7 @@ public class ShowPerms extends Plugin {
   
   public Logger logger = new Logger("ShowPerms");
   private int p = Utils.dpToPx(16);
+  private Drawable pluginIcon;
 
   @NonNull
   @Override
@@ -67,34 +69,44 @@ public class ShowPerms extends Plugin {
     new Manifest.Author("Wing", 298295889720770563L),
     };
     manifest.description = "Shows user permissions in the profile sheet";
-    manifest.version = "1.2.0";
+    manifest.version = "1.2.1";
     manifest.updateUrl =
     "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
-    manifest.changelog = "Improved {improved marginTop}\n======================\n\n* **View individual role permissions 2 : The Sequel!** Long press a role chip to view its permissions.\n* **Time to declutter the profile sheet!** Added an option to show only the Administrator permission when it's granted.\n* **Revamped settings.** All settings that effect the permissions list have been moved to a radio menu.";
+    manifest.changelog = "Improved {improved marginTop}\n======================\n\n* Fixed the default roles permissions from not showing up\n* Added role count";
     return manifest;
   }
 
   @Override
   public void start(Context context) throws Throwable {
     int sectionId = View.generateViewId();
+
+    pluginIcon = ContextCompat.getDrawable(context, R.d.ic_shieldstar_24dp);
+
     patcher.patch(WidgetUserSheet.class, "configureGuildSection", new Class<?>[]{WidgetUserSheetViewModel.ViewState.Loaded.class}, new PinePatchFn(callFrame -> {
       try {
         int format = settings.getInt("format", 0);
         boolean showFullAdmin = (format == 1);
         boolean showMinAdmin = (format == 2);
+        boolean showRoleCount = settings.getBool("showRoleCount", true);
         WidgetUserSheetViewModel.ViewState.Loaded loaded = (WidgetUserSheetViewModel.ViewState.Loaded) callFrame.args[0];
         WidgetUserSheet _this = (WidgetUserSheet) callFrame.thisObject;
 
         WidgetUserSheetBinding binding = (WidgetUserSheetBinding) ReflectUtils.invokeMethod(WidgetUserSheet.class, _this, "getBinding");
         LinearLayout content = (LinearLayout) binding.getRoot().findViewById(Utils.getResId("user_sheet_content", "id"));
         Context ctx = content.getContext();
+        TextView guildName = (TextView) content.findViewById(Utils.getResId("user_sheet_guild_header", "id"));
         int connectionsHeaderIndex = content.indexOfChild(content.findViewById(Utils.getResId("user_sheet_connections_header", "id")));
+
+        List<GuildRole> userRoles = new ArrayList<>(loaded.getRoleItems());
+        Channel apiChannel = loaded.getChannel();
+        Map<Long, GuildRole> guildRoles = StoreStream.getGuilds().getRoles().get(ChannelWrapper.getGuildId(apiChannel));
+        if(guildRoles.containsKey(ChannelWrapper.getGuildId(apiChannel))) userRoles.add(guildRoles.get(ChannelWrapper.getGuildId(apiChannel)));
 
         LinearLayout section = new LinearLayout(ctx); section.setId(sectionId); section.setOrientation(LinearLayout.VERTICAL);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT); params.setMargins(p, 0, p, 0);
         section.setLayoutParams(params);
         section.setOnLongClickListener(v -> {
-          Utils.openPageWithProxy(ctx, new UserPerms(loaded.getRoleItems(), loaded.getUser(), loaded.getGuildName()));
+          Utils.openPageWithProxy(ctx, new UserPerms(userRoles, loaded.getUser(), loaded.getGuildName()));
           return true;
         });
 
@@ -104,7 +116,7 @@ public class ShowPerms extends Plugin {
 
         section.addView(permHeader);
 
-        Map<String, PermData> perms = PermUtils.getPermissions(loaded.getRoleItems());
+        Map<String, PermData> perms = PermUtils.getPermissions(userRoles);
         ChipGroup permView = new ChipGroup(ctx); permView.setChipSpacingVertical(p / 4); permView.setChipSpacingHorizontal(p / 4);
         for(String perm : perms.keySet()){
           PermChip chip = new PermChip(ctx, perm, perms.get(perm));
@@ -113,6 +125,10 @@ public class ShowPerms extends Plugin {
         section.addView(permView);
 
         if(content.findViewById(sectionId) == null && perms.size() > 0) content.addView(section, connectionsHeaderIndex);
+
+        if(loaded.getRoleItems().size() > 0 && showRoleCount) {
+          guildName.setText(guildName.getText() + " • " + loaded.getRoleItems().size() + " roles");
+        }
       } catch (Throwable e) {logger.error("Error showing permissions", e);}
     }));
 
