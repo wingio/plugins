@@ -49,6 +49,7 @@ public final class PluginSettings extends SettingsPage {
         layout.addView(actHeader);
         layout.addView(createSwitch(context, settings, "friendsAct", "Display 'Friends'", null, true));
         layout.addView(createSwitch(context, settings, "blockedAct", "Display 'Blocked Users'", null, true));
+        layout.addView(createSwitch(context, settings, "rolesAct", "Display 'Roles'", null, true));
         layout.addView(new Divider(context));
 
         var expHeader = new TextView(context, null, 0, R.h.UiKit_Settings_Item_Header);

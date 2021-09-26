@@ -27,9 +27,9 @@
         "changelog": "Added {added marginTop}\n======================\n\n* **View author's profile.** You can now view the profile of a message author by either tapping on the avatar or username, or using the context menu."
     },
     "GuildProfiles": {
-        "version": "1.1.0",
+        "version": "1.2.0",
         "minimumDiscordVersion": 83210,
-        "changelog": "New {added marginTop}\n======================\n\n* **Features Section** You can now view the features a server has!"
+        "changelog": "New {added marginTop}\n======================\n\n* **Roles menu.** You can now view the roles a server has!\n\nImproved {improved marginTop}\n======================\n\n* Changed the icon for the following features: Invite Splash, Banner, and Vanity URL\n* Added the guild commerce feature to the features section"
     },
     "CustomBadges": {
         "version": "1.1.2",

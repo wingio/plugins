@@ -1,3 +1,3 @@
-include(":ShowPerms")
+include(":GuildProfiles")
 
 rootProject.name = "plugins"

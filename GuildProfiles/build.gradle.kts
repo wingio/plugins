@@ -1,11 +1,16 @@
-version = "1.1.0"
+version = "1.2.0"
 description = "Adds more server information to the server profile sheet"
 
 aliucord.changelog.set(
     """
-    New {added marginTop}
+    New {added marginTop}\n======================
+    
+    * **Roles menu.** You can now view the roles a server has!
+    
+    Improved {improved marginTop}
     ======================
     
-    * **Features Section** You can now view the features a server has!
+    * Changed the icon for the following features: Invite Splash, Banner, and Vanity URL
+    * Added the guild commerce feature to the features section
     """.trimIndent()
 )

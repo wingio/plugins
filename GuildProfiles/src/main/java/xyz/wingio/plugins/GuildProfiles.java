@@ -8,6 +8,7 @@ import android.widget.*;
 import android.os.*;
 
 import com.google.android.material.button.*;
+import com.google.android.material.chip.ChipGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -75,8 +76,8 @@ public class GuildProfiles extends Plugin {
         new Manifest.Author("Wing", 298295889720770563L),
       };
     manifest.description = "Adds more server information to the server profile sheet";
-    manifest.version = "1.1.0";
-    manifest.changelog = "New {added marginTop}\n======================\n\n* **Features Section** You can now view the features a server has!";
+    manifest.version = "1.2.0";
+    manifest.changelog = "New {added marginTop}\n======================\n\n* **Roles menu.** You can now view the roles a server has!\n\nImproved {improved marginTop}\n======================\n\n* Changed the icon for the following features: Invite Splash, Banner, and Vanity URL\n* Added the guild commerce feature to the features section";
     manifest.updateUrl =
       "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
     return manifest;
@@ -88,7 +89,9 @@ public class GuildProfiles extends Plugin {
         final int infoId = View.generateViewId();
         final int tabId = View.generateViewId();
         final int blockedId = View.generateViewId();
+        final int rolesId = View.generateViewId();
         final int featuresId = View.generateViewId();
+
         patcher.patch(WidgetGuildProfileSheet.class, "configureUI", new Class<?>[]{ WidgetGuildProfileSheetViewModel.ViewState.Loaded.class }, new PinePatchFn(callFrame -> {
             WidgetGuildProfileSheet _this = (WidgetGuildProfileSheet) callFrame.thisObject;
             WidgetGuildProfileSheetViewModel.ViewState.Loaded state = (WidgetGuildProfileSheetViewModel.ViewState.Loaded) callFrame.args[0];
@@ -107,19 +110,28 @@ public class GuildProfiles extends Plugin {
               var p = Utils.dpToPx(16);
               boolean showFriendsAct = settings.getBool("friendsAct", true);
               boolean showBlockedAct = settings.getBool("blockedAct", true);
+              boolean showRolesAct = settings.getBool("rolesAct", true);
               boolean showFeatures = settings.getBool("features", true);
 
               LinearLayout actions = (LinearLayout) ((FrameLayout) lo.findViewById(Utils.getResId("guild_profile_sheet_secondary_actions", "id"))).getChildAt(0);
-              TextView mutualBtn = new TextView(actions.getContext(), null, 0, Utils.getResId("GuildProfileSheet.Actions.Title", "style"));
-              mutualBtn.setId(tabId);
-              mutualBtn.setText("Friends");
-              mutualBtn.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.d.ic_chevron_right_grey_12dp, 0);
-              mutualBtn.setTypeface(ResourcesCompat.getFont(actions.getContext(), Constants.Fonts.whitney_semibold));
-              mutualBtn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-              mutualBtn.setPadding(p, p, p, p);
-              mutualBtn.setOnClickListener(e -> {Utils.openPageWithProxy(actions.getContext(), new MutualFriendsPage(guildStore.getMembers().get(guild.getId()), guild.getName()));});
-              if(actions.findViewById(tabId) == null && showFriendsAct) {
-                  actions.addView(mutualBtn, 1);
+              var members = guildStore.getMembers().get(guild.getId());
+              int changeNicknameIndex = actions.indexOfChild(actions.findViewById(Utils.getResId("guild_profile_sheet_change_nickname", "id"))) + 1;
+
+              Map<Long, GuildRole> guildRoles = StoreStream.getGuilds().getRoles().get(guild.getId());
+              if(guildRoles != null) {
+                TextView rolesBtn = new TextView(actions.getContext(), null, 0, Utils.getResId("GuildProfileSheet.Actions.Title", "style"));
+                rolesBtn.setId(rolesId);
+                rolesBtn.setText("Roles");
+                rolesBtn.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.d.ic_chevron_right_grey_12dp, 0);
+                rolesBtn.setTypeface(ResourcesCompat.getFont(actions.getContext(), Constants.Fonts.whitney_semibold));
+                rolesBtn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                rolesBtn.setPadding(p, p, p, p);
+                List<GuildRole> roles = new LinkedList<>(guildRoles.values());
+                roles.sort(Comparator.comparing(GuildRole::i).reversed());
+                rolesBtn.setOnClickListener(e -> {Utils.openPageWithProxy(actions.getContext(), new ServerRolesPage(roles, guild.getName()));});
+                if(actions.findViewById(rolesId) == null && showRolesAct) {
+                    actions.addView(rolesBtn, changeNicknameIndex);
+                }
               }
 
               TextView blockedBtn = new TextView(actions.getContext(), null, 0, Utils.getResId("GuildProfileSheet.Actions.Title", "style"));
@@ -130,8 +142,21 @@ public class GuildProfiles extends Plugin {
               blockedBtn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
               blockedBtn.setPadding(p, p, p, p);
               blockedBtn.setOnClickListener(e -> {Utils.openPageWithProxy(actions.getContext(), new BlockedUsersPage(guildStore.getMembers().get(guild.getId()), guild.getName()));});
-              if(actions.findViewById(blockedId) == null && showBlockedAct) {
-                  actions.addView(blockedBtn, 2);
+              blockedBtn.setOnClickListener(e -> {Utils.openPageWithProxy(actions.getContext(), new BlockedUsersPage(members, guild.getName()));});
+              if(actions.findViewById(blockedId) == null && showBlockedAct && members != null) {
+                  actions.addView(blockedBtn, changeNicknameIndex);
+              }
+
+              TextView mutualBtn = new TextView(actions.getContext(), null, 0, Utils.getResId("GuildProfileSheet.Actions.Title", "style"));
+              mutualBtn.setId(tabId);
+              mutualBtn.setText("Friends");
+              mutualBtn.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.d.ic_chevron_right_grey_12dp, 0);
+              mutualBtn.setTypeface(ResourcesCompat.getFont(actions.getContext(), Constants.Fonts.whitney_semibold));
+              mutualBtn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+              mutualBtn.setPadding(p, p, p, p);
+              mutualBtn.setOnClickListener(e -> {Utils.openPageWithProxy(actions.getContext(), new MutualFriendsPage(members, guild.getName()));});
+              if(actions.findViewById(tabId) == null && showFriendsAct && members != null) {
+                  actions.addView(mutualBtn, changeNicknameIndex);
               }
 
               if(layout.findViewById(featuresId) == null && showFeatures) {
@@ -286,26 +311,25 @@ public class GuildProfiles extends Plugin {
     }
 
     public void addFeatureIcons(Context c, LinearLayout layout, Guild guild) {
-      GridLayout fList = new GridLayout(c);
-      fList.setColumnCount(14);
-      fList.setOrientation(GridLayout.HORIZONTAL);
-      fList.setBackgroundColor(Color.TRANSPARENT);
+      ChipGroup fList = new ChipGroup(c);
       LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
       fList.setLayoutParams(params);
       fList.setPadding(0, Utils.dpToPx(8), 0, 0);
+      fList.setChipSpacingVertical(Utils.dpToPx(4)); fList.setChipSpacingHorizontal(Utils.dpToPx(4));
 
+      if(guild.hasFeature(GuildFeature.COMMERCE)) addIcon(c, fList, R.d.ic_wallet_24dp, "Commerce", true);
       if(guild.hasFeature(GuildFeature.VIP_REGIONS)) addIcon(c, fList, R.d.ic_star_24dp, "VIP Regions", true);
-      if(guild.hasFeature(GuildFeature.INVITE_SPLASH)) addIcon(c, fList, R.d.ic_person_add_new_primary_500_24dp, "Invite Splash", true);
-      if(guild.hasFeature(GuildFeature.VANITY_URL)) addIcon(c, fList, R.d.ic_link_white_24dp, "Vanity URL", true);
+      if(guild.hasFeature(GuildFeature.INVITE_SPLASH)) addIcon(c, fList, R.d.ic_flex_input_image_24dp_dark, "Invite Splash", true);
+      if(guild.hasFeature(GuildFeature.VANITY_URL)) addIcon(c, fList, R.d.ic_diag_link_24dp, "Vanity URL", true);
       if(guild.hasFeature(GuildFeature.PARTNERED)) addIcon(c, fList, R.d.ic_profile_badge_partner_32dp, "Partnered", true);
       if(guild.hasFeature(GuildFeature.VERIFIED)) addIcon(c, fList, R.d.ic_verified_badge, "Verified", false);
       if(guild.hasFeature(GuildFeature.MORE_EMOJI)) addIcon(c, fList, R.d.ic_add_reaction_grey_a60_24dp, "More Emoji", true);
-      if(guild.hasFeature(GuildFeature.BANNER)) addIcon(c, fList, R.d.ic_flex_input_image_24dp_dark, "Banner", true);
+      if(guild.hasFeature(GuildFeature.BANNER)) addIcon(c, fList, R.d.ic_image_library_24dp, "Banner", true);
       if(guild.hasFeature(GuildFeature.NEWS)) addIcon(c, fList, R.d.ic_channel_announcements, "Announcements", true);
       if(guild.hasFeature(GuildFeature.DISCOVERABLE)) addIcon(c, fList, R.d.ic_search_16dp, "Discoverable", true);
       if(guild.hasFeature(GuildFeature.ANIMATED_ICON)) addIcon(c, fList, R.d.gif, "Animated Icon", true);
-      if(guild.hasFeature(GuildFeature.COMMUNITY)) addIcon(c, fList, R.d.ic_people_white_24dp, "Community", true);
-      if(guild.hasFeature(GuildFeature.MEMBER_VERIFICATION_GATE_ENABLED)) addIcon(c, fList, R.d.ic_small_lock_green_24dp, "Welcome Screen Enabled", true);
+      if(guild.hasFeature(GuildFeature.COMMUNITY)) addIcon(c, fList, R.d.ic_house_24dp, "Community", true);
+      if(guild.hasFeature(GuildFeature.MEMBER_VERIFICATION_GATE_ENABLED)) addIcon(c, fList, R.d.ic_small_lock_green_24dp, "Verification Gate Enabled", true);
       if(guild.hasFeature(GuildFeature.PREVIEW_ENABLED)) addIcon(c, fList, R.d.design_password_eye, "Preview Enabled", true);
       if(guild.hasFeature(GuildFeature.THREADS_ENABLED)) addIcon(c, fList, R.d.ic_flex_input_create_thread_24dp_dark, "Threads Enabled", true);
       if(guild.hasFeature(GuildFeature.PRIVATE_THREADS)) addIcon(c, fList, R.d.ic_channel_text_locked, "Private Threads", true);
@@ -314,14 +338,13 @@ public class GuildProfiles extends Plugin {
       layout.addView(fList);
     }
 
-    public void addIcon(Context c, GridLayout layout, int iconId, String name, boolean changeTint) {
+    public void addIcon(Context c, ChipGroup layout, int iconId, String name, boolean changeTint) {
       ImageView icon = new ImageView(c);
       Drawable d = ContextCompat.getDrawable(c, iconId);
       if(d == null) d = ResourcesCompat.getDrawable(resources, iconId, null);
       int size = Utils.dpToPx(20);
       int p = Utils.dpToPx(5);
       LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(size, size);
-      layoutParams.setMargins(0, 0, p, 0);
       icon.setLayoutParams(layoutParams);
       if(changeTint) {
           d.mutate();
