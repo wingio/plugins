@@ -63,7 +63,7 @@ public class PermUtils {
     }
 
     public static Map<String, PermData> getPermissions(List<GuildRole> guildRoles) throws Throwable {
-        Map<String, PermData> permissions = new HashMap<>();
+        Map<String, PermData> permissions = new LinkedHashMap<>();
         for(GuildRole role : guildRoles) {
             if(role != null) {
                 Long perms = (Long) ReflectUtils.getField(GuildRole.class, role, "permissions");

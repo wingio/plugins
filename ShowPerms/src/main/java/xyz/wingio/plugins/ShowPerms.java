@@ -69,10 +69,10 @@ public class ShowPerms extends Plugin {
     new Manifest.Author("Wing", 298295889720770563L),
     };
     manifest.description = "Shows user permissions in the profile sheet";
-    manifest.version = "1.2.1";
+    manifest.version = "1.2.2";
     manifest.updateUrl =
     "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
-    manifest.changelog = "Improved {improved marginTop}\n======================\n\n* Fixed the default roles permissions from not showing up\n* Added role count";
+    manifest.changelog = "Fixed {fixed marginTop}\n======================\n\n* Fixed permission order";
     return manifest;
   }
 
