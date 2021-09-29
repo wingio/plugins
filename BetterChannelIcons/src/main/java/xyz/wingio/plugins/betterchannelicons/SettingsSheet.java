@@ -63,6 +63,7 @@ public class SettingsSheet extends BottomSheet {
         Context ctx = requireContext();
         
         addView(createSwitch(ctx, settings, "advanced_mode", "Advanced Mode", "Allows you to set whatever drawable you want for a channel icon", false, false));
+        addView(createSwitch(ctx, settings, "setToolbarIcon", "Set Toolbar Icon", "Change the channel icon in the toolbar", true, false));
     }
 
     private CheckedSetting createSwitch(Context context, SettingsAPI sets, String key, String label, CharSequence subtext, boolean defaultValue, boolean reRender) {

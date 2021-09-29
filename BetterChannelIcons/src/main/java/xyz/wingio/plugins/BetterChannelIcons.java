@@ -14,6 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
+import androidx.core.graphics.ColorUtils;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.*;
 
@@ -29,12 +30,13 @@ import com.aliucord.wrappers.*;
 import com.aliucord.utils.ReflectUtils;
 
 import com.discord.api.channel.Channel;
-import com.discord.databinding.WidgetChannelsListItemChannelVoiceBinding;
-import com.discord.databinding.WidgetChannelsListItemChannelBinding;
+import com.discord.databinding.*;
 import com.discord.models.guild.Guild;
 import com.discord.stores.*;
 import com.discord.widgets.channels.list.WidgetChannelsListAdapter;
 import com.discord.widgets.channels.list.items.*;
+import com.discord.widgets.home.*;
+import com.discord.utilities.color.ColorCompat;
 
 import com.google.gson.reflect.TypeToken;
 
@@ -69,10 +71,10 @@ public class BetterChannelIcons extends Plugin {
     new Manifest.Author("Wing", 298295889720770563L),
     };
     manifest.description = "Adds an array of new channel icons";
-    manifest.version = "1.1.1";
+    manifest.version = "1.2.0";
     manifest.updateUrl =
     "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
-    manifest.changelog = "Improved {improved marginTop}\n======================\n\n* Updated how icons are stored for better future proofing\n* Added slash command icon to the preset icons list";
+    manifest.changelog = "New! {added marginTop}\n======================\n\n* The icon in the toolbar will now also be changed, can be toggled in settings";
     return manifest;
   }
 
@@ -117,7 +119,26 @@ public class BetterChannelIcons extends Plugin {
         }
       } catch (Throwable e) {logger.error("Error setting channel icon", e);}
     }));
+
+    patcher.patch(WidgetHomeHeaderManager.class, "configure", new Class<?>[]{ WidgetHome.class, WidgetHomeModel.class, WidgetHomeBinding.class }, new PinePatchFn(callFrame -> {
+      try {
+        if(!settings.getBool("setToolbarIcon", true)) return;
+        WidgetHomeBinding binding = (WidgetHomeBinding) callFrame.args[2]; WidgetHomeModel model = (WidgetHomeModel) callFrame.args[1]; WidgetHome widget = (WidgetHome) callFrame.args[0]; ChannelWrapper channel = new ChannelWrapper(model.getChannel()); var root = widget.getActionBarTitleLayout().i.getRoot();
+        ImageView channelIcon = (ImageView) root.findViewById(Utils.getResId("toolbar_icon", "id"));
+        if(channel.isGuild()) {Guild guild = StoreStream.getGuilds().getGuilds().get(channel.getGuildId());if(guild.getRulesChannelId() != null){if(guild.getRulesChannelId() == channel.getId()) { channelIcon.setImageDrawable(themeDrawable(widget.getContext(), ResourcesCompat.getDrawable(resources, resources.getIdentifier("ic_rules_24dp", "drawable", "xyz.wingio.plugins"), null)) ); };}}
+        if(channel.getId() == 811275162715553823L || channel.getId() == 845784407846813696L){ channelIcon.setImageDrawable(themeDrawable(widget.getContext(), ResourcesCompat.getDrawable(resources, resources.getIdentifier("ic_plugin_24dp", "drawable", "xyz.wingio.plugins"), null))); }
+
+        var icon = getChannelIcon(channel);
+        if (icon != null) channelIcon.setImageDrawable(themeDrawable(widget.getContext(), ContextCompat.getDrawable(widget.getContext(), icon)));
+      } catch (Throwable e) {logger.error("Error setting channel icon in title bar", e);}
+    }));
     
+  }
+
+  private Drawable themeDrawable(Context ctx, Drawable drawable){
+    drawable = drawable.mutate();
+    drawable.setTint(ColorUtils.setAlphaComponent(ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal), 153));
+    return drawable;
   }
 
   private Integer getChannelIcon(ChannelWrapper channel) throws Throwable {

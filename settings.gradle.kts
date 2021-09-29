@@ -1,3 +1,3 @@
-include(":GuildProfiles")
+include(":BetterChannelIcons")
 
 rootProject.name = "plugins"
