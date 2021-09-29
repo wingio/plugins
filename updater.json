@@ -42,9 +42,9 @@
         "changelog": "Fixed {fixed marginTop}\n======================\n\n* Fixed permission order"
     },
     "BetterChannelIcons": {
-        "version": "1.1.1",
+        "version": "1.2.0",
         "minimumDiscordVersion": 83210,
-        "changelog": "Improved {improved marginTop}\n======================\n\n* Updated how icons are stored for better future proofing\n* Added slash command icon to the preset icons list"
+        "changelog": "New! {added marginTop}\n======================\n\n* The icon in the toolbar will now also be changed, can be toggled in settings"
     },
     "default": {
         "minimumDiscordVersion": 1456,
