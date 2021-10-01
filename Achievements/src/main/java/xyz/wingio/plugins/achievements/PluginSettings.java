@@ -53,9 +53,8 @@ public final class PluginSettings extends SettingsPage {
         var layout = getLinearLayout();
         var wm = ResourcesCompat.getFont(context, Constants.Fonts.whitney_medium);
 
-        Map<String, Achievement> basics = plugin.basics;
-        Achievement openSetsAch = basics.get("babysteps");
-        List<String> basicIds = new ArrayList<>(basics.keySet());
+        List<Achievement> basics = plugin.basics;
+        Achievement openSetsAch = basics.get(0);
         openSetsAch.unlock();
         Utils.log(String.valueOf(basics));
 
@@ -65,14 +64,10 @@ public final class PluginSettings extends SettingsPage {
         achHeader.setText("Basic Achievements");
 
         layout.addView(achHeader);
-
-        Map<String, Achievement> advanced = new HashMap<>();
-        advanced.put("test", new Achievement("Test", "test", "test"));
-        advanced.put("test2", new Achievement("Test2", "test2", "test2"));
         
         RecyclerView basicAchView = new RecyclerView(context);
         basicAchView.setLayoutManager(new LinearLayoutManager(context));
-        basicAchView.setAdapter(new AchListAdapter(this, advanced));
+        basicAchView.setAdapter(new AchListAdapter(this, basics));
 
         layout.addView(basicAchView);
     }

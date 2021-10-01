@@ -62,22 +62,6 @@ public class BetterChannelIcons extends Plugin {
   public static final Type oldIconStoreType = TypeToken.getParameterized(HashMap.class, String.class, Integer.class).getType();
   private Drawable pluginIcon;
 
-  @NonNull
-  @Override
-  public Manifest getManifest() {
-    var manifest = new Manifest();
-    manifest.authors =
-    new Manifest.Author[] {
-    new Manifest.Author("Wing", 298295889720770563L),
-    };
-    manifest.description = "Adds an array of new channel icons";
-    manifest.version = "1.2.0";
-    manifest.updateUrl =
-    "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
-    manifest.changelog = "New! {added marginTop}\n======================\n\n* The icon in the toolbar will now also be changed, can be toggled in settings";
-    return manifest;
-  }
-
   @Override
   public void start(Context context) throws Throwable {
     pluginIcon = ContextCompat.getDrawable(context, R.d.ic_channel_text_white_a60_24dp);
@@ -142,6 +126,7 @@ public class BetterChannelIcons extends Plugin {
   }
 
   private Integer getChannelIcon(ChannelWrapper channel) throws Throwable {
+    if(channel == null) return null;
     var name = channel.getName().toLowerCase();
     Map<String, String> icons = settings.getObject("icons", new HashMap<>(), iconStoreType);
     if(icons.containsKey(name)) return Utils.getResId(icons.get(name), "drawable");

@@ -42,9 +42,9 @@
         "changelog": "Fixed {fixed marginTop}\n======================\n\n* Fixed permission order"
     },
     "BetterChannelIcons": {
-        "version": "1.2.0",
+        "version": "1.2.1",
         "minimumDiscordVersion": 83210,
-        "changelog": "New! {added marginTop}\n======================\n\n* The icon in the toolbar will now also be changed, can be toggled in settings"
+        "changelog": "Fixes {fixed marginTop}\n======================\n\n* Small fix"
     },
     "default": {
         "minimumDiscordVersion": 1456,

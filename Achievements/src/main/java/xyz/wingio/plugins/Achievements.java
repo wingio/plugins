@@ -49,7 +49,11 @@ public class Achievements extends Plugin {
 
   public static Logger logger = new Logger("Achievements");
   
-  public Map<String, Achievement> basics = new HashMap<>();
+  public List<Achievement> basics = new LinkedList<>() {{
+    add(new Achievement("Baby Steps", "Open achievement list for the first time!", "babysteps"));
+    add(new Achievement("Threading the Needle", "Participate in a thread", "usethread"));
+    add(new Achievement("Showing Appreciation", "React with a star to a message", "addstar"));
+  }};
     
   public static final Map<String, Achievement> pluginAchs = new HashMap<>();
 
@@ -59,34 +63,11 @@ public class Achievements extends Plugin {
     return achievement;
   }
 
-  @NonNull
-  @Override
-  public Manifest getManifest() {
-    var manifest = new Manifest();
-    manifest.authors =
-      new Manifest.Author[] {
-        new Manifest.Author("Wing", 298295889720770563L),
-      };
-    manifest.description = "Try to unlock as many achievements as you possibly can!";
-    manifest.version = "1.0.0";
-    manifest.updateUrl =
-      "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
-    return manifest;
-  }
-
-  private void loadBasicAchievements(){
-    basics.put("babysteps", new Achievement("Baby Steps", "Open achievement list for the first time!", "babysteps"));
-    basics.put("usethread", new Achievement("Threading the Needle", "Participate in a thread", "usethread"));
-    basics.put("addstar", new Achievement("Showing Appreciation", "React with a star to a message", "addstar"));
-  }
-
   @Override
   @SuppressWarnings({ "unchecked", "ConstantConditions" })
   public void start(Context context) throws Throwable{
     
     logger.tag = "[Achievements]";
-    
-    loadBasicAchievements();
 
     // RxUtils.subscribe(RxUtils.onBackpressureBuffer(StoreStream.getGatewaySocket().getMessageCreate()), RxUtils.createActionSubscriber(message -> {
 		// 	if (message == null) return;

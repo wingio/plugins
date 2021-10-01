@@ -57,11 +57,11 @@ public class AchListAdapter extends RecyclerView.Adapter<AchListAdapter.AchListH
     }
 
     private final Context ctx;
-    private final Map<String, Achievement> achievements;
+    private final List<Achievement> achievements;
     private final SettingsPage page;
-    public Logger logger = new Logger("BCI");
+    public Logger logger = new Logger("ACH");
 
-    public AchListAdapter(SettingsPage page, Map<String, Achievement> achievements) {
+    public AchListAdapter(SettingsPage page, List<Achievement> achievements) {
         this.achievements = achievements;
         this.page = page;
         ctx = page.getContext();
@@ -69,7 +69,7 @@ public class AchListAdapter extends RecyclerView.Adapter<AchListAdapter.AchListH
 
     @Override
     public int getItemCount() {
-        return new ArrayList<>(achievements.keySet()).size();
+        return achievements.size();
     }
 
     @NonNull
@@ -80,8 +80,7 @@ public class AchListAdapter extends RecyclerView.Adapter<AchListAdapter.AchListH
 
     @Override
     public void onBindViewHolder(@NonNull AchListHolder holder, int position) {
-        String name = new ArrayList<>(achievements.keySet()).get(position);
-        Achievement ach = achievements.get(name);
+        Achievement ach = achievements.get(position);
         holder.item.name.setText(ach.getName());
         Drawable icon = ContextCompat.getDrawable(ctx, R.d.ic_slash_command_24dp).mutate();
         icon.setTint(ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal));
