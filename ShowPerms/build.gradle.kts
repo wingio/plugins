@@ -1,11 +1,11 @@
-version = "1.2.2"
+version = "1.3.0"
 description = "Shows user permissions in the profile sheet"
 
 aliucord.changelog.set(
     """
-    Fixed {fixed marginTop}
+    New! {added marginTop}
     ======================
     
-    * Fixed permission order
+    * Added option to invert the permissions by lowest role to highest
     """.trimIndent()
 )

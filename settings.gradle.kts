@@ -1,3 +1,3 @@
-include(":BetterChannelIcons")
+include(":ShowPerms")
 
 rootProject.name = "plugins"

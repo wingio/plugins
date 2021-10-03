@@ -59,22 +59,7 @@ public class ShowPerms extends Plugin {
   public Logger logger = new Logger("ShowPerms");
   private int p = Utils.dpToPx(16);
   private Drawable pluginIcon;
-
-  @NonNull
-  @Override
-  public Manifest getManifest() {
-    var manifest = new Manifest();
-    manifest.authors =
-    new Manifest.Author[] {
-    new Manifest.Author("Wing", 298295889720770563L),
-    };
-    manifest.description = "Shows user permissions in the profile sheet";
-    manifest.version = "1.2.2";
-    manifest.updateUrl =
-    "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
-    manifest.changelog = "Fixed {fixed marginTop}\n======================\n\n* Fixed permission order";
-    return manifest;
-  }
+  private Drawable pluginIconDark;
 
   @Override
   public void start(Context context) throws Throwable {
@@ -88,6 +73,7 @@ public class ShowPerms extends Plugin {
         boolean showFullAdmin = (format == 1);
         boolean showMinAdmin = (format == 2);
         boolean showRoleCount = settings.getBool("showRoleCount", true);
+        boolean invertOrder = settings.getBool("invertOrder", false);
         WidgetUserSheetViewModel.ViewState.Loaded loaded = (WidgetUserSheetViewModel.ViewState.Loaded) callFrame.args[0];
         WidgetUserSheet _this = (WidgetUserSheet) callFrame.thisObject;
 
@@ -115,7 +101,7 @@ public class ShowPerms extends Plugin {
         permHeader.setLayoutParams(headerParams);
 
         section.addView(permHeader);
-
+        if(invertOrder) Collections.reverse(userRoles);
         Map<String, PermData> perms = PermUtils.getPermissions(userRoles);
         ChipGroup permView = new ChipGroup(ctx); permView.setChipSpacingVertical(p / 4); permView.setChipSpacingHorizontal(p / 4);
         for(String perm : perms.keySet()){
