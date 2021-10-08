@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.*;
 
 import com.aliucord.Utils;
+import com.aliucord.utils.*;
 import com.aliucord.Logger;
 import com.aliucord.PluginManager;
 import com.aliucord.api.NotificationsAPI;

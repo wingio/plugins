@@ -16,6 +16,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import xyz.wingio.plugins.CustomBadges;
 import com.aliucord.Constants;
 import com.aliucord.Utils;
+import com.aliucord.utils.*;
 import com.aliucord.Logger;
 import com.aliucord.PluginManager;
 import com.aliucord.api.SettingsAPI;
@@ -103,7 +104,7 @@ public final class PluginSettings extends SettingsPage {
 
         LinearLayout.LayoutParams marginEndParams = new LinearLayout.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
         toolbarButtons.setHorizontalGravity(Gravity.END);
-        marginEndParams.setMarginEnd(Utils.getDefaultPadding());
+        marginEndParams.setMarginEnd(DimenUtils.getDefaultPadding());
         ToolbarButton settingsBtn = new ToolbarButton(context);
         settingsBtn.setLayoutParams(marginEndParams);
         settingsBtn.setImageDrawable(ContextCompat.getDrawable(context, R.d.ic_guild_settings_24dp));

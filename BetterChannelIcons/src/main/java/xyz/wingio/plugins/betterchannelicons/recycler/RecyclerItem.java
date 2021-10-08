@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat;
 import com.discord.utilities.color.ColorCompat;
 
 import com.aliucord.Utils;
+import com.aliucord.utils.*;
 import com.aliucord.Constants;
 import com.aliucord.utils.*;
 import com.aliucord.views.Button;
@@ -37,7 +38,7 @@ public class RecyclerItem extends LinearLayout {
         LinearLayout buttons = new LinearLayout(ctx);
         buttons.setOrientation(LinearLayout.HORIZONTAL);
         LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-        params.setMarginEnd(Utils.dpToPx(16));
+        params.setMarginEnd(DimenUtils.dpToPx(16));
         buttons.setLayoutParams(params);
         buttons.setHorizontalGravity(Gravity.END);
         buttons.setVerticalGravity(Gravity.CENTER_VERTICAL);

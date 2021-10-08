@@ -12,6 +12,7 @@ import xyz.wingio.plugins.betterchannelicons.recycler.*;
 import xyz.wingio.plugins.betterchannelicons.*;
 
 import com.aliucord.Utils;
+import com.aliucord.utils.*;
 import com.aliucord.api.SettingsAPI;
 import com.aliucord.fragments.SettingsPage;
 import com.aliucord.views.Button;
@@ -60,7 +61,7 @@ public class PluginSettings extends SettingsPage {
 
         LinearLayout.LayoutParams marginEndParams = new LinearLayout.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
         toolbarButtons.setHorizontalGravity(Gravity.END);
-        marginEndParams.setMarginEnd(Utils.getDefaultPadding());
+        marginEndParams.setMarginEnd(DimenUtils.getDefaultPadding());
         ToolbarButton settingsBtn = new ToolbarButton(ctx);
         settingsBtn.setLayoutParams(marginEndParams);
         settingsBtn.setImageDrawable(ContextCompat.getDrawable(ctx, R.d.ic_guild_settings_24dp));

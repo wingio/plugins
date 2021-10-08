@@ -21,6 +21,7 @@ import androidx.core.content.ContextCompat;
 
 import com.aliucord.Constants;
 import com.aliucord.Utils;
+import com.aliucord.utils.*;
 import com.aliucord.Logger;
 import com.aliucord.PluginManager;
 import com.aliucord.entities.Plugin;
@@ -67,22 +68,6 @@ public class GuildProfiles extends Plugin {
     
     public RelativeLayout overlay;
 
-    @NonNull
-  @Override
-  public Manifest getManifest() {
-    var manifest = new Manifest();
-    manifest.authors =
-      new Manifest.Author[] {
-        new Manifest.Author("Wing", 298295889720770563L),
-      };
-    manifest.description = "Adds more server information to the server profile sheet";
-    manifest.version = "1.2.0";
-    manifest.changelog = "New {added marginTop}\n======================\n\n* **Roles menu.** You can now view the roles a server has!\n\nImproved {improved marginTop}\n======================\n\n* Changed the icon for the following features: Invite Splash, Banner, and Vanity URL\n* Added the guild commerce feature to the features section";
-    manifest.updateUrl =
-      "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
-    return manifest;
-  }
-
     @Override
     public void start(Context context) throws Throwable {
         final int sheetId = Utils.getResId("guild_profile_sheet_actions", "id");
@@ -107,7 +92,7 @@ public class GuildProfiles extends Plugin {
               LinearLayout layout = (LinearLayout) lo.findViewById(sheetId);
               Context ctx = layout.getContext();
               var clock = ClockFactory.get();
-              var p = Utils.dpToPx(16);
+              var p = DimenUtils.dpToPx(16);
               boolean showFriendsAct = settings.getBool("friendsAct", true);
               boolean showBlockedAct = settings.getBool("blockedAct", true);
               boolean showRolesAct = settings.getBool("rolesAct", true);
@@ -115,7 +100,7 @@ public class GuildProfiles extends Plugin {
 
               LinearLayout actions = (LinearLayout) ((FrameLayout) lo.findViewById(Utils.getResId("guild_profile_sheet_secondary_actions", "id"))).getChildAt(0);
               var members = guildStore.getMembers().get(guild.getId());
-              int changeNicknameIndex = actions.indexOfChild(actions.findViewById(Utils.getResId("guild_profile_sheet_change_nickname", "id"))) + 1;
+              int changeNicknameIndex = actions.findViewById(Utils.getResId("guild_profile_sheet_change_nickname", "id")) != null ? actions.indexOfChild(actions.findViewById(Utils.getResId("guild_profile_sheet_change_nickname", "id"))) + 1 : actions.indexOfChild(actions.findViewById(Utils.getResId("change_identity", "id"))) + 1;
 
               Map<Long, GuildRole> guildRoles = StoreStream.getGuilds().getRoles().get(guild.getId());
               if(guildRoles != null) {
@@ -266,14 +251,14 @@ public class GuildProfiles extends Plugin {
       GridLayout.LayoutParams params = new GridLayout.LayoutParams(GridLayout.spec(GridLayout.UNDEFINED, 1f), GridLayout.spec(GridLayout.UNDEFINED, 1f));
       section.setLayoutParams(params);
       section.setBackgroundColor(Color.TRANSPARENT);
-      section.setPadding(Utils.dpToPx(2), Utils.dpToPx(8), 0, 0);
+      section.setPadding(DimenUtils.dpToPx(2), DimenUtils.dpToPx(8), 0, 0);
 
       if(listener != null) {
         section.setOnLongClickListener(listener);
       } else {
         section.setOnLongClickListener(e -> {
           Utils.setClipboard(name, value);
-          Utils.showToast(c, "Copied to clipboard");
+          Utils.showToast("Copied to clipboard", false);
           return true;
         });
       }
@@ -293,10 +278,11 @@ public class GuildProfiles extends Plugin {
     }
 
     public void addFeatures(Context c, LinearLayout layout, Guild guild, int resId) {
+      if(guild.getFeatures().isEmpty()) return;
       LinearLayout section = new LinearLayout(c);
       section.setOrientation(LinearLayout.VERTICAL);
       section.setBackgroundColor(Color.TRANSPARENT);
-      section.setPadding(Utils.dpToPx(2), Utils.dpToPx(8), 0, 0);
+      section.setPadding(DimenUtils.dpToPx(2), DimenUtils.dpToPx(8), 0, 0);
       section.setId(resId);
 
       TextView header = new TextView(c, null, 0, R.h.UserProfile_Section_Header);
@@ -314,8 +300,8 @@ public class GuildProfiles extends Plugin {
       ChipGroup fList = new ChipGroup(c);
       LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
       fList.setLayoutParams(params);
-      fList.setPadding(0, Utils.dpToPx(8), 0, 0);
-      fList.setChipSpacingVertical(Utils.dpToPx(4)); fList.setChipSpacingHorizontal(Utils.dpToPx(4));
+      fList.setPadding(0, DimenUtils.dpToPx(8), 0, 0);
+      fList.setChipSpacingVertical(DimenUtils.dpToPx(4)); fList.setChipSpacingHorizontal(DimenUtils.dpToPx(4));
 
       if(guild.hasFeature(GuildFeature.COMMERCE)) addIcon(c, fList, R.d.ic_wallet_24dp, "Commerce", true);
       if(guild.hasFeature(GuildFeature.VIP_REGIONS)) addIcon(c, fList, R.d.ic_star_24dp, "VIP Regions", true);
@@ -342,8 +328,8 @@ public class GuildProfiles extends Plugin {
       ImageView icon = new ImageView(c);
       Drawable d = ContextCompat.getDrawable(c, iconId);
       if(d == null) d = ResourcesCompat.getDrawable(resources, iconId, null);
-      int size = Utils.dpToPx(20);
-      int p = Utils.dpToPx(5);
+      int size = DimenUtils.dpToPx(20);
+      int p = DimenUtils.dpToPx(5);
       LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(size, size);
       icon.setLayoutParams(layoutParams);
       if(changeTint) {
@@ -351,7 +337,7 @@ public class GuildProfiles extends Plugin {
           d.setTint(ColorCompat.getThemedColor(c, R.b.colorInteractiveNormal));
       }
       icon.setImageDrawable(d);
-      icon.setOnClickListener(e -> { Utils.showToast(c, name); });
+      icon.setOnClickListener(e -> { Utils.showToast(name, false); });
       layout.addView(icon);
     }
 

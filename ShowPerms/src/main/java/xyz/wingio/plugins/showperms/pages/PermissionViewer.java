@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
 import com.aliucord.Utils;
+import com.aliucord.utils.*;
 import com.aliucord.api.SettingsAPI;
 import com.aliucord.fragments.SettingsPage;
 import com.discord.api.role.GuildRole;
@@ -38,7 +39,7 @@ public class PermissionViewer extends SettingsPage {
     public void onViewBound(View view) {
         super.onViewBound(view);
         Context context = view.getContext();
-        int p = Utils.dpToPx(8);
+        int p = DimenUtils.dpToPx(8);
         setPadding(0);
         setActionBarTitle(role.g());
         try {

@@ -28,10 +28,12 @@ import androidx.core.content.res.ResourcesCompat;
 
 import xyz.wingio.plugins.BetterChannelIcons;
 import com.aliucord.Utils;
+import com.aliucord.utils.*;
 import com.aliucord.Logger;
 import com.aliucord.PluginManager;
 import com.aliucord.api.SettingsAPI;
 import com.aliucord.fragments.SettingsPage;
+import com.aliucord.utils.DimenUtils;
 import com.aliucord.utils.ReflectUtils;
 import com.aliucord.widgets.BottomSheet;
 import com.discord.widgets.user.Badge;
@@ -61,7 +63,7 @@ public class IconListSheet extends BottomSheet {
     @Override
     public void onViewCreated(View view, Bundle bundle) {
         super.onViewCreated(view, bundle);
-        int p = Utils.dpToPx(16);
+        int p = DimenUtils.dpToPx(16);
         boolean isAdvanced = settings.getBool("advanced_mode", false);
         setPadding(p);
         Context ctx = requireContext();
@@ -111,7 +113,7 @@ public class IconListSheet extends BottomSheet {
         try {
             ResourcesCompat.getDrawable(resources, Utils.getResId(icon, "drawable"), null);
         } catch(Throwable e) {
-            Utils.showToast(getContext(), "Icon not found");
+            Utils.showToast("Icon not found", false);
             return;
         }
         acs.setCurrentIcon(icon);

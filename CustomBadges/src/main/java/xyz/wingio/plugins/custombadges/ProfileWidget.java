@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.*;
 
 import com.aliucord.Constants;
 import com.aliucord.Utils;
+import com.aliucord.utils.*;
 import com.aliucord.views.*;
 import com.aliucord.views.Divider;
 import com.aliucord.PluginManager;
@@ -102,6 +103,7 @@ public class ProfileWidget extends LinearLayout {
         username_string.setSpan(new ForegroundColorSpan(ColorCompat.getThemedColor(ctx, R.b.colorHeaderPrimary)), 0, user.getUsername().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         username_string.setSpan(new CustomTypefaceSpan("", ResourcesCompat.getFont(ctx, Constants.Fonts.ginto_bold)), 0, user.getUsername().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         username_string.setSpan(new CustomTypefaceSpan("", ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_semibold)), user.getUsername().length(), user.getUsername().length() + 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        username_string.setSpan(new ForegroundColorSpan(ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal)), user.getUsername().length(), user.getUsername().length() + 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         username.setText(username_string);
 
         RecyclerView badges = (RecyclerView) constraintLayout.findViewById(Utils.getResId("user_profile_header_badges_recycler", "id"));
@@ -142,7 +144,7 @@ public class ProfileWidget extends LinearLayout {
 
         LinearLayout username_wrap = (LinearLayout) constraintLayout.findViewById(Utils.getResId("user_profile_header_name_wrap", "id"));
         ViewGroup.LayoutParams params = username_wrap.getLayoutParams();
-        params.height = Utils.dpToPx(31);
+        params.height = DimenUtils.dpToPx(31);
         username_wrap.setLayoutParams(params);
 
         SimpleDraweeView banner = (SimpleDraweeView) constraintLayout.findViewById(Utils.getResId("banner", "id"));

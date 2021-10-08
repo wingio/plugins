@@ -1,4 +1,4 @@
-package xyz.wingio.plugins.betterchannelicons;
+package xyz.wingio.plugins.favoritemessages;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -26,7 +26,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.*;
 import androidx.core.content.res.ResourcesCompat;
 
-import xyz.wingio.plugins.BetterChannelIcons;
 import com.aliucord.Utils;
 import com.aliucord.utils.*;
 import com.aliucord.Logger;
@@ -35,13 +34,9 @@ import com.aliucord.api.SettingsAPI;
 import com.aliucord.fragments.SettingsPage;
 import com.aliucord.utils.ReflectUtils;
 import com.aliucord.widgets.BottomSheet;
-import com.discord.widgets.user.Badge;
-import com.aliucord.views.TextInput;
-import com.aliucord.views.Button;
 import com.discord.app.AppBottomSheet;
 import com.discord.app.AppFragment;
 import com.discord.views.CheckedSetting;
-import com.discord.utilities.color.ColorCompat;
 import com.lytefast.flexinput.R;
 
 import kotlin.Unit;
@@ -49,22 +44,19 @@ import java.io.*;
 import java.util.*;
 
 public class SettingsSheet extends BottomSheet {
+    private SettingsAPI sets = PluginManager.plugins.get("FavoriteMessages").settings;
     private SettingsPage page;
-    private SettingsAPI settings;
-    private Integer currentIcon;
 
-    public SettingsSheet(SettingsPage page, SettingsAPI settings) {
+    public SettingsSheet(SettingsPage page) {
         this.page = page;
-        this.settings = settings;
     }
 
     @Override
     public void onViewCreated(View view, Bundle bundle) {
         super.onViewCreated(view, bundle);
         Context ctx = requireContext();
-        
-        addView(createSwitch(ctx, settings, "advanced_mode", "Advanced Mode", "Allows you to set whatever drawable you want for a channel icon", false, false));
-        addView(createSwitch(ctx, settings, "setToolbarIcon", "Set Toolbar Icon", "Change the channel icon in the toolbar", true, false));
+
+        addView(createSwitch(ctx, sets, "avatars", "Show Avatars", "Show avatars in messages", true, true));
     }
 
     private CheckedSetting createSwitch(Context context, SettingsAPI sets, String key, String label, CharSequence subtext, boolean defaultValue, boolean reRender) {
@@ -72,6 +64,9 @@ public class SettingsSheet extends BottomSheet {
         cs.setChecked(sets.getBool(key, defaultValue));
         cs.setOnCheckedListener(c -> {
             sets.setBool(key, c);
+            if (reRender) {
+                page.reRender();
+            }
         });
         return cs;
     }

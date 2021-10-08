@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.*;
 
 import xyz.wingio.plugins.CustomBadges;
 import com.aliucord.Utils;
+import com.aliucord.utils.*;
 import com.aliucord.Http;
 import com.aliucord.Logger;
 import com.aliucord.PluginManager;

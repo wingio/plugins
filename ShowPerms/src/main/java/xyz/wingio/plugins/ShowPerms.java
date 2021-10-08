@@ -22,6 +22,7 @@ import xyz.wingio.plugins.showperms.pages.*;
 
 import com.aliucord.Constants;
 import com.aliucord.Utils;
+import com.aliucord.utils.*;
 import com.aliucord.Logger;
 import com.aliucord.PluginManager;
 import com.aliucord.entities.Plugin;
@@ -36,6 +37,7 @@ import com.discord.api.permission.*;
 import com.discord.databinding.WidgetUserSheetBinding;
 import com.discord.models.guild.Guild;
 import com.discord.models.member.GuildMember;
+import com.discord.models.user.User;
 import com.discord.stores.*;
 import com.discord.utilities.permissions.PermissionUtils;
 import com.discord.utilities.auditlogs.AuditLogChangeUtils;
@@ -57,9 +59,10 @@ public class ShowPerms extends Plugin {
   }
   
   public Logger logger = new Logger("ShowPerms");
-  private int p = Utils.dpToPx(16);
+  private int p = DimenUtils.dpToPx(16);
   private Drawable pluginIcon;
   private Drawable pluginIconDark;
+  private static String ownerRoleSchema = "{\n\"color\": 0,\n\"hoist\": true,\n\"icon\": null,\n\"managed\": true,\n\"mentionable\": false,\n\"name\": \"Server Owner\",\n\"permissions\": 8,\n\"position\": 0,\n\"tags\": null,\n\"unicodeEmoji\": \"\"\n}";
 
   @Override
   public void start(Context context) throws Throwable {
@@ -84,9 +87,10 @@ public class ShowPerms extends Plugin {
         int connectionsHeaderIndex = content.indexOfChild(content.findViewById(Utils.getResId("user_sheet_connections_header", "id")));
 
         List<GuildRole> userRoles = new ArrayList<>(loaded.getRoleItems());
-        Channel apiChannel = loaded.getChannel();
-        Map<Long, GuildRole> guildRoles = StoreStream.getGuilds().getRoles().get(ChannelWrapper.getGuildId(apiChannel));
-        if(guildRoles.containsKey(ChannelWrapper.getGuildId(apiChannel))) userRoles.add(guildRoles.get(ChannelWrapper.getGuildId(apiChannel)));
+        Long guildId = loaded.getGuildId();
+        Guild guild = StoreStream.getGuilds().getGuilds().get(guildId);
+        Map<Long, GuildRole> guildRoles = StoreStream.getGuilds().getRoles().get(guildId);
+        if(guildRoles.containsKey(guildId)) userRoles.add(guildRoles.get(guildId));
 
         LinearLayout section = new LinearLayout(ctx); section.setId(sectionId); section.setOrientation(LinearLayout.VERTICAL);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT); params.setMargins(p, 0, p, 0);
@@ -104,9 +108,19 @@ public class ShowPerms extends Plugin {
         if(invertOrder) Collections.reverse(userRoles);
         Map<String, PermData> perms = PermUtils.getPermissions(userRoles);
         ChipGroup permView = new ChipGroup(ctx); permView.setChipSpacingVertical(p / 4); permView.setChipSpacingHorizontal(p / 4);
+
+        if((guild.getOwnerId() == loaded.getUser().getId())){
+          GuildRole ownerRole = (GuildRole) GsonUtils.fromJson(ownerRoleSchema, GuildRole.class);
+          PermChip chip = new PermChip(ctx, "Server Owner", new PermData("Server Owner", ownerRole));
+          if(showMinAdmin) perms.put("Owner", new PermData("Owner", ownerRole));
+          permView.addView(chip);
+        }
+
         for(String perm : perms.keySet()){
           PermChip chip = new PermChip(ctx, perm, perms.get(perm));
-          if(showMinAdmin && perm.equals("Administrator")){permView.addView(chip);} else if(showMinAdmin && !perms.containsKey("Administrator")) {permView.addView(chip);} else if (!showMinAdmin){permView.addView(chip);}
+          if(!perms.containsKey("Owner")) {
+            if(showMinAdmin && perm.equals("Administrator")){permView.addView(chip);} else if(showMinAdmin && !perms.containsKey("Administrator")) {permView.addView(chip);} else if (!showMinAdmin){permView.addView(chip);}
+          }
         }
         section.addView(permView);
 
@@ -119,16 +133,16 @@ public class ShowPerms extends Plugin {
     }));
 
     patcher.patch(RolesListView.class, "updateView", new Class<?>[]{List.class, int.class, long.class}, new PinePatchFn(callFrame -> {
-        List<GuildRole> roles = (List<GuildRole>) callFrame.args[0];
-        RolesListView _this = (RolesListView) callFrame.thisObject;
-        for(int i = 0; i < roles.size(); i++){
-          GuildRole role = roles.get(i);
-          View view = _this.getChildAt(i);
-          view.setOnLongClickListener(v -> {
-            Utils.openPageWithProxy(view.getContext(), new PermissionViewer(role));
-            return true;
-          });
-        }
+      List<GuildRole> roles = (List<GuildRole>) callFrame.args[0];
+      RolesListView _this = (RolesListView) callFrame.thisObject;
+      for(int i = 0; i < roles.size(); i++){
+        GuildRole role = roles.get(i);
+        View view = _this.getChildAt(i);
+        view.setOnLongClickListener(v -> {
+          Utils.openPageWithProxy(view.getContext(), new PermissionViewer(role));
+          return true;
+        });
+      }
     }));
 
   }

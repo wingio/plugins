@@ -1,4 +1,4 @@
-version = "1.2.0"
+version = "1.2.1"
 description = "Adds more server information to the server profile sheet"
 
 aliucord.changelog.set(

@@ -1,4 +1,4 @@
-version = "1.3.0"
+version = "1.3.1"
 description = "Shows user permissions in the profile sheet"
 
 aliucord.changelog.set(
