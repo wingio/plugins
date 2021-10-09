@@ -12,6 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 
 import com.aliucord.Utils;
+import com.aliucord.utils.*;
 import com.aliucord.PluginManager;
 import com.aliucord.api.SettingsAPI;
 import com.aliucord.utils.ReflectUtils;
@@ -29,17 +30,17 @@ public class PermChip extends MaterialCardView {
     public PermChip(Context ctx, String value, PermData perm) {
         super(ctx);
         var clr = Color.parseColor("#" + String.format("%06x", perm.role.b()));
-        int p = Utils.dpToPx(8);
+        int p = DimenUtils.dpToPx(8);
         LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         setLayoutParams(params);
-        setRadius(Utils.dpToPx(4));
+        setRadius(DimenUtils.dpToPx(4));
         setCardBackgroundColor(ColorCompat.getThemedColor(ctx, R.b.colorBackgroundTertiary));
 
         LinearLayout root = new LinearLayout(ctx);
         root.setOrientation(LinearLayout.HORIZONTAL);
         root.setVerticalGravity(Gravity.CENTER_VERTICAL);
         root.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-        root.setPadding(Utils.dpToPx(8), Utils.dpToPx(6), Utils.dpToPx(8), Utils.dpToPx(6));
+        root.setPadding(DimenUtils.dpToPx(8), DimenUtils.dpToPx(6), DimenUtils.dpToPx(8), DimenUtils.dpToPx(6));
 
         text = new TextView(ctx, null, 0, R.h.UiKit_TextAppearance_Semibold);
         text.setTextSize(12);
@@ -50,14 +51,14 @@ public class PermChip extends MaterialCardView {
         Drawable dotImg = ContextCompat.getDrawable(ctx, R.d.drawable_circle_white_12dp);
         dotImg.setTint(perm.role.b() != 0 ? clr : ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal));
         dot.setImageDrawable(dotImg);
-        LayoutParams dotParams = new LayoutParams(Utils.dpToPx(12), Utils.dpToPx(12));
-        dotParams.setMarginEnd(Utils.dpToPx(8));
+        LayoutParams dotParams = new LayoutParams(DimenUtils.dpToPx(12), DimenUtils.dpToPx(12));
+        dotParams.setMarginEnd(DimenUtils.dpToPx(8));
         dot.setLayoutParams(dotParams);
         
         if(settings.getBool("showDot", true)) root.addView(dot);
         root.addView(text);
         root.setOnClickListener(v -> {
-            Utils.showToast(ctx, perm.role.g());
+            Utils.showToast(perm.role.g(), false);
         });
         addView(root);
     }

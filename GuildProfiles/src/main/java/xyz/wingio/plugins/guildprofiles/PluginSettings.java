@@ -9,6 +9,7 @@ import androidx.core.content.res.ResourcesCompat;
 
 import com.aliucord.Constants;
 import com.aliucord.Utils;
+import com.aliucord.utils.*;
 import com.aliucord.PluginManager;
 import com.aliucord.api.SettingsAPI;
 import com.aliucord.api.NotificationsAPI;
@@ -60,7 +61,7 @@ public final class PluginSettings extends SettingsPage {
         layout.addView(createSwitch(context, settings, "createdAt", "Display 'Created At'", null, true));
         layout.addView(createSwitch(context, settings, "joinedAt", "Display 'Joined At'", null, true));
         layout.addView(createSwitch(context, settings, "vanityUrl", "Display 'Vanity URL'", null, true));
-        layout.addView(createSwitch(context, settings, "owner", "Display 'Owner'", Utils.renderMD("**Hint**: Long press on this field to open up their profile!"), true));
+        layout.addView(createSwitch(context, settings, "owner", "Display 'Owner'", MDUtils.render("**Hint**: Long press on this field to open up their profile!"), true));
         layout.addView(createSwitch(context, settings, "locale", "Display 'Language'", null, true));
         layout.addView(createSwitch(context, settings, "tier", "Display 'Boost Level'", null, true));
         layout.addView(createSwitch(context, settings, "verificationLevel", "Display 'Verification Level'", null, true));

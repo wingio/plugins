@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.*;
 import xyz.wingio.plugins.CustomBadges;
 import com.aliucord.Constants;
 import com.aliucord.Utils;
+import com.aliucord.utils.*;
 import com.aliucord.PluginManager;
 import com.aliucord.api.SettingsAPI;
 import com.aliucord.api.NotificationsAPI;
@@ -53,7 +54,7 @@ public final class EditUser extends SettingsPage {
         super.onViewBound(view);
         var context = view.getContext();
         if(user == null) {
-            Utils.showToast(context, "User invalid or not found");
+            Utils.showToast("User invalid or not found", false);
             getActivity().onBackPressed();
         } else {
             setActionBarTitle("Edit Badges");
@@ -72,7 +73,7 @@ public final class EditUser extends SettingsPage {
             
             LinearLayout buttons = new LinearLayout(context);
             buttons.setOrientation(LinearLayout.VERTICAL);
-            int p = Utils.dpToPx(16);
+            int p = DimenUtils.dpToPx(16);
             buttons.setPadding(p,p,p,0);
             buttons.addView(addBadge);
 

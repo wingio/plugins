@@ -15,6 +15,7 @@ import androidx.annotation.DimenRes;
 import androidx.fragment.app.FragmentActivity;
 
 import com.aliucord.Utils;
+import com.aliucord.utils.*;
 import com.aliucord.Http;
 import com.aliucord.Logger;
 import com.aliucord.fragments.SettingsPage;
@@ -63,8 +64,8 @@ public class BadgeAdapter extends RecyclerView.Adapter<BadgeHolder> {
     @Override
     public void onBindViewHolder(@NonNull BadgeHolder holder, int position) {
         Badge badge = badges.get(position);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(Utils.dpToPx(20), Utils.dpToPx(20));
-        params.setMargins(Utils.dpToPx(5), Utils.dpToPx(5), 0, 0);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(DimenUtils.dpToPx(20), DimenUtils.dpToPx(20));
+        params.setMargins(DimenUtils.dpToPx(5), DimenUtils.dpToPx(5), 0, 0);
         holder.icon.setLayoutParams(params);
         holder.icon.setImageResource(badge.getIcon());
     }

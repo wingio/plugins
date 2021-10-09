@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aliucord.Utils;
+import com.aliucord.utils.*;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 public class BadgeHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

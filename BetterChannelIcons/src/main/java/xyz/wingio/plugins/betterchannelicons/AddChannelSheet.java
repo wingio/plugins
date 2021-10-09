@@ -28,6 +28,8 @@ import androidx.core.content.res.ResourcesCompat;
 
 import xyz.wingio.plugins.BetterChannelIcons;
 import com.aliucord.Utils;
+import com.aliucord.utils.*;
+import com.aliucord.utils.DimenUtils;
 import com.aliucord.Logger;
 import com.aliucord.PluginManager;
 import com.aliucord.api.SettingsAPI;
@@ -61,7 +63,7 @@ public class AddChannelSheet extends BottomSheet {
     @Override
     public void onViewCreated(View view, Bundle bundle) {
         super.onViewCreated(view, bundle);
-        int p = Utils.dpToPx(16);
+        int p = DimenUtils.dpToPx(16);
         Map<String, String> iconSets = settings.getObject("icons", new HashMap<>(), BetterChannelIcons.iconStoreType);
         
         setPadding(p);
@@ -87,7 +89,7 @@ public class AddChannelSheet extends BottomSheet {
 
         icon = new ImageView(ctx);
         icon.setImageDrawable(badge);
-        var iconParams = new LinearLayout.LayoutParams(Utils.dpToPx(32), Utils.dpToPx(32));
+        var iconParams = new LinearLayout.LayoutParams(DimenUtils.dpToPx(32), DimenUtils.dpToPx(32));
         iconParams.setMargins(p / 2, 0, p, 0);
         icon.setLayoutParams(iconParams);
         icon.setScaleType(ImageView.ScaleType.FIT_CENTER);

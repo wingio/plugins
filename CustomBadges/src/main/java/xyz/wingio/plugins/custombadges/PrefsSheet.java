@@ -28,6 +28,7 @@ import androidx.core.content.res.ResourcesCompat;
 
 import xyz.wingio.plugins.CustomBadges;
 import com.aliucord.Utils;
+import com.aliucord.utils.*;
 import com.aliucord.Logger;
 import com.aliucord.PluginManager;
 import com.aliucord.api.SettingsAPI;
@@ -63,7 +64,7 @@ public class PrefsSheet extends BottomSheet {
     @Override
     public void onViewCreated(View view, Bundle bundle) {
         super.onViewCreated(view, bundle);
-        int p = Utils.dpToPx(8);
+        int p = DimenUtils.dpToPx(8);
         Context ctx = requireContext();
         addView(createSwitch(ctx, settings, "use_badge_db", "Use BadgeDB", "Wether to show badges from BadgeDB (github.com/wingio/BadgeDB)", true, false));
         addView(createSwitch(ctx, settings, "replace_badges", "Replace Badges", "Whether to replace badges with custom badges or to just add to current badges.", true, false));
@@ -72,9 +73,9 @@ public class PrefsSheet extends BottomSheet {
         clearCache.setOnClickListener(v -> {
             try {
                 badgeDB.clearCache();
-                Utils.showToast(ctx, "Cache cleared");
+                Utils.showToast("Cache cleared", false);
             } catch (Exception e) {
-                Utils.showToast(ctx, "Failed to clear cache");
+                Utils.showToast("Failed to clear cache", false);
             }
         });
         LinearLayout clearCacheView = new LinearLayout(ctx);

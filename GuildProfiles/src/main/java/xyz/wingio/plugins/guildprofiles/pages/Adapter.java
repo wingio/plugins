@@ -13,8 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.annotation.DimenRes;
 import androidx.fragment.app.FragmentActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.aliucord.Utils;
+import com.aliucord.utils.*;
 import com.aliucord.Http;
 import com.aliucord.Logger;
 import xyz.wingio.plugins.guildprofiles.util.*;
@@ -56,7 +58,7 @@ public class Adapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         var layout = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
-        return new ViewHolder(this, (RelativeLayout) layout);
+        return new ViewHolder(this, (ConstraintLayout) layout);
     }
 
     @Override
@@ -80,7 +82,7 @@ public class Adapter extends RecyclerView.Adapter<ViewHolder> {
         }
 
         holder.name.setText(friendUser.getUsername());
-        holder.nick.setVisibility(View.GONE);
+        if(holder.nick != null) holder.nick.setVisibility(View.GONE);
     }
 
     public void onClick(Context ctx, int position) {

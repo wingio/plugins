@@ -2,6 +2,7 @@ package xyz.wingio.plugins.custombadges.util;
 
 import com.aliucord.Http;
 import com.aliucord.Utils;
+import com.aliucord.utils.*;
 import com.aliucord.Logger;
 import java.util.*;
 

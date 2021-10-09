@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.aliucord.annotations.AliucordPlugin;
 import com.aliucord.Constants;
 import com.aliucord.Utils;
+import com.aliucord.utils.*;
 import com.aliucord.Logger;
 import com.aliucord.PluginManager;
 import com.aliucord.entities.Plugin;
@@ -75,22 +76,6 @@ public class CustomBadges extends Plugin {
     public RelativeLayout overlay;
     public static final Type badgeStoreType = TypeToken.getParameterized(HashMap.class, Long.class, List.class).getType();
     public BadgeDB badgeDB = new BadgeDB();
-
-  @NonNull
-  @Override
-  public Manifest getManifest() {
-    var manifest = new Manifest();
-    manifest.authors =
-      new Manifest.Author[] {
-        new Manifest.Author("Wing", 298295889720770563L),
-      };
-    manifest.description = "Edit badges for any user";
-    manifest.version = "1.1.2";
-    manifest.updateUrl =
-      "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
-    manifest.changelog = "Improved {improved marginTop}\n======================\n\n* Added link to badge guide in the creation sheet";
-    return manifest;
-  }
 
     @Override
     public void start(Context context) throws Throwable {

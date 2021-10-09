@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import androidx.core.content.ContextCompat;
 
 import com.aliucord.Utils;
+import com.aliucord.utils.*;
 import com.aliucord.fragments.SettingsPage;
 
 import com.discord.api.role.GuildRole;
@@ -40,7 +41,7 @@ public class UserPerms extends SettingsPage {
     public void onViewBound(View view) {
         super.onViewBound(view);
         Context ctx = view.getContext();
-        int p = Utils.dpToPx(16);
+        int p = DimenUtils.dpToPx(16);
         setActionBarTitle("Permissions for " + user.getUsername());
         if(guildName != null) {
             setActionBarSubtitle(guildName);

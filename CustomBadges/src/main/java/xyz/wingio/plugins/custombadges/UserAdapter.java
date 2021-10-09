@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.*;
 
 import com.aliucord.Utils;
+import com.aliucord.utils.*;
 import com.aliucord.Http;
 import com.aliucord.Logger;
 import com.aliucord.PluginManager;

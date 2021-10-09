@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.aliucord.Utils;
+import com.aliucord.utils.*;
 import com.aliucord.api.SettingsAPI;
 import com.discord.views.CheckedSetting;
 import com.discord.views.RadioManager;
@@ -29,7 +30,7 @@ public class PluginSettings extends AppBottomSheet {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Context context = inflater.getContext();
-        int p = Utils.dpToPx(16);
+        int p = DimenUtils.dpToPx(16);
         LinearLayout layout = new LinearLayout(context);
         layout.setOrientation(LinearLayout.VERTICAL);
         layout.setBackgroundColor(ColorCompat.getThemedColor(context, R.b.colorBackgroundPrimary));
