@@ -46,7 +46,7 @@ subprojects {
         val discord by configurations
         val implementation by configurations
 
-        discord("com.discord:discord:96102")
+        discord("com.discord:discord:96103")
         implementation("com.github.Aliucord:Aliucord:main-SNAPSHOT")
 
         implementation("androidx.appcompat:appcompat:1.3.1")
