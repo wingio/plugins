@@ -101,8 +101,8 @@ public class ProfileWidget extends LinearLayout {
         String userTag = (String) userUtils.getUserNameWithDiscriminator(user, null, null);
         Spannable username_string = new SpannableString(userTag);
         username_string.setSpan(new ForegroundColorSpan(ColorCompat.getThemedColor(ctx, R.b.colorHeaderPrimary)), 0, user.getUsername().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        username_string.setSpan(new CustomTypefaceSpan("", ResourcesCompat.getFont(ctx, Constants.Fonts.ginto_bold)), 0, user.getUsername().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        username_string.setSpan(new CustomTypefaceSpan("", ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_semibold)), user.getUsername().length(), user.getUsername().length() + 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        if(ResourcesCompat.getFont(ctx, Constants.Fonts.ginto_bold) != null) username_string.setSpan(new CustomTypefaceSpan("", ResourcesCompat.getFont(ctx, Constants.Fonts.ginto_bold)), 0, user.getUsername().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        if(ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_semibold) != null) username_string.setSpan(new CustomTypefaceSpan("", ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_semibold)), user.getUsername().length(), user.getUsername().length() + 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         username_string.setSpan(new ForegroundColorSpan(ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal)), user.getUsername().length(), user.getUsername().length() + 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         username.setText(username_string);
 
@@ -148,8 +148,15 @@ public class ProfileWidget extends LinearLayout {
         username_wrap.setLayoutParams(params);
 
         SimpleDraweeView banner = (SimpleDraweeView) constraintLayout.findViewById(Utils.getResId("banner", "id"));
-        banner.setBackgroundColor(0xFF9F4C4F);
-        MGImages.setImage$default(banner, IconUtils.INSTANCE.getForUserBanner(user.getId(), user.getBanner(), 4096, false), 0, 0, false, null, null, 92, null);
+        var bannerHash = user.getBanner();
+        if(bannerHash != null) {
+            banner.setImageURI(String.format("https://cdn.discordapp.com/banners/%s/%s.png?size=2048", user.getId(), bannerHash));
+            var bparams = banner.getLayoutParams();
+            bparams.height = DimenUtils.dpToPx(157);
+            banner.setLayoutParams(bparams);
+        } else {
+            banner.setBackgroundColor(0xFF9F4C4F);
+        }
 
         addView(constraintLayout);
     }
