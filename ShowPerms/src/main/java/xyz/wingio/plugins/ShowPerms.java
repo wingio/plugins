@@ -25,6 +25,7 @@ import com.aliucord.Utils;
 import com.aliucord.utils.*;
 import com.aliucord.Logger;
 import com.aliucord.PluginManager;
+import com.aliucord.api.CommandsAPI;
 import com.aliucord.entities.Plugin;
 import com.aliucord.patcher.PinePatchFn;
 import com.aliucord.annotations.AliucordPlugin;
@@ -32,6 +33,7 @@ import com.aliucord.wrappers.*;
 import com.aliucord.utils.ReflectUtils;
 
 import com.discord.api.channel.Channel;
+import com.discord.api.commands.ApplicationCommandType;
 import com.discord.api.role.GuildRole;
 import com.discord.api.permission.*;
 import com.discord.databinding.WidgetUserSheetBinding;
@@ -144,6 +146,18 @@ public class ShowPerms extends Plugin {
         });
       }
     }));
+
+    var roleOption = Utils.createCommandOption(ApplicationCommandType.ROLE, "role", "Any role", null, true, true, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), false);
+    commands.registerCommand("perms", "View permissions for a role", Arrays.asList(roleOption), ctx -> {
+      final Long roleId = ctx.getLong("role");
+      ChannelWrapper channel = ctx.getChannel();
+      if(!channel.isGuild()) return new CommandsAPI.CommandResult("You can only run this in a server", null, false);
+      Map<Long, GuildRole> guildRoles = StoreStream.getGuilds().getRoles().get(channel.getGuildId());
+      GuildRole role = guildRoles.get(roleId);
+      if(role == null) return new CommandsAPI.CommandResult("Unable to find that role", null, false);
+      Utils.openPageWithProxy(ctx.getContext(), new PermissionViewer(role));
+      return new CommandsAPI.CommandResult();
+    });
 
   }
 
