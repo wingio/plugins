@@ -27,7 +27,7 @@ import com.aliucord.Logger;
 import com.aliucord.PluginManager;
 import com.aliucord.api.CommandsAPI;
 import com.aliucord.entities.Plugin;
-import com.aliucord.patcher.PinePatchFn;
+import com.aliucord.patcher.*;
 import com.aliucord.annotations.AliucordPlugin;
 import com.aliucord.wrappers.*;
 import com.aliucord.utils.ReflectUtils;
@@ -147,6 +147,11 @@ public class ShowPerms extends Plugin {
       }
     }));
 
+    // patcher.patch(Class.forName("xyz.wingio.plugins.guildprofiles.pages.ServerRolesPage.RolesAdapter"), "onRoleClicked", new Class<?>[] { GuildRole.class }, new Hook(callFrame -> {
+    //   GuildRole role = (GuildRole) callFrame.args[0];
+    //   Utils.openPageWithProxy(context, new PermissionViewer(role));
+    // }));
+
     var roleOption = Utils.createCommandOption(ApplicationCommandType.ROLE, "role", "Any role", null, true, true, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), false);
     commands.registerCommand("perms", "View permissions for a role", Arrays.asList(roleOption), ctx -> {
       final Long roleId = ctx.getLong("role");
@@ -159,6 +164,10 @@ public class ShowPerms extends Plugin {
       return new CommandsAPI.CommandResult();
     });
 
+  }
+
+  public void openPermViewer(GuildRole role, com.discord.app.AppActivity ctx){
+    Utils.openPageWithProxy(ctx, new PermissionViewer(role));
   }
 
   @Override

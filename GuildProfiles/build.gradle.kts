@@ -1,16 +1,11 @@
-version = "1.2.1"
+version = "1.2.2"
 description = "Adds more server information to the server profile sheet"
 
 aliucord.changelog.set(
     """
-    New {added marginTop}\n======================
-    
-    * **Roles menu.** You can now view the roles a server has!
-    
     Improved {improved marginTop}
     ======================
     
-    * Changed the icon for the following features: Invite Splash, Banner, and Vanity URL
-    * Added the guild commerce feature to the features section
+    * Tapping a role in the roles list will now show its permissions (Only if ShowPerms v1.3.2+ is installed)
     """.trimIndent()
 )

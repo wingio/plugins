@@ -1,11 +1,11 @@
-version = "1.3.1"
+version = "1.3.2"
 description = "Shows user permissions in the profile sheet"
 
 aliucord.changelog.set(
     """
-    New! {added marginTop}
+    Improved {improved marginTop}
     ======================
     
-    * Added option to invert the permissions by lowest role to highest
+    * Allow external plugins to open the permission viewer, currently only used by GuildProfiles
     """.trimIndent()
 )
