@@ -6,11 +6,11 @@
     },
     "MessageLinkContext": {
         "version": "1.6.2",
-        "minimumDiscordVersion": 83210
+        "minimumDiscordVersion": 96100
     },
     "FriendNicknames": {
         "version": "1.3.4",
-        "minimumDiscordVersion": 83210
+        "minimumDiscordVersion": 96100
     },
     "HideCallButtons": {
         "version": "1.0.0",
@@ -18,27 +18,29 @@
     },
     "UserTags": {
         "version": "1.1.3",
-        "minimumDiscordVersion": 83210
+        "minimumDiscordVersion": 96100
     },
     "FavoriteMessages": {
         "version": "1.1.2",
-        "minimumDiscordVersion": 83210
+        "minimumDiscordVersion": 96100
     },
     "GuildProfiles": {
-        "version": "1.2.1",
-        "minimumDiscordVersion": 83210
+        "version": "1.2.2",
+        "minimumDiscordVersion": 96100,
+        "changelog": "Improved {improved marginTop}\n======================\n\n* Tapping a role in the roles list will now show its permissions (Only if ShowPerms v1.3.2+ is installed)"
     },
     "CustomBadges": {
         "version": "1.1.3",
-        "minimumDiscordVersion": 83210
+        "minimumDiscordVersion": 96100
     },
     "ShowPerms": {
-        "version": "1.3.1",
-        "minimumDiscordVersion": 83210
+        "version": "1.3.2",
+        "minimumDiscordVersion": 96100,
+        "changelog": "Improved {improved marginTop}\n======================\n\n* Allow external plugins to open the permission viewer, currently only used by GuildProfiles"
     },
     "BetterChannelIcons": {
         "version": "1.2.2",
-        "minimumDiscordVersion": 83210
+        "minimumDiscordVersion": 96100
     },
     "default": {
         "minimumDiscordVersion": 1456,
