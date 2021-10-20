@@ -1,4 +1,4 @@
-package xyz.wingio.plugins.discovery.views;
+package xyz.wingio.plugins.discovery.widgets;
 
 import android.content.Context;
 import android.view.*;
@@ -21,7 +21,7 @@ import com.google.android.material.card.MaterialCardView;
 
 import com.lytefast.flexinput.R;
 
-public class DiscoveryItem extends MaterialCardView {
+public class WidgetDiscoveryItem extends MaterialCardView {
     public final TextView name;
     public final TextView description;
     public final SimpleDraweeView icon;
@@ -30,7 +30,7 @@ public class DiscoveryItem extends MaterialCardView {
     public final TextView memberCount;
     public final TextView onlineCount;
 
-    public DiscoveryItem(Context ctx) {
+    public WidgetDiscoveryItem(Context ctx) {
         super(ctx);
         int p = DimenUtils.dpToPx(16);
         int p2 = p/2;
@@ -38,6 +38,7 @@ public class DiscoveryItem extends MaterialCardView {
         cardParams.setMargins(0, 0, 0, p2);
         setLayoutParams(cardParams);
         setCardBackgroundColor(ColorCompat.getThemedColor(ctx, R.b.colorBackgroundSecondary));
+        setRadius(DimenUtils.getDefaultCardRadius());
 
         LinearLayout root = new LinearLayout(ctx);
         root.setOrientation(LinearLayout.VERTICAL);
@@ -52,7 +53,7 @@ public class DiscoveryItem extends MaterialCardView {
         name.setTextSize(16f);
         name.setTypeface(ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_bold));
         name.setTextColor(ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal));
-        name.setCompoundDrawablePadding(p2);
+        name.setCompoundDrawablePadding(DimenUtils.dpToPx(6));
         name.setSingleLine(false);
 
         description = new TextView(ctx);

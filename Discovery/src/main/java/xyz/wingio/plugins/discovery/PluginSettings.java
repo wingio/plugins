@@ -35,7 +35,7 @@ public class PluginSettings extends AppBottomSheet {
         layout.setOrientation(LinearLayout.VERTICAL);
         layout.setBackgroundColor(ColorCompat.getThemedColor(context, R.b.colorBackgroundPrimary));
 
-        layout.addView(createSwitch(context, settings, "replaceHubAction", "Replace Hub Button", "Make hub button open discovery rather than the hub email page\n\nNote: Requires restart", true));
+        layout.addView(createSwitch(context, settings, "useHubAction", "Replace Hub Button", "Replaces hub button with discovery instead of having them both", false));
         return layout;
     }
 

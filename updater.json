@@ -30,7 +30,7 @@
         "changelog": "Improved {improved marginTop}\n======================\n\n* Tapping a role in the roles list will now show its permissions (Only if ShowPerms v1.3.2+ is installed)"
     },
     "CustomBadges": {
-        "version": "1.1.3",
+        "version": "1.1.4",
         "minimumDiscordVersion": 96100
     },
     "ShowPerms": {
@@ -43,8 +43,9 @@
         "minimumDiscordVersion": 96100
     },
     "Discovery": {
-        "version": "1.0.0",
-        "minimumDiscordVersion": 96100
+        "version": "1.1.0",
+        "minimumDiscordVersion": 96100,
+        "changelog": "Added {added marginTop}\n======================\n\n* You can now search for servers"
     },
     "default": {
         "minimumDiscordVersion": 1456,

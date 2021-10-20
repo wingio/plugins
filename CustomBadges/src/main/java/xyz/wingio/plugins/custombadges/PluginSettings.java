@@ -78,7 +78,7 @@ public final class PluginSettings extends SettingsPage {
         InputDialog dialog = new InputDialog();
         dialog.setTitle("Add User");
         dialog.setDescription("Enter the user's ID");
-        dialog.setPlaceholderText("User ID");
+        dialog.setPlaceholderText("User ID (ex. 298295889720770563)");
         dialog.setOnOkListener(e -> {
             var text = dialog.getInput();
             if (!text.isEmpty()) {

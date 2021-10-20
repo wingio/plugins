@@ -14,6 +14,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.widget.NestedScrollView;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import xyz.wingio.plugins.discovery.*;
 import xyz.wingio.plugins.discovery.api.*;
@@ -51,6 +52,7 @@ public class Discovery extends Plugin {
   public List<DiscoveryGuild> cache = new ArrayList<DiscoveryGuild>();
   public int totalDiscoveryServers = 0;
   private Drawable pluginIcon;
+  private boolean hasAddedBtn = false;
 
   public List<DiscoveryGuild> updateCache(DiscoveryResult prev) {
     cache.addAll(prev.guilds);
@@ -68,9 +70,7 @@ public class Discovery extends Plugin {
   public void start(Context context) throws Throwable {
     pluginIcon = ResourcesCompat.getDrawable(resources, resources.getIdentifier("ic_discovery_24dp", "drawable", "com.aliucord.plugins"), null);
 
-    boolean replaceHubAction = settings.getBool("replaceHubAction", true);
-
-    if(replaceHubAction) replaceHubAction(patcher);
+    patchHubAction(patcher);
 
     patcher.patch(WidgetSettings.class, "onViewBound", new Class<?>[]{ View.class }, new Hook(callFrame -> {
       CoordinatorLayout view = (CoordinatorLayout) callFrame.args[0];
@@ -86,26 +86,53 @@ public class Discovery extends Plugin {
       });
 
       v.addView(option, baseIndex + 1);
+      TextView dev = (TextView) v.findViewById(Utils.getResId("developer_options", "id"));
+      if(dev != null) dev.setOnLongClickListener(tv -> {
+        Utils.openPageWithProxy(ctx, new UITestingPage(this));
+        return true;
+      });
     }));
   }
 
-  public void replaceHubAction(PatcherAPI patcher) {
+  public void patchHubAction(PatcherAPI patcher) {
+    patcher.patch(WidgetGuildsList.class, "configureUI", new Class<?>[] {WidgetGuildsListViewModel.ViewState.class}, new Hook(callFrame -> {
+      WidgetGuildsList _this = (WidgetGuildsList) callFrame.thisObject;
+      WidgetGuildsListViewModel.ViewState viewState = (WidgetGuildsListViewModel.ViewState) callFrame.args[0];
+      if (viewState instanceof WidgetGuildsListViewModel.ViewState.Loaded) {
+        try{
+          WidgetGuildListAdapter widgetGuildListAdapter = (WidgetGuildListAdapter) ReflectUtils.getField(_this, "adapter");
+          WidgetGuildsListViewModel.ViewState.Loaded loaded = (WidgetGuildsListViewModel.ViewState.Loaded) viewState;
+          List<GuildListItem> items = loaded.getItems();
+          boolean useHubAction = settings.getBool("useHubAction", false);
+          if((items.get(items.size() - 2) instanceof GuildListItem.HubItem && items.get(items.size() - 3) instanceof GuildListItem.HubItem) == false) {
+            if(!useHubAction) items.add(items.size() - 2, new GuildListItem.HubItem(false));
+          }
+          widgetGuildListAdapter.setItems(items, false);
+        } catch(Throwable e) {logger.error("Couldn't add discovery icon", e);}
+      }
+    }));
+
     patcher.patch(WidgetGuildListAdapter.class, "onBindViewHolder", new Class<?>[]{GuildListViewHolder.class, int.class}, new Hook(callFrame -> {
       try {
         WidgetGuildListAdapter _this = (WidgetGuildListAdapter) callFrame.thisObject;
         GuildListViewHolder holder = (GuildListViewHolder) callFrame.args[0];
+        int pos = (int) callFrame.args[1];
         List<GuildListItem> items = (List<GuildListItem>) ReflectUtils.getField(_this, "items");
-        GuildListItem guildListItem = (GuildListItem) items.get((int) callFrame.args[1]);
-        if(guildListItem instanceof GuildListItem.HubItem){
-          FrameLayout layout = (FrameLayout) holder.itemView;
-          ImageView icon = (ImageView) layout.getChildAt(1);
-          Drawable compass = ResourcesCompat.getDrawable(resources, resources.getIdentifier("ic_discovery_24dp", "drawable", "com.aliucord.plugins"), null);
-          compass.mutate();
-          icon.setImageDrawable(compass);
-          
-          holder.itemView.setOnClickListener(v -> {
-            Utils.openPageWithProxy(v.getContext(), new DiscoveryPage(this));
-          });
+        GuildListItem guildListItem = (GuildListItem) items.get(pos);
+        if(pos == items.size() - 2) {
+          if(guildListItem instanceof GuildListItem.HubItem){
+            FrameLayout layout = (FrameLayout) holder.itemView;
+            ImageView icon = (ImageView) layout.getChildAt(1);
+            Drawable compass = ResourcesCompat.getDrawable(resources, resources.getIdentifier("ic_discovery_24dp", "drawable", "com.aliucord.plugins"), null);
+            compass.mutate();
+            icon.setImageDrawable(compass);
+            
+            holder.itemView.setOnClickListener(v -> {
+              Utils.openPageWithProxy(v.getContext(), new DiscoveryPage(this));
+            });
+          }
+        } else if(pos == items.size() - 3) {
+          if(guildListItem instanceof GuildListItem.HubItem){ FrameLayout layout = (FrameLayout) holder.itemView; ImageView icon = (ImageView) layout.getChildAt(1);icon.setImageResource(R.d.ic_hub_24dp); holder.itemView.setOnClickListener(new WidgetGuildListAdapter$onBindViewHolder$2(_this, holder, guildListItem)); }
         }
       } catch (Throwable e) {
         logger.error("Couldnt change hub icon", e);

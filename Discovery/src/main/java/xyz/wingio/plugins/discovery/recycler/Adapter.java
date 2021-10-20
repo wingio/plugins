@@ -9,7 +9,7 @@ import android.util.Base64;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import xyz.wingio.plugins.discovery.views.*;
+import xyz.wingio.plugins.discovery.widgets.*;
 import xyz.wingio.plugins.discovery.api.*;
 import xyz.wingio.plugins.discovery.util.*;
 
@@ -35,9 +35,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     public static final class ViewHolder extends RecyclerView.ViewHolder {
         private final Adapter adapter;
-        public final DiscoveryItem item;
+        public final WidgetDiscoveryItem item;
 
-        public ViewHolder(Adapter adapter, DiscoveryItem item) {
+        public ViewHolder(Adapter adapter, WidgetDiscoveryItem item) {
             super(item);
             this.adapter = adapter;
             this.item = item;
@@ -61,25 +61,28 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(this, new DiscoveryItem(ctx));
+        return new ViewHolder(this, new WidgetDiscoveryItem(ctx));
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         DiscoveryGuild guild = mData.get(position);
-        DiscoveryItem item = holder.item;
+        WidgetDiscoveryItem item = holder.item;
 
         item.name.setText(guild.name);
         if(guild.features.contains("VERIFIED")){
             item.name.setCompoundDrawablesWithIntrinsicBounds(R.d.ic_verified_badge_banner, 0, 0, 0);
         } else if (guild.features.contains("PARTNERED")) {
             item.name.setCompoundDrawablesWithIntrinsicBounds(R.d.ic_partnered_badge_banner, 0, 0, 0);
+        } else {
+            item.name.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
         }
 
         if(guild.icon != null) {
             var iconUrl = String.format("https://cdn.discordapp.com/icons/%s/%s.png?size=256", guild.id, guild.icon);
             item.icon.setImageURI(iconUrl);
         }
+        item.icon.setContentDescription(guild.name != null ? guild.name : "Discovery Server");
 
         if(guild.splash != null) {
             item.banner.setVisibility(View.VISIBLE);
@@ -89,11 +92,15 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             item.banner.setVisibility(View.VISIBLE);
             var bannerUrl = String.format("https://cdn.discordapp.com/banners/%s/%s.jpg?size=512", guild.id, guild.banner);
             item.banner.setImageURI(bannerUrl);
+        } else {
+            item.banner.setVisibility(View.GONE);
         }
 
         if(guild.description != null) {
             item.description.setVisibility(View.VISIBLE);
             item.description.setText(guild.description);
+        } else if(guild.description == null || guild.description.isEmpty()) {
+            item.description.setVisibility(View.GONE);
         }
 
         if(guild.approximate_presence_count != 0) {
@@ -105,6 +112,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         }
 
         if(guild.vanity_url_code != null) {
+            item.joinBtn.setText("Join");
+            item.joinBtn.setEnabled(true);
             item.joinBtn.setOnClickListener(v -> {
                 WidgetGuildInvite.Companion.launch(item.joinBtn.getContext(), new StoreInviteSettings.InviteCode(guild.vanity_url_code, "", null));
             });

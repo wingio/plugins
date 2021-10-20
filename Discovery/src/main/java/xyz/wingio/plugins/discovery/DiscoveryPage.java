@@ -1,10 +1,12 @@
 package xyz.wingio.plugins.discovery;
 
 import android.annotation.SuppressLint;
-import android.view.*;
-import android.widget.*;
 import android.content.Context;
+import android.text.*;
 import android.util.AttributeSet;
+import android.view.*;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.*;
 
 import androidx.core.content.res.ResourcesCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -13,6 +15,7 @@ import androidx.recyclerview.widget.*;
 import xyz.wingio.plugins.Discovery;
 import xyz.wingio.plugins.discovery.api.*;
 import xyz.wingio.plugins.discovery.recycler.Adapter;
+import xyz.wingio.plugins.discovery.views.SearchEditText;
 
 import com.aliucord.Constants;
 import com.aliucord.Utils;
@@ -39,12 +42,17 @@ import com.lytefast.flexinput.R;
 
 import kotlin.Unit;
 import java.util.*;
+import java.net.URLEncoder;
 
 @SuppressLint("SetTextI18n")
 public final class DiscoveryPage extends SettingsPage {
-    private List<DiscoveryGuild> cache;
-    private SettingsAPI settings;
-    private Discovery plugin;
+    public List<DiscoveryGuild> cache;
+    // public Map<String, List<DiscoveryGuild>> searchCache;
+    public SettingsAPI settings;
+    public Discovery plugin;
+    public Logger logger = new Logger("Discovery");
+    public int serverCount = 0;
+    public String currentSearch = "";
     
     public DiscoveryPage(Discovery plugin) {
         this.plugin = plugin;
@@ -56,7 +64,7 @@ public final class DiscoveryPage extends SettingsPage {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public void onViewBound(View view) {
         super.onViewBound(view);
-        setActionBarTitle("Discovery");
+        setActionBarTitle("Server Discovery");
         setActionBarSubtitle(null);
         setPadding(DimenUtils.dpToPx(16));
         var context = view.getContext();
@@ -70,13 +78,17 @@ public final class DiscoveryPage extends SettingsPage {
             loadMore.setEnabled(false);
             Utils.threadPool.execute(() -> {
                 try {
-                    final DiscoveryResult loaded = loadMore(adapter.getData(), 40);
+                    final DiscoveryResult loaded = currentSearch.isEmpty() ? loadMore(adapter.getData(), 40) : loadMore(adapter.getData(), 40, URLEncoder.encode(currentSearch, "UTF-8"));
                     Utils.mainThread.post(() -> {
                         adapter.addData(loaded.guilds);
-                        plugin.updateCache(loaded);
+                        if(currentSearch.isEmpty()) plugin.updateCache(loaded);
+                        serverCount = loaded.total;
                         loadMore.setEnabled(true);
+                        if(loaded.guilds.size() >= loaded.total){ 
+                            loadMore.setVisibility(View.GONE);
+                        } else {loadMore.setVisibility(View.VISIBLE);}
                     });
-                } catch (Throwable e) {}
+                } catch (Throwable e) {logger.error("Failed to load more", e);}
             });
         });
 
@@ -91,11 +103,12 @@ public final class DiscoveryPage extends SettingsPage {
                         adapter.setData(res.guilds);
                         plugin.updateCache(res);
                         plugin.setTotalDiscoveryServers(res.total);
+                        serverCount = res.total;
                         loadMore.setVisibility(View.VISIBLE);
                         info.setVisibility(View.GONE);
                     });
                 } catch (Throwable e) {
-                    new Logger("TestTube").error("Failed to get discovery", e);
+                    logger.error("Failed to get discovery", e);
                     Utils.mainThread.post(() -> {
                         this.setActionBarSubtitle("Failed to get discovery");
                         info.setText("Failed to get discovery");
@@ -115,7 +128,32 @@ public final class DiscoveryPage extends SettingsPage {
         recycler.setAdapter(adapter);
         recycler.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         
-        
+        SearchEditText search = new SearchEditText(context);
+        search.setHint(R.g.search);
+        search.setThemedEndIcon(R.d.ic_search_white_24dp);
+        LinearLayout.LayoutParams searchParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        searchParams.setMargins(0, 0, 0, DimenUtils.dpToPx(16));
+        search.setLayoutParams(searchParams);
+        search.getRoot().setEndIconVisible(false);
+        var searchOnClick = new SearchOnClick(search, this, adapter, loadMore);
+        search.getRoot().setEndIconOnClickListener(searchOnClick);
+
+        var editText = search.getEditText();
+        if (editText != null) {
+            editText.setMaxLines(1);
+            editText.addTextChangedListener(new TextWatcher() {
+                public void afterTextChanged(Editable s) {
+                    search.getRoot().setEndIconVisible(!s.toString().isEmpty());
+                    search.setThemedEndIcon(R.d.ic_search_white_24dp);
+                    search.getRoot().setEndIconOnClickListener(searchOnClick);
+                }
+
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+                public void onTextChanged(CharSequence s, int start, int before, int count) { }
+            });
+        }
+
+        layout.addView(search);
         layout.addView(info);
         layout.addView(recycler);
         layout.addView(loadMore);
@@ -138,5 +176,72 @@ public final class DiscoveryPage extends SettingsPage {
             .execute()
             .json(DiscoveryResult.class);
         return res;
+    }
+
+    public DiscoveryResult loadMore(List<DiscoveryGuild> current, int limit, String query) throws Throwable {
+        DiscoveryResult res = (DiscoveryResult) new Http.Request(String.format("https://discord.com/api/v9/discoverable-guilds?limit=%s&offset=%s&query=%s", limit, current.size(), query), "GET")
+            .setHeader("Authorization", (String) ReflectUtils.getField(StoreStream.getAuthentication(), "authToken"))
+            .setHeader("User-Agent", RestAPI.AppHeadersProvider.INSTANCE.getUserAgent())
+            .setHeader("X-Super-Properties", AnalyticSuperProperties.INSTANCE.getSuperPropertiesStringBase64())
+            .setHeader("Referer", "https://discord.com/guild-discovery")
+            .setHeader("Accept", "*/*")
+            .execute()
+            .json(DiscoveryResult.class);
+        return res;
+    }
+
+    public void dismissKeyboard() {
+        View view = Utils.appActivity.getCurrentFocus();
+        if(view != null) {  
+            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
+    public class SearchOnClick implements View.OnClickListener {
+        private SearchEditText search;
+        private DiscoveryPage page;
+        private Adapter adapter;
+        private Button loadMore;
+
+        public SearchOnClick(SearchEditText search, DiscoveryPage page, Adapter adapter, Button loadMore){
+            this.search = search;
+            this.page = page;
+            this.adapter = adapter;
+            this.loadMore = loadMore;
+        }
+
+        @Override
+        public void onClick(View view){
+            String text = search.getEditText().getText().toString();
+            if(!text.isEmpty()){
+                page.dismissKeyboard();
+                page.currentSearch = text;
+                Utils.threadPool.execute(() -> {
+                    try {
+                        DiscoveryResult searchRes = page.loadMore(new ArrayList<DiscoveryGuild>(), 48, URLEncoder.encode(text, "UTF-8"));
+                        Utils.mainThread.post(() -> {
+                            adapter.setData(searchRes.guilds);
+                            page.setActionBarSubtitle(searchRes.total + " servers");
+                            page.serverCount = searchRes.total;
+                            if(searchRes.guilds.size() >= searchRes.total){ 
+                                loadMore.setVisibility(View.GONE);
+                            } else {loadMore.setVisibility(View.VISIBLE);}
+                        });
+                    } catch (Throwable e) {}
+                });
+                search.setThemedEndIcon(R.d.ic_close_circle_nova_grey_24dp);
+                search.getRoot().setEndIconOnClickListener(s -> {
+                    adapter.setData(cache);
+                    setActionBarSubtitle(page.plugin.totalDiscoveryServers + " servers");
+                    page.serverCount = page.plugin.totalDiscoveryServers;
+                    search.getEditText().setText("");
+                    search.setThemedEndIcon(R.d.ic_search_white_24dp);
+                    search.getRoot().setEndIconOnClickListener(this);
+                    page.currentSearch = "";
+                    loadMore.setVisibility(View.VISIBLE);
+                });
+            }
+        }
     }
 }
