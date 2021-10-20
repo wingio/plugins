@@ -40,12 +40,10 @@ public final class EditUser extends SettingsPage {
     private User user;
     private final SettingsAPI settings;
     private BadgeDB badgeDB;
-    public AppFragment fragment;
-    public EditUser(SettingsAPI settings, Long userId, BadgeDB badgeDB, AppFragment fragment) {
+    public EditUser(SettingsAPI settings, Long userId, BadgeDB badgeDB) {
         this.user = StoreStream.getUsers().getUsers().get(userId);
         this.settings = settings;
         this.badgeDB = badgeDB;
-        this.fragment = fragment;
     }
 
     @Override

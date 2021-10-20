@@ -178,11 +178,7 @@ public class SettingsSheet extends BottomSheet {
         builder.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View widget) {
-                StoreStream.Companion.getMessagesLoader().jumpToMessage(847566769258233926L, 890729756444725268L);
-                getActivity().onBackPressed();
-                page.getActivity().onBackPressed();
-                page.fragment.getActivity().onBackPressed();
-                StoreStream.Companion.getTabsNavigation().selectTab(NavigationTab.HOME, true);
+                Utils.launchUrl("https://discord.com/channels/811255666990907402/847566769258233926/890729756444725268");
             }
         }, 0, "Icon Guide".length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         instructions.setMovementMethod(LinkMovementMethod.getInstance());
