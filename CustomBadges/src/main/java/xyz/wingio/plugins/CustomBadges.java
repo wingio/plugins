@@ -82,11 +82,16 @@ public class CustomBadges extends Plugin {
     public static final Type badgeStoreType = TypeToken.getParameterized(HashMap.class, Long.class, List.class).getType();
     public BadgeDB badgeDB = new BadgeDB();
     public int editBtnId = View.generateViewId();
+    public Logger logger = new Logger("CustomBadges");
+    public Field[] fields = R.d.class.getDeclaredFields();
+    public Map<Integer, String> drawableNames = new HashMap<>();
 
     @Override
     public void start(Context context) throws Throwable {
         var adapterField = UserProfileHeaderView.class.getDeclaredField("badgesAdapter"); adapterField.setAccessible(true);
-        
+        for(Field field : fields){
+            drawableNames.put((Integer) field.get(R.d.class), field.getName());
+        }
         
         patcher.patch(UserProfileHeaderView.class, "updateViewState", new Class<?>[]{ UserProfileHeaderViewModel.ViewState.Loaded.class }, new Hook(callFrame -> {
             try {
@@ -124,14 +129,29 @@ public class CustomBadges extends Plugin {
             } catch(Throwable e) { Logger logger = new Logger("CustomBadges"); logger.error("Error adding badges to user", e); }
         }));
 
+        patcher.patch(UserProfileHeaderView.BadgeViewHolder.class, "bind", new Class<?>[] { Badge.class }, new Hook(callFrame -> {
+            UserProfileHeaderView.BadgeViewHolder _this = (UserProfileHeaderView.BadgeViewHolder) callFrame.thisObject;
+            Badge badge = (Badge) callFrame.args[0];
+            try {
+                UserProfileHeaderBadgeBinding binding = (UserProfileHeaderBadgeBinding) ReflectUtils.getField(_this, "binding");
+                binding.b.setOnLongClickListener(v -> {
+                    String name = drawableNames.get(badge.getIcon());
+                    if(name == null) return true;
+                    Utils.setClipboard("Badge drawable name", name);
+                    Utils.showToast("Copied badge drawable name", false);
+                    return true;
+                });
+            } catch (Throwable e) {logger.error("Couldn't change badge longclick", e);}
+        }));
+
         patcher.patch(WidgetUserSheet.class, "configureProfileActionButtons", new Class<?>[]{ WidgetUserSheetViewModel.ViewState.Loaded.class }, new Hook(callFrame -> {
             try {
+                if(settings.getBool("showBadgeBtn", true) == false) return;
                 WidgetUserSheet view = (WidgetUserSheet) callFrame.thisObject;
                 WidgetUserSheetViewModel.ViewState.Loaded loaded = (WidgetUserSheetViewModel.ViewState.Loaded) callFrame.args[0];
                 WidgetUserSheetBinding binding = WidgetUserSheet.access$getBinding$p(view);
                 FlexboxLayout layout = (FlexboxLayout) binding.getRoot().findViewById(Utils.getResId("user_sheet_profile_edit_container", "id"));
                 layout.setVisibility(View.VISIBLE);
-                // android:layout_marginStart="8dp" app:layout_flexBasisPercent="50%" app:layout_flexGrow="1" style="@style/UiKit_Material_Button_Secondary_Fit"/>
                 Context ctx = view.getContext();
                 MaterialButton btn = new MaterialButton(new ContextThemeWrapper(ctx, R.h.UiKit_Material_Button_Secondary_Fit), null, 0);
                 btn.setId(editBtnId);
@@ -142,7 +162,7 @@ public class CustomBadges extends Plugin {
 
                 btn.setOnClickListener(v -> Utils.openPageWithProxy(ctx, new EditUser(settings, loaded.getUser().getId(), badgeDB)));
                 
-            } catch(Throwable e) { Logger logger = new Logger("CustomBadges"); logger.error("Error adding badges to user", e); }
+            } catch(Throwable e) { Logger logger = new Logger("CustomBadges"); logger.error("Error adding badge button to profile sheet", e); }
         }));
     }
 

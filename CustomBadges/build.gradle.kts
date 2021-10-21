@@ -1,4 +1,4 @@
-version = "1.2.0"
+version = "1.2.1"
 description = "Edit badges for any user"
 
 aliucord.changelog.set(
@@ -6,6 +6,7 @@ aliucord.changelog.set(
     Improved {improved marginTop}
     ======================
     
-    * Added button to user sheet to edit badges more easily
+    * Edit badges button can now be hidden in settings
+    * Long pressing a badge will now copy its drawable name
     """.trimIndent()
 )
