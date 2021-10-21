@@ -44,7 +44,7 @@
         "minimumDiscordVersion": 96100
     },
     "Discovery": {
-        "version": "1.1.0",
+        "version": "1.1.1",
         "minimumDiscordVersion": 96100,
         "changelog": "Added {added marginTop}\n======================\n\n* You can now search for servers"
     },

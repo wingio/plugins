@@ -104,6 +104,10 @@ public class Discovery extends Plugin {
           WidgetGuildsListViewModel.ViewState.Loaded loaded = (WidgetGuildsListViewModel.ViewState.Loaded) viewState;
           List<GuildListItem> items = loaded.getItems();
           boolean useHubAction = settings.getBool("useHubAction", false);
+          if(items.get(items.size() -2) instanceof GuildListItem.CreateItem){
+            logger.debug("Join button dumb");
+            items.add(items.size() - 1, new GuildListItem.HubItem(false));
+          }
           if((items.get(items.size() - 2) instanceof GuildListItem.HubItem && items.get(items.size() - 3) instanceof GuildListItem.HubItem) == false) {
             if(!useHubAction) items.add(items.size() - 2, new GuildListItem.HubItem(false));
           }
