@@ -127,7 +127,7 @@ public class BetterChannelIcons extends Plugin {
   }
 
   private Integer getChannelIcon(ChannelWrapper channel) throws Throwable {
-    if(channel == null) return null;
+    if(channel == null || channel.getName() == null) return null;
     var name = channel.getName().toLowerCase();
     Map<String, String> icons = settings.getObject("icons", new HashMap<>(), iconStoreType);
     if(icons.containsKey(name)) return Utils.getResId(icons.get(name), "drawable");
@@ -213,4 +213,3 @@ public class BetterChannelIcons extends Plugin {
   @Override
   public void stop(Context context) { patcher.unpatchAll(); }
 }
-
