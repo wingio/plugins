@@ -40,7 +40,7 @@
         "changelog": "Improved {improved marginTop}\n======================\n\n* Allow external plugins to open the permission viewer, currently only used by GuildProfiles"
     },
     "BetterChannelIcons": {
-        "version": "1.2.2",
+        "version": "1.2.3",
         "minimumDiscordVersion": 96100
     },
     "Discovery": {
