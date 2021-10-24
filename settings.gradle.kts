@@ -1,3 +1,3 @@
-include(":CustomBadges")
+include(":RCM")
 
 rootProject.name = "plugins"

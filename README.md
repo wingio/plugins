@@ -24,3 +24,9 @@ Edit badges for any user
 
 ### [BetterChannelIcons](https://github.com/wingio/plugins/raw/builds/BetterChannelIcons.zip)
 Adds an array of new channel icons
+
+### [Discovery](https://github.com/wingio/plugins/raw/builds/Discovery.zip)
+View server discovery
+
+### [RCM](https://github.com/wingio/plugins/raw/builds/RCM.zip)
+Adds a context menu to role mentions and chips
