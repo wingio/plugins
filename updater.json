@@ -48,6 +48,10 @@
         "minimumDiscordVersion": 96100,
         "changelog": "Added {added marginTop}\n======================\n\n* You can now search for servers"
     },
+    "RCM": {
+        "version": "1.0.0",
+        "minimumDiscordVersion": 96100
+    },
     "default": {
         "minimumDiscordVersion": 1456,
         "version": "1.0.0",
