@@ -61,7 +61,8 @@ public class MoreHighlight extends Plugin {
 
   public Logger logger = new Logger("MoreHighlight");
   public static Pattern REDDIT_REGEX = Pattern.compile("^<([ur])\\/([a-zA-Z0-9_]{3,20})>");
-  public static Pattern GITHUB_REGEX = Pattern.compile("^<([A-Za-z0-9-]{1,39})\\/([A-Za-z0-9-]{1,39})#([0-9]{1,})>");
+  public static Pattern ISSUE_REGEX = Pattern.compile("^<([A-Za-z0-9-]{1,39})\\/([A-Za-z0-9-]{1,39})#([0-9]{1,})>");
+  public static Pattern REPO_REGEX = Pattern.compile("^<gh:([A-Za-z0-9-]{1,39})/([A-Za-z0-9-]{1,39})>");
 
   @Override
   public void start(Context context) throws Throwable {
@@ -71,7 +72,8 @@ public class MoreHighlight extends Plugin {
         String str = (String) callFrame.args[1];
         ArrayList<Rule<MessageRenderContext, ? extends Node<MessageRenderContext>,MessageParseState>> rules = (ArrayList<Rule<MessageRenderContext, ? extends Node<MessageRenderContext>,MessageParseState>>) ReflectUtils.getField(parser, "rules");
         rules.add(0, new RedditRule(REDDIT_REGEX));
-        rules.add(0, new GithubRule(GITHUB_REGEX));
+        rules.add(0, new IssueRule(ISSUE_REGEX));
+        rules.add(0, new RepoRule(REPO_REGEX));
         ReflectUtils.setField(parser, "rules", rules);
         if (str == null) {
             str = "";
