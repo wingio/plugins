@@ -52,6 +52,10 @@
         "version": "1.0.0",
         "minimumDiscordVersion": 96100
     },
+    "MoreHighlight": {
+        "version": "1.0.0",
+        "minimumDiscordVersion": 96100
+    },
     "default": {
         "minimumDiscordVersion": 1456,
         "version": "1.0.0",
