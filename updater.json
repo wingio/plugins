@@ -53,8 +53,9 @@
         "minimumDiscordVersion": 96100
     },
     "MoreHighlight": {
-        "version": "1.0.0",
-        "minimumDiscordVersion": 96100
+        "version": "1.0.1",
+        "minimumDiscordVersion": 96100,
+        "changelog": "Added {added marginTop}\n======================\n\n* Added Github repo highlighting. (<gh:username/repo>)"
     },
     "default": {
         "minimumDiscordVersion": 1456,
