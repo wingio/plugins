@@ -30,3 +30,6 @@ View server discovery
 
 ### [RCM](https://github.com/wingio/plugins/raw/builds/RCM.zip)
 Adds a context menu to role mentions and chips
+
+### [MoreHighlight](https://github.com/wingio/plugins/raw/builds/MoreHighlight.zip)
+Adds more syntax highlighting options

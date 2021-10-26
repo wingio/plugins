@@ -1,3 +1,3 @@
-include(":RCM")
+include(":MoreHighlight")
 
 rootProject.name = "plugins"
