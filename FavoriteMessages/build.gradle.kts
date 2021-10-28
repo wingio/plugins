@@ -1,11 +1,11 @@
-version = "1.1.2"
+version = "1.1.3"
 description = "Organize your favorite messages"
 
 aliucord.changelog.set(
     """
-    Added {added marginTop}
+    Fixed {fixed marginTop}
     ======================
     
-    * **View author's profile.** You can now view the profile of a message author by either tapping on the avatar or username, or using the context menu.
+    * User and channel mentions now actually display properly.
     """.trimIndent()
 )

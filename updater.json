@@ -21,8 +21,9 @@
         "minimumDiscordVersion": 96100
     },
     "FavoriteMessages": {
-        "version": "1.1.2",
-        "minimumDiscordVersion": 96100
+        "version": "1.1.3",
+        "minimumDiscordVersion": 96100,
+        "changelog": "Fixed {fixed marginTop}\n======================\n\n* User and channel mentions now actually display properly."
     },
     "GuildProfiles": {
         "version": "1.2.2",
@@ -53,9 +54,9 @@
         "minimumDiscordVersion": 96100
     },
     "MoreHighlight": {
-        "version": "1.0.1",
+        "version": "1.1.0",
         "minimumDiscordVersion": 96100,
-        "changelog": "Added {added marginTop}\n======================\n\n* Added Github repo highlighting. (<gh:username/repo>)"
+        "changelog": "Added {added marginTop}\n======================\n\n* Plugin settings link. (ac://[Plugin Name] ex. ac://MoreHighlight)\n\nFixes {fixed marginTop}\n======================\n\n* (Hopefully) Fixed link color not appearing. "
     },
     "default": {
         "minimumDiscordVersion": 1456,

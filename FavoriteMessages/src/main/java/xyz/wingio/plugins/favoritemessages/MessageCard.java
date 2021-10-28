@@ -11,6 +11,7 @@ import android.graphics.drawable.shapes.RectShape;
 import android.graphics.Bitmap.Config;
 import android.graphics.PorterDuff.Mode;
 import android.text.*;
+import android.text.method.LinkMovementMethod;
 
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;

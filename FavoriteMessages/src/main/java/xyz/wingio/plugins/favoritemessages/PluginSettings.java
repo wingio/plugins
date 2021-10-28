@@ -52,6 +52,8 @@ import com.discord.app.AppFragment;
 import com.discord.widgets.user.usersheet.WidgetUserSheet;
 import com.discord.widgets.changelog.WidgetChangeLog;
 import com.discord.models.message.Message;
+import com.discord.models.user.User;
+import com.discord.api.role.GuildRole;
 import com.discord.stores.*;
 import com.discord.widgets.tabs.NavigationTab;
 import com.facebook.drawee.span.DraweeSpanStringBuilder;
@@ -197,6 +199,7 @@ public class PluginSettings extends SettingsPage {
         private final Context ctx;
         private final List<StoredMessage> originalData;
         private List<StoredMessage> data;
+        private Map<Long, String> usernames = new HashMap<>();
 
         public Adapter(AppFragment fragment, Map<Long, StoredMessage> favorites, SettingsPage page) {
             super();
@@ -229,7 +232,18 @@ public class PluginSettings extends SettingsPage {
             Long meId = StoreStream.getUsers().getMe().getId();
             boolean showAvatar = PluginManager.plugins.get("FavoriteMessages").settings.getBool("avatars", true);
             try {
-                DraweeSpanStringBuilder cnt = DiscordParser.parseChannelMessage(ctx, msg.content, new MessageRenderContext(ctx, meId, true), new MessagePreprocessor(meId, null), DiscordParser.ParserOptions.DEFAULT, false);
+                MessageRenderContext mrc = new MessageRenderContext(ctx, meId, true);
+                Map<Long, User> users = StoreStream.getUsers().getUsers();
+                for(Long uid : new ArrayList<>(users.keySet())){
+                    User u = users.get(uid);
+                    usernames.put(uid, u.getUsername());
+                }
+                Map<Long, String> channelNames = StoreStream.getChannels().getChannelNames();
+                Map<Long, GuildRole> roles = StoreStream.getGuilds().getRoles().get(msg.guildId);
+                ReflectUtils.setField(mrc, "userNames", usernames);
+                ReflectUtils.setField(mrc, "channelNames", channelNames);
+                ReflectUtils.setField(mrc, "roles", roles);
+                DraweeSpanStringBuilder cnt = DiscordParser.parseChannelMessage(ctx, msg.content, mrc, new MessagePreprocessor(meId, null), DiscordParser.ParserOptions.DEFAULT, false);
                 holder.card.contentView.setText(cnt);
             } catch (Throwable e) {
                 Logger l = new Logger("FavoriteMessages");

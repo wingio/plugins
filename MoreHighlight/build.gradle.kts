@@ -1,4 +1,4 @@
-version = "1.0.1"
+version = "1.1.0"
 description = "Adds more syntax highlighting options"
 
 aliucord.changelog.set(
@@ -6,6 +6,11 @@ aliucord.changelog.set(
     Added {added marginTop}
     ======================
     
-    * Added Github repo highlighting. (<gh:username/repo>)
+    * Plugin settings link. (ac://[Plugin Name] ex. ac://MoreHighlight)
+
+    Fixes {fixed marginTop}
+    ======================
+
+    * (Hopefully) Fixed link color not appearing. 
     """.trimIndent()
 )
