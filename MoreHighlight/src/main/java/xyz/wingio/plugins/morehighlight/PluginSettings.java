@@ -52,7 +52,7 @@ public final class PluginSettings extends SettingsPage {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public void onViewBound(View view) {
         super.onViewBound(view);
-        setActionBarTitle("Test Plugin");
+        setActionBarTitle("MoreHighlight");
         setPadding(p);
 
         var ctx = view.getContext();
