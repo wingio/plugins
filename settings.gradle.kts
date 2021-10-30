@@ -1,4 +1,3 @@
-include(":MoreHighlight")
-include(":FavoriteMessages")
+include(":ShowPerms")
 
 rootProject.name = "plugins"

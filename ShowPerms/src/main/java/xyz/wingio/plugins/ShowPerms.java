@@ -36,15 +36,18 @@ import com.discord.api.channel.Channel;
 import com.discord.api.commands.ApplicationCommandType;
 import com.discord.api.role.GuildRole;
 import com.discord.api.permission.*;
-import com.discord.databinding.WidgetUserSheetBinding;
+import com.discord.databinding.*;
 import com.discord.models.guild.Guild;
 import com.discord.models.member.GuildMember;
 import com.discord.models.user.User;
 import com.discord.stores.*;
+import com.discord.utilities.color.ColorCompat;
 import com.discord.utilities.permissions.PermissionUtils;
 import com.discord.utilities.auditlogs.AuditLogChangeUtils;
+import com.discord.widgets.channels.list.*;
 import com.discord.widgets.user.usersheet.*;
 import com.discord.widgets.roles.RolesListView;
+import com.discord.api.permission.PermissionOverwrite;
 
 import com.lytefast.flexinput.R;
 
@@ -72,7 +75,7 @@ public class ShowPerms extends Plugin {
 
     pluginIcon = ContextCompat.getDrawable(context, R.d.ic_shieldstar_24dp);
 
-    patcher.patch(WidgetUserSheet.class, "configureGuildSection", new Class<?>[]{WidgetUserSheetViewModel.ViewState.Loaded.class}, new PinePatchFn(callFrame -> {
+    patcher.patch(WidgetUserSheet.class, "configureGuildSection", new Class<?>[]{WidgetUserSheetViewModel.ViewState.Loaded.class}, new Hook(callFrame -> {
       try {
         int format = settings.getInt("format", 0);
         boolean showFullAdmin = (format == 1);
@@ -134,7 +137,7 @@ public class ShowPerms extends Plugin {
       } catch (Throwable e) {logger.error("Error showing permissions", e);}
     }));
 
-    patcher.patch(RolesListView.class, "updateView", new Class<?>[]{List.class, int.class, long.class}, new PinePatchFn(callFrame -> {
+    patcher.patch(RolesListView.class, "updateView", new Class<?>[]{List.class, int.class, long.class}, new Hook(callFrame -> {
       List<GuildRole> roles = (List<GuildRole>) callFrame.args[0];
       RolesListView _this = (RolesListView) callFrame.thisObject;
       for(int i = 0; i < roles.size(); i++){
@@ -147,10 +150,26 @@ public class ShowPerms extends Plugin {
       }
     }));
 
-    // patcher.patch(Class.forName("xyz.wingio.plugins.guildprofiles.pages.ServerRolesPage.RolesAdapter"), "onRoleClicked", new Class<?>[] { GuildRole.class }, new Hook(callFrame -> {
-    //   GuildRole role = (GuildRole) callFrame.args[0];
-    //   Utils.openPageWithProxy(context, new PermissionViewer(role));
-    // }));
+    patcher.patch(WidgetChannelsListItemChannelActions.class, "configureUI", new Class<?>[] { WidgetChannelsListItemChannelActions.Model.class }, new Hook(callFrame -> {
+      WidgetChannelsListItemChannelActions.Model model = (WidgetChannelsListItemChannelActions.Model) callFrame.args[0];
+      WidgetChannelsListItemChannelActions _this = (WidgetChannelsListItemChannelActions) callFrame.thisObject;
+      try {
+        WidgetChannelsListItemActionsBinding binding = (WidgetChannelsListItemActionsBinding) ReflectUtils.invokeMethod(_this, "getBinding");
+        ViewGroup root = (ViewGroup) ((ViewGroup) binding.getRoot()).getChildAt(0);
+        TextView permissionOption = new TextView(root.getContext(), null, 0, R.h.UiKit_Settings_Item_Icon);
+        Drawable permissionIcon = ContextCompat.getDrawable(root.getContext(), R.d.ic_flag_24dp).mutate();
+        permissionIcon.setTint(ColorCompat.getThemedColor(root.getContext(), R.b.colorInteractiveNormal));
+        permissionOption.setText("View Permissions");
+        permissionOption.setCompoundDrawablesWithIntrinsicBounds(permissionIcon, null, null, null);
+        List<Long> userIds = new ArrayList<>();for(PermissionOverwrite ow : model.getChannel().s()){if(ow.f() == PermissionOverwrite.Type.MEMBER) userIds.add(ow.e());} StoreStream.getUsers().fetchUsers(userIds);
+        permissionOption.setOnClickListener(v -> {
+          List<GuildRole> roles = new ArrayList<>(StoreStream.getGuilds().getRoles().get(model.getGuild().getId()).values());roles.sort(Comparator.comparing(GuildRole::i).reversed());
+          Utils.openPageWithProxy(root.getContext(), new UserPerms(model.getChannel()));
+        });
+        root.addView(permissionOption, 2);
+        
+      } catch (Throwable e) {logger.error("Error configuring channel actions", e);}
+    }));
 
     var roleOption = Utils.createCommandOption(ApplicationCommandType.ROLE, "role", "Any role", null, true, true, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), false);
     commands.registerCommand("perms", "View permissions for a role", Arrays.asList(roleOption), ctx -> {

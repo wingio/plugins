@@ -9,6 +9,7 @@ import com.aliucord.utils.ReflectUtils;
 import com.discord.api.role.GuildRole;
 import com.discord.api.permission.*;
 import com.discord.utilities.permissions.PermissionUtils;
+import com.discord.api.permission.PermissionOverwrite;
 
 import java.util.*;
 import java.lang.reflect.*;
@@ -77,6 +78,13 @@ public class PermUtils {
         }
 
         return permissions;
+    }
+
+    public static long applyOverwrites(long bits, PermissionOverwrite overwrite) throws Throwable {
+        long newBits = 0L;
+        newBits = bits | overwrite.c();
+        newBits = newBits &~ overwrite.d();
+        return newBits;
     }
   
 }

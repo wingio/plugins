@@ -1,11 +1,11 @@
-version = "1.3.2"
+version = "1.4.0"
 description = "Shows user permissions in the profile sheet"
 
 aliucord.changelog.set(
     """
-    Improved {improved marginTop}
+    New {added marginTop}
     ======================
     
-    * Allow external plugins to open the permission viewer, currently only used by GuildProfiles
+    * Added ability to view individual channel overwrites
     """.trimIndent()
 )
