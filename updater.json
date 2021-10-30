@@ -36,9 +36,9 @@
         "changelog": "Improved {improved marginTop}\n======================\n\n* Edit badges button can now be hidden in settings\n* Long pressing a badge will now copy its drawable name"
     },
     "ShowPerms": {
-        "version": "1.3.2",
+        "version": "1.4.0",
         "minimumDiscordVersion": 96100,
-        "changelog": "Improved {improved marginTop}\n======================\n\n* Allow external plugins to open the permission viewer, currently only used by GuildProfiles"
+        "changelog": "New {added marginTop}\n======================\n\n* Added ability to view individual channel overwrites"
     },
     "BetterChannelIcons": {
         "version": "1.2.2",
