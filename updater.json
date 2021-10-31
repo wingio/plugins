@@ -41,7 +41,7 @@
         "changelog": "New {added marginTop}\n======================\n\n* Added ability to view individual channel overwrites\nFixes {fixed marginTop}\n======================\n\n* Fixed 'View Permissions' option not appearing on hidden channels"
     },
     "BetterChannelIcons": {
-        "version": "1.2.2",
+        "version": "1.2.3",
         "minimumDiscordVersion": 96100
     },
     "Discovery": {
