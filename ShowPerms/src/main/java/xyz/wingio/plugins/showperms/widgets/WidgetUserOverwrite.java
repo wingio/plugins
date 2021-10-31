@@ -6,6 +6,8 @@ import android.widget.*;
 import android.graphics.drawable.*;
 import android.graphics.drawable.shapes.*;
 
+import androidx.core.graphics.ColorUtils;
+
 import com.aliucord.utils.*;
 
 import com.discord.models.member.GuildMember;
@@ -24,6 +26,7 @@ public class WidgetUserOverwrite extends LinearLayout {
     private int p = DimenUtils.dpToPx(16);
     private SimpleDraweeView avatar;
     private TextView name;
+    private TextView nick;
     
     public WidgetUserOverwrite(Context context) {
         super(context);
@@ -58,12 +61,26 @@ public class WidgetUserOverwrite extends LinearLayout {
         name.setTextSize(15f);
         ll.addView(name);
 
+        nick = new TextView(ctx, null, 0, R.h.UiKit_TextAppearance_Semibold);
+        nick.setText("UNKNOWN_USER");
+        nick.setVisibility(GONE);
+        nick.setTextSize(12f);
+        nick.setTextColor(ColorUtils.setAlphaComponent(ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal), 110));
+        ll.addView(nick);
+
         addView(ll);
     }
     
-    public WidgetUserOverwrite setUser(User user) {
+    public WidgetUserOverwrite setUser(User user, Long guildId) {
+        GuildMember member = StoreStream.getGuilds().getMembers().get(guildId).get(user.getId());
         avatar.setImageURI(IconUtils.getForUser(user.getId(), user.getAvatar()));
-        name.setText(user.getUsername() + UserUtils.INSTANCE.padDiscriminator(user.getDiscriminator()));
+        if(member == null || member.getNick() == null || member.getNick().isEmpty()) {
+            name.setText(user.getUsername() + UserUtils.INSTANCE.padDiscriminator(user.getDiscriminator()));
+        } else {
+            name.setText(member.getNick());
+            nick.setText(user.getUsername() + UserUtils.INSTANCE.padDiscriminator(user.getDiscriminator()));
+            nick.setVisibility(View.VISIBLE);
+        }
         return this;
     }
 }

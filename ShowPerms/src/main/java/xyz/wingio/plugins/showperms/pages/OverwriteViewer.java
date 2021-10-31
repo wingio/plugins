@@ -43,22 +43,24 @@ public class OverwriteViewer extends SettingsPage {
     private GuildRole role;
     private User user;
     private String channelName;
+    private Long guildId;
 
-    public OverwriteViewer(PermissionOverwrite ow, User user, String channelName) {
-        this(ow, user, null, channelName);
+    public OverwriteViewer(PermissionOverwrite ow, User user, String channelName, Long guildId) {
+        this(ow, user, null, channelName, guildId);
     }
 
-    public OverwriteViewer(PermissionOverwrite ow, GuildRole role, String channelName) {
-        this(ow, null, role, channelName);
+    public OverwriteViewer(PermissionOverwrite ow, GuildRole role, String channelName, Long guildId) {
+        this(ow, null, role, channelName, guildId);
     }
 
-    public OverwriteViewer(PermissionOverwrite ow, User user, GuildRole role, String channelName) {
+    public OverwriteViewer(PermissionOverwrite ow, User user, GuildRole role, String channelName, Long guildId) {
         this.ow = ow;
         this.allowed = ow.c();
         this.denied = ow.d();
         this.role = role;
         this.user = user;
         this.channelName = channelName;
+        this.guildId = guildId;
     }
 
     
@@ -86,7 +88,7 @@ public class OverwriteViewer extends SettingsPage {
         }
 
         if(user != null){
-            WidgetUserOverwrite wuo = new WidgetUserOverwrite(context).setUser(user);
+            WidgetUserOverwrite wuo = new WidgetUserOverwrite(context).setUser(user, guildId);
             wuo.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             item.addView(wuo);
         }

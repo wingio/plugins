@@ -44,6 +44,7 @@ import com.discord.stores.*;
 import com.discord.utilities.color.ColorCompat;
 import com.discord.utilities.permissions.PermissionUtils;
 import com.discord.utilities.auditlogs.AuditLogChangeUtils;
+import com.discord.utilities.permissions.PermissionUtils;
 import com.discord.widgets.channels.list.*;
 import com.discord.widgets.user.usersheet.*;
 import com.discord.widgets.roles.RolesListView;
@@ -166,8 +167,7 @@ public class ShowPerms extends Plugin {
           List<GuildRole> roles = new ArrayList<>(StoreStream.getGuilds().getRoles().get(model.getGuild().getId()).values());roles.sort(Comparator.comparing(GuildRole::i).reversed());
           Utils.openPageWithProxy(root.getContext(), new UserPerms(model.getChannel()));
         });
-        root.addView(permissionOption, 2);
-        
+        if(PluginManager.plugins.get("ShowHiddenChannels") != null && PluginManager.isPluginEnabled("ShowHiddenChannels") && !PermissionUtils.INSTANCE.hasAccess(model.getChannel(), model.getPermissions())) { root.addView(permissionOption); } else { root.addView(permissionOption, 2); }
       } catch (Throwable e) {logger.error("Error configuring channel actions", e);}
     }));
 

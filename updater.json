@@ -36,9 +36,9 @@
         "changelog": "Improved {improved marginTop}\n======================\n\n* Edit badges button can now be hidden in settings\n* Long pressing a badge will now copy its drawable name"
     },
     "ShowPerms": {
-        "version": "1.4.0",
+        "version": "1.4.1",
         "minimumDiscordVersion": 96100,
-        "changelog": "New {added marginTop}\n======================\n\n* Added ability to view individual channel overwrites"
+        "changelog": "New {added marginTop}\n======================\n\n* Added ability to view individual channel overwrites\nFixes {fixed marginTop}\n======================\n\n* Fixed 'View Permissions' option not appearing on hidden channels"
     },
     "BetterChannelIcons": {
         "version": "1.2.2",

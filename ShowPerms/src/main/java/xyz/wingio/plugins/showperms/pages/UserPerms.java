@@ -107,7 +107,7 @@ public class UserPerms extends SettingsPage {
                         roleView.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
                         roleView.setTextColor(role.b() == 0 ? ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal) : clr);
                         roleView.setOnClickListener(v -> {
-                            Utils.openPageWithProxy(ctx, new OverwriteViewer(overwrite, role, channel.getName()));
+                            Utils.openPageWithProxy(ctx, new OverwriteViewer(overwrite, role, channel.getName(), channel.getGuildId()));
                         });
                         addView(roleView);
                     }
@@ -131,9 +131,9 @@ public class UserPerms extends SettingsPage {
                     if(usr != null){
                         userHeader.setVisibility(View.VISIBLE);
                         div.setVisibility(View.VISIBLE);
-                        WidgetUserOverwrite owView = new WidgetUserOverwrite(ctx).setUser(usr);
+                        WidgetUserOverwrite owView = new WidgetUserOverwrite(ctx).setUser(usr, channel.getGuildId());
                         owView.setOnClickListener(v -> {
-                            Utils.openPageWithProxy(ctx, new OverwriteViewer(overwrite, usr, channel.getName()));
+                            Utils.openPageWithProxy(ctx, new OverwriteViewer(overwrite, usr, channel.getName(), channel.getGuildId()));
                         });
                         addView(owView);
                     }
