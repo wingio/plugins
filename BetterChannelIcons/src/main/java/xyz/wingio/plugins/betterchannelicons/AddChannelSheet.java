@@ -54,9 +54,15 @@ public class AddChannelSheet extends BottomSheet {
     private SettingsAPI settings;
     private String currentIcon;
     private ImageView icon;
+    private Long channelId;
 
     public AddChannelSheet(SettingsPage page, SettingsAPI settings) {
         this.page = page;
+        this.settings = settings;
+    }
+
+    public AddChannelSheet(Long channelId, SettingsAPI settings) {
+        this.channelId = channelId;
         this.settings = settings;
     }
 
@@ -64,7 +70,7 @@ public class AddChannelSheet extends BottomSheet {
     public void onViewCreated(View view, Bundle bundle) {
         super.onViewCreated(view, bundle);
         int p = DimenUtils.dpToPx(16);
-        Map<String, String> iconSets = settings.getObject("icons", new HashMap<>(), BetterChannelIcons.iconStoreType);
+        Map<String, String> iconSets = settings.getObject("icons", new HashMap<>(), xyz.wingio.plugins.betterchannelicons.Utils.iconStoreType);
         
         setPadding(p);
         Context ctx = requireContext();
@@ -81,7 +87,7 @@ public class AddChannelSheet extends BottomSheet {
         channelName.setHint("Channel name");
         LinearLayout.LayoutParams iconLParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         channelName.setLayoutParams(iconLParams);
-        channelName.getEditText().setText("");
+        channelName.getEditText().setText(channelId == null || channelId == 0 ? "" : "id:" + channelId);
 
         var resources = ctx.getResources();
         Drawable badge = ResourcesCompat.getDrawable(resources, R.d.ic_open_in_new_grey_24dp, null).mutate();
@@ -111,12 +117,12 @@ public class AddChannelSheet extends BottomSheet {
                 try {
                     var ic = ContextCompat.getDrawable(ctx, Utils.getResId(currentIcon, "drawable"));
                     var chName = name.toLowerCase();
-                    if(!iconSets.containsKey(chName)){
-                        iconSets.put(chName, currentIcon);
-                        settings.setObject("icons", iconSets);
-                        Toast.makeText(ctx, "Added icon", Toast.LENGTH_SHORT).show();
-                    }
-                    page.reRender();
+                    iconSets.remove(chName);
+                    iconSets.put(chName, currentIcon);
+                    settings.setObject("icons", iconSets);
+                    Toast.makeText(ctx, "Added icon", Toast.LENGTH_SHORT).show();
+                    
+                    if(page != null) page.reRender();
                     dismiss();
                 } catch (Throwable e) {
                     Logger logger = new Logger("BCI");

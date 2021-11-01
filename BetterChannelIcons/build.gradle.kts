@@ -1,11 +1,11 @@
-version = "1.2.3"
+version = "1.3.0"
 description = "Adds an array of new channel icons"
 
 aliucord.changelog.set(
     """
-    Fixes {fixed marginTop}
+    New {added marginTop}
     ======================
     
-    * Small fixes
+    * Added option to change icon of an individual channel
     """.trimIndent()
 )

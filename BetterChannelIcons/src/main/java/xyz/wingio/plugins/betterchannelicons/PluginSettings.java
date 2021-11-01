@@ -41,7 +41,7 @@ public class PluginSettings extends SettingsPage {
 
         RecyclerView recyclerView = new RecyclerView(ctx);
         recyclerView.setLayoutManager(new LinearLayoutManager(ctx));
-        Map<String, String> icons = settings.getObject("icons", new HashMap<>(), BetterChannelIcons.iconStoreType);
+        Map<String, String> icons = settings.getObject("icons", new HashMap<>(), xyz.wingio.plugins.betterchannelicons.Utils.iconStoreType);
         
         
         recyclerView.setAdapter(new IconListAdapter(this, icons));
