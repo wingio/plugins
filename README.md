@@ -33,3 +33,6 @@ Adds a context menu to role mentions and chips
 
 ### [MoreHighlight](https://github.com/wingio/plugins/raw/builds/MoreHighlight.zip)
 Adds more syntax highlighting options
+
+### [TwemojiEverywhere](https://github.com/wingio/plugins/raw/builds/TwemojiEverywhere.zip)
+Enables Twemoji in more than just chat

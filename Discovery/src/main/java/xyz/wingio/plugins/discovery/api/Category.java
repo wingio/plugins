@@ -15,4 +15,13 @@ public class Category {
         public String fr;
         public String ru;
     }
+
+    public enum Type {
+        GAMING,
+        MUSIC,
+        ENTERTAINMENT,
+        ART,
+        SCIENCE,
+        EDUCATION,
+    }
 }

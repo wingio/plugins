@@ -59,6 +59,10 @@
         "minimumDiscordVersion": 96100,
         "changelog": "Added {added marginTop}\n======================\n\n* Plugin settings link. (ac://[Plugin Name] ex. ac://MoreHighlight)\n\nFixes {fixed marginTop}\n======================\n\n* (Hopefully) Fixed link color not appearing. "
     },
+    "TwemojiEverywhere": {
+        "version": "1.0.0",
+        "minimumDiscordVersion": 96100
+    },
     "default": {
         "minimumDiscordVersion": 1456,
         "version": "1.0.0",

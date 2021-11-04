@@ -1,21 +1,16 @@
-package xyz.wingio.plugins.discovery;
+package xyz.wingio.plugins.twemojieverywhere;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.text.*;
-import android.util.AttributeSet;
 import android.view.*;
 import android.widget.*;
+import android.content.Context;
+import android.util.AttributeSet;
 
 import androidx.core.content.res.ResourcesCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.*;
 
-import xyz.wingio.plugins.Discovery;
-import xyz.wingio.plugins.discovery.api.*;
-import xyz.wingio.plugins.discovery.recycler.Adapter;
-import xyz.wingio.plugins.discovery.views.SearchEditText;
-import xyz.wingio.plugins.discovery.widgets.*;
+import xyz.wingio.plugins.TwemojiEverywhere;
 
 import com.aliucord.Constants;
 import com.aliucord.Utils;
@@ -27,32 +22,29 @@ import com.aliucord.api.SettingsAPI;
 import com.aliucord.api.NotificationsAPI;
 import com.aliucord.fragments.SettingsPage;
 import com.aliucord.views.Divider;
-import com.aliucord.views.Button;
-import com.aliucord.views.TextInput;
 import com.aliucord.entities.NotificationData;
 
 import com.discord.views.CheckedSetting;
 import com.discord.views.RadioManager;
-import com.discord.views.RadioManager;
 import com.discord.widgets.user.profile.UserProfileHeaderView;
 import com.discord.stores.*;
 import com.discord.models.user.User;
+import com.discord.panels.*;
 import com.discord.utilities.rest.RestAPI;
 import com.discord.utilities.analytics.AnalyticSuperProperties;
 import com.lytefast.flexinput.R;
 
 import kotlin.Unit;
 import java.util.*;
-import java.net.URLEncoder;
 
 @SuppressLint("SetTextI18n")
-public final class UITestingPage extends SettingsPage {
+public final class PluginSettings extends SettingsPage {
     private SettingsAPI settings;
-    private Discovery plugin;
-    private Logger logger = new Logger("Discovery");
+    private TwemojiEverywhere plugin;
     private int p = DimenUtils.dpToPx(16);
+    private int i = 0;
     
-    public UITestingPage(Discovery plugin) {
+    public PluginSettings(TwemojiEverywhere plugin) {
         this.plugin = plugin;
         this.settings = plugin.settings;
     }
@@ -61,26 +53,17 @@ public final class UITestingPage extends SettingsPage {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public void onViewBound(View view) {
         super.onViewBound(view);
-        setActionBarTitle("Discovery");
-        setActionBarSubtitle("UI Testing Page");
-        setPadding(p);
-        Context ctx = view.getContext();
-        LinearLayout layout = getLinearLayout();
+        setActionBarTitle("TwemojiEverywhere");
+        setPadding(0);
 
-        LinearLayout.LayoutParams marginBottomParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        marginBottomParams.setMargins(0, 0, 0, p);
-        
-        SearchEditText search = new SearchEditText(ctx);
-        search.setLayoutParams(marginBottomParams);
+        var ctx = view.getContext();
+        var layout = getLinearLayout();
 
-        WidgetDiscoveryItem discoveryItem = new WidgetDiscoveryItem(ctx);
-        discoveryItem.setLayoutParams(marginBottomParams);
-
-        WidgetItemCategory cat = new WidgetItemCategory(ctx);
-
-        layout.addView(search);
-        layout.addView(discoveryItem);
-        layout.addView(cat);
+        layout.addView(createSwitch(ctx, settings, "chat_names", "Show in Chat Names", null, true));
+        layout.addView(createSwitch(ctx, settings, "in_profile_sheet", "Show in Profile Sheet", null, true));
+        layout.addView(createSwitch(ctx, settings, "show_in_member_list", "Show in Member List", null, true));
+        layout.setOnClickListener(v -> {i++; if(i == 10) {layout.addView(createSwitch(ctx, settings, "in_server_popout_name", "Custom Emotes", null, false));layout.addView(createSwitch(ctx, settings, "true_twemoji", "Truely everywhere", "WARNING: This option may cause huge performance issues and may not work in all places", false));}});
+        //layout.addView(createSwitch(ctx, settings, "in_server_name", "Show in Server Name", null, true));
     }
 
     private CheckedSetting createSwitch(Context context, SettingsAPI sets, String key, String label, String subtext, boolean defaultValue) {

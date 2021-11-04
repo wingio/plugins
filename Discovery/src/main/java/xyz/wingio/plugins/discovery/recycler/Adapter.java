@@ -35,9 +35,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     public static final class ViewHolder extends RecyclerView.ViewHolder {
         private final Adapter adapter;
-        public final WidgetDiscoveryItem item;
+        public final ViewGroup item;
 
-        public ViewHolder(Adapter adapter, WidgetDiscoveryItem item) {
+        public ViewHolder(Adapter adapter, ViewGroup item) {
             super(item);
             this.adapter = adapter;
             this.item = item;
@@ -67,7 +67,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         DiscoveryGuild guild = mData.get(position);
-        WidgetDiscoveryItem item = holder.item;
+        WidgetDiscoveryItem item = (WidgetDiscoveryItem) holder.item;
 
         item.name.setText(guild.name);
         if(guild.features.contains("VERIFIED")){
