@@ -69,14 +69,14 @@ public class TwemojiEverywhere extends Plugin {
       if(!Settings.inChatNames()) return;
       WidgetChatListAdapterItemMessage _this = (WidgetChatListAdapterItemMessage) callFrame.thisObject;
       try {
-        TextView author = (TextView) ReflectUtils.getField(_this, "itemName");
+        TextView author = (TextView) _this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_text_name", "id"));
         CharSequence text = author.getText();
         author.setText(renderTwemoji(author.getContext(), text));
       } catch(Throwable e){}
     }));
 
-    patcher.patch(TextView.class, "setText", new Class<?>[]{ CharSequence.class }, new Hook(callFrame -> {
-      if(!Settings.enabledEverywhere()) return;
+      
+    if(Settings.enabledEverywhere()) patcher.patch(TextView.class, "setText", new Class<?>[]{ CharSequence.class }, new Hook(callFrame -> {
       TextView _this = (TextView) callFrame.thisObject;
       try {
         CharSequence text = (CharSequence) callFrame.args[0];

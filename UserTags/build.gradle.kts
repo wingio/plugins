@@ -1,4 +1,4 @@
-version = "1.1.3"
+version = "1.1.4"
 description = "Gives any user custom bot tags"
 
 aliucord.changelog.set(

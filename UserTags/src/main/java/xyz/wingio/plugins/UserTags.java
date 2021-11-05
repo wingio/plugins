@@ -74,8 +74,6 @@ public class UserTags extends Plugin {
     @Override
     public void start(Context context) throws Throwable {
         var id = View.generateViewId();
-        var itemTagField = WidgetChatListAdapterItemMessage.class.getDeclaredField("itemTag");
-        itemTagField.setAccessible(true);
         var bindingField = ChannelMembersListViewHolderMember.class.getDeclaredField("binding");
         bindingField.setAccessible(true);
         
@@ -83,10 +81,11 @@ public class UserTags extends Plugin {
             Message msg = (Message) callFrame.args[0];
             User author = msg.getAuthor();
             CoreUser coreUser = new CoreUser(author);
+            WidgetChatListAdapterItemMessage _this = (WidgetChatListAdapterItemMessage) callFrame.thisObject;
             
             try{
                 boolean showTag = false;
-                TextView textView = (TextView) itemTagField.get(callFrame.thisObject);
+                TextView textView = (TextView) _this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_text_tag", "id"));
                 String tag = settings.getString(String.valueOf(coreUser.getId()), null);
                 boolean verified = settings.getBool(coreUser.getId() + "_verified", false);
                 boolean isServer = (msg.getType() == 0 && msg.getMessageReference() != null);
