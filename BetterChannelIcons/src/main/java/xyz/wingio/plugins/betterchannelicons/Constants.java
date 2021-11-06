@@ -8,7 +8,7 @@ import java.util.*;
 import java.lang.reflect.*;
 
 public class Constants {
-    public static Field[] fields = R.d.class.getDeclaredFields();
+    public static Field[] fields = R.e.class.getDeclaredFields();
     public static final Map<String, String> iconMap = new HashMap<>() {{
         put("Chat Bubble", "ic_chat_message_white_24dp");
         put("Help", "ic_help_24dp");
@@ -25,7 +25,7 @@ public class Constants {
         put("Microphone", "ic_mic_grey_24dp");
         put("Mic Muted", "ic_mic_muted_grey_24dp");
         put("Headset", "ic_headset_24dp");
-        put("Github", "ic_github_white");
+        put("Github", "ic_account_github_white_24dp");
         put("D-Pad", "ic_games_24dp");
         put("Controller", "ic_controller_24dp");
         put("Slash Command", "ic_slash_command_24dp");
@@ -34,7 +34,7 @@ public class Constants {
     public static List<Integer> getIcons() throws Throwable{
         List<Integer> icons = new ArrayList<>();
         for(Field field : fields) {
-            icons.add((Integer) field.get(R.d.class));
+            icons.add((Integer) field.get(R.e.class));
         }
         return icons;
     }
@@ -42,7 +42,7 @@ public class Constants {
     public static Map<Integer, String> getIconNameMap() throws Throwable {
         Map<Integer, String> iconMap = new HashMap<>();
         for(Field field : fields) {
-            iconMap.put((Integer) field.get(R.d.class), field.getName());
+            iconMap.put((Integer) field.get(R.e.class), field.getName());
         }
         return iconMap;
     }
@@ -50,7 +50,7 @@ public class Constants {
     public static Map<String, Integer> getIconMap() throws Throwable {
         Map<String, Integer> iconMap = new HashMap<>();
         for(Field field : fields) {
-            iconMap.put(field.getName(), (Integer) field.get(R.d.class));
+            iconMap.put(field.getName(), (Integer) field.get(R.e.class));
         }
         return iconMap;
     }

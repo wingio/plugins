@@ -20,7 +20,7 @@ import com.aliucord.utils.*;
 import com.aliucord.Logger;
 import com.aliucord.PluginManager;
 import com.aliucord.entities.Plugin;
-import com.aliucord.patcher.PinePatchFn;
+import com.aliucord.patcher.Hook;
 import com.aliucord.annotations.AliucordPlugin;
 import com.discord.utilities.color.ColorCompat;
 import com.discord.api.premium.PremiumTier;
@@ -77,7 +77,7 @@ public class UserTags extends Plugin {
         var bindingField = ChannelMembersListViewHolderMember.class.getDeclaredField("binding");
         bindingField.setAccessible(true);
         
-        patcher.patch(WidgetChatListAdapterItemMessage.class, "configureItemTag", new Class<?>[] { Message.class }, new PinePatchFn(callFrame -> {
+        patcher.patch(WidgetChatListAdapterItemMessage.class, "configureItemTag", new Class<?>[] { Message.class }, new Hook(callFrame -> {
             Message msg = (Message) callFrame.args[0];
             User author = msg.getAuthor();
             CoreUser coreUser = new CoreUser(author);
@@ -99,7 +99,7 @@ public class UserTags extends Plugin {
                         textView.setText("DEV");
                     }
                     if(UserUtils.INSTANCE.isVerifiedBot(coreUser) || coreUser.getId() == 298295889720770563L || verified == true) {
-                        textView.setCompoundDrawablesWithIntrinsicBounds(R.d.ic_verified_10dp, 0, 0, 0);
+                        textView.setCompoundDrawablesWithIntrinsicBounds(R.e.ic_verified_10dp, 0, 0, 0);
                     }
                 }
             } catch(Throwable e) {
@@ -107,7 +107,7 @@ public class UserTags extends Plugin {
             }
         }));
         
-        patcher.patch(ChannelMembersListViewHolderMember.class, "bind", new Class<?>[]{ ChannelMembersListAdapter.Item.Member.class, Function0.class}, new PinePatchFn(callFrame -> {
+        patcher.patch(ChannelMembersListViewHolderMember.class, "bind", new Class<?>[]{ ChannelMembersListAdapter.Item.Member.class, Function0.class}, new Hook(callFrame -> {
             try {
                 WidgetChannelMembersListItemUserBinding binding = (WidgetChannelMembersListItemUserBinding) bindingField.get(callFrame.thisObject);
                 ConstraintLayout layout = (ConstraintLayout) binding.getRoot();
@@ -121,7 +121,7 @@ public class UserTags extends Plugin {
                     TextView tagText = (TextView) layout.findViewById(Utils.getResId("username_tag", "id"));
                     tagText.setText(String.valueOf(tag));
                     if(user.getUserId() == 298295889720770563L || verified == true) {
-                        tagText.setCompoundDrawablesWithIntrinsicBounds(R.d.ic_verified_10dp, 0, 0, 0);
+                        tagText.setCompoundDrawablesWithIntrinsicBounds(R.e.ic_verified_10dp, 0, 0, 0);
                     }
                     tagText.setVisibility(View.VISIBLE);
                 }
@@ -131,7 +131,7 @@ public class UserTags extends Plugin {
         var profileBinding = UserProfileHeaderView.class.getDeclaredField("binding");
         profileBinding.setAccessible(true);
 
-        patcher.patch(UserProfileHeaderView.class, "updateViewState", new Class<?>[]{ UserProfileHeaderViewModel.ViewState.Loaded.class }, new PinePatchFn(callFrame -> {
+        patcher.patch(UserProfileHeaderView.class, "updateViewState", new Class<?>[]{ UserProfileHeaderViewModel.ViewState.Loaded.class }, new Hook(callFrame -> {
             try {
                 UserProfileHeaderViewBinding binding = (UserProfileHeaderViewBinding) profileBinding.get(callFrame.thisObject);
                 
@@ -145,7 +145,7 @@ public class UserTags extends Plugin {
                     TextView tagText = (TextView) binding.a.findViewById(Utils.getResId("username_tag", "id"));
                     tagText.setText(String.valueOf(tag));
                     if(user.getId() == 298295889720770563L || verified == true) {
-                        tagText.setCompoundDrawablesWithIntrinsicBounds(R.d.ic_verified_10dp, 0, 0, 0);
+                        tagText.setCompoundDrawablesWithIntrinsicBounds(R.e.ic_verified_10dp, 0, 0, 0);
                     }
                     tagText.setVisibility(View.VISIBLE);
                 }

@@ -83,14 +83,14 @@ public class CustomBadges extends Plugin {
     public BadgeDB badgeDB = new BadgeDB();
     public int editBtnId = View.generateViewId();
     public Logger logger = new Logger("CustomBadges");
-    public Field[] fields = R.d.class.getDeclaredFields();
+    public Field[] fields = R.e.class.getDeclaredFields();
     public Map<Integer, String> drawableNames = new HashMap<>();
 
     @Override
     public void start(Context context) throws Throwable {
         var adapterField = UserProfileHeaderView.class.getDeclaredField("badgesAdapter"); adapterField.setAccessible(true);
         for(Field field : fields){
-            drawableNames.put((Integer) field.get(R.d.class), field.getName());
+            drawableNames.put((Integer) field.get(R.e.class), field.getName());
         }
         
         patcher.patch(UserProfileHeaderView.class, "updateViewState", new Class<?>[]{ UserProfileHeaderViewModel.ViewState.Loaded.class }, new Hook(callFrame -> {
@@ -124,7 +124,7 @@ public class CustomBadges extends Plugin {
                     }
                 }
 
-                if(user.getId() == 298295889720770563L) badgeList.add(new Badge(R.d.ic_verified_badge_banner, "Verified", "CustomBadges Developer", false, null));
+                if(user.getId() == 298295889720770563L) badgeList.add(new Badge(R.e.ic_verified_badge_banner, "Verified", "CustomBadges Developer", false, null));
                 adapter.setData(badgeList);
             } catch(Throwable e) { Logger logger = new Logger("CustomBadges"); logger.error("Error adding badges to user", e); }
         }));
@@ -153,7 +153,7 @@ public class CustomBadges extends Plugin {
                 FlexboxLayout layout = (FlexboxLayout) binding.getRoot().findViewById(Utils.getResId("user_sheet_profile_edit_container", "id"));
                 layout.setVisibility(View.VISIBLE);
                 Context ctx = view.getContext();
-                MaterialButton btn = new MaterialButton(new ContextThemeWrapper(ctx, R.h.UiKit_Material_Button_Secondary_Fit), null, 0);
+                MaterialButton btn = new MaterialButton(new ContextThemeWrapper(ctx, R.i.UiKit_Material_Button_Secondary_Fit), null, 0);
                 btn.setId(editBtnId);
                 btn.setText("Edit Badges");
                 btn.setLayoutParams(layout.findViewById(Utils.getResId(String.format("user_sheet_profile_%s_button", !loaded.isMe() ? "edit" : "identity"), "id")).getLayoutParams());

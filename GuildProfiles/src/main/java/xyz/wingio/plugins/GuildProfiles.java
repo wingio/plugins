@@ -25,7 +25,7 @@ import com.aliucord.utils.*;
 import com.aliucord.Logger;
 import com.aliucord.PluginManager;
 import com.aliucord.entities.Plugin;
-import com.aliucord.patcher.PinePatchFn;
+import com.aliucord.patcher.Hook;
 import com.aliucord.fragments.*;
 import xyz.wingio.plugins.guildprofiles.*;
 import xyz.wingio.plugins.guildprofiles.pages.*;
@@ -77,7 +77,7 @@ public class GuildProfiles extends Plugin {
         final int rolesId = View.generateViewId();
         final int featuresId = View.generateViewId();
 
-        patcher.patch(WidgetGuildProfileSheet.class, "configureUI", new Class<?>[]{ WidgetGuildProfileSheetViewModel.ViewState.Loaded.class }, new PinePatchFn(callFrame -> {
+        patcher.patch(WidgetGuildProfileSheet.class, "configureUI", new Class<?>[]{ WidgetGuildProfileSheetViewModel.ViewState.Loaded.class }, new Hook(callFrame -> {
             WidgetGuildProfileSheet _this = (WidgetGuildProfileSheet) callFrame.thisObject;
             WidgetGuildProfileSheetViewModel.ViewState.Loaded state = (WidgetGuildProfileSheetViewModel.ViewState.Loaded) callFrame.args[0];
             var guildStore = StoreStream.getGuilds();
@@ -107,7 +107,7 @@ public class GuildProfiles extends Plugin {
                 TextView rolesBtn = new TextView(actions.getContext(), null, 0, Utils.getResId("GuildProfileSheet.Actions.Title", "style"));
                 rolesBtn.setId(rolesId);
                 rolesBtn.setText("Roles");
-                rolesBtn.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.d.ic_chevron_right_grey_12dp, 0);
+                rolesBtn.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.e.ic_chevron_right_grey_12dp, 0);
                 rolesBtn.setTypeface(ResourcesCompat.getFont(actions.getContext(), Constants.Fonts.whitney_semibold));
                 rolesBtn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                 rolesBtn.setPadding(p, p, p, p);
@@ -122,7 +122,7 @@ public class GuildProfiles extends Plugin {
               TextView blockedBtn = new TextView(actions.getContext(), null, 0, Utils.getResId("GuildProfileSheet.Actions.Title", "style"));
               blockedBtn.setId(blockedId);
               blockedBtn.setText("Blocked Users");
-              blockedBtn.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.d.ic_chevron_right_grey_12dp, 0);
+              blockedBtn.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.e.ic_chevron_right_grey_12dp, 0);
               blockedBtn.setTypeface(ResourcesCompat.getFont(actions.getContext(), Constants.Fonts.whitney_semibold));
               blockedBtn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
               blockedBtn.setPadding(p, p, p, p);
@@ -135,7 +135,7 @@ public class GuildProfiles extends Plugin {
               TextView mutualBtn = new TextView(actions.getContext(), null, 0, Utils.getResId("GuildProfileSheet.Actions.Title", "style"));
               mutualBtn.setId(tabId);
               mutualBtn.setText("Friends");
-              mutualBtn.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.d.ic_chevron_right_grey_12dp, 0);
+              mutualBtn.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.e.ic_chevron_right_grey_12dp, 0);
               mutualBtn.setTypeface(ResourcesCompat.getFont(actions.getContext(), Constants.Fonts.whitney_semibold));
               mutualBtn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
               mutualBtn.setPadding(p, p, p, p);
@@ -263,13 +263,13 @@ public class GuildProfiles extends Plugin {
         });
       }
 
-      TextView header = new TextView(c, null, 0, R.h.UserProfile_Section_Header);
+      TextView header = new TextView(c, null, 0, R.i.UserProfile_Section_Header);
       header.setText(name);
       header.setTypeface(ResourcesCompat.getFont(c, Constants.Fonts.whitney_bold));
       header.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
       section.addView(header);
 
-      TextView info = new TextView(c, null, 0, R.h.UserProfile_Section_Header);
+      TextView info = new TextView(c, null, 0, R.i.UserProfile_Section_Header);
       info.setText(value);
       info.setTypeface(ResourcesCompat.getFont(c, Constants.Fonts.whitney_semibold));
       info.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -285,7 +285,7 @@ public class GuildProfiles extends Plugin {
       section.setPadding(DimenUtils.dpToPx(2), DimenUtils.dpToPx(8), 0, 0);
       section.setId(resId);
 
-      TextView header = new TextView(c, null, 0, R.h.UserProfile_Section_Header);
+      TextView header = new TextView(c, null, 0, R.i.UserProfile_Section_Header);
       header.setText("Features");
       header.setTypeface(ResourcesCompat.getFont(c, Constants.Fonts.whitney_bold));
       header.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -303,23 +303,23 @@ public class GuildProfiles extends Plugin {
       fList.setPadding(0, DimenUtils.dpToPx(8), 0, 0);
       fList.setChipSpacingVertical(DimenUtils.dpToPx(4)); fList.setChipSpacingHorizontal(DimenUtils.dpToPx(4));
 
-      if(guild.hasFeature(GuildFeature.COMMERCE)) addIcon(c, fList, R.d.ic_wallet_24dp, "Commerce", true);
-      if(guild.hasFeature(GuildFeature.VIP_REGIONS)) addIcon(c, fList, R.d.ic_star_24dp, "VIP Regions", true);
-      if(guild.hasFeature(GuildFeature.INVITE_SPLASH)) addIcon(c, fList, R.d.ic_flex_input_image_24dp_dark, "Invite Splash", true);
-      if(guild.hasFeature(GuildFeature.VANITY_URL)) addIcon(c, fList, R.d.ic_diag_link_24dp, "Vanity URL", true);
-      if(guild.hasFeature(GuildFeature.PARTNERED)) addIcon(c, fList, R.d.ic_profile_badge_partner_32dp, "Partnered", true);
-      if(guild.hasFeature(GuildFeature.VERIFIED)) addIcon(c, fList, R.d.ic_verified_badge, "Verified", false);
-      if(guild.hasFeature(GuildFeature.MORE_EMOJI)) addIcon(c, fList, R.d.ic_add_reaction_grey_a60_24dp, "More Emoji", true);
-      if(guild.hasFeature(GuildFeature.BANNER)) addIcon(c, fList, R.d.ic_image_library_24dp, "Banner", true);
-      if(guild.hasFeature(GuildFeature.NEWS)) addIcon(c, fList, R.d.ic_channel_announcements, "Announcements", true);
-      if(guild.hasFeature(GuildFeature.DISCOVERABLE)) addIcon(c, fList, R.d.ic_search_16dp, "Discoverable", true);
-      if(guild.hasFeature(GuildFeature.ANIMATED_ICON)) addIcon(c, fList, R.d.gif, "Animated Icon", true);
-      if(guild.hasFeature(GuildFeature.COMMUNITY)) addIcon(c, fList, R.d.ic_house_24dp, "Community", true);
-      if(guild.hasFeature(GuildFeature.MEMBER_VERIFICATION_GATE_ENABLED)) addIcon(c, fList, R.d.ic_small_lock_green_24dp, "Verification Gate Enabled", true);
-      if(guild.hasFeature(GuildFeature.PREVIEW_ENABLED)) addIcon(c, fList, R.d.design_password_eye, "Preview Enabled", true);
-      if(guild.hasFeature(GuildFeature.THREADS_ENABLED)) addIcon(c, fList, R.d.ic_flex_input_create_thread_24dp_dark, "Threads Enabled", true);
-      if(guild.hasFeature(GuildFeature.PRIVATE_THREADS)) addIcon(c, fList, R.d.ic_channel_text_locked, "Private Threads", true);
-      if(guild.hasFeature(GuildFeature.ROLE_ICONS)) addIcon(c, fList, R.d.ic_shieldstar_24dp, "Role Icons", true);
+      if(guild.hasFeature(GuildFeature.COMMERCE)) addIcon(c, fList, R.e.ic_wallet_24dp, "Commerce", true);
+      if(guild.hasFeature(GuildFeature.VIP_REGIONS)) addIcon(c, fList, R.e.ic_star_24dp, "VIP Regions", true);
+      if(guild.hasFeature(GuildFeature.INVITE_SPLASH)) addIcon(c, fList, R.e.ic_flex_input_image_24dp_dark, "Invite Splash", true);
+      if(guild.hasFeature(GuildFeature.VANITY_URL)) addIcon(c, fList, R.e.ic_diag_link_24dp, "Vanity URL", true);
+      if(guild.hasFeature(GuildFeature.PARTNERED)) addIcon(c, fList, R.e.ic_profile_badge_partner_32dp, "Partnered", true);
+      if(guild.hasFeature(GuildFeature.VERIFIED)) addIcon(c, fList, R.e.ic_verified_badge, "Verified", false);
+      if(guild.hasFeature(GuildFeature.MORE_EMOJI)) addIcon(c, fList, R.e.ic_add_reaction_grey_a60_24dp, "More Emoji", true);
+      if(guild.hasFeature(GuildFeature.BANNER)) addIcon(c, fList, R.e.ic_image_library_24dp, "Banner", true);
+      if(guild.hasFeature(GuildFeature.NEWS)) addIcon(c, fList, R.e.ic_channel_announcements, "Announcements", true);
+      if(guild.hasFeature(GuildFeature.DISCOVERABLE)) addIcon(c, fList, R.e.ic_search_16dp, "Discoverable", true);
+      if(guild.hasFeature(GuildFeature.ANIMATED_ICON)) addIcon(c, fList, R.e.gif, "Animated Icon", true);
+      if(guild.hasFeature(GuildFeature.COMMUNITY)) addIcon(c, fList, R.e.ic_house_24dp, "Community", true);
+      if(guild.hasFeature(GuildFeature.MEMBER_VERIFICATION_GATE_ENABLED)) addIcon(c, fList, R.e.ic_small_lock_green_24dp, "Verification Gate Enabled", true);
+      if(guild.hasFeature(GuildFeature.PREVIEW_ENABLED)) addIcon(c, fList, R.e.design_password_eye, "Preview Enabled", true);
+      if(guild.hasFeature(GuildFeature.THREADS_ENABLED)) addIcon(c, fList, R.e.ic_flex_input_create_thread_24dp_dark, "Threads Enabled", true);
+      if(guild.hasFeature(GuildFeature.PRIVATE_THREADS)) addIcon(c, fList, R.e.ic_channel_text_locked, "Private Threads", true);
+      if(guild.hasFeature(GuildFeature.ROLE_ICONS)) addIcon(c, fList, R.e.ic_shieldstar_24dp, "Role Icons", true);
 
       layout.addView(fList);
     }

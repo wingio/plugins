@@ -77,7 +77,7 @@ public class Discovery extends Plugin {
       LinearLayoutCompat v = (LinearLayoutCompat) ((NestedScrollView) view.getChildAt(1)).getChildAt(0);
       Context ctx = v.getContext();
       int baseIndex = v.indexOfChild(v.findViewById(Utils.getResId("qr_scanner", "id")));
-      TextView option = new TextView(ctx, null, 0, R.h.UiKit_Settings_Item_Icon);
+      TextView option = new TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Icon);
       option.setText("Discovery");
       Drawable icon = pluginIcon.mutate();
       option.setCompoundDrawablesWithIntrinsicBounds(Utils.tintToTheme(icon), null, null, null);
@@ -136,7 +136,7 @@ public class Discovery extends Plugin {
             });
           }
         } else if(pos == items.size() - 3) {
-          if(guildListItem instanceof GuildListItem.HubItem){ FrameLayout layout = (FrameLayout) holder.itemView; ImageView icon = (ImageView) layout.getChildAt(1);icon.setImageResource(R.d.ic_hub_24dp); holder.itemView.setOnClickListener(new WidgetGuildListAdapter$onBindViewHolder$2(_this, holder, guildListItem)); }
+          if(guildListItem instanceof GuildListItem.HubItem){ FrameLayout layout = (FrameLayout) holder.itemView; ImageView icon = (ImageView) layout.getChildAt(1);icon.setImageResource(R.e.ic_hub_24dp); holder.itemView.setOnClickListener(new WidgetGuildListAdapter$onBindViewHolder$2(_this, holder, guildListItem)); }
         }
       } catch (Throwable e) {
         logger.error("Couldnt change hub icon", e);

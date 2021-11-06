@@ -56,7 +56,7 @@ public class WidgetItemCategory extends MaterialCardView {
         LinearLayout.LayoutParams iconParams = new LinearLayout.LayoutParams(DimenUtils.dpToPx(30), DimenUtils.dpToPx(30));
         icon.setLayoutParams(iconParams);
         // icon.setImageURI(IconUtils.DEFAULT_ICON_BLURPLE);
-        icon.setImageResource(R.d.ic_controller_24dp);
+        icon.setImageResource(R.e.ic_controller_24dp);
 
         root.addView(icon);
         root.addView(name);

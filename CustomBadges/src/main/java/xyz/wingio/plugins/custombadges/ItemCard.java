@@ -80,7 +80,7 @@ public class ItemCard extends MaterialCardView {
         clear.setPadding(p2, p2, p2, p2);
         LinearLayout.LayoutParams clearParams = new LinearLayout.LayoutParams(DimenUtils.dpToPx(40), DimenUtils.dpToPx(40));
         clear.setLayoutParams(clearParams);
-        Drawable clearIcon = ContextCompat.getDrawable(ctx, R.d.ic_clear_24dp);
+        Drawable clearIcon = ContextCompat.getDrawable(ctx, R.e.ic_clear_24dp);
         clearIcon.setTint(0xFFED4245);
         clear.setImageDrawable(clearIcon);
         buttons.addView(clear);

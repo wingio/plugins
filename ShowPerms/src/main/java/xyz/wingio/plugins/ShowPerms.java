@@ -74,7 +74,7 @@ public class ShowPerms extends Plugin {
   public void start(Context context) throws Throwable {
     int sectionId = View.generateViewId();
 
-    pluginIcon = ContextCompat.getDrawable(context, R.d.ic_shieldstar_24dp);
+    pluginIcon = ContextCompat.getDrawable(context, R.e.ic_shieldstar_24dp);
 
     patcher.patch(WidgetUserSheet.class, "configureGuildSection", new Class<?>[]{WidgetUserSheetViewModel.ViewState.Loaded.class}, new Hook(callFrame -> {
       try {
@@ -106,7 +106,7 @@ public class ShowPerms extends Plugin {
           return true;
         });
 
-        TextView permHeader = new TextView(ctx, null, 0, R.h.UserProfile_Section_Header); permHeader.setText("Permissions"); 
+        TextView permHeader = new TextView(ctx, null, 0, R.i.UserProfile_Section_Header); permHeader.setText("Permissions"); 
         LinearLayout.LayoutParams headerParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT); headerParams.setMargins(0, 0, 0, p / 2);
         permHeader.setLayoutParams(headerParams);
 
@@ -157,8 +157,8 @@ public class ShowPerms extends Plugin {
       try {
         WidgetChannelsListItemActionsBinding binding = (WidgetChannelsListItemActionsBinding) ReflectUtils.invokeMethod(_this, "getBinding");
         ViewGroup root = (ViewGroup) ((ViewGroup) binding.getRoot()).getChildAt(0);
-        TextView permissionOption = new TextView(root.getContext(), null, 0, R.h.UiKit_Settings_Item_Icon);
-        Drawable permissionIcon = ContextCompat.getDrawable(root.getContext(), R.d.ic_flag_24dp).mutate();
+        TextView permissionOption = new TextView(root.getContext(), null, 0, R.i.UiKit_Settings_Item_Icon);
+        Drawable permissionIcon = ContextCompat.getDrawable(root.getContext(), R.e.ic_flag_24dp).mutate();
         permissionIcon.setTint(ColorCompat.getThemedColor(root.getContext(), R.b.colorInteractiveNormal));
         permissionOption.setText("View Permissions");
         permissionOption.setCompoundDrawablesWithIntrinsicBounds(permissionIcon, null, null, null);

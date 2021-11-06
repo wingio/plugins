@@ -44,7 +44,7 @@ public final class PluginSettings extends SettingsPage {
         var context = view.getContext();
         LinearLayout layout = getLinearLayout();
 
-        var actHeader = new TextView(context, null, 0, R.h.UiKit_Settings_Item_Header);
+        var actHeader = new TextView(context, null, 0, R.i.UiKit_Settings_Item_Header);
         actHeader.setTypeface(ResourcesCompat.getFont(context, Constants.Fonts.whitney_semibold));
         actHeader.setText("Actions");
         layout.addView(actHeader);
@@ -53,7 +53,7 @@ public final class PluginSettings extends SettingsPage {
         layout.addView(createSwitch(context, settings, "rolesAct", "Display 'Roles'", null, true));
         layout.addView(new Divider(context));
 
-        var expHeader = new TextView(context, null, 0, R.h.UiKit_Settings_Item_Header);
+        var expHeader = new TextView(context, null, 0, R.i.UiKit_Settings_Item_Header);
         expHeader.setTypeface(ResourcesCompat.getFont(context, Constants.Fonts.whitney_semibold));
         expHeader.setText("Details");
         layout.addView(expHeader);

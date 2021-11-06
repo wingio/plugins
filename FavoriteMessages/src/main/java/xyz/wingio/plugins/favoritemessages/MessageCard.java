@@ -57,7 +57,7 @@ public class MessageCard extends LinearLayout {
         LinearLayout.LayoutParams lparams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         cnt.setLayoutParams(lparams);
 
-        contentView = new TextView(ctx, null, 0, R.h.UiKit_Settings_Item_Addition);
+        contentView = new TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Addition);
         contentView.setPadding(0, 0, p, p2);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
         contentView.setLayoutParams(lp);
@@ -86,7 +86,7 @@ public class MessageCard extends LinearLayout {
         tagView.setTypeface(ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_medium));
         tagView.setTextColor(Color.WHITE);
         tagView.setPadding(DimenUtils.dpToPx(2), DimenUtils.dpToPx(1), DimenUtils.dpToPx(2), DimenUtils.dpToPx(1));
-        tagView.setBackgroundDrawable(ContextCompat.getDrawable(ctx, R.d.drawable_button_brand_neutral));
+        tagView.setBackgroundDrawable(ContextCompat.getDrawable(ctx, R.e.drawable_button_brand_neutral));
         tagView.setText("BOT");
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         params.setMargins(DimenUtils.dpToPx(4),0,0,0);

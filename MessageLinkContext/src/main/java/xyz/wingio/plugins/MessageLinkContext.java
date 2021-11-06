@@ -16,7 +16,7 @@ import com.aliucord.Utils;
 import com.aliucord.utils.*;
 import com.aliucord.wrappers.ChannelWrapper;
 import com.aliucord.entities.Plugin;
-import com.aliucord.patcher.PinePatchFn;
+import com.aliucord.patcher.Hook;
 import com.aliucord.annotations.AliucordPlugin;
 import com.discord.utilities.color.ColorCompat;
 import com.discord.widgets.chat.list.actions.WidgetChatListActions;
@@ -67,7 +67,7 @@ public class MessageLinkContext extends Plugin {
       WidgetChatListActions.class,
       "configureUI",
       new Class<?>[]{ WidgetChatListActions.Model.class },
-      new PinePatchFn(
+      new Hook(
         callFrame -> {
           var _this = (WidgetChatListActions) callFrame.thisObject;
           var rootView = (NestedScrollView) _this.getView();
@@ -80,7 +80,7 @@ public class MessageLinkContext extends Plugin {
           Long messageId = msg.getId();
           var channel = StoreStream.getChannels().getChannel(channelId);
           var guildId = channel != null && ChannelWrapper.getGuildId(channel) != 0 ? String.valueOf(ChannelWrapper.getGuildId(channel)) : "@me";
-          var view = new TextView(ctx, null, 0, R.h.UiKit_Settings_Item_Icon);
+          var view = new TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Icon);
           view.setId(id);
           view.setText("Copy Message Link");
           if (icon != null) icon.setTint(

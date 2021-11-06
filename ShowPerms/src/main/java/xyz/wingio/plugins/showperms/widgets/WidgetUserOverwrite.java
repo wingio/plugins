@@ -56,12 +56,12 @@ public class WidgetUserOverwrite extends LinearLayout {
         lp.setMargins(p, 0, 0, 0);
         ll.setLayoutParams(lp);
 
-        name = new TextView(ctx, null, 0, R.h.UiKit_TextView_Semibold);
+        name = new TextView(ctx, null, 0, R.i.UiKit_TextView_Semibold);
         name.setText("UNKNOWN_USER");
         name.setTextSize(15f);
         ll.addView(name);
 
-        nick = new TextView(ctx, null, 0, R.h.UiKit_TextAppearance_Semibold);
+        nick = new TextView(ctx, null, 0, R.i.UiKit_TextAppearance_Semibold);
         nick.setText("UNKNOWN_USER");
         nick.setVisibility(GONE);
         nick.setTextSize(12f);

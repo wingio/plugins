@@ -17,7 +17,7 @@ import com.aliucord.utils.*;
 import com.aliucord.api.CommandsAPI;
 import com.aliucord.api.SettingsAPI;
 import com.aliucord.entities.Plugin;
-import com.aliucord.patcher.PinePatchFn;
+import com.aliucord.patcher.Hook;
 import com.aliucord.widgets.LinearLayout;
 import com.aliucord.annotations.AliucordPlugin;
 import com.discord.api.channel.Channel;
@@ -83,7 +83,7 @@ public class FriendNicknames extends Plugin {
         Channel.class,
         List.class,
       },
-      new PinePatchFn(
+      new Hook(
         callFrame -> {
           var user = (User) callFrame.args[0];
           var userId = user.getId();
@@ -104,7 +104,7 @@ public class FriendNicknames extends Plugin {
     //   new Class<?>[] {
     //     User.class
     //   },
-    //   new PinePatchFn(
+    //   new Hook(
     //     callFrame -> {
     //       var user = (User) callFrame.args[0];
     //       Utils.log(String.valueOf(user.getId()));

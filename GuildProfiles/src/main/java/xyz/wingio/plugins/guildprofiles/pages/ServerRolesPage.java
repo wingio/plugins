@@ -51,7 +51,7 @@ public class ServerRolesPage extends SettingsPage {
 
             RoleViewHolder(ViewGroup itemView) {
                 super(itemView);
-                tv = new TextView(ctx, null, 0, R.h.UiKit_Settings_Item_Icon);
+                tv = new TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Icon);
                 
                 itemView.addView(tv);
             }
@@ -76,7 +76,7 @@ public class ServerRolesPage extends SettingsPage {
             roleView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             roleView.setText(role.g());
             var clr = Color.parseColor("#" + String.format("%06x", role.b()));
-            Drawable icon = ContextCompat.getDrawable(ctx, R.d.ic_shieldstar_24dp);
+            Drawable icon = ContextCompat.getDrawable(ctx, R.e.ic_shieldstar_24dp);
             icon.setTint(role.b() == 0 ? ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal) : clr);
             roleView.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
             roleView.setTextColor(role.b() == 0 ? ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal) : clr);

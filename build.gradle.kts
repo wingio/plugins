@@ -46,8 +46,8 @@ subprojects {
         val discord by configurations
         val implementation by configurations
 
-        discord("com.discord:discord:96103")
-        implementation("com.github.aliucord:aliucord:main-SNAPSHOT")
+        discord("com.discord:discord:101203")
+        implementation("com.github.aliucord:aliucord:063c8e9")
 
         implementation("androidx.appcompat:appcompat:1.3.1")
         implementation("com.google.android.material:material:1.4.0")
@@ -58,6 +58,13 @@ subprojects {
         author("Wing", 298295889720770563L)
         updateUrl.set("https://raw.githubusercontent.com/wingio/plugins/builds/updater.json")
         buildUrl.set("https://raw.githubusercontent.com/wingio/plugins/builds/%s.zip")
+
+        changelog.set("""
+        Improved {improved marginTop}
+        ======================
+
+        * Ported to Discord v101.3
+        """.trimIndent())
     }
 }
 

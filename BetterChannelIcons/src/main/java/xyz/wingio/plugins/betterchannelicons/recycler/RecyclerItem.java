@@ -33,7 +33,7 @@ public class RecyclerItem extends LinearLayout {
         setOrientation(LinearLayout.HORIZONTAL);
         setGravity(Gravity.CENTER_VERTICAL);
         setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-        name = new TextView(ctx, null, 0, R.h.UiKit_Settings_Item_Icon);
+        name = new TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Icon);
         
         LinearLayout buttons = new LinearLayout(ctx);
         buttons.setOrientation(LinearLayout.HORIZONTAL);
@@ -44,7 +44,7 @@ public class RecyclerItem extends LinearLayout {
         buttons.setVerticalGravity(Gravity.CENTER_VERTICAL);
 
         delete = new ToolbarButton(ctx);
-        delete.setImageDrawable(ContextCompat.getDrawable(ctx, R.d.ic_delete_24dp));
+        delete.setImageDrawable(ContextCompat.getDrawable(ctx, R.e.ic_delete_24dp));
         buttons.addView(delete);
 
         addView(name);

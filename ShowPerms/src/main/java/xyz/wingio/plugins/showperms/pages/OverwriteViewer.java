@@ -79,7 +79,7 @@ public class OverwriteViewer extends SettingsPage {
         item.setVerticalGravity(Gravity.CENTER);
 
         if(role != null){
-            TextView name = new TextView(context, null, 0, R.h.UiKit_TextView_Semibold);
+            TextView name = new TextView(context, null, 0, R.i.UiKit_TextView_Semibold);
             name.setText(role.g());
             var clr = Color.parseColor("#" + String.format("%06x", role.b()));
             name.setTextColor(role.b() == 0 ? ColorCompat.getThemedColor(context, R.b.colorInteractiveNormal) : clr);
@@ -93,14 +93,14 @@ public class OverwriteViewer extends SettingsPage {
             item.addView(wuo);
         }
 
-        TextView ch = new TextView(context, null, 0, R.h.UiKit_TextView_Semibold);
+        TextView ch = new TextView(context, null, 0, R.i.UiKit_TextView_Semibold);
         ch.setTextColor(ColorCompat.getThemedColor(context, R.b.colorInteractiveNormal));
         ch.setText("#" + channelName);
         ch.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         ch.setGravity(Gravity.END);
         item.addView(ch);
         
-        TextView header = new TextView(context, null, 0, R.h.UiKit_Settings_Item_Header);
+        TextView header = new TextView(context, null, 0, R.i.UiKit_Settings_Item_Header);
         header.setText("Permissions");
         header.setPadding(p, p, p, p);
         
@@ -114,15 +114,15 @@ public class OverwriteViewer extends SettingsPage {
             List<String> deniedPerms = PermUtils.getPermissions(denied);
 
             for(String perm : allPerms) {
-                TextView permView = new TextView(context, null, 0, R.h.UiKit_Settings_Item_Icon);
+                TextView permView = new TextView(context, null, 0, R.i.UiKit_Settings_Item_Icon);
                 permView.setText(perm);
-                Drawable icon = ContextCompat.getDrawable(context, R.d.ic_slash_command_24dp).mutate();
+                Drawable icon = ContextCompat.getDrawable(context, R.e.ic_slash_command_24dp).mutate();
                 icon.setTint(ColorUtils.setAlphaComponent(ColorCompat.getThemedColor(context, R.b.colorInteractiveNormal), 120));
                 if(allowedPerms.contains(perm)){
-                    icon = ContextCompat.getDrawable(context, R.d.ic_check_green_24dp);
+                    icon = ContextCompat.getDrawable(context, R.e.ic_check_green_24dp);
                 }
                 if(deniedPerms.contains(perm)) {
-                    icon = ContextCompat.getDrawable(context, R.d.ic_close_grey_24dp).mutate();
+                    icon = ContextCompat.getDrawable(context, R.e.ic_close_grey_24dp).mutate();
                     icon.setTint(ColorCompat.getThemedColor(context, R.b.colorStatusDangerBackground));
                 }
                 permView.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);

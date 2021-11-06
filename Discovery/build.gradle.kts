@@ -1,11 +1,2 @@
-version = "1.1.1"
+version = "1.1.2"
 description = "View server discovery"
-
-aliucord.changelog.set(
-    """
-    Added {added marginTop}
-    ======================
-    
-    * You can now search for servers
-    """
-)

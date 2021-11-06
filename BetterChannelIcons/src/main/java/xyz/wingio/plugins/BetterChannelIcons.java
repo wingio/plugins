@@ -24,7 +24,7 @@ import com.aliucord.PluginManager;
 import com.aliucord.api.NotificationsAPI;
 import com.aliucord.entities.NotificationData;
 import com.aliucord.entities.Plugin;
-import com.aliucord.patcher.PinePatchFn;
+import com.aliucord.patcher.Hook;
 import com.aliucord.annotations.AliucordPlugin;
 import com.aliucord.wrappers.*;
 import com.aliucord.utils.ReflectUtils;
@@ -62,7 +62,7 @@ public class BetterChannelIcons extends Plugin {
 
   @Override
   public void start(Context context) throws Throwable {
-    pluginIcon = ContextCompat.getDrawable(context, R.d.ic_channel_text_white_a60_24dp);
+    pluginIcon = ContextCompat.getDrawable(context, R.e.ic_channel_text_white_a60_24dp);
     
     boolean hasConverted = settings.getBool("hasConverted", false);
     if(!hasConverted){

@@ -47,13 +47,13 @@ public class PermissionViewer extends SettingsPage {
             List<String> allowedPerms = PermUtils.getPermissions(permissions);
 
             for(String perm : allPerms) {
-                TextView permView = new TextView(context, null, 0, R.h.UiKit_Settings_Item_Icon);
+                TextView permView = new TextView(context, null, 0, R.i.UiKit_Settings_Item_Icon);
                 permView.setText(perm);
                 if(allowedPerms.contains(perm)){
-                    Drawable icon = ContextCompat.getDrawable(context, R.d.ic_check_green_24dp);
+                    Drawable icon = ContextCompat.getDrawable(context, R.e.ic_check_green_24dp);
                     permView.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
                 } else {
-                    Drawable icon = ContextCompat.getDrawable(context, R.d.ic_close_grey_24dp);
+                    Drawable icon = ContextCompat.getDrawable(context, R.e.ic_close_grey_24dp);
                     permView.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
                 }
                 addView(permView);

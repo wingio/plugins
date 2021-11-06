@@ -107,7 +107,7 @@ public final class PluginSettings extends SettingsPage {
         marginEndParams.setMarginEnd(DimenUtils.getDefaultPadding());
         ToolbarButton settingsBtn = new ToolbarButton(context);
         settingsBtn.setLayoutParams(marginEndParams);
-        settingsBtn.setImageDrawable(ContextCompat.getDrawable(context, R.d.ic_guild_settings_24dp));
+        settingsBtn.setImageDrawable(ContextCompat.getDrawable(context, R.e.ic_guild_settings_24dp));
         toolbarButtons.setId(settingsId);
         toolbarButtons.addView(settingsBtn);
 

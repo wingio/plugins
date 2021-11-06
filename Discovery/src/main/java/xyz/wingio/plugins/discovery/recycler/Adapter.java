@@ -71,9 +71,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
         item.name.setText(guild.name);
         if(guild.features.contains("VERIFIED")){
-            item.name.setCompoundDrawablesWithIntrinsicBounds(R.d.ic_verified_badge_banner, 0, 0, 0);
+            item.name.setCompoundDrawablesWithIntrinsicBounds(R.e.ic_verified_badge_banner, 0, 0, 0);
         } else if (guild.features.contains("PARTNERED")) {
-            item.name.setCompoundDrawablesWithIntrinsicBounds(R.d.ic_partnered_badge_banner, 0, 0, 0);
+            item.name.setCompoundDrawablesWithIntrinsicBounds(R.e.ic_partnered_badge_banner, 0, 0, 0);
         } else {
             item.name.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
         }

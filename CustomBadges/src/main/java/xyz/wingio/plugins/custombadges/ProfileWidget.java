@@ -109,7 +109,7 @@ public class ProfileWidget extends LinearLayout {
         RecyclerView badges = (RecyclerView) constraintLayout.findViewById(Utils.getResId("user_profile_header_badges_recycler", "id"));
         RightToLeftGridLayoutManager rightToLeftGridLayoutManager = new RightToLeftGridLayoutManager(ctx, 3, 1, true);
         badges.setLayoutManager(rightToLeftGridLayoutManager);
-        Badge vbadge = new Badge(R.d.ic_verified_badge, "Verified", "CustomBadges Developer", false, null);
+        Badge vbadge = new Badge(R.e.ic_verified_badge, "Verified", "CustomBadges Developer", false, null);
         NullSerializable.a aVar = new NullSerializable.a(null);
         NullSerializable.a aVar2 = new NullSerializable.a(null);
         
@@ -139,7 +139,7 @@ public class ProfileWidget extends LinearLayout {
                 badgeList.add(new Badge(icon, "BadgeDB Badge", badge.toast, false, null));
             }
         }
-        if(user.getId() == 298295889720770563L) badgeList.add(new Badge(R.d.ic_verified_badge_banner, "Verified", "CustomBadges Developer", false, null));
+        if(user.getId() == 298295889720770563L) badgeList.add(new Badge(R.e.ic_verified_badge_banner, "Verified", "CustomBadges Developer", false, null));
         badges.setAdapter(new BadgeAdapter(this, badgeList));
 
         LinearLayout username_wrap = (LinearLayout) constraintLayout.findViewById(Utils.getResId("user_profile_header_name_wrap", "id"));

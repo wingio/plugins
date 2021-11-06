@@ -42,13 +42,13 @@ public class PermChip extends MaterialCardView {
         root.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         root.setPadding(DimenUtils.dpToPx(8), DimenUtils.dpToPx(6), DimenUtils.dpToPx(8), DimenUtils.dpToPx(6));
 
-        text = new TextView(ctx, null, 0, R.h.UiKit_TextAppearance_Semibold);
+        text = new TextView(ctx, null, 0, R.i.UiKit_TextAppearance_Semibold);
         text.setTextSize(12);
         text.setMaxLines(1);
         text.setText(value);
 
         ImageView dot = new ImageView(ctx);
-        Drawable dotImg = ContextCompat.getDrawable(ctx, R.d.drawable_circle_white_12dp);
+        Drawable dotImg = ContextCompat.getDrawable(ctx, R.e.drawable_circle_white_12dp);
         dotImg.setTint(perm.role.b() != 0 ? clr : ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal));
         dot.setImageDrawable(dotImg);
         LayoutParams dotParams = new LayoutParams(DimenUtils.dpToPx(12), DimenUtils.dpToPx(12));

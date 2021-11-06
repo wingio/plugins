@@ -12,8 +12,8 @@ import androidx.core.widget.NestedScrollView;
 import com.aliucord.Logger;
 import com.aliucord.Utils;
 import com.aliucord.entities.Plugin;
-import com.aliucord.patcher.PinePatchFn;
-import com.aliucord.patcher.PinePrePatchFn;
+import com.aliucord.patcher.Hook;
+import com.aliucord.patcher.PreHook;
 import com.discord.utilities.SnowflakeUtils;
 import com.discord.utilities.icon.IconUtils;
 import com.discord.widgets.user.usersheet.*;
@@ -51,7 +51,7 @@ public class HideCallButtons extends Plugin {
         final int videoId = Utils.getResId("user_sheet_video_action_button", "id");
         final int callId = Utils.getResId("user_sheet_call_action_button", "id");
 
-        patcher.patch(WidgetUserSheet.class, "configureNote", new Class<?>[]{ WidgetUserSheetViewModel.ViewState.Loaded.class }, new PinePatchFn(callFrame -> {
+        patcher.patch(WidgetUserSheet.class, "configureNote", new Class<?>[]{ WidgetUserSheetViewModel.ViewState.Loaded.class }, new Hook(callFrame -> {
             var binding = WidgetUserSheet.access$getBinding$p((WidgetUserSheet) callFrame.thisObject);
             var root = binding.getRoot();
 

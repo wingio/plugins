@@ -18,7 +18,7 @@ import com.aliucord.utils.*;
 import com.aliucord.Logger;
 import com.aliucord.CollectionUtils;
 import com.aliucord.entities.Plugin;
-import com.aliucord.patcher.PinePatchFn;
+import com.aliucord.patcher.Hook;
 import com.aliucord.api.CommandsAPI;
 import com.aliucord.annotations.AliucordPlugin;
 import xyz.wingio.plugins.favoritemessages.*;
@@ -50,11 +50,11 @@ public class FavoriteMessages extends Plugin {
 
     @Override
     public void start(Context context) throws Throwable {
-      pluginIcon = ContextCompat.getDrawable(context, R.d.ic_star_24dp);
+      pluginIcon = ContextCompat.getDrawable(context, R.e.ic_star_24dp);
       var id = View.generateViewId();
       Drawable icon = pluginIcon;
       
-      patcher.patch(WidgetChatListActions.class, "configureUI", new Class<?>[]{ WidgetChatListActions.Model.class }, new PinePatchFn(callFrame -> {
+      patcher.patch(WidgetChatListActions.class, "configureUI", new Class<?>[]{ WidgetChatListActions.Model.class }, new Hook(callFrame -> {
         var _this = (WidgetChatListActions) callFrame.thisObject;
         var rootView = (NestedScrollView) _this.getView();
         if(rootView == null) return;
@@ -63,7 +63,7 @@ public class FavoriteMessages extends Plugin {
         var ctx = layout.getContext();
         var msg = ((WidgetChatListActions.Model) callFrame.args[0]).getMessage();
         Map<Long, StoredMessage> favorites = settings.getObject("favorites", new HashMap<>(), msgType);
-        var view = new TextView(ctx, null, 0, R.h.UiKit_Settings_Item_Icon);
+        var view = new TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Icon);
         view.setId(id);
         if (icon != null) icon.setTint(
           ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal)

@@ -90,7 +90,7 @@ public class AddChannelSheet extends BottomSheet {
         channelName.getEditText().setText(channelId == null || channelId == 0 ? "" : "id:" + channelId);
 
         var resources = ctx.getResources();
-        Drawable badge = ResourcesCompat.getDrawable(resources, R.d.ic_open_in_new_grey_24dp, null).mutate();
+        Drawable badge = ResourcesCompat.getDrawable(resources, R.e.ic_open_in_new_grey_24dp, null).mutate();
         badge.setTint(ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal));
 
         icon = new ImageView(ctx);

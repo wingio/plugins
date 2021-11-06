@@ -70,7 +70,7 @@ public final class DiscoveryPage extends SettingsPage {
         var context = view.getContext();
         Adapter adapter = new Adapter(new ArrayList<>(), this);
         Button loadMore = new Button(context);
-        TextView info = new TextView(context, null, 0, R.h.UiKit_Settings_Item_SubText);
+        TextView info = new TextView(context, null, 0, R.i.UiKit_Settings_Item_SubText);
         info.setText("Loading...");
         info.setGravity(Gravity.CENTER);
         loadMore.setText("Load More");
@@ -129,8 +129,8 @@ public final class DiscoveryPage extends SettingsPage {
         recycler.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         
         SearchEditText search = new SearchEditText(context);
-        search.setHint(R.g.search);
-        search.setThemedEndIcon(R.d.ic_search_white_24dp);
+        search.setHint(R.h.search);
+        search.setThemedEndIcon(R.e.ic_search_white_24dp);
         LinearLayout.LayoutParams searchParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         searchParams.setMargins(0, 0, 0, DimenUtils.dpToPx(16));
         search.setLayoutParams(searchParams);
@@ -144,7 +144,7 @@ public final class DiscoveryPage extends SettingsPage {
             editText.addTextChangedListener(new TextWatcher() {
                 public void afterTextChanged(Editable s) {
                     search.getRoot().setEndIconVisible(!s.toString().isEmpty());
-                    search.setThemedEndIcon(R.d.ic_search_white_24dp);
+                    search.setThemedEndIcon(R.e.ic_search_white_24dp);
                     search.getRoot().setEndIconOnClickListener(searchOnClick);
                 }
 
@@ -230,13 +230,13 @@ public final class DiscoveryPage extends SettingsPage {
                         });
                     } catch (Throwable e) {}
                 });
-                search.setThemedEndIcon(R.d.ic_close_circle_nova_grey_24dp);
+                search.setThemedEndIcon(R.e.ic_close_circle_nova_grey_24dp);
                 search.getRoot().setEndIconOnClickListener(s -> {
                     adapter.setData(cache);
                     setActionBarSubtitle(page.plugin.totalDiscoveryServers + " servers");
                     page.serverCount = page.plugin.totalDiscoveryServers;
                     search.getEditText().setText("");
-                    search.setThemedEndIcon(R.d.ic_search_white_24dp);
+                    search.setThemedEndIcon(R.e.ic_search_white_24dp);
                     search.getRoot().setEndIconOnClickListener(this);
                     page.currentSearch = "";
                     loadMore.setVisibility(View.VISIBLE);

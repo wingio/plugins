@@ -59,7 +59,7 @@ public final class PluginSettings extends SettingsPage {
         var layout = getLinearLayout();
         
         layout.addView(createSwitch(ctx, settings, "show_repo_name", "Show repo name in issue/pr link", null, false));
-        TextView info = new TextView(ctx, null, 0, R.h.UiKit_TextView);
+        TextView info = new TextView(ctx, null, 0, R.i.UiKit_TextView);
         info.setText(MDUtils.render("**Currently supports:**\n\n    - **Reddit** (<r/[Subreddit]>, <u/[User]>, *ex. <r/Aliucord>*)\n    - **Github** (<username/repo#issue> <gh:username/repo>, *ex. <Aliucord/Aliucord#127>*)\n    - **Plugin Settings** (ac://[Plugin Name], *ex. ac://MoreHighlight*)"));
         info.setPadding(0, p, 0, 0);
         layout.addView(new Divider(ctx));

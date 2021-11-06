@@ -73,12 +73,12 @@ public class UserPerms extends SettingsPage {
         setPadding(0);
 
         if(channel != null) {
-            TextView minRoleR = new TextView(ctx, null, 0, R.h.UiKit_Settings_Item_Header);
+            TextView minRoleR = new TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Header);
             String roleReqR = "Minimum role to view: %s";
             minRoleR.setText(String.format(roleReqR, "@everyone"));
             minRoleR.setPadding(p, p, p, p);
 
-            TextView minRoleW = new TextView(ctx, null, 0, R.h.UiKit_Settings_Item_Header);
+            TextView minRoleW = new TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Header);
             String roleReqW = "Minimum role to chat: %s";
             minRoleW.setText(String.format(roleReqW, "@everyone"));
             minRoleW.setPadding(p, p, p, p);
@@ -86,7 +86,7 @@ public class UserPerms extends SettingsPage {
             // addView(minRoleR);
             // addView(minRoleW);
 
-            TextView header = new TextView(ctx, null, 0, R.h.UiKit_Settings_Item_Header);
+            TextView header = new TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Header);
             header.setText("Roles");
             header.setPadding(p, p, p, p);
             header.setVisibility(View.GONE);
@@ -99,10 +99,10 @@ public class UserPerms extends SettingsPage {
                     Map<Long, GuildRole> roleMap = StoreStream.getGuilds().getRoles().get(channel.getGuildId());
                     GuildRole role = roleMap == null ? null : roleMap.get(overwrite.e());
                     if(role != null){
-                        TextView roleView = new TextView(ctx, null, 0, R.h.UiKit_Settings_Item_Icon);
+                        TextView roleView = new TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Icon);
                         roleView.setText(role.g());
                         var clr = Color.parseColor("#" + String.format("%06x", role.b()));
-                        Drawable icon = ContextCompat.getDrawable(ctx, R.d.ic_shieldstar_24dp);
+                        Drawable icon = ContextCompat.getDrawable(ctx, R.e.ic_shieldstar_24dp);
                         icon.setTint(role.b() == 0 ? ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal) : clr);
                         roleView.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
                         roleView.setTextColor(role.b() == 0 ? ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal) : clr);
@@ -117,7 +117,7 @@ public class UserPerms extends SettingsPage {
 
             Divider div = new Divider(ctx);
             div.setVisibility(View.GONE);
-            TextView userHeader = new TextView(ctx, null, 0, R.h.UiKit_Settings_Item_Header);
+            TextView userHeader = new TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Header);
             userHeader.setText("Members");
             userHeader.setPadding(p, p, p, p);
             userHeader.setVisibility(View.GONE);
@@ -141,17 +141,17 @@ public class UserPerms extends SettingsPage {
             }
 
         } else {
-            TextView header = new TextView(ctx, null, 0, R.h.UiKit_Settings_Item_Header);
+            TextView header = new TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Header);
             header.setText("Roles");
             header.setPadding(p, p, p, p);
             
             addView(header);
 
             for (GuildRole role : roles) {
-                TextView roleView = new TextView(ctx, null, 0, R.h.UiKit_Settings_Item_Icon);
+                TextView roleView = new TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Icon);
                 roleView.setText(role.g());
                 var clr = Color.parseColor("#" + String.format("%06x", role.b()));
-                Drawable icon = ContextCompat.getDrawable(ctx, R.d.ic_shieldstar_24dp);
+                Drawable icon = ContextCompat.getDrawable(ctx, R.e.ic_shieldstar_24dp);
                 icon.setTint(role.b() == 0 ? ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal) : clr);
                 roleView.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
                 roleView.setTextColor(role.b() == 0 ? ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal) : clr);

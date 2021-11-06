@@ -95,7 +95,7 @@ public class IconListSheet extends BottomSheet {
                 var iconId = iconMap.get(i);
                 var icon = ContextCompat.getDrawable(ctx, Utils.getResId(iconId, "drawable")).mutate();
                 icon.setTint(ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal));
-                TextView tv = new TextView(ctx, null, 0, R.h.UiKit_Settings_Item_Icon);
+                TextView tv = new TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Icon);
                 tv.setText(i);
                 tv.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
                 tv.setOnClickListener(v -> {

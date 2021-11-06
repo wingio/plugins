@@ -89,8 +89,8 @@ public class WidgetDiscoveryItem extends MaterialCardView {
         memberCountLayout.setOrientation(LinearLayout.HORIZONTAL);
         memberCountLayout.setLayoutParams(params);
 
-        Drawable dotImg = ContextCompat.getDrawable(ctx, R.d.drawable_circle_white_12dp).mutate();
-        Drawable onlineDot = ContextCompat.getDrawable(ctx, R.d.drawable_circle_white_12dp).mutate();
+        Drawable dotImg = ContextCompat.getDrawable(ctx, R.e.drawable_circle_white_12dp).mutate();
+        Drawable onlineDot = ContextCompat.getDrawable(ctx, R.e.drawable_circle_white_12dp).mutate();
 
         memberCount = new TextView(ctx);
         memberCount.setTextSize(12f);

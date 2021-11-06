@@ -65,7 +65,7 @@ public class RCM extends Plugin {
 
             SimpleDraweeView icon = new SimpleDraweeView(ctx);
             icon.setLayoutParams(new LinearLayout.LayoutParams(DimenUtils.dpToPx(48), DimenUtils.dpToPx(48)));
-            if(args.getBoolean("hasIcon", false)) {  icon.setImageURI(String.format("https://cdn.discordapp.com/role-icons/%s/%s.png", args.getString("roleId", "0"), args.getString("icon", ""))); } else {  Drawable shield = ContextCompat.getDrawable(ctx, R.d.ic_shieldstar_24dp).mutate(); shield.setTint(hasColor ? Color.parseColor("#" + args.getString("roleColor", "000000")) : themedColor); icon.setImageDrawable(shield); }
+            if(args.getBoolean("hasIcon", false)) {  icon.setImageURI(String.format("https://cdn.discordapp.com/role-icons/%s/%s.png", args.getString("roleId", "0"), args.getString("icon", ""))); } else {  Drawable shield = ContextCompat.getDrawable(ctx, R.e.ic_shieldstar_24dp).mutate(); shield.setTint(hasColor ? Color.parseColor("#" + args.getString("roleColor", "000000")) : themedColor); icon.setImageDrawable(shield); }
             infoView.addView(icon);
 
             LinearLayout details = new LinearLayout(ctx);
@@ -81,7 +81,7 @@ public class RCM extends Plugin {
             TextView color = addText(ctx, "Color: ", 12, false);
             if(hasColor && args.getBoolean("hasIcon", false)) {
                 var clr = args.getString("roleColor", "000000");
-                Drawable dot = ContextCompat.getDrawable(ctx, R.d.drawable_circle_white_12dp).mutate();
+                Drawable dot = ContextCompat.getDrawable(ctx, R.e.drawable_circle_white_12dp).mutate();
                 dot.setTint(Color.parseColor("#" + clr));
                 color.setCompoundDrawablePadding(DimenUtils.dpToPx(2));
                 color.setCompoundDrawablesWithIntrinsicBounds(null, null, dot, null);
@@ -134,7 +134,7 @@ public class RCM extends Plugin {
     @Override
     public void start(Context context) throws NoSuchMethodException {
         
-        patcher.patch(RolesListView$updateView$$inlined$forEach$lambda$1.class.getDeclaredMethod("onClick", View.class), new PineInsteadFn(callFrame -> {
+        patcher.patch(RolesListView$updateView$$inlined$forEach$lambda$1.class.getDeclaredMethod("onClick", View.class), new InsteadHook(callFrame -> {
             try {
                 GuildRole role = ((RolesListView$updateView$$inlined$forEach$lambda$1) callFrame.thisObject).$role;
                 RolesListView view = ((RolesListView$updateView$$inlined$forEach$lambda$1) callFrame.thisObject).this$0;
@@ -157,7 +157,7 @@ public class RCM extends Plugin {
             return null;
         }));
 
-        patcher.patch(RoleMentionNode.class.getDeclaredMethod("render", SpannableStringBuilder.class, RoleMentionNode.RenderContext.class), new PineInsteadFn(callFrame -> {
+        patcher.patch(RoleMentionNode.class.getDeclaredMethod("render", SpannableStringBuilder.class, RoleMentionNode.RenderContext.class), new InsteadHook(callFrame -> {
             RoleMentionNode _this = (RoleMentionNode) callFrame.thisObject;
             SpannableStringBuilder builder = (SpannableStringBuilder) callFrame.args[0];
             RoleMentionNode.RenderContext nodeRc = (RoleMentionNode.RenderContext) callFrame.args[1];

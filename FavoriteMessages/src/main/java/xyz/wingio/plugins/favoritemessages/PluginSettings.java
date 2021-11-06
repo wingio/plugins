@@ -91,30 +91,30 @@ public class PluginSettings extends SettingsPage {
         public void onViewCreated(View view, Bundle bundle) {
             super.onViewCreated(view, bundle);
             Context optCtx = requireContext();
-            Drawable delIcon = ContextCompat.getDrawable(optCtx, R.d.ic_delete_24dp);
+            Drawable delIcon = ContextCompat.getDrawable(optCtx, R.e.ic_delete_24dp);
             delIcon.mutate();
             if (delIcon != null) delIcon.setTint(0xFFED4245);
 
-            Drawable copyIcon = ContextCompat.getDrawable(optCtx, R.d.ic_copy_24dp);
+            Drawable copyIcon = ContextCompat.getDrawable(optCtx, R.e.ic_copy_24dp);
             copyIcon.mutate();
             if (copyIcon != null) copyIcon.setTint(
                 ColorCompat.getThemedColor(optCtx, R.b.colorInteractiveNormal)
             );
 
-            Drawable jumpIcon = ContextCompat.getDrawable(optCtx, R.d.ic_reply_24dp);
+            Drawable jumpIcon = ContextCompat.getDrawable(optCtx, R.e.ic_reply_24dp);
             jumpIcon.mutate();
             if (jumpIcon != null) jumpIcon.setTint(
                 ColorCompat.getThemedColor(optCtx, R.b.colorInteractiveNormal)
             );
 
-            Drawable profileIcon = ContextCompat.getDrawable(optCtx, R.d.ic_profile_24dp);
+            Drawable profileIcon = ContextCompat.getDrawable(optCtx, R.e.ic_profile_24dp);
             profileIcon.mutate();
             if (profileIcon != null) profileIcon.setTint(
                 ColorCompat.getThemedColor(optCtx, R.b.colorInteractiveNormal)
             );
             
             var copyId = View.generateViewId();
-            TextView copyOption = new TextView(optCtx, null, 0, R.h.UiKit_Settings_Item_Icon);
+            TextView copyOption = new TextView(optCtx, null, 0, R.i.UiKit_Settings_Item_Icon);
             copyOption.setText("Copy Text");
             copyOption.setId(copyId);
             copyOption.setCompoundDrawablesWithIntrinsicBounds(copyIcon, null, null, null);
@@ -125,7 +125,7 @@ public class PluginSettings extends SettingsPage {
             });
 
             var unfavId = View.generateViewId();
-            TextView unfavOption = new TextView(optCtx, null, 0, R.h.UiKit_Settings_Item_Icon);
+            TextView unfavOption = new TextView(optCtx, null, 0, R.i.UiKit_Settings_Item_Icon);
             unfavOption.setText("Unfavorite");
             unfavOption.setId(unfavId);
             unfavOption.setCompoundDrawablesWithIntrinsicBounds(delIcon, null, null, null);
@@ -140,7 +140,7 @@ public class PluginSettings extends SettingsPage {
             });
 
             var openId = View.generateViewId();
-            TextView openOption = new TextView(optCtx, null, 0, R.h.UiKit_Settings_Item_Icon);
+            TextView openOption = new TextView(optCtx, null, 0, R.i.UiKit_Settings_Item_Icon);
             openOption.setText("Jump To Message");
             openOption.setId(openId);
             openOption.setCompoundDrawablesWithIntrinsicBounds(jumpIcon, null, null, null);
@@ -153,7 +153,7 @@ public class PluginSettings extends SettingsPage {
             });
 
             var copyUrlId = View.generateViewId();
-            TextView copyUrlOption = new TextView(optCtx, null, 0, R.h.UiKit_Settings_Item_Icon);
+            TextView copyUrlOption = new TextView(optCtx, null, 0, R.i.UiKit_Settings_Item_Icon);
             copyUrlOption.setText("Copy Message Link");
             copyUrlOption.setId(copyUrlId);
             copyUrlOption.setCompoundDrawablesWithIntrinsicBounds(copyIcon, null, null, null);
@@ -164,7 +164,7 @@ public class PluginSettings extends SettingsPage {
             });
 
             var profileId = View.generateViewId();
-            TextView profileOption = new TextView(optCtx, null, 0, R.h.UiKit_Settings_Item_Icon);
+            TextView profileOption = new TextView(optCtx, null, 0, R.i.UiKit_Settings_Item_Icon);
             profileOption.setText("View Profile");
             profileOption.setId(copyUrlId);
             profileOption.setCompoundDrawablesWithIntrinsicBounds(profileIcon, null, null, null);
@@ -377,7 +377,7 @@ public class PluginSettings extends SettingsPage {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.setMargins(padding, padding, padding, 0);
         input.setLayoutParams(params);
-        input.setHint(context.getString(R.g.search));
+        input.setHint(context.getString(R.h.search));
 
         RecyclerView recyclerView = new RecyclerView(context);
         recyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
@@ -400,7 +400,7 @@ public class PluginSettings extends SettingsPage {
         marginEndParams.setMarginEnd(padding);
         ToolbarButton settingsBtn = new ToolbarButton(context);
         settingsBtn.setLayoutParams(marginEndParams);
-        settingsBtn.setImageDrawable(ContextCompat.getDrawable(context, R.d.ic_guild_settings_24dp));
+        settingsBtn.setImageDrawable(ContextCompat.getDrawable(context, R.e.ic_guild_settings_24dp));
         settingsBtn.setId(settingsId);
 
         settingsBtn.setOnClickListener(e -> {
