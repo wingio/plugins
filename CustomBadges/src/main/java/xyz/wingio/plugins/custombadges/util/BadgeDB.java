@@ -24,8 +24,12 @@ public class BadgeDB {
             try {
                 APIResponse res = (APIResponse) Http.simpleJsonGet(url, APIResponse.class);
                 userBadges.put(userId, res.badges);
-            } catch (Exception e) {
-                logger.error("Error while requesting badges for user: " + userId, e);
+            } catch (Throwable e) {
+                if(e instanceof Http.HttpException){
+                    if(((Http.HttpException) e).statusCode == 404){
+                        userBadges.put(userId, new ArrayList<>());
+                    } else {logger.error("Error while requesting badges for user: " + userId, e);}
+                }
             }
         });
     }

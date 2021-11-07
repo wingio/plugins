@@ -152,17 +152,18 @@ public class CustomBadges extends Plugin {
                 WidgetUserSheetBinding binding = WidgetUserSheet.access$getBinding$p(view);
                 FlexboxLayout layout = (FlexboxLayout) binding.getRoot().findViewById(Utils.getResId("user_sheet_profile_edit_container", "id"));
                 layout.setVisibility(View.VISIBLE);
+                layout.findViewById(Utils.getResId("user_sheet_profile_identity_button", "id")).setVisibility(View.GONE);
                 Context ctx = view.getContext();
                 MaterialButton btn = new MaterialButton(new ContextThemeWrapper(ctx, R.i.UiKit_Material_Button_Secondary_Fit), null, 0);
                 btn.setId(editBtnId);
                 btn.setText("Edit Badges");
                 btn.setLayoutParams(layout.findViewById(Utils.getResId(String.format("user_sheet_profile_%s_button", !loaded.isMe() ? "edit" : "identity"), "id")).getLayoutParams());
-                if(!loaded.isMe()){ layout.findViewById(Utils.getResId("user_sheet_profile_identity_button", "id")).setVisibility(View.GONE); layout.findViewById(Utils.getResId("user_sheet_profile_edit_button", "id")).setVisibility(View.GONE); }
+                if(!loaded.isMe()){layout.findViewById(Utils.getResId("user_sheet_profile_edit_button", "id")).setVisibility(View.GONE); }
                 if(layout.findViewById(editBtnId) == null) layout.addView(btn);
 
-                btn.setOnClickListener(v -> Utils.openPageWithProxy(ctx, new EditUser(settings, loaded.getUser().getId(), badgeDB)));
+                btn.setOnClickListener(v -> Utils.openPageWithProxy(ctx, new EditUser(settings, loaded.getUser(), badgeDB)));
                 
-            } catch(Throwable e) { Logger logger = new Logger("CustomBadges"); logger.error("Error adding badge button to profile sheet", e); }
+            } catch(Throwable e) { logger.error("Error adding badge button to profile sheet", e); }
         }));
     }
 

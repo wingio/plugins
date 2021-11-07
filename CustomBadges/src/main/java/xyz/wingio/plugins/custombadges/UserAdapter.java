@@ -4,8 +4,8 @@ import android.content.Context;
 import android.view.*;
 import android.widget.*;
 import android.graphics.*;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.RectShape;
+import android.graphics.drawable.*;
+import android.graphics.drawable.shapes.*;
 import android.util.Base64;
 import android.app.*;
 
@@ -83,7 +83,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         User user = users.get(position);
-        IconUtils.setIcon$default(holder.card.icon, user, 0, null, MGImages.AlwaysUpdateChangeDetector.INSTANCE, null, 4,null);
+        var icon = holder.card.icon;
+        IconUtils.setIcon$default(icon, user, 0, null, MGImages.AlwaysUpdateChangeDetector.INSTANCE, null, 4,null);
+        icon.setClipToOutline(true);
+        var circle = new ShapeDrawable(new OvalShape());
+        var paint = circle.getPaint();
+        paint.setColor(android.graphics.Color.TRANSPARENT);
+        icon.setBackground(circle);
         holder.card.name.setText(user.getUsername());
         holder.card.edit.setOnClickListener(v -> {
             Utils.openPageWithProxy(ctx, new EditUser(PluginManager.plugins.get("CustomBadges").settings, user.getId(), badgeDB));

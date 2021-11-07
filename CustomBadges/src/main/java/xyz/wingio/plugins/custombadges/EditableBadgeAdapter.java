@@ -99,6 +99,7 @@ public class EditableBadgeAdapter extends RecyclerView.Adapter<EditableBadgeAdap
                         notifyDataSetChanged();
                         Map<Long, List> userBadges = settings.getObject("userBadges", new HashMap<>(), CustomBadges.badgeStoreType);
                         userBadges.get(userId).remove(position);
+                        if(fragment != null) fragment.reRender();
                         settings.setObject("userBadges", userBadges);
                     })
                     .setNegativeButton("No", null)

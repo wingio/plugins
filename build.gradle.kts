@@ -47,7 +47,7 @@ subprojects {
         val implementation by configurations
 
         discord("com.discord:discord:101203")
-        implementation("com.github.aliucord:aliucord:063c8e9")
+        implementation("com.github.aliucord:aliucord:main-SNAPSHOT")
 
         implementation("androidx.appcompat:appcompat:1.3.1")
         implementation("com.google.android.material:material:1.4.0")
