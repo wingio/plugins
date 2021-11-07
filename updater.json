@@ -34,9 +34,9 @@
         "changelog": "Improved {improved marginTop}\n======================\n\n* Ported to Discord v101.3"
     },
     "CustomBadges": {
-        "version": "1.2.2",
+        "version": "1.2.3",
         "minimumDiscordVersion": 101200,
-        "changelog": "Improved {improved marginTop}\n======================\n\n* Ported to Discord v101.3"
+        "changelog": "Improved {improved marginTop}\n======================\n\n* Small improvements"
     },
     "ShowPerms": {
         "version": "1.4.2",
