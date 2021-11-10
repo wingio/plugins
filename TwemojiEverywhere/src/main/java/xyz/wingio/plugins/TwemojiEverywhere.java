@@ -10,6 +10,7 @@ import android.text.*;
 import android.text.style.*;
 
 import androidx.core.content.res.ResourcesCompat;
+import androidx.core.content.ContextCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import xyz.wingio.plugins.twemojieverywhere.*;
@@ -44,6 +45,7 @@ import com.discord.widgets.user.profile.UserProfileHeaderViewModel;
 
 import com.facebook.drawee.span.DraweeSpanStringBuilder;
 
+import de.robv.android.xposed.XposedBridge;
 import com.lytefast.flexinput.R;
 
 import java.util.*;
@@ -59,22 +61,24 @@ public class TwemojiEverywhere extends Plugin {
     needsResources = true;
   }
 
-  public Logger logger = new Logger("TwemojiEverywhere");
+  public static Logger logger = new Logger("TwemojiEverywhere");
+  private Drawable pluginIcon;
 
   @Override
   public void start(Context context) throws Throwable {
     Patches.patchAll();
+    pluginIcon = ContextCompat.getDrawable(context, R.e.ic_emoji_picker_category_people);
 
     patcher.patch(WidgetChatListAdapterItemMessage.class, "onConfigure", new Class<?>[]{ int.class, ChatListEntry.class }, new Hook(callFrame -> {
       if(!Settings.inChatNames()) return;
       WidgetChatListAdapterItemMessage _this = (WidgetChatListAdapterItemMessage) callFrame.thisObject;
       try {
         TextView author = (TextView) _this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_text_name", "id"));
-        CharSequence text = author.getText();
-        author.setText(renderTwemoji(author.getContext(), text));
+        TextView reply = (TextView) _this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_text_decorator_reply_name", "id"));
+        author.setText(renderTwemoji(author.getContext(), author.getText()));
+        reply.setText(renderTwemoji(reply.getContext(), reply.getText()));
       } catch(Throwable e){}
     }));
-
       
     if(Settings.enabledEverywhere()) patcher.patch(TextView.class, "setText", new Class<?>[]{ CharSequence.class }, new Hook(callFrame -> {
       TextView _this = (TextView) callFrame.thisObject;
@@ -86,9 +90,13 @@ public class TwemojiEverywhere extends Plugin {
   }
 
   public static DraweeSpanStringBuilder renderTwemoji(Context context, CharSequence text) {
+    return renderTwemoji(context, text, Settings.inServerPopoutName());
+  }
+
+  public static DraweeSpanStringBuilder renderTwemoji(Context context, CharSequence text, boolean useCustomEmoji) {
     Parser parser = new Parser();
     Rules rules = Rules.INSTANCE;
-    if(Settings.inServerPopoutName()) parser.addRule(rules.createCustomEmojiRule());
+    if(useCustomEmoji) parser.addRule(rules.createCustomEmojiRule());
     parser.addRule(rules.createUnicodeEmojiRule());
     parser.addRule(new TextRule());
     var nodes = parser.parse(text, MessageParseState.Companion.getInitialState());
@@ -100,4 +108,3 @@ public class TwemojiEverywhere extends Plugin {
   @Override
   public void stop(Context context) { patcher.unpatchAll(); }
 }
-

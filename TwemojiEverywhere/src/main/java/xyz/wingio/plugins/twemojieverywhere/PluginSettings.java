@@ -62,14 +62,25 @@ public final class PluginSettings extends SettingsPage {
         layout.addView(createSwitch(ctx, settings, "chat_names", "Show in Chat Names", null, true));
         layout.addView(createSwitch(ctx, settings, "in_profile_sheet", "Show in Profile Sheet", null, true));
         layout.addView(createSwitch(ctx, settings, "show_in_member_list", "Show in Member List", null, true));
-        layout.setOnClickListener(v -> {i++; if(i == 10) {layout.addView(createSwitch(ctx, settings, "in_server_popout_name", "Custom Emotes", null, false));layout.addView(createSwitch(ctx, settings, "true_twemoji", "Truely everywhere", "WARNING: This option may cause huge performance issues and may not work in all places", false));}});
-        //layout.addView(createSwitch(ctx, settings, "in_server_name", "Show in Server Name", null, true));
+        layout.setOnClickListener(v -> {i++; if(i == 10) {layout.addView(createSwitch(ctx, settings, "in_server_popout_name", "Custom Emotes", null, false));layout.addView(createHuskSwitch(ctx));}});
+        layout.addView(createSwitch(ctx, settings, "in_channel_list", "Show in Channel List", null, true));
     }
 
-    private CheckedSetting createSwitch(Context context, SettingsAPI sets, String key, String label, String subtext, boolean defaultValue) {
+    private CheckedSetting createSwitch(Context context, SettingsAPI sets, String key, CharSequence label, String subtext, boolean defaultValue) {
         CheckedSetting cs = Utils.createCheckedSetting(context, CheckedSetting.ViewType.SWITCH, label, subtext);
         cs.setChecked(sets.getBool(key, defaultValue));
-        cs.setOnCheckedListener(c -> sets.setBool(key, c));
+        cs.setOnCheckedListener(c -> {sets.setBool(key, c); restart();});
         return cs;
+    }
+
+    private CheckedSetting createHuskSwitch(Context context) {
+        return createSwitch(context, settings, "true_twemoji", "Husk Mode", "WARNING: This option may cause huge performance issues and may not work in all places", false);
+    }
+
+    private void restart() {
+        try {
+            plugin.stop(Utils.getAppContext());
+            plugin.start(Utils.getAppContext());
+        } catch (Throwable e) {}
     }
 }

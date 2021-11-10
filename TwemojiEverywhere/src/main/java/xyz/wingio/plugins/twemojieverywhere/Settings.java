@@ -22,6 +22,11 @@ public class Settings {
         if(enabledEverywhere()) return false;
         return settings.getBool("in_profile_sheet", true);
     }
+
+    public static boolean inChannelList() {
+        if(enabledEverywhere()) return false;
+        return settings.getBool("in_channel_list", true);
+    }
     
     public static boolean inServerName() {
         if(enabledEverywhere()) return false;

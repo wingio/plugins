@@ -49,8 +49,18 @@ public class Patches {
     }
 
     public static void patchAll(){
-        MemberListPatches.patchMemberList();
-        ProfileSheetPatches.patchUserSheet();
+        if(Settings.inMemberList()) MemberListPatches.patchMemberList();
+        if(Settings.inProfileSheet()) ProfileSheetPatches.patchUserSheet();
+        if(Settings.inChannelList()) patchChannelList();
+    }
+
+    public static void patchChannelList(){
+        ChannelListPatches.patchTextChannel();
+        ChannelListPatches.patchCatChannel();
+        ChannelListPatches.patchVoiceChannel();
+        ChannelListPatches.patchPrivChannel();
+        ChannelListPatches.patchStageChannel();
+        ChannelListPatches.patchThreadChannel();
     }
 
     public static DraweeSpanStringBuilder renderTwemoji(Context context, CharSequence text) {

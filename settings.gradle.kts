@@ -1,3 +1,3 @@
-include(":CustomBadges")
+include(":TwemojiEverywhere")
 
 rootProject.name = "plugins"

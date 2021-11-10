@@ -64,8 +64,9 @@
         "changelog": "Improved {improved marginTop}\n======================\n\n* Ported to Discord v101.3"
     },
     "TwemojiEverywhere": {
-        "version": "1.0.1",
-        "minimumDiscordVersion": 96100
+        "version": "1.1.0",
+        "minimumDiscordVersion": 96100,
+        "changelog": "New {added marginTop}\n======================\n\n* Added Twemoji to channel names\n* Made reply author names also show Twemoji"
     },
     "default": {
         "minimumDiscordVersion": 1456,
