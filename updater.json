@@ -68,6 +68,10 @@
         "minimumDiscordVersion": 96100,
         "changelog": "New {added marginTop}\n======================\n\n* Added Twemoji to channel names\n* Made reply author names also show Twemoji"
     },
+    "BetterChatbox": {
+        "version" : "1.0.0",
+        "minimumDiscordVersion": 96100
+    },
     "default": {
         "minimumDiscordVersion": 1456,
         "version": "1.0.0",
