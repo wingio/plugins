@@ -58,13 +58,6 @@ subprojects {
         author("Wing", 298295889720770563L)
         updateUrl.set("https://raw.githubusercontent.com/wingio/plugins/builds/updater.json")
         buildUrl.set("https://raw.githubusercontent.com/wingio/plugins/builds/%s.zip")
-
-        changelog.set("""
-        Improved {improved marginTop}
-        ======================
-
-        * Ported to Discord v101.3
-        """.trimIndent())
     }
 }
 

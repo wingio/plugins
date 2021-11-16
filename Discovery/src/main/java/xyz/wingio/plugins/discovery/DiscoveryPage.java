@@ -167,24 +167,16 @@ public final class DiscoveryPage extends SettingsPage {
     }
 
     public DiscoveryResult loadMore(List<DiscoveryGuild> current, int limit) throws Throwable {
-        DiscoveryResult res = (DiscoveryResult) new Http.Request(String.format("https://discord.com/api/v9/discoverable-guilds?limit=%s&offset=%s", limit, current.size()), "GET")
-            .setHeader("Authorization", (String) ReflectUtils.getField(StoreStream.getAuthentication(), "authToken"))
-            .setHeader("User-Agent", RestAPI.AppHeadersProvider.INSTANCE.getUserAgent())
-            .setHeader("X-Super-Properties", AnalyticSuperProperties.INSTANCE.getSuperPropertiesStringBase64())
+        DiscoveryResult res = (DiscoveryResult) Http.Request.newDiscordRequest(String.format("/discoverable-guilds?limit=%s&offset=%s", limit, current.size()), "GET")
             .setHeader("Referer", "https://discord.com/guild-discovery")
-            .setHeader("Accept", "*/*")
             .execute()
             .json(DiscoveryResult.class);
         return res;
     }
 
     public DiscoveryResult loadMore(List<DiscoveryGuild> current, int limit, String query) throws Throwable {
-        DiscoveryResult res = (DiscoveryResult) new Http.Request(String.format("https://discord.com/api/v9/discoverable-guilds?limit=%s&offset=%s&query=%s", limit, current.size(), query), "GET")
-            .setHeader("Authorization", (String) ReflectUtils.getField(StoreStream.getAuthentication(), "authToken"))
-            .setHeader("User-Agent", RestAPI.AppHeadersProvider.INSTANCE.getUserAgent())
-            .setHeader("X-Super-Properties", AnalyticSuperProperties.INSTANCE.getSuperPropertiesStringBase64())
+        DiscoveryResult res = (DiscoveryResult) Http.Request.newDiscordRequest(String.format("/discoverable-guilds?limit=%s&offset=%s&query=%s", limit, current.size(), query), "GET")
             .setHeader("Referer", "https://discord.com/guild-discovery")
-            .setHeader("Accept", "*/*")
             .execute()
             .json(DiscoveryResult.class);
         return res;

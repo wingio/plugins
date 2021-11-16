@@ -36,3 +36,6 @@ Adds more syntax highlighting options
 
 ### [TwemojiEverywhere](https://github.com/wingio/plugins/raw/builds/TwemojiEverywhere.zip)
 Enables Twemoji in more than just chat
+
+### [BetterChatbox](https://github.com/wingio/plugins/raw/builds/BetterChatbox.zip)
+Adds options for customizing the chatbox
