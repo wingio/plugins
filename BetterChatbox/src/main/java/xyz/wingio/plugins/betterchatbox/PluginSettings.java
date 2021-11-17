@@ -65,9 +65,16 @@ public final class PluginSettings extends SettingsPage {
         var ctx = view.getContext();
         var layout = getLinearLayout();
 
-        layout.addView(createSwitch(ctx, settings, "show_avatar", "Show Avatar", "Show your avatar by the chat box\nPress tp open the user sheet, Long press to change status", false));
+        TextView disclaimer = new TextView(ctx, null, 0, R.i.UiKit_TextView);
+        disclaimer.setText("Some of these settings may require an app restart in order to properly take effect.");
+        disclaimer.setPadding(p, p, p, p);
+        
+        layout.addView(createSwitch(ctx, settings, "show_avatar", "Show Avatar", "Show your avatar by the chat box\nPress to open the user sheet, Long press to change status", false));
         layout.addView(createSwitch(ctx, settings, "old_gallery_icon", "Use Old Gallery Icon", "Use the old image icon as opposed to the plus icon", false));
         layout.addView(createSwitch(ctx, settings, "small_gallery_button", "Use Small Gallery Button", "Use a smaller button inside the textbox rather than a large button outside of it", true));
+
+        layout.addView(new Divider(ctx));
+        layout.addView(disclaimer);
         
     }
 

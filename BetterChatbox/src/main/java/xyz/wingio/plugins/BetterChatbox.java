@@ -64,8 +64,8 @@ public class BetterChatbox extends Plugin {
     public final int avId = View.generateViewId();
     public final int btnGroupId = Utils.getResId("left_btns_container", "id");
 
-    public long guildId = 0L;
-    public long channelId = 0L;
+    public long gId = 0L;
+    public long cId = 0L;
 
     @Override
     public void start(Context context) throws Throwable {
@@ -83,8 +83,8 @@ public class BetterChatbox extends Plugin {
           WidgetChatInputEditText editText = (WidgetChatInputEditText) etField.get(_this);
           AppFlexInputViewModel vm = (AppFlexInputViewModel) vmMethod.invoke(_this);
           if(editText == null) return;
-          guildId = ChannelWrapper.getGuildId(StoreStream.getChannels().getChannel(editText.getChannelId()));
-          channelId = editText.getChannelId();
+          gId = ChannelWrapper.getGuildId(StoreStream.getChannels().getChannel(editText.getChannelId()));
+          cId = editText.getChannelId();
           var g = addGalleryButton((FlexEditText) etField2.get(editText));
           g.setOnClickListener(v -> vm.onGalleryButtonClicked());
           g.setOnLongClickListener(v -> { Utils.showToast("Media Selector", false); return true; });
@@ -97,13 +97,14 @@ public class BetterChatbox extends Plugin {
         FlexInputFragment fragment = (FlexInputFragment) ((FlexInputFragment$d) callFrame.thisObject).receiver;
         disableHideGift();
         LinearLayout btnGroup = (LinearLayout) fragment.j().getRoot().findViewById(btnGroupId);
-        if(settings.getBool("show_avatar", false)) {
+        if(showAvatar()) {
+          Long guildId = ChannelWrapper.getGuildId(StoreStream.getChannelsSelected().getSelectedChannel()); Long channelId = ChannelWrapper.getId(StoreStream.getChannelsSelected().getSelectedChannel());
           User meUser = StoreStream.getUsers().getMe(); Long meId = meUser.getId();GuildMember me = StoreStream.getGuilds().getMember(guildId, meId);
           String avatarUrl = ( me != null && me.hasAvatar() ) ? String.format("https://cdn.discordapp.com/guilds/%s/users/%s/avatars/%s.png", guildId, meId, me.getAvatarHash()) : String.format("https://cdn.discordapp.com/avatars/%s/%s.png", meUser.getId(), meUser.getAvatar());
           avatarUrl = meUser.getAvatar() == null || meUser.getAvatar().isEmpty() ? "https://cdn.discordapp.com/embed/avatars/0.png" : avatarUrl;
           var av = setUpAvatar(btnGroup.getContext(), 40); av.setId(avId);
           av.setOnClickListener(v -> {
-            if(guildId == 0) WidgetUserSheet.Companion.show(meId, fragment.getParentFragmentManager()); else WidgetUserSheet.Companion.show(meId, channelId, fragment.getParentFragmentManager(), guildId);
+            if(guildId == 0) WidgetUserSheet.Companion.show(meId, fragment.getParentFragmentManager()); else WidgetUserSheet.Companion.show(meId, cId, fragment.getParentFragmentManager(), gId);
           });
           av.setOnLongClickListener(v -> {
             WidgetUserStatusSheet.Companion.show(fragment);
@@ -112,7 +113,7 @@ public class BetterChatbox extends Plugin {
           if(btnGroup.findViewById(avId) != null) ((SimpleDraweeView) btnGroup.findViewById(avId)).setImageURI(avatarUrl); else btnGroup.addView(av);
           configureBtnGroup(btnGroup);
         } else {
-          if(settings.getBool("small_gallery_button", true)) btnGroup.setVisibility(View.GONE); else btnGroup.setVisibility(View.VISIBLE);
+          if(useSmallBtn()) btnGroup.setVisibility(View.GONE); else btnGroup.setVisibility(View.VISIBLE);
         }
         configureBtnGroup(btnGroup);
       }));
@@ -120,12 +121,13 @@ public class BetterChatbox extends Plugin {
   }
 
   public ToolbarButton addGalleryButton(FlexEditText et) throws Throwable {
-    LinearLayout group = (LinearLayout) et.getParent(); 
+    LinearLayout group = (LinearLayout) et.getParent();
+    group.setGravity(Gravity.CENTER_VERTICAL);
     Context context = et.getContext();
     FrameLayout mediaPickerContainer = new FrameLayout(context);
 
     RelativeLayout.LayoutParams params3 = (RelativeLayout.LayoutParams) group.getLayoutParams();
-    if(params3 != null && !settings.getBool("show_avatar", false)) params3.setMargins(p3, p3, p3, p3);
+    if(params3 != null && !showAvatar()) params3.setMargins(p3, p3, p3, p3);
 
     LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(p, p);
     params2.setMargins(-1 * DimenUtils.dpToPx(8),0,0,0);
@@ -133,20 +135,20 @@ public class BetterChatbox extends Plugin {
 
     ToolbarButton mediaPicker = new ToolbarButton(context);
     FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(p, p);
-    mediaPicker.setImageResource(settings.getBool("old_gallery_icon", false) ? R.e.ic_flex_input_image_24dp_dark : R.e.ic_add_circle);
+    mediaPicker.setImageResource(useOldIcn() ? R.e.ic_flex_input_image_24dp_dark : R.e.ic_add_circle);
     mediaPicker.setPadding(p2, p2, p2, p2);
     mediaPicker.setLayoutParams(params);
     mediaPicker.setId(btnId);
     mediaPickerContainer.addView(mediaPicker);
 
-    if(group.findViewById(btnId) == null && settings.getBool("small_gallery_button", true)) group.addView(mediaPickerContainer, 0);
+    if(group.findViewById(btnId) == null && useSmallBtn()) group.addView(mediaPickerContainer, 0);
     return mediaPicker;
   }
 
   public SimpleDraweeView setUpAvatar(Context ctx, int size) {
     SimpleDraweeView icon = new SimpleDraweeView(ctx);
     LinearLayout.LayoutParams iconParams = new LinearLayout.LayoutParams(DimenUtils.dpToPx(size), DimenUtils.dpToPx(size));
-    iconParams.setMargins(settings.getBool("small_gallery_button", true) ? DimenUtils.dpToPx(6) : 0, 0, DimenUtils.dpToPx(6), 0);
+    iconParams.setMargins(useSmallBtn() ? DimenUtils.dpToPx(6) : 0, 0, DimenUtils.dpToPx(6), 0);
     icon.setLayoutParams(iconParams);
     icon.setImageURI(IconUtils.DEFAULT_ICON_BLURPLE);
     icon.setClipToOutline(true);
@@ -159,9 +161,9 @@ public class BetterChatbox extends Plugin {
 
   public void configureBtnGroup(LinearLayout btnGroup) {
     androidx.appcompat.widget.AppCompatImageButton gallery = (androidx.appcompat.widget.AppCompatImageButton) btnGroup.findViewById(Utils.getResId("gallery_btn", "id"));
-    if(settings.getBool("small_gallery_button", true)) gallery.setVisibility(View.GONE);
-    if(!settings.getBool("small_gallery_button", true)) gallery.setVisibility(View.VISIBLE);
-    if(settings.getBool("old_gallery_icon", false)) gallery.setImageResource(R.e.ic_flex_input_image_24dp_dark);
+    if(useSmallBtn()) gallery.setVisibility(View.GONE);
+    if(!useSmallBtn()) gallery.setVisibility(View.VISIBLE);
+    if(useOldIcn()) gallery.setImageResource(R.e.ic_flex_input_image_24dp_dark);
     btnGroup.findViewById(Utils.getResId("gift_btn", "id")).setVisibility(View.GONE);
     btnGroup.findViewById(Utils.getResId("expand_btn", "id")).setVisibility(View.GONE);
   }
@@ -171,6 +173,18 @@ public class BetterChatbox extends Plugin {
     if(pl != null){
         pl.settings.setBool("giftButton", false);
     }
+  }
+
+  public boolean showAvatar() {
+    return settings.getBool("show_avatar", false);
+  }
+
+  public boolean useSmallBtn() {
+    return settings.getBool("small_gallery_button", true);
+  }
+
+  public boolean useOldIcn() {
+    return settings.getBool("old_gallery_icon", false);
   }
 
   @Override

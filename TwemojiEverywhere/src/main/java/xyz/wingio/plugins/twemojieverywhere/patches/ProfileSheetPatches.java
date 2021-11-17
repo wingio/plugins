@@ -47,7 +47,10 @@ import java.lang.*;
 import kotlin.jvm.functions.Function0;
 
 public class ProfileSheetPatches extends Patches {
-    public static void patchUserSheet() {
+    public ProfileSheetPatches(PatcherAPI patcher) {
+        super(patcher);
+    }
+    public void patchUserSheet() {
         patcher.patch(UserProfileHeaderView.class, "updateViewState", new Class<?>[]{ UserProfileHeaderViewModel.ViewState.Loaded.class }, new Hook(callFrame -> {
         if(!Settings.inProfileSheet()) return;
         try {

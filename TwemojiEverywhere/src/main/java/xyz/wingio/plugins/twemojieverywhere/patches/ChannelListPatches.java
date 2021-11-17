@@ -42,14 +42,17 @@ import java.lang.*;
 import kotlin.jvm.functions.Function0;
 
 public class ChannelListPatches extends Patches {
-    public static int channelTextName = Utils.getResId("channels_item_channel_name", "id");
-    public static int channelCatName = Utils.getResId("channels_item_category_name", "id");
-    public static int channelVoiceName = Utils.getResId("channels_item_voice_channel_name", "id");
-    public static int channelPrivName = Utils.getResId("channels_list_item_private_name", "id");
-    public static int channelStageName = Utils.getResId("stage_channel_item_voice_channel_name", "id");
-    public static int channelThreadName = Utils.getResId("channels_item_thread_name", "id");
+    public ChannelListPatches(PatcherAPI patcher) {
+        super(patcher);
+    }
+    public int channelTextName = Utils.getResId("channels_item_channel_name", "id");
+    public int channelCatName = Utils.getResId("channels_item_category_name", "id");
+    public int channelVoiceName = Utils.getResId("channels_item_voice_channel_name", "id");
+    public int channelPrivName = Utils.getResId("channels_list_item_private_name", "id");
+    public int channelStageName = Utils.getResId("stage_channel_item_voice_channel_name", "id");
+    public int channelThreadName = Utils.getResId("channels_item_thread_name", "id");
 
-    public static void patchTextChannel() {
+    public void patchTextChannel() {
         patcher.patch(WidgetChannelsListAdapter.ItemChannelText.class, "onConfigure", new Class<?>[] {int.class, ChannelListItem.class}, new Hook(callFrame -> {
             if(!Settings.inChannelList()) return;
             WidgetChannelsListAdapter.ItemChannelText _this = (WidgetChannelsListAdapter.ItemChannelText) callFrame.thisObject;
@@ -58,7 +61,7 @@ public class ChannelListPatches extends Patches {
         }));
     }
 
-    public static void patchCatChannel() {
+    public void patchCatChannel() {
         patcher.patch(WidgetChannelsListAdapter.ItemChannelCategory.class, "onConfigure", new Class<?>[] {int.class, ChannelListItem.class}, new Hook(callFrame -> {
             if(!Settings.inChannelList()) return;
             WidgetChannelsListAdapter.ItemChannelCategory _this = (WidgetChannelsListAdapter.ItemChannelCategory) callFrame.thisObject;
@@ -67,7 +70,7 @@ public class ChannelListPatches extends Patches {
         }));
     }
 
-    public static void patchVoiceChannel() {
+    public void patchVoiceChannel() {
         patcher.patch(WidgetChannelsListAdapter.ItemChannelVoice.class, "onConfigure", new Class<?>[] {int.class, ChannelListItem.class}, new Hook(callFrame -> {
             if(!Settings.inChannelList()) return;
             WidgetChannelsListAdapter.ItemChannelVoice _this = (WidgetChannelsListAdapter.ItemChannelVoice) callFrame.thisObject;
@@ -76,7 +79,7 @@ public class ChannelListPatches extends Patches {
         }));
     }
 
-    public static void patchPrivChannel() {
+    public void patchPrivChannel() {
         patcher.patch(WidgetChannelsListAdapter.ItemChannelPrivate.class, "onConfigure", new Class<?>[] {int.class, ChannelListItem.class}, new Hook(callFrame -> {
             if(!Settings.inChannelList()) return;
             WidgetChannelsListAdapter.ItemChannelPrivate _this = (WidgetChannelsListAdapter.ItemChannelPrivate) callFrame.thisObject;
@@ -85,7 +88,7 @@ public class ChannelListPatches extends Patches {
         }));
     }
 
-    public static void patchStageChannel() {
+    public void patchStageChannel() {
         patcher.patch(WidgetChannelsListAdapter.ItemChannelStageVoice.class, "onConfigure", new Class<?>[] {int.class, ChannelListItem.class}, new Hook(callFrame -> {
             if(!Settings.inChannelList()) return;
             WidgetChannelsListAdapter.ItemChannelStageVoice _this = (WidgetChannelsListAdapter.ItemChannelStageVoice) callFrame.thisObject;
@@ -94,7 +97,7 @@ public class ChannelListPatches extends Patches {
         }));
     }
 
-    public static void patchThreadChannel() {
+    public void patchThreadChannel() {
         patcher.patch(WidgetChannelsListAdapter.ItemChannelThread.class, "onConfigure", new Class<?>[] {int.class, ChannelListItem.class}, new Hook(callFrame -> {
             if(!Settings.inChannelList()) return;
             WidgetChannelsListAdapter.ItemChannelThread _this = (WidgetChannelsListAdapter.ItemChannelThread) callFrame.thisObject;

@@ -66,7 +66,8 @@ public class TwemojiEverywhere extends Plugin {
 
   @Override
   public void start(Context context) throws Throwable {
-    Patches.patchAll();
+    Patches patches = new Patches(patcher);
+    patches.patchAll();
     pluginIcon = ContextCompat.getDrawable(context, R.e.ic_emoji_picker_category_people);
 
     patcher.patch(WidgetChatListAdapterItemMessage.class, "onConfigure", new Class<?>[]{ int.class, ChatListEntry.class }, new Hook(callFrame -> {

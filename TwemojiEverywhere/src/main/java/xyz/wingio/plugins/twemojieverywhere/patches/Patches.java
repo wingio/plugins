@@ -40,7 +40,7 @@ import com.facebook.drawee.span.DraweeSpanStringBuilder;
 import java.util.*;
 
 public class Patches {
-    public static PatcherAPI patcher = new PatcherAPI();
+    public PatcherAPI patcher;
     public static Logger logger = new Logger("TwemojiEverywhere");
     public static SettingsAPI settings = PluginManager.plugins.get("TwemojiEverywhere").settings;
 
@@ -48,19 +48,26 @@ public class Patches {
         return PluginManager.plugins.get("ShowHiddenChannels") != null && PluginManager.isPluginEnabled("ShowHiddenChannels");
     }
 
-    public static void patchAll(){
-        if(Settings.inMemberList()) MemberListPatches.patchMemberList();
-        if(Settings.inProfileSheet()) ProfileSheetPatches.patchUserSheet();
+    public Patches(PatcherAPI patcher) {
+        this.patcher = patcher;
+    }
+
+    public void patchAll(){
+        MemberListPatches memberListPatches = new MemberListPatches(patcher);
+        ProfileSheetPatches profileSheetPatches = new ProfileSheetPatches(patcher);
+        if(Settings.inMemberList()) memberListPatches.patchMemberList();
+        if(Settings.inProfileSheet()) profileSheetPatches.patchUserSheet();
         if(Settings.inChannelList()) patchChannelList();
     }
 
-    public static void patchChannelList(){
-        ChannelListPatches.patchTextChannel();
-        ChannelListPatches.patchCatChannel();
-        ChannelListPatches.patchVoiceChannel();
-        ChannelListPatches.patchPrivChannel();
-        ChannelListPatches.patchStageChannel();
-        ChannelListPatches.patchThreadChannel();
+    public void patchChannelList(){
+        ChannelListPatches channelListPatches = new ChannelListPatches(patcher);
+        channelListPatches.patchTextChannel();
+        channelListPatches.patchCatChannel();
+        channelListPatches.patchVoiceChannel();
+        channelListPatches.patchPrivChannel();
+        channelListPatches.patchStageChannel();
+        channelListPatches.patchThreadChannel();
     }
 
     public static DraweeSpanStringBuilder renderTwemoji(Context context, CharSequence text) {

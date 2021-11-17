@@ -31,15 +31,19 @@ import com.lytefast.flexinput.R;
 import java.util.*;
 
 public class Patches {
-    private static PatcherAPI patcher = new PatcherAPI();
+    private PatcherAPI patcher;
     private static Logger logger = new Logger("BetterChannelIcons");
     private static SettingsAPI settings = PluginManager.plugins.get("BetterChannelIcons").settings;
 
-    private static boolean isSHCEnabled(){
+    public Patches(PatcherAPI patcher) {
+        this.patcher = patcher;
+    }
+
+    private boolean isSHCEnabled(){
         return PluginManager.plugins.get("ShowHiddenChannels") != null && PluginManager.isPluginEnabled("ShowHiddenChannels");
     }
 
-    public static void addChannelAction(){
+    public void addChannelAction(){
         patcher.patch(WidgetChannelsListItemChannelActions.class, "configureUI", new Class<?>[] { WidgetChannelsListItemChannelActions.Model.class }, new Hook(callFrame -> {
             WidgetChannelsListItemChannelActions.Model model = (WidgetChannelsListItemChannelActions.Model) callFrame.args[0];
             WidgetChannelsListItemChannelActions _this = (WidgetChannelsListItemChannelActions) callFrame.thisObject;
@@ -59,7 +63,7 @@ public class Patches {
         }));
     }
 
-    public static void setToolbarIcon(Resources resources) {
+    public void setToolbarIcon(Resources resources) {
         patcher.patch(WidgetHomeHeaderManager.class, "configure", new Class<?>[]{ WidgetHome.class, WidgetHomeModel.class, WidgetHomeBinding.class }, new Hook(callFrame -> {
         try {
             if(!settings.getBool("setToolbarIcon", true)) return;
@@ -74,7 +78,7 @@ public class Patches {
         }));
     }
 
-    public static void setVoiceIcon(Resources resources) {
+    public void setVoiceIcon(Resources resources) {
         patcher.patch(WidgetChannelsListAdapter.ItemChannelVoice.class, "onConfigure", new Class<?>[]{int.class, ChannelListItem.class}, new Hook(callFrame -> {
         try {
             WidgetChannelsListAdapter.ItemChannelVoice _this = (WidgetChannelsListAdapter.ItemChannelVoice) callFrame.thisObject;
@@ -91,7 +95,7 @@ public class Patches {
         }));
     }
 
-    public static void setTextIcon(Resources resources) {
+    public void setTextIcon(Resources resources) {
         patcher.patch(WidgetChannelsListAdapter.ItemChannelText.class, "onConfigure", new Class<?>[]{int.class, ChannelListItem.class}, new Hook(callFrame -> {
         try {
             WidgetChannelsListAdapter.ItemChannelText _this = (WidgetChannelsListAdapter.ItemChannelText) callFrame.thisObject; ChannelListItem channelListItem = (ChannelListItem) callFrame.args[1]; ChannelListItemTextChannel channelItem = (ChannelListItemTextChannel) channelListItem; Channel apiChannel = channelItem.getChannel(); ChannelWrapper channel = new ChannelWrapper(apiChannel);

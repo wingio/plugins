@@ -75,10 +75,12 @@ public class BetterChannelIcons extends Plugin {
       return;
     }
 
-    Patches.addChannelAction();
-    Patches.setTextIcon(resources);
-    Patches.setVoiceIcon(resources);
-    Patches.setToolbarIcon(resources);
+    Patches patches = new Patches(patcher);
+
+    patches.addChannelAction();
+    patches.setTextIcon(resources);
+    patches.setVoiceIcon(resources);
+    patches.setToolbarIcon(resources);
   }
   
   @Override

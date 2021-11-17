@@ -42,7 +42,10 @@ import java.lang.*;
 import kotlin.jvm.functions.Function0;
 
 public class MemberListPatches extends Patches {
-    public static void patchMemberList() {
+    public MemberListPatches(PatcherAPI patcher) {
+        super(patcher);
+    }
+    public void patchMemberList() {
         patcher.patch(ChannelMembersListViewHolderMember.class, "bind", new Class<?>[]{ ChannelMembersListAdapter.Item.Member.class, Function0.class}, new Hook(callFrame -> {
             try {
                 var bindingField = ChannelMembersListViewHolderMember.class.getDeclaredField("binding");

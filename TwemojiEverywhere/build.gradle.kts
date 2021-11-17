@@ -1,4 +1,4 @@
-version = "1.1.0"
+version = "1.1.1"
 description = "Enables Twemoji in more than just chat"
 
 aliucord.changelog.set(
