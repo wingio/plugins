@@ -2,6 +2,7 @@ package xyz.wingio.plugins;
 
 import android.content.Context;
 import android.net.Uri;
+import android.graphics.*;
 import android.graphics.drawable.*;
 import android.graphics.drawable.shapes.*;
 import android.text.Editable;
@@ -29,6 +30,7 @@ import com.discord.models.member.GuildMember;
 import com.discord.stores.*;
 import com.discord.utilities.icon.IconUtils;
 import com.discord.utilities.permissions.PermissionUtils;
+import com.discord.utilities.color.ColorCompat;
 import com.discord.widgets.chat.input.*;
 import com.discord.widgets.user.usersheet.WidgetUserSheet;
 import com.discord.widgets.user.*;
@@ -83,9 +85,11 @@ public class BetterChatbox extends Plugin {
           WidgetChatInputEditText editText = (WidgetChatInputEditText) etField.get(_this);
           AppFlexInputViewModel vm = (AppFlexInputViewModel) vmMethod.invoke(_this);
           if(editText == null) return;
+          FlexEditText fet = (FlexEditText) etField2.get(editText);
+          ((LinearLayout) fet.getParent()).setBackground(getRoundedCornersShape(getCBRadius(), ColorCompat.getThemedColor(fet.getContext(), R.b.colorBackgroundSecondaryAlt)));
           gId = ChannelWrapper.getGuildId(StoreStream.getChannels().getChannel(editText.getChannelId()));
           cId = editText.getChannelId();
-          var g = addGalleryButton((FlexEditText) etField2.get(editText));
+          var g = addGalleryButton(fet);
           g.setOnClickListener(v -> vm.onGalleryButtonClicked());
           g.setOnLongClickListener(v -> { Utils.showToast("Media Selector", false); return true; });
         } catch (Throwable e) {
@@ -152,18 +156,20 @@ public class BetterChatbox extends Plugin {
     icon.setLayoutParams(iconParams);
     icon.setImageURI(IconUtils.DEFAULT_ICON_BLURPLE);
     icon.setClipToOutline(true);
-    var circle = new ShapeDrawable(new OvalShape());
-    var paint = circle.getPaint();
-    paint.setColor(android.graphics.Color.TRANSPARENT);
+    var circle = getAvRadius() == size / 2 ? new ShapeDrawable(new OvalShape()) : getRoundedCornersShape(getAvRadius());
+    circle.getPaint().setColor(Color.TRANSPARENT);
     icon.setBackground(circle);
     return icon;
+
+    // icon.setImageDrawable(circle);
+    // return icon;
   }
 
   public void configureBtnGroup(LinearLayout btnGroup) {
     androidx.appcompat.widget.AppCompatImageButton gallery = (androidx.appcompat.widget.AppCompatImageButton) btnGroup.findViewById(Utils.getResId("gallery_btn", "id"));
-    if(useSmallBtn()) gallery.setVisibility(View.GONE);
-    if(!useSmallBtn()) gallery.setVisibility(View.VISIBLE);
+    if(useSmallBtn()) gallery.setVisibility(View.GONE); else gallery.setVisibility(View.VISIBLE);
     if(useOldIcn()) gallery.setImageResource(R.e.ic_flex_input_image_24dp_dark);
+    gallery.setBackground(getRoundedCornersShape(getBtnRadius()));
     btnGroup.findViewById(Utils.getResId("gift_btn", "id")).setVisibility(View.GONE);
     btnGroup.findViewById(Utils.getResId("expand_btn", "id")).setVisibility(View.GONE);
   }
@@ -185,6 +191,30 @@ public class BetterChatbox extends Plugin {
 
   public boolean useOldIcn() {
     return settings.getBool("old_gallery_icon", false);
+  }
+
+  public int getAvRadius() {
+    return settings.getInt("av_r", DimenUtils.dpToPx(20));
+  }
+
+  public int getCBRadius() {
+    return settings.getInt("cb_r", DimenUtils.dpToPx(20));
+  }
+
+  public int getBtnRadius() {
+    return settings.getInt("btn_r", DimenUtils.dpToPx(20));
+  }
+
+  public ShapeDrawable getRoundedCornersShape(int cornerRadius){
+    float[] radii = new float[] {cornerRadius, cornerRadius, cornerRadius, cornerRadius, cornerRadius, cornerRadius, cornerRadius, cornerRadius};
+    return new ShapeDrawable(new RoundRectShape(radii, null, null));
+  }
+
+  public ShapeDrawable getRoundedCornersShape(int cornerRadius, int color){
+    float[] radii = new float[] {cornerRadius, cornerRadius, cornerRadius, cornerRadius, cornerRadius, cornerRadius, cornerRadius, cornerRadius};
+    ShapeDrawable rounded = new ShapeDrawable(new RoundRectShape(radii, null, null));
+    rounded.getPaint().setColor(color);
+    return rounded;
   }
 
   @Override
