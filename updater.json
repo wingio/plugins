@@ -67,8 +67,9 @@
         "minimumDiscordVersion": 96100
     },
     "BetterChatbox": {
-        "version" : "1.0.1",
-        "minimumDiscordVersion": 96100
+        "version" : "1.1.0",
+        "minimumDiscordVersion": 96100,
+        "changelog": "New {added marginTop}\n======================\n\n* Added option to change the radius of the avatar, chatbox, and gallery button"
     },
     "default": {
         "minimumDiscordVersion": 1456,
