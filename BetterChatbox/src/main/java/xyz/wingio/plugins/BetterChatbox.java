@@ -86,7 +86,7 @@ public class BetterChatbox extends Plugin {
           AppFlexInputViewModel vm = (AppFlexInputViewModel) vmMethod.invoke(_this);
           if(editText == null) return;
           FlexEditText fet = (FlexEditText) etField2.get(editText);
-          ((LinearLayout) fet.getParent()).setBackground(getRoundedCornersShape(getCBRadius(), ColorCompat.getThemedColor(fet.getContext(), R.b.colorBackgroundSecondaryAlt)));
+          if(useSquareChatbox()) ((LinearLayout) fet.getParent()).setBackground(getRoundedCornersShape(getCBRadius(), ColorCompat.getThemedColor(fet.getContext(), R.b.colorBackgroundSecondaryAlt)));
           gId = ChannelWrapper.getGuildId(StoreStream.getChannels().getChannel(editText.getChannelId()));
           cId = editText.getChannelId();
           var g = addGalleryButton(fet);
@@ -191,6 +191,10 @@ public class BetterChatbox extends Plugin {
 
   public boolean useOldIcn() {
     return settings.getBool("old_gallery_icon", false);
+  }
+
+  public boolean useSquareChatbox() {
+    return settings.getBool("square_chatbox", false);
   }
 
   public int getAvRadius() {

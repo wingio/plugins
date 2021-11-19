@@ -87,10 +87,7 @@ public final class PluginSettings extends SettingsPage {
         layout.addView(avLabel);
         layout.addView(createSeekbar(ctx, "av_r", _20dp, _20dp));
 
-        TextView cbLabel = new TextView(ctx, null, 0, R.i.UiKit_TextView);
-        cbLabel.setPadding(p, p, p, p);
-        cbLabel.setText("Chatbox Radius");
-        layout.addView(cbLabel);
+        layout.addView(createSwitch(ctx, settings, "square_chatbox", "Square Chatbox", "Enable using a custom radius for the chatbox\nWARNING: This messes with themes for some reason", false));
         layout.addView(createSeekbar(ctx, "cb_r", _20dp, _20dp));
         
         TextView btnLabel = new TextView(ctx, null, 0, R.i.UiKit_TextView);
