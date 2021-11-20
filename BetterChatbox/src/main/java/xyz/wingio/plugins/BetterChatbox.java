@@ -136,7 +136,7 @@ public class BetterChatbox extends Plugin {
     FrameLayout mediaPickerContainer = new FrameLayout(context);
 
     RelativeLayout.LayoutParams params3 = (RelativeLayout.LayoutParams) group.getLayoutParams();
-    // if(params3 != null && !showAvatar()) params3.setMargins(p3, p3, p3, p3);
+    if(params3 != null && !showAvatar() && useSmallBtn()) params3.setMargins(p3, p3, p3, p3);
 
     LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(p, p);
     params2.setMargins(-1 * DimenUtils.dpToPx(8),0,0,0);
