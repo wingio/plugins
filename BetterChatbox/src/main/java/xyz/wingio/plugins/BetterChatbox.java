@@ -101,6 +101,8 @@ public class BetterChatbox extends Plugin {
         FlexInputFragment fragment = (FlexInputFragment) ((FlexInputFragment$d) callFrame.thisObject).receiver;
         disableHideGift();
         LinearLayout btnGroup = (LinearLayout) fragment.j().getRoot().findViewById(btnGroupId);
+        FrameLayout sendBtn = (FrameLayout) fragment.j().getRoot().findViewById(Utils.getResId("send_btn_container", "id"));
+        sendBtn.setBackground(getRoundedCornersShape(getBtnRadius()));
         if(showAvatar()) {
           Long guildId = ChannelWrapper.getGuildId(StoreStream.getChannelsSelected().getSelectedChannel()); Long channelId = ChannelWrapper.getId(StoreStream.getChannelsSelected().getSelectedChannel());
           User meUser = StoreStream.getUsers().getMe(); Long meId = meUser.getId();GuildMember me = StoreStream.getGuilds().getMember(guildId, meId);
@@ -108,11 +110,14 @@ public class BetterChatbox extends Plugin {
           avatarUrl = meUser.getAvatar() == null || meUser.getAvatar().isEmpty() ? "https://cdn.discordapp.com/embed/avatars/0.png" : avatarUrl;
           var av = setUpAvatar(btnGroup.getContext(), 40); av.setId(avId);
           av.setOnClickListener(v -> {
-            if(guildId == 0) WidgetUserSheet.Companion.show(meId, fragment.getParentFragmentManager()); else WidgetUserSheet.Companion.show(meId, cId, fragment.getParentFragmentManager(), gId);
+            if(swapActions()){ WidgetUserStatusSheet.Companion.show(fragment); } else {
+              if(guildId == 0) WidgetUserSheet.Companion.show(meId, fragment.getParentFragmentManager()); else WidgetUserSheet.Companion.show(meId, cId, fragment.getParentFragmentManager(), gId);
+            }
           });
           av.setOnLongClickListener(v -> {
-            WidgetUserStatusSheet.Companion.show(fragment);
-            return true;
+            if(swapActions()){
+              if(guildId == 0) WidgetUserSheet.Companion.show(meId, fragment.getParentFragmentManager()); else WidgetUserSheet.Companion.show(meId, cId, fragment.getParentFragmentManager(), gId);
+            } else { WidgetUserStatusSheet.Companion.show(fragment); } return true;
           });
           if(btnGroup.findViewById(avId) != null) ((SimpleDraweeView) btnGroup.findViewById(avId)).setImageURI(avatarUrl); else btnGroup.addView(av);
           configureBtnGroup(btnGroup);
@@ -131,7 +136,7 @@ public class BetterChatbox extends Plugin {
     FrameLayout mediaPickerContainer = new FrameLayout(context);
 
     RelativeLayout.LayoutParams params3 = (RelativeLayout.LayoutParams) group.getLayoutParams();
-    if(params3 != null && !showAvatar()) params3.setMargins(p3, p3, p3, p3);
+    // if(params3 != null && !showAvatar()) params3.setMargins(p3, p3, p3, p3);
 
     LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(p, p);
     params2.setMargins(-1 * DimenUtils.dpToPx(8),0,0,0);
@@ -195,6 +200,10 @@ public class BetterChatbox extends Plugin {
 
   public boolean useSquareChatbox() {
     return settings.getBool("square_chatbox", false);
+  }
+
+  public boolean swapActions() {
+    return settings.getBool("av_reverse", false);
   }
 
   public int getAvRadius() {

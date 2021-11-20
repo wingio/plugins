@@ -78,6 +78,8 @@ public final class PluginSettings extends SettingsPage {
         layout.addView(createSwitch(ctx, settings, "show_avatar", "Show Avatar", "Show your avatar by the chat box\nPress to open the user sheet, Long press to change status", false));
         layout.addView(createSwitch(ctx, settings, "old_gallery_icon", "Use Old Gallery Icon", "Use the old image icon as opposed to the plus icon", false));
         layout.addView(createSwitch(ctx, settings, "small_gallery_button", "Use Small Gallery Button", "Use a smaller button inside the textbox rather than a large button outside of it", true));
+        layout.addView(createSwitch(ctx, settings, "square_chatbox", "Square Chatbox", "Enable using a custom radius for the chatbox\nWARNING: This messes with themes for some reason", false));
+        layout.addView(createSwitch(ctx, settings, "av_reverse", "Swap Avatar Actions", "Swaps the avatars press and long press actions", false));
         
         layout.addView(new Divider(ctx));
 
@@ -87,12 +89,15 @@ public final class PluginSettings extends SettingsPage {
         layout.addView(avLabel);
         layout.addView(createSeekbar(ctx, "av_r", _20dp, _20dp));
 
-        layout.addView(createSwitch(ctx, settings, "square_chatbox", "Square Chatbox", "Enable using a custom radius for the chatbox\nWARNING: This messes with themes for some reason", false));
+        TextView cbLabel = new TextView(ctx, null, 0, R.i.UiKit_TextView);
+        cbLabel.setPadding(p, p, p, p);
+        cbLabel.setText("Chatbox Radius");
+        layout.addView(cbLabel);
         layout.addView(createSeekbar(ctx, "cb_r", _20dp, _20dp));
         
         TextView btnLabel = new TextView(ctx, null, 0, R.i.UiKit_TextView);
         btnLabel.setPadding(p, p, p, p);
-        btnLabel.setText("Large Gallery Button Radius");
+        btnLabel.setText("Button Radius");
         layout.addView(btnLabel);
         layout.addView(createSeekbar(ctx, "btn_r", _20dp, _20dp));
 

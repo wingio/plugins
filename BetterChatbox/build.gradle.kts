@@ -1,4 +1,4 @@
-version = "1.1.1"
+version = "1.2.0"
 description = "Adds options for customizing the chatbox"
 
 aliucord.changelog.set(
@@ -6,6 +6,12 @@ aliucord.changelog.set(
     New {added marginTop}
     ======================
 
-    * Added option to change the radius of the avatar, chatbox, and gallery button
+    * Button radius now also applies to the send button
+    * Added option to swap avatar press and long press actions
+
+    Improved {improved marginTop}
+    ======================
+
+    * Fixed spacing between the chatbox and the large gallery button when no avatar is present
     """.trimIndent()
 )
