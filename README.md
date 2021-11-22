@@ -39,3 +39,6 @@ Enables Twemoji in more than just chat
 
 ### [BetterChatbox](https://github.com/wingio/plugins/raw/builds/BetterChatbox.zip)
 Adds options for customizing the chatbox
+
+### [KeywordAlerts](https://github.com/wingio/plugins/raw/builds/KeywordAlerts.zip)
+Set up alerts for certain key words or phrases
