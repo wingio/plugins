@@ -71,6 +71,10 @@
         "minimumDiscordVersion": 96100,
         "changelog": "New {added marginTop}\n======================\n\n* Button radius now also applies to the send button\n* Added option to swap avatar press and long press actions\n\nImproved {improved marginTop}\n======================\n\n* Fixed spacing between the chatbox and the large gallery button when no avatar is present"
     },
+    "KeywordAlerts": {
+        "version": "1.0.0",
+        "minimumDiscordVersion": 96100
+    },
     "default": {
         "minimumDiscordVersion": 1456,
         "version": "1.0.0",
