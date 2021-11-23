@@ -52,6 +52,7 @@ public class KeywordAlerts extends Plugin {
 
   @Override
   public void start(Context context) throws Throwable {
+    convertToNewFormat();
     pluginIcon = ContextCompat.getDrawable(context, R.e.ic_sidebar_notifications_on_dark_24dp);
     RxUtils.subscribe(RxUtils.onBackpressureBuffer(StoreStream.getGatewaySocket().getMessageCreate()), RxUtils.createActionSubscriber(message -> {
 			if (message == null) return;
@@ -62,16 +63,28 @@ public class KeywordAlerts extends Plugin {
         String content = modelMessage.getContent();
 				for(Keyword keyword : getKeywordsList()){
           if(keyword.isEnabled() && keyword.matches(content)) {
-            showNotification(keyword, modelMessage);
+            if(keyword.whitelistEnabled()){
+              if(keyword.isWhitelisted(modelMessage.getChannelId())) showNotification(keyword, modelMessage);
+            } else { showNotification(keyword, modelMessage); }
           }
         }
 			}
 		}));
   }
 
+  public void convertToNewFormat() {
+    for (Keyword keyword : getKeywordsList()) {
+      if (keyword.getWhitelist() == null) {
+        var kws = getKeywords();
+        kws.put(keyword.getId(), new Keyword(keyword));
+        settings.setObject("keywords", kws);
+      }
+    }
+  }
+
   public List<Keyword> getKeywordsList() {
     return new ArrayList<>(getKeywords().values());
-  } 
+  }
 
   public Map<Long, Keyword> getKeywords() {
     Map<Long, Keyword> keywords = new HashMap<>();

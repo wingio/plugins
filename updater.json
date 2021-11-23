@@ -72,8 +72,9 @@
         "changelog": "New {added marginTop}\n======================\n\n* Button radius now also applies to the send button\n* Added option to swap avatar press and long press actions\n\nImproved {improved marginTop}\n======================\n\n* Fixed spacing between the chatbox and the large gallery button when no avatar is present"
     },
     "KeywordAlerts": {
-        "version": "1.0.0",
-        "minimumDiscordVersion": 96100
+        "version": "1.1.0",
+        "minimumDiscordVersion": 96100,
+        "changelog": "New {added marginTop}\n======================\n\n* Added option to whitelist certain channels for a keyword\n\nImproved {improved marginTop}\n======================\n\n* Fixed color of keyword card header"
     },
     "default": {
         "minimumDiscordVersion": 1456,

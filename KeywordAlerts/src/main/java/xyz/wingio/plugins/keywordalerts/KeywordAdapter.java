@@ -89,6 +89,17 @@ public class KeywordAdapter extends RecyclerView.Adapter<KeywordAdapter.KeywordH
             settings.setObject("keywords", keywordMap);
         });
 
+        card.whitelist.setChecked(keyword.whitelistEnabled());
+        card.channels.setVisibility(keyword.whitelistEnabled() ? View.VISIBLE : View.GONE);
+        card.whitelist.setOnCheckedListener(checked -> {
+            Map<Long, Keyword> keywordMap = settings.getObject("keywords", new HashMap<>(), KeywordAlerts.keywordsType);
+            keyword.setWhitelistEnabled(checked);
+            keywordMap.put(keyword.getId(), keyword);
+            card.channels.setVisibility(checked ? View.VISIBLE : View.GONE);
+            settings.setObject("keywords", keywordMap);
+        });
+
+
         card.delete.setOnClickListener(v -> {
             Map<Long, Keyword> keywordMap = settings.getObject("keywords", new HashMap<>(), KeywordAlerts.keywordsType);
             keywordMap.remove(keyword.getId());
@@ -118,6 +129,10 @@ public class KeywordAdapter extends RecyclerView.Adapter<KeywordAdapter.KeywordH
                 dialog.dismiss();
             });
             dialog.show(page.getFragmentManager(), this.getClass().getSimpleName());
+        });
+
+        card.channels.setOnClickListener(v -> {
+            Utils.openPageWithProxy(ctx, new ChannelPage(((PluginSettings) page).plugin, keyword));
         });
     }
 

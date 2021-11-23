@@ -47,13 +47,15 @@ import java.util.*;
 import java.lang.reflect.*;
 
 @SuppressLint("SetTextI18n")
-public final class PluginSettings extends SettingsPage {
+public final class ChannelPage extends SettingsPage {
     private SettingsAPI settings;
     public KeywordAlerts plugin;
+    private Keyword keyword;
     private int p = DimenUtils.dpToPx(16);
     
-    public PluginSettings(KeywordAlerts plugin) {
+    public ChannelPage(KeywordAlerts plugin, Keyword keyword) {
         this.plugin = plugin;
+        this.keyword = keyword;
         this.settings = plugin.settings;
     }
 
@@ -61,17 +63,16 @@ public final class PluginSettings extends SettingsPage {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public void onViewBound(View view) {
         super.onViewBound(view);
-        setActionBarTitle("Keywords");
+        setActionBarTitle("Edit Channels");
+        setActionBarSubtitle(keyword.getWord());
         setPadding(p);
 
         var ctx = view.getContext();
         var layout = getLinearLayout();
 
         Button button = new Button(ctx);
-        button.setText("New Keyword");
-
-        KeywordAdapter adapter = new KeywordAdapter(this, plugin.getKeywordsList());
-
+        button.setText("Add Channel");
+        ChannelAdapter adapter = new ChannelAdapter(this, keyword);
         RecyclerView recyclerView = new RecyclerView(ctx);
         recyclerView.setLayoutManager(new LinearLayoutManager(ctx));
         recyclerView.setAdapter(adapter);
@@ -81,20 +82,31 @@ public final class PluginSettings extends SettingsPage {
 
         button.setOnClickListener(v -> {
             InputDialog dialog = new InputDialog()
-                .setTitle("New Keyword")
-                .setPlaceholderText("Word or Regex")
-                .setDescription("Supports Regex");
+                .setTitle("Add Channel")
+                .setPlaceholderText("Channel Id (Ex. 811275334342541353)")
+                .setDescription("Enter the id of the channel you want to add");
             dialog.setOnOkListener(w -> {
                 if(dialog.getInput().isEmpty()) {
                     Toast.makeText(w.getContext(), "Keyword cannot be empty", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Map<Long, Keyword> keywords = plugin.getKeywords();
-                Keyword kw = new Keyword(dialog.getInput(), false);
-                keywords.put(kw.getId(), kw);
-                settings.setObject("keywords", keywords);
-                adapter.add(kw);
-                dialog.dismiss();
+                try {
+                    Long id = Long.parseLong(dialog.getInput());
+                    if(keyword.isWhitelisted(id)) {
+                        Toast.makeText(w.getContext(), "Channel already added", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    Map<Long, Keyword> keywords = plugin.getKeywords();
+                    keyword.addToWhitelist(id);
+                    keywords.put(keyword.getId(), keyword);
+                    settings.setObject("keywords", keywords);
+                    reRender();
+                    dialog.dismiss();
+                } catch (Exception e) {
+                    Toast.makeText(w.getContext(), "Invalid Channel Id", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                
             });
             dialog.show(getFragmentManager(), this.getClass().getSimpleName());
         });

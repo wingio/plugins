@@ -21,8 +21,10 @@ import com.lytefast.flexinput.R;
 public class Card extends MaterialCardView {
     public CheckedSetting word;
     public CheckedSetting regex;
+    public CheckedSetting whitelist;
     public ToolbarButton delete;
     public ToolbarButton edit;
+    public ToolbarButton channels;
     private int p = DimenUtils.dpToPx(16);
 
     public Card(Context context) {
@@ -38,8 +40,9 @@ public class Card extends MaterialCardView {
         root.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         word = Utils.createCheckedSetting(context, CheckedSetting.ViewType.SWITCH, "Word", null);
         regex = Utils.createCheckedSetting(context, CheckedSetting.ViewType.CHECK, "Use Regex", null);
+        whitelist = Utils.createCheckedSetting(context, CheckedSetting.ViewType.CHECK, "Only in specific channels", null);
 
-        word.setBackgroundColor(ColorCompat.getThemedColor(context, R.b.colorBackgroundPrimary));
+        word.setBackgroundColor(ColorCompat.getThemedColor(context, R.b.colorBackgroundSecondaryAlt));
         word.k.a().setTextAppearance(R.i.UiKit_TextView_H6);
         word.k.a().setTextSize(18f);
         word.k.a().setAllCaps(false);
@@ -49,8 +52,15 @@ public class Card extends MaterialCardView {
         regex.k.a().setTextSize(14f);
         regex.k.d().setVisibility(View.GONE);
 
+        whitelist.getChildAt(0).setPadding(p, p/2, p, p/2);
+        whitelist.k.a().setTextAppearance(R.i.UiKit_TextView);
+        whitelist.k.a().setTextSize(14f);
+        whitelist.k.d().setVisibility(View.GONE);
+
         root.addView(word);
+        root.addView(new Divider(context));
         root.addView(regex);
+        root.addView(whitelist);
         
         LinearLayout buttons = new LinearLayout(context);
         buttons.setOrientation(LinearLayout.HORIZONTAL);
@@ -69,6 +79,12 @@ public class Card extends MaterialCardView {
         btnparams.setMarginEnd(p);
         edit.setLayoutParams(btnparams);
 
+        channels = new ToolbarButton(context);
+        channels.setImageResource(R.e.ic_channels_24dp);
+        channels.setLayoutParams(btnparams);
+        channels.setVisibility(View.GONE);
+
+        buttons.addView(channels);
         buttons.addView(edit);
         buttons.addView(delete);
 
