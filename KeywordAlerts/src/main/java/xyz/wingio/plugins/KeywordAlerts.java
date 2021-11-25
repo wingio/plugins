@@ -2,9 +2,11 @@ package xyz.wingio.plugins;
 
 import android.content.Context;
 import android.net.Uri;
+import android.graphics.*;
 import android.graphics.drawable.*;
 import android.graphics.drawable.shapes.*;
-import android.text.Editable;
+import android.text.*;
+import android.text.style.*;
 import android.view.*;
 import android.widget.*;
 
@@ -27,12 +29,19 @@ import xyz.wingio.plugins.keywordalerts.*;
 
 import com.discord.models.message.*;
 import com.discord.models.user.*;
+import com.discord.api.user.User;
 import com.discord.stores.*;
+import com.discord.widgets.chat.list.adapter.*;
+import com.discord.widgets.chat.list.entries.*;
+
+import com.discord.utilities.view.text.SimpleDraweeSpanTextView;
+import com.facebook.drawee.span.*;
 
 import com.google.gson.reflect.TypeToken;
 
 import com.lytefast.flexinput.R;
 
+import java.util.regex.*;
 import java.lang.reflect.*;
 import java.util.*;
 
@@ -49,6 +58,7 @@ public class KeywordAlerts extends Plugin {
   public static Logger logger = new Logger("KeywordAlerts");
   public static final Type keywordsType = TypeToken.getParameterized(HashMap.class, Long.class, Keyword.class).getType();
   private Drawable pluginIcon;
+  private List<Long> highlightedMessages = new ArrayList<>();
 
   @Override
   public void start(Context context) throws Throwable {
@@ -67,11 +77,52 @@ public class KeywordAlerts extends Plugin {
           if(keyword.isEnabled() && keyword.matches(content)) {
             if(keyword.whitelistEnabled()){
               if(keyword.isWhitelisted(modelMessage.getChannelId())) showNotification(keyword, modelMessage);
-            } else { showNotification(keyword, modelMessage); }
+            } else { showNotification(keyword, modelMessage);}
           }
         }
 			}
 		}));
+
+    patcher.patch(WidgetChatListAdapterItemMessage.class, "processMessageText", new Class<?>[] {SimpleDraweeSpanTextView.class, MessageEntry.class}, new Hook(callFrame -> {
+      SimpleDraweeSpanTextView tv = ((SimpleDraweeSpanTextView) callFrame.args[0]);
+      Message msg = ((MessageEntry) callFrame.args[1]).getMessage();
+      for(Keyword keyword : getKeywordsList()){
+        if(keyword.isEnabled() && keyword.matches(msg.getContent())) {
+          if(keyword.whitelistEnabled()){
+            if(keyword.isWhitelisted(msg.getChannelId())) applyHighlights(msg, keyword);
+          } else { applyHighlights(msg, keyword);}
+        }
+      }
+    }));
+  }
+
+  public void applyHighlights(Message message, Keyword keyword){
+    if(settings.getBool("highlight_as_mention", false)) applyKeywordMention(message, keyword);
+    if(settings.getBool("bold_keyword", false)) applyBold(message, keyword);
+  }
+
+  public void applyBold(Message message, Keyword keyword) {
+    try {
+      if(highlightedMessages.contains(message.getId())) return;
+      Pattern pattern = Pattern.compile(keyword.getWord(), Pattern.CASE_INSENSITIVE); Matcher matcher = pattern.matcher(message.getContent()); String content = message.getContent();
+      while(matcher.find()){
+        content = matcher.replaceAll("**" + matcher.group() + "**");
+      }
+      ReflectUtils.setField(message, "content", content);
+      StoreStream.getMessages().handleMessageUpdate(message.synthesizeApiMessage());
+      highlightedMessages.add(message.getId());
+    } catch (Throwable ignored){}
+  }
+  
+  public void applyKeywordMention(Message message, Keyword keyword){
+    try {
+      MeUser currentUser = StoreStream.getUsers().getMe();
+      List<User> mentions = (List<User>) ReflectUtils.getField(message, "mentions");
+      User user = new User(currentUser.getId(), currentUser.getUsername(), null, null, "0000", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, 0);
+      if(!mentions.contains(user)) mentions.add(user);
+      ReflectUtils.setField(message, "mentions", mentions);
+      StoreStream.getMessages().handleMessageUpdate(message.synthesizeApiMessage());
+    } catch (Throwable ignored){}
   }
 
   public void convertToNewFormat() {
@@ -89,9 +140,6 @@ public class KeywordAlerts extends Plugin {
   }
 
   public Map<Long, Keyword> getKeywords() {
-    Map<Long, Keyword> keywords = new HashMap<>();
-    keywords.put(1L, new Keyword("trign\\b", true));
-    // return keywords;
     return settings.getObject("keywords", new HashMap<>(), keywordsType);
   }
 

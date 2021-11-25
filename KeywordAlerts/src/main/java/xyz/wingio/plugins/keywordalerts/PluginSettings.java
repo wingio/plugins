@@ -58,6 +58,8 @@ public final class PluginSettings extends SettingsPage {
             
             addView(createSwitch(ctx, settings, "ignore_current_channel", "Ignore current channel", null, true));
             addView(createSwitch(ctx, settings, "ignore_me", "Ignore own messages", null, true));
+            addView(createSwitch(ctx, settings, "highlight_as_mention", "Display found messages as mentions", null, false));
+            addView(createSwitch(ctx, settings, "bold_keyword", "Bold the first instance of a keyword in a message", "Note: this isn't perfect, some issues may still arise. However, I do not care", false));
         }
     }
 
