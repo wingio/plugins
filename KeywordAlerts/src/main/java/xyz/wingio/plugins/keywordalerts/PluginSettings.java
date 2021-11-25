@@ -3,7 +3,9 @@ package xyz.wingio.plugins.keywordalerts;
 import android.annotation.SuppressLint;
 import android.view.*;
 import android.widget.*;
-import android.content.Context;
+import android.content.*;
+import android.os.Bundle;
+import android.graphics.drawable.*;
 
 import androidx.core.content.res.ResourcesCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -23,19 +25,14 @@ import com.aliucord.fragments.SettingsPage;
 import com.aliucord.fragments.InputDialog;
 import com.aliucord.views.Divider;
 import com.aliucord.views.Button;
+import com.aliucord.views.ToolbarButton;
+import com.aliucord.widgets.BottomSheet;
 import com.aliucord.wrappers.*;
 import com.aliucord.entities.NotificationData;
 
-import com.discord.api.channel.Channel;
 import com.discord.views.CheckedSetting;
-import com.discord.views.RadioManager;
-import com.discord.models.user.User;
 import com.discord.models.guild.Guild;
-import com.discord.panels.*;
-import com.discord.utilities.SnowflakeUtils;
-import com.discord.utilities.time.*;
-import com.discord.utilities.rest.RestAPI;
-import com.discord.utilities.analytics.AnalyticSuperProperties;
+import com.discord.utilities.color.*;
 import com.discord.stores.*;
 
 import com.discord.utilities.rest.*;
@@ -48,6 +45,22 @@ import java.lang.reflect.*;
 
 @SuppressLint("SetTextI18n")
 public final class PluginSettings extends SettingsPage {
+
+    public static class Settings extends BottomSheet {
+        private SettingsAPI settings = PluginManager.plugins.get("KeywordAlerts").settings;
+
+        public Settings() {}
+
+        @Override
+        public void onViewCreated(View view, Bundle bundle) {
+            super.onViewCreated(view, bundle);
+            Context ctx = requireContext();
+            
+            addView(createSwitch(ctx, settings, "ignore_current_channel", "Ignore current channel", null, true));
+            addView(createSwitch(ctx, settings, "ignore_me", "Ignore own messages", null, true));
+        }
+    }
+
     private SettingsAPI settings;
     public KeywordAlerts plugin;
     private int p = DimenUtils.dpToPx(16);
@@ -98,9 +111,18 @@ public final class PluginSettings extends SettingsPage {
             });
             dialog.show(getFragmentManager(), this.getClass().getSimpleName());
         });
+
+        Drawable icon = ctx.getDrawable(R.e.ic_guild_settings_24dp).mutate();
+        icon.setTint(ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal));
+
+        getHeaderBar().getMenu().add(0, 0, 0, "Settings").setIcon(icon).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS).setOnMenuItemClickListener(item -> {
+            Settings settings = new Settings();
+            settings.show(getFragmentManager(), "settings");
+            return true;
+        });
     }
 
-    private CheckedSetting createSwitch(Context context, SettingsAPI sets, String key, String label, String subtext, boolean defaultValue) {
+    public static CheckedSetting createSwitch(Context context, SettingsAPI sets, String key, String label, String subtext, boolean defaultValue) {
         CheckedSetting cs = Utils.createCheckedSetting(context, CheckedSetting.ViewType.SWITCH, label, subtext);
         cs.setChecked(sets.getBool(key, defaultValue));
         cs.setOnCheckedListener(c -> sets.setBool(key, c));

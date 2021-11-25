@@ -59,6 +59,8 @@ public class KeywordAlerts extends Plugin {
 			Message modelMessage = new Message(message);
       MeUser currentUser = StoreStream.getUsers().getMe();
 			CoreUser author = new CoreUser(modelMessage.getAuthor());
+      if(modelMessage.getChannelId() == StoreStream.getChannelsSelected().getId() && settings.getBool("ignore_current_channel", true)) return;
+      if(author.getId() == currentUser.getId() && settings.getBool("ignore_me", true)) return;
 			if (modelMessage.getEditedTimestamp() == null) {
         String content = modelMessage.getContent();
 				for(Keyword keyword : getKeywordsList()){
