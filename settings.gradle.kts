@@ -1,3 +1,3 @@
-include(":KeywordAlerts")
+include(":BetterChatbox")
 
 rootProject.name = "plugins"

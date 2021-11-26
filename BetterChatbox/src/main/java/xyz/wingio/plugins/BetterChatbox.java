@@ -86,6 +86,7 @@ public class BetterChatbox extends Plugin {
           AppFlexInputViewModel vm = (AppFlexInputViewModel) vmMethod.invoke(_this);
           if(editText == null) return;
           FlexEditText fet = (FlexEditText) etField2.get(editText);
+          if(getCbHeight() != DimenUtils.dpToPx(40)) setSize(fet, getCbHeight(), false);
           if(useSquareChatbox()) ((LinearLayout) fet.getParent()).setBackground(getRoundedCornersShape(getCBRadius(), ColorCompat.getThemedColor(fet.getContext(), R.b.colorBackgroundSecondaryAlt)));
           gId = ChannelWrapper.getGuildId(StoreStream.getChannels().getChannel(editText.getChannelId()));
           cId = editText.getChannelId();
@@ -103,12 +104,13 @@ public class BetterChatbox extends Plugin {
         LinearLayout btnGroup = (LinearLayout) fragment.j().getRoot().findViewById(btnGroupId);
         FrameLayout sendBtn = (FrameLayout) fragment.j().getRoot().findViewById(Utils.getResId("send_btn_container", "id"));
         sendBtn.setBackground(getRoundedCornersShape(getBtnRadius()));
+        setSize(sendBtn, getBtnSize());
         if(showAvatar()) {
           Long guildId = ChannelWrapper.getGuildId(StoreStream.getChannelsSelected().getSelectedChannel()); Long channelId = ChannelWrapper.getId(StoreStream.getChannelsSelected().getSelectedChannel());
           User meUser = StoreStream.getUsers().getMe(); Long meId = meUser.getId();GuildMember me = StoreStream.getGuilds().getMember(guildId, meId);
           String avatarUrl = ( me != null && me.hasAvatar() ) ? String.format("https://cdn.discordapp.com/guilds/%s/users/%s/avatars/%s.png", guildId, meId, me.getAvatarHash()) : String.format("https://cdn.discordapp.com/avatars/%s/%s.png", meUser.getId(), meUser.getAvatar());
           avatarUrl = meUser.getAvatar() == null || meUser.getAvatar().isEmpty() ? "https://cdn.discordapp.com/embed/avatars/0.png" : avatarUrl;
-          var av = setUpAvatar(btnGroup.getContext(), 40); av.setId(avId);
+          var av = setUpAvatar(btnGroup.getContext(), getAvSize()); av.setId(avId);
           av.setOnClickListener(v -> {
             if(swapActions()){ WidgetUserStatusSheet.Companion.show(fragment); } else {
               if(guildId == 0) WidgetUserSheet.Companion.show(meId, fragment.getParentFragmentManager()); else WidgetUserSheet.Companion.show(meId, cId, fragment.getParentFragmentManager(), gId);
@@ -156,7 +158,7 @@ public class BetterChatbox extends Plugin {
 
   public SimpleDraweeView setUpAvatar(Context ctx, int size) {
     SimpleDraweeView icon = new SimpleDraweeView(ctx);
-    LinearLayout.LayoutParams iconParams = new LinearLayout.LayoutParams(DimenUtils.dpToPx(size), DimenUtils.dpToPx(size));
+    LinearLayout.LayoutParams iconParams = new LinearLayout.LayoutParams(size, size);
     iconParams.setMargins(useSmallBtn() ? DimenUtils.dpToPx(6) : 0, 0, DimenUtils.dpToPx(6), 0);
     icon.setLayoutParams(iconParams);
     icon.setImageURI(IconUtils.DEFAULT_ICON_BLURPLE);
@@ -165,18 +167,17 @@ public class BetterChatbox extends Plugin {
     circle.getPaint().setColor(Color.TRANSPARENT);
     icon.setBackground(circle);
     return icon;
-
-    // icon.setImageDrawable(circle);
-    // return icon;
   }
 
   public void configureBtnGroup(LinearLayout btnGroup) {
     androidx.appcompat.widget.AppCompatImageButton gallery = (androidx.appcompat.widget.AppCompatImageButton) btnGroup.findViewById(Utils.getResId("gallery_btn", "id"));
     if(useSmallBtn()) gallery.setVisibility(View.GONE); else gallery.setVisibility(View.VISIBLE);
     if(useOldIcn()) gallery.setImageResource(R.e.ic_flex_input_image_24dp_dark);
+    setSize(gallery, getBtnSize());
     gallery.setBackground(getRoundedCornersShape(getBtnRadius()));
     btnGroup.findViewById(Utils.getResId("gift_btn", "id")).setVisibility(View.GONE);
     btnGroup.findViewById(Utils.getResId("expand_btn", "id")).setVisibility(View.GONE);
+    btnGroup.setGravity(Gravity.CENTER_VERTICAL);
   }
 
   public void disableHideGift(){
@@ -216,6 +217,31 @@ public class BetterChatbox extends Plugin {
 
   public int getBtnRadius() {
     return settings.getInt("btn_r", DimenUtils.dpToPx(20));
+  }
+
+  public int getAvSize() {
+    return settings.getInt("av_size", DimenUtils.dpToPx(40));
+  }
+
+  public int getCbHeight() {
+    return settings.getInt("cb_size", DimenUtils.dpToPx(40));
+  }
+
+  public int getBtnSize() {
+    return settings.getInt("btn_size", DimenUtils.dpToPx(40));
+  }
+
+  public void setSize(View view, int size) {
+    setSize(view, size, true);
+  }
+
+  public void setSize(View view, int size, boolean square) {
+    ViewGroup.LayoutParams params = view.getLayoutParams();
+    if(params != null) {
+      if(square) { params.width = size; }
+      params.height = size;
+      view.setLayoutParams(params);
+    }
   }
 
   public ShapeDrawable getRoundedCornersShape(int cornerRadius){

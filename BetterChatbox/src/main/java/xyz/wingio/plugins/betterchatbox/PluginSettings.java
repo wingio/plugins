@@ -70,6 +70,9 @@ public final class PluginSettings extends SettingsPage {
         var ctx = view.getContext();
         var layout = getLinearLayout();
         var _20dp = DimenUtils.dpToPx(20);
+        int btn_size = settings.getInt("btn_size", _20dp * 2);
+        int av_size = settings.getInt("av_size", _20dp * 2);
+        int cb_size = settings.getInt("cb_size", _20dp * 2);
 
         TextView disclaimer = new TextView(ctx, null, 0, R.i.UiKit_TextView);
         disclaimer.setText("Some of these settings may require an app restart in order to properly take effect.");
@@ -87,19 +90,38 @@ public final class PluginSettings extends SettingsPage {
         avLabel.setPadding(p, p, p, p);
         avLabel.setText("Avatar Radius");
         layout.addView(avLabel);
-        layout.addView(createSeekbar(ctx, "av_r", _20dp, _20dp));
+        layout.addView(createSeekbar(ctx, "av_r", av_size / 2, av_size / 2));
 
         TextView cbLabel = new TextView(ctx, null, 0, R.i.UiKit_TextView);
         cbLabel.setPadding(p, p, p, p);
         cbLabel.setText("Chatbox Radius");
         layout.addView(cbLabel);
-        layout.addView(createSeekbar(ctx, "cb_r", _20dp, _20dp));
+        layout.addView(createSeekbar(ctx, "cb_r", cb_size / 2, cb_size / 2));
         
         TextView btnLabel = new TextView(ctx, null, 0, R.i.UiKit_TextView);
         btnLabel.setPadding(p, p, p, p);
         btnLabel.setText("Button Radius");
         layout.addView(btnLabel);
-        layout.addView(createSeekbar(ctx, "btn_r", _20dp, _20dp));
+        layout.addView(createSeekbar(ctx, "btn_r", btn_size / 2, btn_size / 2));
+
+        layout.addView(new Divider(ctx));
+        TextView avSizeLabel = new TextView(ctx, null, 0, R.i.UiKit_TextView);
+        avSizeLabel.setPadding(p, p, p, p);
+        avSizeLabel.setText("Avatar Size");
+        layout.addView(avSizeLabel);
+        layout.addView(createSeekbar(ctx, "av_size", _20dp * 4, _20dp * 2));
+
+        TextView chatSizeLabel = new TextView(ctx, null, 0, R.i.UiKit_TextView);
+        chatSizeLabel.setPadding(p, p, p, p);
+        chatSizeLabel.setText("Chatbox Height");
+        layout.addView(chatSizeLabel);
+        layout.addView(createSeekbar(ctx, "cb_size", _20dp * 2, DimenUtils.dpToPx(100), _20dp * 2));
+
+        TextView btnSizeLabel = new TextView(ctx, null, 0, R.i.UiKit_TextView);
+        btnSizeLabel.setPadding(p, p, p, p);
+        btnSizeLabel.setText("Button Size");
+        layout.addView(btnSizeLabel);
+        layout.addView(createSeekbar(ctx, "btn_size", _20dp * 4, _20dp * 2));
 
         layout.addView(new Divider(ctx));
         layout.addView(disclaimer);
@@ -122,6 +144,32 @@ public final class PluginSettings extends SettingsPage {
             parent.findViewById(viewId).setVisibility(c ? View.VISIBLE : View.GONE);
         });
         return cs;
+    }
+
+    private LinearLayout createSeekbar(Context context, String key, int min, int max, int defaultValue){
+        LinearLayout container = new LinearLayout(context, null, 0, R.i.UiKit_Settings_Item);
+        TextView label = new TextView(context, null, 0, R.i.UiKit_TextView);
+        SeekBar sb = new SeekBar(context, null, 0, R.i.UiKit_SeekBar);
+
+        sb.setMax(max);
+        sb.setProgress(settings.getInt(key, defaultValue) - min);
+        sb.setPadding(p, 0, p, 0);
+        sb.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        sb.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+            @Override public void onStopTrackingTouch(SeekBar seekBar) {
+                settings.setInt(key, seekBar.getProgress() + min);
+            }
+
+            @Override public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                label.setText((progress + min) + "");
+            }
+            @Override public void onStartTrackingTouch(SeekBar seekBar) {}
+        });
+        label.setText(settings.getInt(key, defaultValue) + "");
+
+        container.addView(label);
+        container.addView(sb);
+        return container;
     }
 
     private LinearLayout createSeekbar(Context context, String key, int max, int defaultValue){
