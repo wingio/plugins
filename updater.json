@@ -67,9 +67,9 @@
         "minimumDiscordVersion": 96100
     },
     "BetterChatbox": {
-        "version" : "1.3.0",
+        "version" : "1.4.0",
         "minimumDiscordVersion": 96100,
-        "changelog": "New {added marginTop}\n======================\n\n* Added option to change the size of the avatar, buttons, and chatbox"
+        "changelog": "New {added marginTop}\n======================\n\n* Added option to change placeholder text"
     },
     "KeywordAlerts": {
         "version": "1.3.0",
