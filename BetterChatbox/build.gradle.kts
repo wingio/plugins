@@ -1,4 +1,4 @@
-version = "1.4.0"
+version = "1.4.1"
 description = "Adds options for customizing the chatbox"
 
 aliucord.changelog.set(

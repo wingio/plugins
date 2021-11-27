@@ -110,7 +110,7 @@ public class BetterChatbox extends Plugin {
         hint = hint.replaceAll("%t", target); //target
         hint = hint.replaceAll("%n", (target.startsWith("#") || target.startsWith("@")) ? target.substring(1) : target); //name
         hint = hint.replaceAll("%id", cw.getId() + ""); //id
-        hint = hint.replaceAll("%s", g == null ? "Guild Name" : g.getName()); //current server
+        hint = hint.replaceAll("%s", g == null ? target : g.getName()); //current server
         if(hint.isEmpty()) return getOriginalHint((Context) cf.args[0], cw.raw(), (boolean) cf.args[2], (boolean) cf.args[3]);
         return hint;
       }));
