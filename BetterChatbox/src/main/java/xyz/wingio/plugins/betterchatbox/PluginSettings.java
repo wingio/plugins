@@ -3,6 +3,7 @@ package xyz.wingio.plugins.betterchatbox;
 import android.annotation.SuppressLint;
 import android.view.*;
 import android.widget.*;
+import android.text.*;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.content.Context;
 
@@ -22,6 +23,7 @@ import com.aliucord.api.SettingsAPI;
 import com.aliucord.api.NotificationsAPI;
 import com.aliucord.fragments.SettingsPage;
 import com.aliucord.views.Divider;
+import com.aliucord.views.TextInput;
 import com.aliucord.entities.NotificationData;
 
 import com.discord.views.CheckedSetting;
@@ -124,9 +126,49 @@ public final class PluginSettings extends SettingsPage {
         layout.addView(createSeekbar(ctx, "btn_size", _20dp * 4, _20dp * 2));
 
         layout.addView(new Divider(ctx));
+        TextInput editText = new TextInput(ctx);
+        editText.setHint("Custom Hint");
+        editText.getEditText().setText(settings.getString("hint", ""));
+        editText.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {} @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                settings.setString("hint", s.toString());
+            }
+        });
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.setMargins(p, p, p, p);
+        layout.addView(editText, params);
+
+        TextView placeholder = new TextView(ctx, null, 0, R.i.UiKit_TextView);
+        placeholder.setPadding(p, p/2, p, p/2);
+        placeholder.setText(getPlaceholdersText());
+        layout.addView(placeholder);
+
+        layout.addView(new Divider(ctx));
         layout.addView(disclaimer);
         
     }
+
+    private List<String> placeholders = new ArrayList<>() {{
+        add("%t - Target (Ex. @Wing or #general)");
+        add("%n - Name (Ex. Wing or general)");
+        add("%id - Channel Id (Ex. 811261478875299840)");
+        add("%s - Server Name (Ex. Aliuwucord)");
+        add("%u - Username (Ex. Wing)");
+        add("%tag - Tag (Ex. Wing#1000)");
+    }};
+
+    private String getPlaceholdersText() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Placeholders:\n");
+        for (String s : placeholders) {
+            sb.append(s).append("\n");
+        }
+        return sb.toString();
+    }
+
 
     private CheckedSetting createSwitch(Context context, SettingsAPI sets, String key, String label, String subtext, boolean defaultValue) {
         CheckedSetting cs = Utils.createCheckedSetting(context, CheckedSetting.ViewType.SWITCH, label, subtext);

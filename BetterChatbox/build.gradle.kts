@@ -1,4 +1,4 @@
-version = "1.3.0"
+version = "1.4.0"
 description = "Adds options for customizing the chatbox"
 
 aliucord.changelog.set(
@@ -6,6 +6,6 @@ aliucord.changelog.set(
     New {added marginTop}
     ======================
 
-    * Added option to change the size of the avatar, buttons, and chatbox
+    * Added option to change placeholder text
     """.trimIndent()
 )

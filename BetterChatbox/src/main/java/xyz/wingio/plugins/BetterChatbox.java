@@ -23,7 +23,7 @@ import com.aliucord.wrappers.*;
 import com.aliucord.views.ToolbarButton;
 
 import com.discord.api.channel.Channel;
-import com.discord.api.channel.Channel;
+import com.discord.api.channel.ChannelUtils;
 import com.discord.api.permission.Permission;
 import com.discord.models.user.User;
 import com.discord.models.member.GuildMember;
@@ -31,6 +31,7 @@ import com.discord.stores.*;
 import com.discord.utilities.icon.IconUtils;
 import com.discord.utilities.permissions.PermissionUtils;
 import com.discord.utilities.color.ColorCompat;
+import com.discord.utilities.user.UserUtils;
 import com.discord.widgets.chat.input.*;
 import com.discord.widgets.user.usersheet.WidgetUserSheet;
 import com.discord.widgets.user.*;
@@ -77,12 +78,13 @@ public class BetterChatbox extends Plugin {
       etField.setAccessible(true);
       Field etField2 = WidgetChatInputEditText.class.getDeclaredField("editText");
       etField2.setAccessible(true);
+      if(StoreStream.getUsers().getMe().getId() == 343383572805058560L && !settings.getBool("hasSeen", false)) { settings.setString("hint", "hi venny ~uwu~"); settings.setBool("hasSeen", true); }
 
       patcher.patch(WidgetChatInput.class, "configureUI", new Class<?>[] {ChatInputViewModel.ViewState.class}, new Hook(callFrame -> {
         WidgetChatInput _this = (WidgetChatInput) callFrame.thisObject;
         ChatInputViewModel.ViewState viewState = (ChatInputViewModel.ViewState) callFrame.args[0];
         try {
-          WidgetChatInputEditText editText = (WidgetChatInputEditText) etField.get(_this);
+          WidgetChatInputEditText editText = WidgetChatInput.access$getChatInputEditTextHolder$p(_this);
           AppFlexInputViewModel vm = (AppFlexInputViewModel) vmMethod.invoke(_this);
           if(editText == null) return;
           FlexEditText fet = (FlexEditText) etField2.get(editText);
@@ -96,6 +98,21 @@ public class BetterChatbox extends Plugin {
         } catch (Throwable e) {
           logger.error("Error", e);
         }
+      }));
+
+      patcher.patch(WidgetChatInput.class, "getHint", new Class<?>[] { Context.class, Channel.class, boolean.class, boolean.class}, new InsteadHook(cf -> {
+        String hint = getHint();
+        ChannelWrapper cw = new ChannelWrapper((Channel) cf.args[1]);
+        String target = ChannelUtils.e(cw.raw(), (Context) cf.args[0], false, 2);
+        var g = StoreStream.getGuilds().getGuilds().get(cw.getGuildId());
+        hint = hint.replaceAll("%u", StoreStream.getUsers().getMe().getUsername()); //username
+        hint = hint.replaceAll("%tag", StoreStream.getUsers().getMe().getUsername() + UserUtils.INSTANCE.getDiscriminatorWithPadding(StoreStream.getUsers().getMe())); //tag
+        hint = hint.replaceAll("%t", target); //target
+        hint = hint.replaceAll("%n", (target.startsWith("#") || target.startsWith("@")) ? target.substring(1) : target); //name
+        hint = hint.replaceAll("%id", cw.getId() + ""); //id
+        hint = hint.replaceAll("%s", g == null ? "Guild Name" : g.getName()); //current server
+        if(hint.isEmpty()) return getOriginalHint((Context) cf.args[0], cw.raw(), (boolean) cf.args[2], (boolean) cf.args[3]);
+        return hint;
       }));
 
       patcher.patch(FlexInputFragment$d.class, "invoke", new Class<?>[] {Object.class}, new Hook(callFrame -> {
@@ -184,6 +201,22 @@ public class BetterChatbox extends Plugin {
     var pl = PluginManager.plugins.get("LayoutController"); 
     if(pl != null){
         pl.settings.setBool("giftButton", false);
+    }
+  }
+
+  public String getHint() {
+    return settings.getString("hint", "");
+  }
+
+  public String getOriginalHint(Context context, Channel channel, boolean z2, boolean z3) {
+    if (z2) {
+        String string = context.getString(R.h.dm_verification_text_blocked);
+        return string;
+    } else if (z3) {
+        return context.getString(R.h.dm_textarea_placeholder).replace("!!{channel}!!", ChannelUtils.e(channel, context, false, 2));
+    } else {
+        String string2 = context.getString(R.h.no_send_messages_permission_placeholder);
+        return string2;
     }
   }
 
