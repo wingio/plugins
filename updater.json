@@ -67,7 +67,7 @@
         "minimumDiscordVersion": 96100
     },
     "BetterChatbox": {
-        "version" : "1.4.1",
+        "version" : "1.4.2",
         "minimumDiscordVersion": 96100,
         "changelog": "New {added marginTop}\n======================\n\n* Added option to change placeholder text"
     },
