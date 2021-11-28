@@ -50,7 +50,7 @@ import xyz.wingio.plugins.betterchatbox.*;
 import java.lang.reflect.*;
 
 @SuppressWarnings("unused")
-@AliucordPlugin
+@AliucordPlugin(requiresRestart = true)
 public class BetterChatbox extends Plugin {
 
     public BetterChatbox(){
