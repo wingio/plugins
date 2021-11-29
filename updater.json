@@ -67,9 +67,9 @@
         "minimumDiscordVersion": 96100
     },
     "BetterChatbox": {
-        "version" : "1.4.2",
+        "version" : "1.5.0",
         "minimumDiscordVersion": 96100,
-        "changelog": "New {added marginTop}\n======================\n\n* Added option to change placeholder text"
+        "changelog": "New {added marginTop}\n======================\n\n* Added option to always show the send button"
     },
     "KeywordAlerts": {
         "version": "1.3.0",

@@ -5,7 +5,7 @@ import android.net.Uri;
 import android.graphics.*;
 import android.graphics.drawable.*;
 import android.graphics.drawable.shapes.*;
-import android.text.Editable;
+import android.text.*;
 import android.view.*;
 import android.widget.*;
 
@@ -38,6 +38,7 @@ import com.discord.widgets.user.*;
 
 import com.lytefast.flexinput.widget.FlexEditText;
 import com.lytefast.flexinput.model.Attachment;
+import com.lytefast.flexinput.viewmodel.FlexInputState;
 import com.lytefast.flexinput.fragment.FlexInputFragment;
 import com.lytefast.flexinput.fragment.FlexInputFragment$d;
 
@@ -67,6 +68,8 @@ public class BetterChatbox extends Plugin {
     public final int avId = View.generateViewId();
     public final int btnGroupId = Utils.getResId("left_btns_container", "id");
 
+    public FlexEditText fet;
+
     public long gId = 0L;
     public long cId = 0L;
 
@@ -87,17 +90,27 @@ public class BetterChatbox extends Plugin {
           WidgetChatInputEditText editText = WidgetChatInput.access$getChatInputEditTextHolder$p(_this);
           AppFlexInputViewModel vm = (AppFlexInputViewModel) vmMethod.invoke(_this);
           if(editText == null) return;
-          FlexEditText fet = (FlexEditText) etField2.get(editText);
+          fet = (FlexEditText) etField2.get(editText);
+          LinearLayout fetCont = (LinearLayout) fet.getParent();
           if(getCbHeight() != DimenUtils.dpToPx(40)) setSize(fet, getCbHeight(), false);
-          if(useSquareChatbox()) ((LinearLayout) fet.getParent()).setBackground(getRoundedCornersShape(getCBRadius(), ColorCompat.getThemedColor(fet.getContext(), R.b.colorBackgroundSecondaryAlt)));
+          if(useSquareChatbox()) fetCont.setBackground(getRoundedCornersShape(getCBRadius(), ColorCompat.getThemedColor(fet.getContext(), R.b.colorBackgroundSecondaryAlt)));
           gId = ChannelWrapper.getGuildId(StoreStream.getChannels().getChannel(editText.getChannelId()));
           cId = editText.getChannelId();
+          RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) fetCont.getLayoutParams();
+          if(lp != null && showSend()) { lp.setMarginEnd(0); fetCont.setLayoutParams(lp); }
           var g = addGalleryButton(fet);
           g.setOnClickListener(v -> vm.onGalleryButtonClicked());
           g.setOnLongClickListener(v -> { Utils.showToast("Media Selector", false); return true; });
         } catch (Throwable e) {
           logger.error("Error", e);
         }
+      }));
+
+      patcher.patch(AppFlexInputViewModel.class.getDeclaredMethod("onInputTextChanged", String.class, Boolean.class), new Hook(callFrame -> {
+        if(!showSend()) return;
+        LinearLayout fetCont = (LinearLayout) fet.getParent();
+        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) fetCont.getLayoutParams();
+        if(lp != null) { lp.setMarginEnd(0); fetCont.setLayoutParams(lp); }
       }));
 
       patcher.patch(WidgetChatInput.class, "getHint", new Class<?>[] { Context.class, Channel.class, boolean.class, boolean.class}, new InsteadHook(cf -> {
@@ -121,6 +134,7 @@ public class BetterChatbox extends Plugin {
         LinearLayout btnGroup = (LinearLayout) fragment.j().getRoot().findViewById(btnGroupId);
         FrameLayout sendBtn = (FrameLayout) fragment.j().getRoot().findViewById(Utils.getResId("send_btn_container", "id"));
         sendBtn.setBackground(getRoundedCornersShape(getBtnRadius()));
+        if(showSend()) sendBtn.setVisibility(View.VISIBLE);
         setSize(sendBtn, getBtnSize());
         if(showAvatar()) {
           Long guildId = ChannelWrapper.getGuildId(StoreStream.getChannelsSelected().getSelectedChannel()); Long channelId = ChannelWrapper.getId(StoreStream.getChannelsSelected().getSelectedChannel());
@@ -238,6 +252,10 @@ public class BetterChatbox extends Plugin {
 
   public boolean swapActions() {
     return settings.getBool("av_reverse", false);
+  }
+
+  public boolean showSend() {
+    return settings.getBool("show_send", false);
   }
 
   public int getAvRadius() {

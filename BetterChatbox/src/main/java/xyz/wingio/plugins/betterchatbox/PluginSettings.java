@@ -64,6 +64,7 @@ public final class PluginSettings extends SettingsPage {
             layout.addView(createSwitch(ctx, settings, "old_gallery_icon", "Use Old Gallery Icon", "Use the old image icon as opposed to the plus icon", false));
             layout.addView(createSwitch(ctx, settings, "small_gallery_button", "Use Small Gallery Button", "Use a smaller button inside the textbox rather than a large button outside of it", true));
             layout.addView(createSwitch(ctx, settings, "av_reverse", "Swap Avatar Actions", "Swaps the avatars press and long press actions", false));
+            layout.addView(createSwitch(ctx, settings, "show_send", "Always Show Send Button", "Don't hide the send button when no text is present", false));
         }
     }
 
