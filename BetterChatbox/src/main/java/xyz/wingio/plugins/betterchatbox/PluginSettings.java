@@ -6,10 +6,13 @@ import android.widget.*;
 import android.text.*;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.content.Context;
+import android.os.Bundle;
 
 import androidx.core.content.res.ResourcesCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.*;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentResultListener;
 
 import xyz.wingio.plugins.BetterChatbox;
 
@@ -51,6 +54,14 @@ import java.lang.reflect.*;
 public final class PluginSettings extends SettingsPage {
 
     public class General extends SettingsPage {
+
+        public Map<String, Integer> modes = new HashMap<>() {{
+            put("None", 0);
+            put("Open Profile Sheet", 1);
+            put("Change Status", 2);
+            put("Add Attachment", 3);
+        }};
+
         @Override
         @SuppressWarnings("ResultOfMethodCallIgnored")
         public void onViewBound(View view) {
@@ -60,11 +71,42 @@ public final class PluginSettings extends SettingsPage {
             setPadding(0);
             setActionBarTitle("General");
             setActionBarSubtitle("BetterChatbox");
-            layout.addView(createSwitch(ctx, settings, "show_avatar", "Show Avatar", "Show your avatar by the chat box\nPress to open the user sheet, Long press to change status", false));
+            layout.addView(createSwitch(ctx, settings, "show_avatar", "Show Avatar", "Show your avatar by the chat box", false));
             layout.addView(createSwitch(ctx, settings, "old_gallery_icon", "Use Old Gallery Icon", "Use the old image icon as opposed to the plus icon", false));
             layout.addView(createSwitch(ctx, settings, "small_gallery_button", "Use Small Gallery Button", "Use a smaller button inside the textbox rather than a large button outside of it", true));
-            layout.addView(createSwitch(ctx, settings, "av_reverse", "Swap Avatar Actions", "Swaps the avatars press and long press actions", false));
             layout.addView(createSwitch(ctx, settings, "show_send", "Always Show Send Button", "Don't hide the send button when no text is present", false));
+
+            layout.addView(new Divider(ctx));
+
+            Selector avOP = new Selector(ctx);
+            avOP.setLabel("Avatar On Press Mode");
+            int opMode = plugin.getAvOnClick();
+            avOP.setValue(modes.keySet().stream().filter(key -> modes.get(key) == opMode).findFirst().orElse("None"));
+            avOP.setOnClickListener(v -> {
+                ModeSelector avOnPress = new ModeSelector("Avatar On Press Mode");
+                avOnPress.setOnResultListener(result -> {
+                    avOP.setValue(result);
+                    settings.setInt("av_on_press", modes.get(result));
+                    return Unit.a;
+                });
+                avOnPress.show(getParentFragmentManager(), "mode_selector");
+            });
+            layout.addView(avOP);
+
+            Selector avOLP = new Selector(ctx);
+            avOLP.setLabel("Avatar Long Press Mode");
+            int lpMode = plugin.getAvLongClick();
+            avOLP.setValue(modes.keySet().stream().filter(key -> modes.get(key) == lpMode).findFirst().orElse("None"));
+            avOLP.setOnClickListener(v -> {
+                ModeSelector avOnPress = new ModeSelector("Avatar Long Press Mode");
+                avOnPress.setOnResultListener(result -> {
+                    avOLP.setValue(result);
+                    settings.setInt("av_long_press", modes.get(result));
+                    return Unit.a;
+                });
+                avOnPress.show(getParentFragmentManager(), "mode_selector");
+            });
+            layout.addView(avOLP);
         }
     }
 
@@ -184,6 +226,35 @@ public final class PluginSettings extends SettingsPage {
                 sb.append(s).append("\n");
             }
             return sb.toString();
+        }
+    }
+
+    public class Selector extends LinearLayout {
+        private TextView label;
+        private TextView value;
+        public Selector(Context ctx) {
+            super(ctx);
+            setOrientation(HORIZONTAL);
+            setPadding(p, p, p, p);
+            setVerticalGravity(Gravity.CENTER_VERTICAL);
+            label = new TextView(ctx, null, 0, R.i.UiKit_TextView);
+            label.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
+            value = new TextView(ctx, null, 0, R.i.UiKit_TextView);
+            value.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+            value.setGravity(Gravity.END);
+            value.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.e.icon_carrot, 0);
+            value.setCompoundDrawablePadding(p);
+
+            addView(label);
+            addView(value);
+        }
+
+        public void setLabel(String label) {
+            this.label.setText(label);
+        }
+
+        public void setValue(String value) {
+            this.value.setText(value);
         }
     }
 

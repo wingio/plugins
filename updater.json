@@ -67,9 +67,9 @@
         "minimumDiscordVersion": 96100
     },
     "BetterChatbox": {
-        "version" : "1.5.0",
+        "version" : "1.6.0",
         "minimumDiscordVersion": 96100,
-        "changelog": "New {added marginTop}\n======================\n\n* Added option to always show the send button"
+        "changelog": "New {added marginTop}\n======================\n\n* Added option to change what pressing and long pressing the avatar does"
     },
     "KeywordAlerts": {
         "version": "1.3.0",

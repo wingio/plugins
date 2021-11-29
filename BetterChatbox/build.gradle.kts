@@ -1,4 +1,4 @@
-version = "1.5.0"
+version = "1.6.0"
 description = "Adds options for customizing the chatbox"
 
 aliucord.changelog.set(
@@ -6,6 +6,6 @@ aliucord.changelog.set(
     New {added marginTop}
     ======================
 
-    * Added option to always show the send button
+    * Added option to change what pressing and long pressing the avatar does
     """.trimIndent()
 )
