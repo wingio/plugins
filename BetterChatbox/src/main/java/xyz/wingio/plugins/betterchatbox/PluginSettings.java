@@ -25,6 +25,7 @@ import com.aliucord.PluginManager;
 import com.aliucord.api.SettingsAPI;
 import com.aliucord.api.NotificationsAPI;
 import com.aliucord.fragments.SettingsPage;
+import com.aliucord.fragments.SelectDialog;
 import com.aliucord.views.Divider;
 import com.aliucord.views.TextInput;
 import com.aliucord.entities.NotificationData;
@@ -55,12 +56,43 @@ public final class PluginSettings extends SettingsPage {
 
     public class General extends SettingsPage {
 
-        public Map<String, Integer> modes = new HashMap<>() {{
-            put("None", 0);
-            put("Open Profile Sheet", 1);
-            put("Change Status", 2);
-            put("Add Attachment", 3);
-        }};
+        public String[] modes = new String[] {
+            "None",
+            "Open Profile Sheet",
+            "Change Status",
+            "Add Attachment"
+        };
+
+        public String[] lpmodes = new String[] {
+            "None",
+            "Open Profile Sheet",
+            "Change Status",
+            "Add Attachment"
+        };
+
+        public String[] displayModes = new String[] {
+            "None",
+            "Normal",
+            "Inline"
+        };
+
+        public String[] addToArray(String[] arr, String x) {
+            int i;
+    
+            // create a new ArrayList
+            List<String> arrlist
+                = new ArrayList<String>(
+                    Arrays.asList(arr));
+    
+            // Add the new element
+            arrlist.add(x);
+    
+            // Convert the Arraylist to array
+            arr = arrlist.toArray(arr);
+    
+            // return the array
+            return arr;
+        }
 
         @Override
         @SuppressWarnings("ResultOfMethodCallIgnored")
@@ -71,22 +103,50 @@ public final class PluginSettings extends SettingsPage {
             setPadding(0);
             setActionBarTitle("General");
             setActionBarSubtitle("BetterChatbox");
-            layout.addView(createSwitch(ctx, settings, "show_avatar", "Show Avatar", "Show your avatar by the chat box", false));
+            // layout.addView(createSwitch(ctx, settings, "show_avatar", "Show Avatar", "Show your avatar by the chat box", false));
             layout.addView(createSwitch(ctx, settings, "old_gallery_icon", "Use Old Gallery Icon", "Use the old image icon as opposed to the plus icon", false));
             layout.addView(createSwitch(ctx, settings, "small_gallery_button", "Use Small Gallery Button", "Use a smaller button inside the textbox rather than a large button outside of it", true));
             layout.addView(createSwitch(ctx, settings, "show_send", "Always Show Send Button", "Don't hide the send button when no text is present", false));
 
             layout.addView(new Divider(ctx));
 
+            Selector avDisplay = new Selector(ctx);
+            avDisplay.setLabel("Avatar Display Mode");
+            int displayMode = Settings.getAvDisplay();
+            avDisplay.setValue(displayModes[displayMode]);
+            avDisplay.setOnClickListener(v -> {
+                SelectDialog avOnPress = new SelectDialog();
+                avOnPress.setItems(displayModes);
+                avOnPress.setTitle("Avatar Display Mode");
+                avOnPress.setOnResultListener(result -> {
+                    avDisplay.setValue(displayModes[result]);
+                    settings.setInt("av_display", result);
+                    Utils.promptRestart("Restart to apply changes");
+                    return Unit.a;
+                });
+                avOnPress.show(getParentFragmentManager(), "mode_selector");
+            });
+            layout.addView(avDisplay);
+
+            for(var opa : Util.API.onPressActions.values()) {
+                modes = addToArray(modes, opa.name + " (Plugin)");
+            }
+
+            for(var opa : Util.API.onLongPressActions.values()) {
+                lpmodes = addToArray(lpmodes, opa.name + " (Plugin)");
+            }
+
             Selector avOP = new Selector(ctx);
             avOP.setLabel("Avatar On Press Mode");
-            int opMode = plugin.getAvOnClick();
-            avOP.setValue(modes.keySet().stream().filter(key -> modes.get(key) == opMode).findFirst().orElse("None"));
+            int opMode = Settings.getAvOnClick();
+            avOP.setValue(modes[opMode]);
             avOP.setOnClickListener(v -> {
-                ModeSelector avOnPress = new ModeSelector("Avatar On Press Mode");
+                SelectDialog avOnPress = new SelectDialog();
+                avOnPress.setItems(modes);
+                avOnPress.setTitle("Avatar On Press Mode");
                 avOnPress.setOnResultListener(result -> {
-                    avOP.setValue(result);
-                    settings.setInt("av_on_press", modes.get(result));
+                    avOP.setValue(modes[result]);
+                    settings.setInt("av_on_press", result);
                     return Unit.a;
                 });
                 avOnPress.show(getParentFragmentManager(), "mode_selector");
@@ -95,13 +155,15 @@ public final class PluginSettings extends SettingsPage {
 
             Selector avOLP = new Selector(ctx);
             avOLP.setLabel("Avatar Long Press Mode");
-            int lpMode = plugin.getAvLongClick();
-            avOLP.setValue(modes.keySet().stream().filter(key -> modes.get(key) == lpMode).findFirst().orElse("None"));
+            int lpMode = Settings.getAvLongClick();
+            avOLP.setValue(lpmodes[lpMode]);
             avOLP.setOnClickListener(v -> {
-                ModeSelector avOnPress = new ModeSelector("Avatar Long Press Mode");
+                SelectDialog avOnPress = new SelectDialog();
+                avOnPress.setItems(lpmodes);
+                avOnPress.setTitle("Avatar Long Press Mode");
                 avOnPress.setOnResultListener(result -> {
-                    avOLP.setValue(result);
-                    settings.setInt("av_long_press", modes.get(result));
+                    avOLP.setValue(lpmodes[result]);
+                    settings.setInt("av_long_press", result);
                     return Unit.a;
                 });
                 avOnPress.show(getParentFragmentManager(), "mode_selector");

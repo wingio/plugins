@@ -67,7 +67,7 @@ public class Patches {
         patcher.patch(WidgetHomeHeaderManager.class, "configure", new Class<?>[]{ WidgetHome.class, WidgetHomeModel.class, WidgetHomeBinding.class }, new Hook(callFrame -> {
         try {
             if(!settings.getBool("setToolbarIcon", true)) return;
-            WidgetHomeBinding binding = (WidgetHomeBinding) callFrame.args[2]; WidgetHomeModel model = (WidgetHomeModel) callFrame.args[1]; WidgetHome widget = (WidgetHome) callFrame.args[0]; ChannelWrapper channel = new ChannelWrapper(model.getChannel()); var root = widget.getActionBarTitleLayout().j.getRoot();
+            WidgetHomeBinding binding = (WidgetHomeBinding) callFrame.args[2]; WidgetHomeModel model = (WidgetHomeModel) callFrame.args[1]; WidgetHome widget = (WidgetHome) callFrame.args[0]; ChannelWrapper channel = new ChannelWrapper(model.getChannel()); var root = widget.getActionBarTitleLayout().k.getRoot();
             ImageView channelIcon = (ImageView) root.findViewById(com.aliucord.Utils.getResId("toolbar_icon", "id"));
             if(channel.isGuild()) {Guild guild = StoreStream.getGuilds().getGuilds().get(channel.getGuildId());if(guild.getRulesChannelId() != null){if(guild.getRulesChannelId() == channel.getId()) { channelIcon.setImageDrawable(Utils.themeDrawable(widget.getContext(), ResourcesCompat.getDrawable(resources, resources.getIdentifier("ic_rules_24dp", "drawable", "xyz.wingio.plugins"), null)) ); };}}
             if(channel.getId() == 811275162715553823L || channel.getId() == 845784407846813696L){ channelIcon.setImageDrawable(Utils.themeDrawable(widget.getContext(), ResourcesCompat.getDrawable(resources, resources.getIdentifier("ic_plugin_24dp", "drawable", "xyz.wingio.plugins"), null))); }

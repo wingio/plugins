@@ -1,4 +1,7 @@
 {
     "java.configuration.updateBuildConfiguration": "automatic",
-    "java.dependency.syncWithFolderExplorer": false
+    "java.dependency.syncWithFolderExplorer": false,
+    "java.project.sourcePaths": [
+        "src\\main\\java\\xyz\\wingio\\plugins"
+    ]
 }

@@ -49,6 +49,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import xyz.wingio.plugins.betterchatbox.*;
 
 import java.lang.reflect.*;
+import java.util.*;
 
 @SuppressWarnings("unused")
 @AliucordPlugin(requiresRestart = true)
@@ -68,21 +69,26 @@ public class BetterChatbox extends Plugin {
     public final int avId = View.generateViewId();
     public final int btnGroupId = Utils.getResId("left_btns_container", "id");
 
+    //For other devs to use in their plugins
     public FlexEditText fet;
     public AppFlexInputViewModel vm;
-
+    public FlexInputFragment fragment;
+    public LinearLayout btnGroup;
+    public SimpleDraweeView av;
+    public String avatarUrl;
     public long gId = 0L;
     public long cId = 0L;
 
     @Override
     public void start(Context context) throws Throwable {
+      Util.API.getOnPressActions();
+      Util.API.getOnLongPressActions();
       Method vmMethod = WidgetChatInput.class.getDeclaredMethod("getFlexInputViewModel");
       vmMethod.setAccessible(true);
       Field etField = WidgetChatInput.class.getDeclaredField("chatInputEditTextHolder");
       etField.setAccessible(true);
       Field etField2 = WidgetChatInputEditText.class.getDeclaredField("editText");
       etField2.setAccessible(true);
-      if(StoreStream.getUsers().getMe().getId() == 343383572805058560L && !settings.getBool("hasSeen", false)) { settings.setString("hint", "hi venny ~uwu~"); settings.setBool("hasSeen", true); }
 
       patcher.patch(WidgetChatInput.class, "configureUI", new Class<?>[] {ChatInputViewModel.ViewState.class}, new Hook(callFrame -> {
         WidgetChatInput _this = (WidgetChatInput) callFrame.thisObject;
@@ -90,34 +96,35 @@ public class BetterChatbox extends Plugin {
         try {
           WidgetChatInputEditText editText = WidgetChatInput.access$getChatInputEditTextHolder$p(_this);
           vm = (AppFlexInputViewModel) vmMethod.invoke(_this);
+          Util.API.setVm(vm);
           if(editText == null) return;
           fet = (FlexEditText) etField2.get(editText);
           LinearLayout fetCont = (LinearLayout) fet.getParent();
-          if(getCbHeight() != DimenUtils.dpToPx(40)) setSize(fet, getCbHeight(), false);
-          if(useSquareChatbox()) fetCont.setBackground(getRoundedCornersShape(getCBRadius(), ColorCompat.getThemedColor(fet.getContext(), R.b.colorBackgroundSecondaryAlt)));
-          gId = ChannelWrapper.getGuildId(StoreStream.getChannels().getChannel(editText.getChannelId()));
-          cId = editText.getChannelId();
+          if(Settings.getCbHeight() != DimenUtils.dpToPx(40)) setSize(fet, Settings.getCbHeight(), false);
+          if(Settings.useSquareChatbox()) fetCont.setBackground(getRoundedCornersShape(Settings.getCBRadius(), ColorCompat.getThemedColor(fet.getContext(), R.b.colorBackgroundSecondaryAlt)));
+          gId = ChannelWrapper.getGuildId(StoreStream.getChannels().getChannel(editText.getChannelId()));  cId = editText.getChannelId(); Util.API.setGId(gId); Util.API.setCId(cId);
           RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) fetCont.getLayoutParams();
-          if(lp != null && showSend()) { lp.setMarginEnd(0); fetCont.setLayoutParams(lp); }
-          if(getAvLongClick() != 3 && getAvOnClick() != 3) {
+          if(lp != null && Settings.showSend()) { lp.setMarginEnd(0); fetCont.setLayoutParams(lp); }
+          if(Settings.getAvLongClick() != 3 && Settings.getAvOnClick() != 3) {
             var g = addGalleryButton(fet);
             g.setOnClickListener(v -> vm.onGalleryButtonClicked());
             g.setOnLongClickListener(v -> { Utils.showToast("Media Selector", false); return true; });
           }
+          configureAvatar();
         } catch (Throwable e) {
           logger.error("Error", e);
         }
       }));
 
       patcher.patch(AppFlexInputViewModel.class.getDeclaredMethod("onInputTextChanged", String.class, Boolean.class), new Hook(callFrame -> {
-        if(!showSend()) return;
+        if(!Settings.showSend()) return;
         LinearLayout fetCont = (LinearLayout) fet.getParent();
         RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) fetCont.getLayoutParams();
         if(lp != null) { lp.setMarginEnd(0); fetCont.setLayoutParams(lp); }
       }));
 
       patcher.patch(WidgetChatInput.class, "getHint", new Class<?>[] { Context.class, Channel.class, boolean.class, boolean.class}, new InsteadHook(cf -> {
-        String hint = getHint();
+        String hint = Settings.getHint();
         ChannelWrapper cw = new ChannelWrapper((Channel) cf.args[1]);
         String target = ChannelUtils.e(cw.raw(), (Context) cf.args[0], false, 2);
         var g = StoreStream.getGuilds().getGuilds().get(cw.getGuildId());
@@ -133,110 +140,99 @@ public class BetterChatbox extends Plugin {
 
       patcher.patch(FlexInputFragment$d.class, "invoke", new Class<?>[] {Object.class}, new Hook(callFrame -> {
         FlexInputFragment fragment = (FlexInputFragment) ((FlexInputFragment$d) callFrame.thisObject).receiver;
+        this.fragment = fragment;
         disableHideGift();
-        LinearLayout btnGroup = (LinearLayout) fragment.j().getRoot().findViewById(btnGroupId);
+        btnGroup = (LinearLayout) fragment.j().getRoot().findViewById(btnGroupId);
         FrameLayout sendBtn = (FrameLayout) fragment.j().getRoot().findViewById(Utils.getResId("send_btn_container", "id"));
-        sendBtn.setBackground(getRoundedCornersShape(getBtnRadius()));
-        if(showSend()) sendBtn.setVisibility(View.VISIBLE);
-        setSize(sendBtn, getBtnSize());
-        if(showAvatar()) {
+        sendBtn.setBackground(getRoundedCornersShape(Settings.getBtnRadius()));
+        if(Settings.showSend()) sendBtn.setVisibility(View.VISIBLE);
+        setSize(sendBtn, Settings.getBtnSize());
+        if(Settings.showAvatar()) {
           Long guildId = ChannelWrapper.getGuildId(StoreStream.getChannelsSelected().getSelectedChannel()); Long channelId = ChannelWrapper.getId(StoreStream.getChannelsSelected().getSelectedChannel());
           User meUser = StoreStream.getUsers().getMe(); Long meId = meUser.getId();GuildMember me = StoreStream.getGuilds().getMember(guildId, meId);
-          String avatarUrl = ( me != null && me.hasAvatar() ) ? String.format("https://cdn.discordapp.com/guilds/%s/users/%s/avatars/%s.png", guildId, meId, me.getAvatarHash()) : String.format("https://cdn.discordapp.com/avatars/%s/%s.png", meUser.getId(), meUser.getAvatar());
-          avatarUrl = meUser.getAvatar() == null || meUser.getAvatar().isEmpty() ? "https://cdn.discordapp.com/embed/avatars/0.png" : avatarUrl;
-          var av = setUpAvatar(btnGroup.getContext(), getAvSize()); av.setId(avId);
-          av.setOnClickListener(v -> {
-            int lp = getAvOnClick();
-            switch(lp){
-              case 0:
-                break;
-              case 1:
-                if(guildId == 0) WidgetUserSheet.Companion.show(meId, fragment.getParentFragmentManager()); else WidgetUserSheet.Companion.show(meId, cId, fragment.getParentFragmentManager(), gId);
-                break;
-              case 2:
-                WidgetUserStatusSheet.Companion.show(fragment);
-                break;
-              case 3:
-                vm.onGalleryButtonClicked();
-                break;
-            }
-          });
-          av.setOnLongClickListener(v -> {
-            int lp = getAvLongClick();
-            switch(lp){
-              case 0:
-                return false;
-              case 1:
-                if(guildId == 0) WidgetUserSheet.Companion.show(meId, fragment.getParentFragmentManager()); else WidgetUserSheet.Companion.show(meId, cId, fragment.getParentFragmentManager(), gId);
-                break;
-              case 2:
-                WidgetUserStatusSheet.Companion.show(fragment);
-                break;
-              case 3:
-                vm.onGalleryButtonClicked();
-                break;
-              default:
-                return false;
-            }
-            return true;
-          });
-          if(btnGroup.findViewById(avId) != null) ((SimpleDraweeView) btnGroup.findViewById(avId)).setImageURI(avatarUrl); else btnGroup.addView(av);
+          int discim = meUser.getDiscriminator() % 5;
+          avatarUrl = ( me != null && me.hasAvatar() ) ? String.format("https://cdn.discordapp.com/guilds/%s/users/%s/avatars/%s.png", guildId, meId, me.getAvatarHash()) : String.format("https://cdn.discordapp.com/avatars/%s/%s.png", meUser.getId(), meUser.getAvatar());
+          avatarUrl = meUser.getAvatar() == null || meUser.getAvatar().isEmpty() ? "https://cdn.discordapp.com/embed/avatars/" + discim + ".png" : avatarUrl;
+          av = setUpAvatar(btnGroup.getContext(), Settings.getAvSize()); av.setId(avId);
+          av.setOnClickListener(v -> Util.API.onPressAction(v, guildId, meId, fragment));
+          av.setOnLongClickListener(v -> Util.API.onLongPressAction(v, guildId, meId, fragment));
           configureBtnGroup(btnGroup);
+          configureAvatar();
         } else {
-          if(useSmallBtn()) btnGroup.setVisibility(View.GONE); else btnGroup.setVisibility(View.VISIBLE);
+          if(Settings.useSmallBtn()) btnGroup.setVisibility(View.GONE); else btnGroup.setVisibility(View.VISIBLE);
         }
         configureBtnGroup(btnGroup);
       }));
-      
   }
 
   public ToolbarButton addGalleryButton(FlexEditText et) throws Throwable {
-    LinearLayout group = (LinearLayout) et.getParent();
-    group.setGravity(Gravity.CENTER_VERTICAL);
-    Context context = et.getContext();
-    FrameLayout mediaPickerContainer = new FrameLayout(context);
-
-    RelativeLayout.LayoutParams params3 = (RelativeLayout.LayoutParams) group.getLayoutParams();
-    if(params3 != null && !showAvatar() && useSmallBtn()) params3.setMargins(p3, p3, p3, p3);
-
-    LinearLayout.LayoutParams params2 = new LinearLayout.LayoutParams(p, p);
-    params2.setMargins(-1 * DimenUtils.dpToPx(8),0,0,0);
-    mediaPickerContainer.setLayoutParams(params2);
-
-    ToolbarButton mediaPicker = new ToolbarButton(context);
-    FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(p, p);
-    mediaPicker.setImageResource(useOldIcn() ? R.e.ic_flex_input_image_24dp_dark : R.e.ic_add_circle);
+    LinearLayout group = (LinearLayout) fet.getParent();
+    ToolbarButton mediaPicker = new ToolbarButton(group.getContext());
+    mediaPicker.setImageResource(Settings.useOldIcn() ? R.e.ic_flex_input_image_24dp_dark : R.e.ic_add_circle);
     mediaPicker.setPadding(p2, p2, p2, p2);
-    mediaPicker.setLayoutParams(params);
     mediaPicker.setId(btnId);
-    mediaPickerContainer.addView(mediaPicker);
 
-    if(group.findViewById(btnId) == null && useSmallBtn()) group.addView(mediaPickerContainer, 0);
+    if(group.findViewById(btnId) == null && Settings.useSmallBtn()) addToChatbox(mediaPicker, true);
     return mediaPicker;
   }
 
   public SimpleDraweeView setUpAvatar(Context ctx, int size) {
     SimpleDraweeView icon = new SimpleDraweeView(ctx);
     LinearLayout.LayoutParams iconParams = new LinearLayout.LayoutParams(size, size);
-    iconParams.setMargins((useSmallBtn() || getAvOnClick() == 3 || getAvLongClick() == 3) ? DimenUtils.dpToPx(6) : 0, 0, DimenUtils.dpToPx(6), 0);
+    iconParams.setMargins((Settings.useSmallBtn() || Settings.getAvOnClick() == 3 || Settings.getAvLongClick() == 3) ? DimenUtils.dpToPx(6) : 0, 0, DimenUtils.dpToPx(6), 0);
     icon.setLayoutParams(iconParams);
     icon.setImageURI(IconUtils.DEFAULT_ICON_BLURPLE);
     icon.setClipToOutline(true);
-    var circle = getAvRadius() == size / 2 ? new ShapeDrawable(new OvalShape()) : getRoundedCornersShape(getAvRadius());
+    var circle = Settings.getAvRadius() == size / 2 ? new ShapeDrawable(new OvalShape()) : getRoundedCornersShape(Settings.getAvRadius());
     circle.getPaint().setColor(Color.TRANSPARENT);
     icon.setBackground(circle);
     return icon;
   }
 
+  public View addToChatbox(View view, boolean isBtn) {
+    LinearLayout group = (LinearLayout) fet.getParent();
+    group.setGravity(Gravity.CENTER_VERTICAL);
+    Context context = fet.getContext();
+
+    RelativeLayout.LayoutParams groupParams = (RelativeLayout.LayoutParams) group.getLayoutParams();
+    if(groupParams != null && Settings.shouldChangeMargin()) groupParams.setMargins(p3, p3, p3, p3);
+    
+    FrameLayout itemContainer = new FrameLayout(context);
+    LinearLayout.LayoutParams itemContainerParams = new LinearLayout.LayoutParams(p, p);
+    itemContainerParams.setMargins(-1 * DimenUtils.dpToPx(8),0,0,0);
+    itemContainer.setLayoutParams(itemContainerParams);
+    int padding = DimenUtils.dpToPx(9);
+    if(!isBtn) itemContainer.setPadding(padding, padding, padding, padding);
+    int size = isBtn ? p : p - (2 * padding);
+    FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(size, size);
+    view.setLayoutParams(params);
+    itemContainer.addView(view);
+
+    group.addView(itemContainer, 0);
+    return view;
+  }
+
   public void configureBtnGroup(LinearLayout btnGroup) {
     androidx.appcompat.widget.AppCompatImageButton gallery = (androidx.appcompat.widget.AppCompatImageButton) btnGroup.findViewById(Utils.getResId("gallery_btn", "id"));
-    if(useSmallBtn() || getAvOnClick() == 3 || getAvLongClick() == 3) gallery.setVisibility(View.GONE); else gallery.setVisibility(View.VISIBLE);
-    if(useOldIcn()) gallery.setImageResource(R.e.ic_flex_input_image_24dp_dark);
-    setSize(gallery, getBtnSize());
-    gallery.setBackground(getRoundedCornersShape(getBtnRadius()));
+    if(Settings.useSmallBtn() || Settings.getAvOnClick() == 3 || Settings.getAvLongClick() == 3) gallery.setVisibility(View.GONE); else gallery.setVisibility(View.VISIBLE);
+    if(Settings.useOldIcn()) gallery.setImageResource(R.e.ic_flex_input_image_24dp_dark);
+    setSize(gallery, Settings.getBtnSize());
+    gallery.setBackground(getRoundedCornersShape(Settings.getBtnRadius()));
     btnGroup.findViewById(Utils.getResId("gift_btn", "id")).setVisibility(View.GONE);
     btnGroup.findViewById(Utils.getResId("expand_btn", "id")).setVisibility(View.GONE);
     btnGroup.setGravity(Gravity.CENTER_VERTICAL);
+    if(Settings.shouldChangeMargin()) btnGroup.setVisibility(View.GONE); else btnGroup.setVisibility(View.VISIBLE);
+  }
+
+  public void configureAvatar() {
+    switch (Settings.getAvDisplay()) {
+      case Settings.AVATAR_DISPLAY_NORMAL:
+        if(btnGroup.findViewById(avId) != null) ((SimpleDraweeView) btnGroup.findViewById(avId)).setImageURI(avatarUrl); else btnGroup.addView(av);
+        break;
+      case Settings.AVATAR_DISPLAY_INLINE:
+        if(fet != null) if(((LinearLayout) fet.getParent()).findViewById(avId) != null) ((SimpleDraweeView) ((LinearLayout) fet.getParent()).findViewById(avId)).setImageURI(avatarUrl); else addToChatbox(av, false);
+        break;
+    }
   }
 
   public void disableHideGift(){
@@ -244,10 +240,6 @@ public class BetterChatbox extends Plugin {
     if(pl != null){
         pl.settings.setBool("giftButton", false);
     }
-  }
-
-  public String getHint() {
-    return settings.getString("hint", "");
   }
 
   public String getOriginalHint(Context context, Channel channel, boolean z2, boolean z3) {
@@ -260,62 +252,6 @@ public class BetterChatbox extends Plugin {
         String string2 = context.getString(R.h.no_send_messages_permission_placeholder);
         return string2;
     }
-  }
-
-  public int getAvOnClick() {
-    return settings.getInt("av_on_press", 1);
-  }
-  
-  public int getAvLongClick() {
-    return settings.getInt("av_long_press", 2);
-  }
-
-  public boolean showAvatar() {
-    return settings.getBool("show_avatar", false);
-  }
-
-  public boolean useSmallBtn() {
-    return settings.getBool("small_gallery_button", true);
-  }
-
-  public boolean useOldIcn() {
-    return settings.getBool("old_gallery_icon", false);
-  }
-
-  public boolean useSquareChatbox() {
-    return settings.getBool("square_chatbox", false);
-  }
-
-  public boolean swapActions() {
-    return settings.getBool("av_reverse", false);
-  }
-
-  public boolean showSend() {
-    return settings.getBool("show_send", false);
-  }
-
-  public int getAvRadius() {
-    return settings.getInt("av_r", DimenUtils.dpToPx(20));
-  }
-
-  public int getCBRadius() {
-    return settings.getInt("cb_r", DimenUtils.dpToPx(20));
-  }
-
-  public int getBtnRadius() {
-    return settings.getInt("btn_r", DimenUtils.dpToPx(20));
-  }
-
-  public int getAvSize() {
-    return settings.getInt("av_size", DimenUtils.dpToPx(40));
-  }
-
-  public int getCbHeight() {
-    return settings.getInt("cb_size", DimenUtils.dpToPx(40));
-  }
-
-  public int getBtnSize() {
-    return settings.getInt("btn_size", DimenUtils.dpToPx(40));
   }
 
   public void setSize(View view, int size) {

@@ -1,4 +1,4 @@
-version = "1.2.3"
+version = "1.2.4"
 description = "Edit badges for any user"
 
 aliucord.changelog.set(
@@ -6,6 +6,6 @@ aliucord.changelog.set(
     Improved {improved marginTop}
     ======================
 
-    * Small improvements
+    * Discord v105.12
     """.trimIndent()
 )

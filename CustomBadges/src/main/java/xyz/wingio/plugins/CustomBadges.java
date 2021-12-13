@@ -28,8 +28,7 @@ import xyz.wingio.plugins.custombadges.util.BadgeDB;
 
 import com.discord.app.AppFragment;
 import com.discord.utilities.color.ColorCompat;
-import com.discord.api.premium.PremiumTier;
-import com.discord.api.guild.GuildFeature;
+import com.discord.api.user.UserProfile;
 import com.discord.databinding.*;
 import com.discord.utilities.viewbinding.FragmentViewBindingDelegate;
 import com.discord.utilities.SnowflakeUtils;
@@ -55,7 +54,6 @@ import com.discord.models.member.GuildMember;
 import com.discord.models.guild.Guild;
 import com.discord.models.user.User;
 import com.discord.models.message.Message;
-import com.discord.models.domain.ModelUserProfile;
 import com.discord.utilities.view.text.SimpleDraweeSpanTextView;
 import com.lytefast.flexinput.R;
 import com.google.gson.reflect.TypeToken;
@@ -86,6 +84,16 @@ public class CustomBadges extends Plugin {
     public Field[] fields = R.e.class.getDeclaredFields();
     public Map<Integer, String> drawableNames = new HashMap<>();
 
+    public class AvPress implements View.OnLongClickListener {
+        @Override
+        public boolean onLongClick(View v) {
+            Utils.openPageWithProxy(v.getContext(), new EditUser(settings, StoreStream.getUsers().getMe(), badgeDB));
+            return true;
+        }
+      }
+    
+    public final View.OnLongClickListener onAvatarLongPress = new AvPress();
+
     @Override
     public void start(Context context) throws Throwable {
         var adapterField = UserProfileHeaderView.class.getDeclaredField("badgesAdapter"); adapterField.setAccessible(true);
@@ -96,7 +104,7 @@ public class CustomBadges extends Plugin {
         patcher.patch(UserProfileHeaderView.class, "updateViewState", new Class<?>[]{ UserProfileHeaderViewModel.ViewState.Loaded.class }, new Hook(callFrame -> {
             try {
                 UserProfileHeaderView view = (UserProfileHeaderView) callFrame.thisObject;
-                var loaded = (UserProfileHeaderViewModel.ViewState.Loaded) callFrame.args[0]; User user = loaded.getUser(); ModelUserProfile userProfile = loaded.getUserProfile(); int snowsGivingHypeSquadEventWinner = loaded.getSnowsGivingHypeSquadEventWinner(); boolean isMeUserPremium = loaded.isMeUserPremium(); boolean isMeUserVerified = loaded.isMeUserVerified(); SimpleRecyclerAdapter<Badge, UserProfileHeaderView.BadgeViewHolder> adapter = (SimpleRecyclerAdapter<Badge, UserProfileHeaderView.BadgeViewHolder>) adapterField.get(callFrame.thisObject);
+                var loaded = (UserProfileHeaderViewModel.ViewState.Loaded) callFrame.args[0]; User user = loaded.getUser(); UserProfile userProfile = loaded.getUserProfile(); int snowsGivingHypeSquadEventWinner = loaded.getSnowsGivingHypeSquadEventWinner(); boolean isMeUserPremium = loaded.isMeUserPremium(); boolean isMeUserVerified = loaded.isMeUserVerified(); SimpleRecyclerAdapter<Badge, UserProfileHeaderView.BadgeViewHolder> adapter = (SimpleRecyclerAdapter<Badge, UserProfileHeaderView.BadgeViewHolder>) adapterField.get(callFrame.thisObject);
                 List<Badge> badgeList = Badge.Companion.getBadgesForUser(user, userProfile, snowsGivingHypeSquadEventWinner, isMeUserPremium, isMeUserVerified, view.getContext());
                 Map<Long, List> userBadges = settings.getObject("userBadges", new HashMap<>(), badgeStoreType);
                 if (userBadges.containsKey(user.getId())) {
