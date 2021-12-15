@@ -20,6 +20,7 @@ import com.google.android.material.card.MaterialCardView;
 import com.lytefast.flexinput.R;
 
 public class ChannelItem extends LinearLayout {
+    public ImageView icon;
     public TextView name;
     public TextView server;
     public ToolbarButton remove;
@@ -34,14 +35,14 @@ public class ChannelItem extends LinearLayout {
         setLayoutParams(params3);
         setVerticalGravity(Gravity.CENTER_VERTICAL);
         
-        ImageView iv = new ImageView(context);
+        icon = new ImageView(context);
         Drawable ch = ContextCompat.getDrawable(context, R.e.ic_text_channel_white_24dp).mutate();
         ch.setTint(ColorCompat.getThemedColor(context, R.b.colorInteractiveNormal));
         LinearLayout.LayoutParams ivparams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         ivparams.setMargins(0,p,p,p);
-        iv.setLayoutParams(ivparams);
-        iv.setImageDrawable(ch);
-        addView(iv);
+        icon.setLayoutParams(ivparams);
+        icon.setImageDrawable(ch);
+        addView(icon);
         
         LinearLayout ll = new LinearLayout(context);
         ll.setOrientation(LinearLayout.VERTICAL);
@@ -58,8 +59,7 @@ public class ChannelItem extends LinearLayout {
         server.setText("Unknown");
         server.setLayoutParams(params);
         server.setTextSize(14f);
-        server.setVisibility(View.GONE);
-        server.setPadding(0, p / 4, 0, 0);
+        server.setPadding(0, 0, 0, 0);
         server.setTextColor(ColorUtils.setAlphaComponent(ColorCompat.getThemedColor(context, R.b.colorInteractiveNormal), 153));
 
         ll.addView(server);

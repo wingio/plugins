@@ -72,7 +72,7 @@ public class KeywordAdapter extends RecyclerView.Adapter<KeywordAdapter.KeywordH
         Keyword keyword = keywords.get(position);
         Card card = (Card) holder.item;
 
-        card.word.k.a().setText(keyword.getWord());
+        card.word.l.a().setText(keyword.getWord());
         card.word.setChecked(keyword.isEnabled());
         card.word.setOnCheckedListener(checked -> {
             Map<Long, Keyword> keywordMap = settings.getObject("keywords", new HashMap<>(), KeywordAlerts.keywordsType);
@@ -129,6 +129,12 @@ public class KeywordAdapter extends RecyclerView.Adapter<KeywordAdapter.KeywordH
                 dialog.dismiss();
             });
             dialog.show(page.getFragmentManager(), this.getClass().getSimpleName());
+        });
+
+        card.bl.setOnClickListener(v -> {
+            var cp = new ChannelPage(((PluginSettings) page).plugin, keyword);
+            cp.setIsWhitelist(false);
+            Utils.openPageWithProxy(ctx, cp);
         });
 
         card.channels.setOnClickListener(v -> {

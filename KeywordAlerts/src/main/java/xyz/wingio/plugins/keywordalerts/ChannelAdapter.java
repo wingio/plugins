@@ -28,6 +28,7 @@ import com.aliucord.fragments.InputDialog;
 
 import com.discord.stores.*;
 import com.discord.models.user.*;
+import com.discord.utilities.color.ColorCompat;
 
 import com.lytefast.flexinput.R;
 
@@ -51,9 +52,10 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ChannelH
 
     private final Context ctx;
     private final Keyword keyword;
-    private final List<Long> channelIds;
     private final SettingsPage page;
     private final SettingsAPI settings = PluginManager.plugins.get("KeywordAlerts").settings;
+    private List<Long> channelIds;
+    private boolean isWhitelist = true;
 
     public ChannelAdapter(SettingsPage page, Keyword keyword) {
         this.channelIds = keyword.getWhitelist();
@@ -83,22 +85,23 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ChannelH
         if(c != null){
             ChannelWrapper channel = new ChannelWrapper(c);
             var g = StoreStream.getGuilds().getGuilds().get(ChannelWrapper.getGuildId(c));
-            item.server.setVisibility(g != null ? View.VISIBLE : View.GONE);
             if(channel.isGuild() && g != null) {
                 item.server.setText(g.getName());
             } else if (channel.raw().w().get(0) != null) {
                 CoreUser recipient = new CoreUser(channel.raw().w().get(0));
                 item.name.setText(recipient.getUsername());
+                Drawable icon = ContextCompat.getDrawable(ctx, R.e.ic_tab_friends).mutate();
+                icon.setTint(ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal));
+                item.icon.setImageDrawable(icon);
+                item.server.setText("Direct Messages");
             }
         }
-
-        
 
         item.remove.setOnClickListener(v -> {
             channelIds.remove(position);
             ChannelPage cpage = (ChannelPage) page;
             var kws = cpage.plugin.getKeywords();
-            keyword.setWhitelist(channelIds);
+            if(isWhitelist) keyword.setWhitelist(channelIds); else keyword.setBlacklist(channelIds);
             kws.put(keyword.getId(), keyword);
             settings.setObject("keywords", kws);
             cpage.reRender();
@@ -108,5 +111,10 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ChannelH
     public void add(Long channelId) {
         channelIds.add(channelId);
         notifyItemInserted(channelIds.size() - 1);
+    }
+
+    public void setIsWhitelist(boolean isWhitelist) {
+        this.isWhitelist = isWhitelist;
+        channelIds = isWhitelist ? keyword.getWhitelist() : keyword.getBlacklist();
     }
 }

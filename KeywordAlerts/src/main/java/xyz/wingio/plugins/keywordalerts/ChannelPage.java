@@ -52,6 +52,7 @@ public final class ChannelPage extends SettingsPage {
     public KeywordAlerts plugin;
     private Keyword keyword;
     private int p = DimenUtils.dpToPx(16);
+    private boolean isWhitelist = true;
     
     public ChannelPage(KeywordAlerts plugin, Keyword keyword) {
         this.plugin = plugin;
@@ -63,7 +64,7 @@ public final class ChannelPage extends SettingsPage {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public void onViewBound(View view) {
         super.onViewBound(view);
-        setActionBarTitle("Edit Channels");
+        setActionBarTitle(isWhitelist ? "Allowed Channels" : "Blocked Channels");
         setActionBarSubtitle(keyword.getWord());
         setPadding(p);
 
@@ -71,8 +72,9 @@ public final class ChannelPage extends SettingsPage {
         var layout = getLinearLayout();
 
         Button button = new Button(ctx);
-        button.setText("Add Channel");
+        button.setText(isWhitelist ? "Add Allowed Channel" : "Add Blocked Channel");
         ChannelAdapter adapter = new ChannelAdapter(this, keyword);
+        adapter.setIsWhitelist(isWhitelist);
         RecyclerView recyclerView = new RecyclerView(ctx);
         recyclerView.setLayoutManager(new LinearLayoutManager(ctx));
         recyclerView.setAdapter(adapter);
@@ -87,17 +89,21 @@ public final class ChannelPage extends SettingsPage {
                 .setDescription("Enter the id of the channel you want to add");
             dialog.setOnOkListener(w -> {
                 if(dialog.getInput().isEmpty()) {
-                    Toast.makeText(w.getContext(), "Keyword cannot be empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(w.getContext(), "Channel cannot be empty", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 try {
                     Long id = Long.parseLong(dialog.getInput());
-                    if(keyword.isWhitelisted(id)) {
+                    if(keyword.isWhitelisted(id) && isWhitelist) {
+                        Toast.makeText(w.getContext(), "Channel already added", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if(keyword.isBlacklisted(id) && isWhitelist == false) {
                         Toast.makeText(w.getContext(), "Channel already added", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     Map<Long, Keyword> keywords = plugin.getKeywords();
-                    keyword.addToWhitelist(id);
+                    if(isWhitelist) keyword.addToWhitelist(id); else keyword.addToBlacklist(id);
                     keywords.put(keyword.getId(), keyword);
                     settings.setObject("keywords", keywords);
                     reRender();
@@ -117,5 +123,9 @@ public final class ChannelPage extends SettingsPage {
         cs.setChecked(sets.getBool(key, defaultValue));
         cs.setOnCheckedListener(c -> sets.setBool(key, c));
         return cs;
+    }
+
+    public void setIsWhitelist(boolean isWhitelist) {
+        this.isWhitelist = isWhitelist;
     }
 }

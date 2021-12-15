@@ -1,5 +1,3 @@
-include(":BetterChatbox")
-include(":BetterChannelIcons")
-include(":CustomBadges")
+include(":KeywordAlerts")
 
 rootProject.name = "plugins"

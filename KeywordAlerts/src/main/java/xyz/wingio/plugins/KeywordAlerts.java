@@ -74,6 +74,7 @@ public class KeywordAlerts extends Plugin {
 			if (modelMessage.getEditedTimestamp() == null) {
         String content = modelMessage.getContent();
 				for(Keyword keyword : getKeywordsList()){
+          if(keyword.isBlacklisted(modelMessage.getChannelId())) continue;
           if(keyword.isEnabled() && keyword.matches(content)) {
             if(keyword.whitelistEnabled()){
               if(keyword.isWhitelisted(modelMessage.getChannelId())) showNotification(keyword, modelMessage);
@@ -127,7 +128,7 @@ public class KeywordAlerts extends Plugin {
 
   public void convertToNewFormat() {
     for (Keyword keyword : getKeywordsList()) {
-      if (keyword.getWhitelist() == null) {
+      if (keyword.getVersion() == 0 || keyword.getVersion() != Keyword.CURRENT_VERSION) {
         var kws = getKeywords();
         kws.put(keyword.getId(), new Keyword(keyword));
         settings.setObject("keywords", kws);

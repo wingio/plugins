@@ -24,6 +24,7 @@ public class Card extends MaterialCardView {
     public CheckedSetting whitelist;
     public ToolbarButton delete;
     public ToolbarButton edit;
+    public ToolbarButton bl;
     public ToolbarButton channels;
     private int p = DimenUtils.dpToPx(16);
 
@@ -43,19 +44,19 @@ public class Card extends MaterialCardView {
         whitelist = Utils.createCheckedSetting(context, CheckedSetting.ViewType.CHECK, "Only in specific channels", null);
 
         word.setBackgroundColor(ColorCompat.getThemedColor(context, R.b.colorBackgroundSecondaryAlt));
-        word.k.a().setTextAppearance(R.i.UiKit_TextView_H6);
-        word.k.a().setTextSize(18f);
-        word.k.a().setAllCaps(false);
+        word.l.a().setTextAppearance(R.i.UiKit_TextView_H6);
+        word.l.a().setTextSize(18f);
+        word.l.a().setAllCaps(false);
 
         regex.getChildAt(0).setPadding(p, p/2, p, p/2);
-        regex.k.a().setTextAppearance(R.i.UiKit_TextView);
-        regex.k.a().setTextSize(14f);
-        regex.k.d().setVisibility(View.GONE);
+        regex.l.a().setTextAppearance(R.i.UiKit_TextView);
+        regex.l.a().setTextSize(14f);
+        regex.l.d().setVisibility(View.GONE);
 
         whitelist.getChildAt(0).setPadding(p, p/2, p, p/2);
-        whitelist.k.a().setTextAppearance(R.i.UiKit_TextView);
-        whitelist.k.a().setTextSize(14f);
-        whitelist.k.d().setVisibility(View.GONE);
+        whitelist.l.a().setTextAppearance(R.i.UiKit_TextView);
+        whitelist.l.a().setTextSize(14f);
+        whitelist.l.d().setVisibility(View.GONE);
 
         root.addView(word);
         root.addView(new Divider(context));
@@ -79,11 +80,18 @@ public class Card extends MaterialCardView {
         btnparams.setMarginEnd(p);
         edit.setLayoutParams(btnparams);
 
+        bl = new ToolbarButton(context);
+        Drawable blicon = ContextCompat.getDrawable(context, R.e.ic_channels_24dp).mutate();
+        blicon.setTint(ColorCompat.getThemedColor(context, R.b.colorInfoDangerForeground));
+        bl.setImageDrawable(blicon, false);
+        bl.setLayoutParams(btnparams);
+
         channels = new ToolbarButton(context);
         channels.setImageResource(R.e.ic_channels_24dp);
         channels.setLayoutParams(btnparams);
         channels.setVisibility(View.GONE);
 
+        buttons.addView(bl);
         buttons.addView(channels);
         buttons.addView(edit);
         buttons.addView(delete);
