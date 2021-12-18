@@ -60,14 +60,16 @@ public final class PluginSettings extends SettingsPage {
             "None",
             "Open Profile Sheet",
             "Change Status",
-            "Add Attachment"
+            "Add Attachment",
+            "Open Debug Log"
         };
 
         public String[] lpmodes = new String[] {
             "None",
             "Open Profile Sheet",
             "Change Status",
-            "Add Attachment"
+            "Add Attachment",
+            "Open Debug Log"
         };
 
         public String[] displayModes = new String[] {
@@ -78,19 +80,9 @@ public final class PluginSettings extends SettingsPage {
 
         public String[] addToArray(String[] arr, String x) {
             int i;
-    
-            // create a new ArrayList
-            List<String> arrlist
-                = new ArrayList<String>(
-                    Arrays.asList(arr));
-    
-            // Add the new element
+            List<String> arrlist = new ArrayList<String>(Arrays.asList(arr));
             arrlist.add(x);
-    
-            // Convert the Arraylist to array
             arr = arrlist.toArray(arr);
-    
-            // return the array
             return arr;
         }
 

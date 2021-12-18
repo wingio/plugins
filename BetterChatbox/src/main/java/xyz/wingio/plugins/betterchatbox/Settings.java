@@ -76,6 +76,9 @@ public class Settings {
     }
 
     public static boolean shouldChangeMargin() {
-        return (getAvDisplay() == AVATAR_DISPLAY_INLINE || getAvDisplay() == AVATAR_DISPLAY_NONE) && useSmallBtn();
+        boolean hiddenGallery = Settings.getAvOnClick() == 3 || Settings.getAvLongClick() == 3;
+        boolean shouldChangeMargin = false;
+        shouldChangeMargin = ((getAvDisplay() == AVATAR_DISPLAY_INLINE || getAvDisplay() == AVATAR_DISPLAY_NONE) && useSmallBtn() || (!shouldChangeMargin && hiddenGallery && (getAvDisplay() == AVATAR_DISPLAY_INLINE || getAvDisplay() == AVATAR_DISPLAY_NONE)));
+        return shouldChangeMargin;
     }
 }

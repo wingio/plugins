@@ -1,4 +1,3 @@
-include(":HideCallButtons")
-include(":DN")
+include(":BetterChatbox")
 
 rootProject.name = "plugins"

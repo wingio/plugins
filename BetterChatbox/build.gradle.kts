@@ -1,4 +1,4 @@
-version = "1.7.0"
+version = "1.8.0"
 description = "Adds options for customizing the chatbox"
 
 aliucord.changelog.set(
@@ -6,7 +6,7 @@ aliucord.changelog.set(
     New {added marginTop}
     ======================
 
-    * Added inline avatar option
-    * Stuff for devs
+    * Added avatar press and long press option that opens the debug log
+    * Fixed chatbox margin when gallery button is hidden
     """.trimIndent()
 )

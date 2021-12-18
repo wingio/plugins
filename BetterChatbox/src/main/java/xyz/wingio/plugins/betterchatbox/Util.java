@@ -14,6 +14,7 @@ import com.aliucord.utils.*;
 import com.aliucord.wrappers.*;
 import com.aliucord.views.ToolbarButton;
 
+import com.discord.widgets.debugging.WidgetDebugging;
 import com.discord.widgets.chat.input.*;
 import com.discord.widgets.user.usersheet.WidgetUserSheet;
 import com.discord.widgets.user.*;
@@ -85,10 +86,13 @@ public class Util {
                 case 3:
                     vm.onGalleryButtonClicked();
                     break;
+                case 4:
+                    WidgetDebugging.Companion.launch(fragment.getContext());
+                    break;
                 default:
-                    if(lp > 3) {
+                    if(lp > 4) {
                         try {
-                        onPressActions.get(lp).listener.onClick(view);
+                            onPressActions.get(lp).listener.onClick(view);
                         } catch (Throwable ignored) {}
                     }
                     break;
@@ -96,64 +100,70 @@ public class Util {
         }
 
         public static boolean onLongPressAction(View view, Long guildId, Long meId, FlexInputFragment fragment) {
-        int lp = Settings.getAvLongClick();
-        switch(lp){
-            case 0:
-            return false;
-            case 1:
-            if(guildId == 0) WidgetUserSheet.Companion.show(meId, fragment.getParentFragmentManager()); else WidgetUserSheet.Companion.show(meId, cId, fragment.getParentFragmentManager(), gId);
-            break;
-            case 2:
-            WidgetUserStatusSheet.Companion.show(fragment);
-            break;
-            case 3:
-            vm.onGalleryButtonClicked();
-            break;
-            default:
-            if(lp > 3) {
-                try {
-                return onLongPressActions.get(lp).listener.onLongClick(view);
-                } catch (Throwable ignored) {
-                return false;
-                }
+            int lp = Settings.getAvLongClick();
+            switch(lp){
+                case 0:
+                    return false;
+                case 1:
+                    if(guildId == 0) WidgetUserSheet.Companion.show(meId, fragment.getParentFragmentManager()); else WidgetUserSheet.Companion.show(meId, cId, fragment.getParentFragmentManager(), gId);
+                    break;
+                case 2:
+                    WidgetUserStatusSheet.Companion.show(fragment);
+                    break;
+                case 3:
+                    vm.onGalleryButtonClicked();
+                    break;
+                case 4:
+                    WidgetDebugging.Companion.launch(fragment.getContext());
+                    break;
+                default:
+                    if(lp > 4) {
+                        try {
+                            return onLongPressActions.get(lp).listener.onLongClick(view);
+                        } catch (Throwable ignored) {
+                            xyz.wingio.plugins.BetterChatbox.logger.error("Error while executing onLongPressAction", ignored);
+                            return false;
+                        }
+                    }
+                break;
             }
-            break;
-        }
-        return true;
+            return true;
         }
 
         public static void addOnPressAction(String name, Plugin plugin, View.OnClickListener listener) {
-        OnPressAction action = new OnPressAction(name, plugin, listener);
-        onPressActions.put(onPressActions.size() + 4, action);
+            OnPressAction action = new OnPressAction(name, plugin, listener);
+            onPressActions.put(onPressActions.size() + 5, action);
         }
 
         public static void addOnLongPressAction(String name, Plugin plugin, View.OnLongClickListener listener) {
-        OnLongPressAction action = new OnLongPressAction(name, plugin, listener);
-        onLongPressActions.put(onLongPressActions.size() + 4, action);
+            OnLongPressAction action = new OnLongPressAction(name, plugin, listener);
+            onLongPressActions.put(onLongPressActions.size() + 5, action);
         }
 
         public static void getOnPressActions() {
-        for(Plugin plugin : PluginManager.plugins.values()) {
-            try {
-                View.OnClickListener listener = (View.OnClickListener) ReflectUtils.getField(plugin, "onAvatarPress");
-                if(listener != null) {
-                addOnPressAction(plugin.getName(), plugin, listener);
-                }
-            } catch (Throwable ignored) {}
-        }
-        if(onPressActions.size() == 0 && Settings.getAvOnClick() > 3) settings.setInt("av_on_press", 0);
+            for(Plugin plugin : PluginManager.plugins.values()) {
+                if(!PluginManager.isPluginEnabled(plugin.getName())) continue;
+                try {
+                    View.OnClickListener listener = (View.OnClickListener) ReflectUtils.getField(plugin, "onAvatarPress");
+                    if(listener != null) {
+                    addOnPressAction(plugin.getName(), plugin, listener);
+                    }
+                } catch (Throwable ignored) {}
+            }
+            if(onPressActions.size() == 0 && Settings.getAvOnClick() > 4) settings.setInt("av_on_press", 0);
         }
 
         public static void getOnLongPressActions() {
             for(Plugin plugin : PluginManager.plugins.values()) {
+                if(!PluginManager.isPluginEnabled(plugin.getName())) continue;
                 try {
                     View.OnLongClickListener listener = (View.OnLongClickListener) ReflectUtils.getField(plugin, "onAvatarLongPress");
                     if(listener != null) {
-                    addOnLongPressAction(plugin.getName(), plugin, listener);
+                        addOnLongPressAction(plugin.getName(), plugin, listener);
                     }
                 } catch (Throwable ignored) {}
             }
-            if(onLongPressActions.size() == 0 && Settings.getAvLongClick() > 3) settings.setInt("av_long_press", 0);
+            if(onLongPressActions.size() == 0 && Settings.getAvLongClick() > 4) settings.setInt("av_long_press", 0);
         }
     }
 }
