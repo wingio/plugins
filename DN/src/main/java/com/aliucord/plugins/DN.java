@@ -6,22 +6,13 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 
 import com.aliucord.api.CommandsAPI;
+import com.aliucord.annotations.AliucordPlugin;
 import com.aliucord.entities.Plugin;
 import java.util.*;
 
+@AliucordPlugin
 @SuppressWarnings("unused")
 public class DN extends Plugin {
-
-    @NonNull
-    @Override
-    public Manifest getManifest() {
-        Manifest manifest = new Manifest();
-        manifest.authors = new Manifest.Author[]{ new Manifest.Author("Wing", 298295889720770563L) };
-        manifest.description = "Deez Nuts";
-        manifest.version = "1.3";
-        manifest.updateUrl = "https://raw.githubusercontent.com/wingio/plugins/builds/updater.json";
-        return manifest;
-    }
 
     @Override
     public void start(Context context) {
