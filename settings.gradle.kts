@@ -1,3 +1,3 @@
-include(":ViewServerAsRole")
+include(":BetterChatbox")
 
 rootProject.name = "plugins"
