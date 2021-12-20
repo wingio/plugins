@@ -68,7 +68,7 @@
         "minimumDiscordVersion": 105112
     },
     "BetterChatbox": {
-        "version" : "1.8.0",
+        "version" : "1.8.1",
         "minimumDiscordVersion": 105112,
         "changelog": "New {added marginTop}\n======================\n\n* Added avatar press and long press option that opens the debug log\n* Fixed chatbox margin when gallery button is hidden"
     },

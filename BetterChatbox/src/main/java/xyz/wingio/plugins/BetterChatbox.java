@@ -171,7 +171,7 @@ public class BetterChatbox extends Plugin {
     mediaPicker.setImageResource(Settings.useOldIcn() ? R.e.ic_flex_input_image_24dp_dark : R.e.ic_add_circle);
     mediaPicker.setPadding(p2, p2, p2, p2);
     mediaPicker.setId(btnId);
-
+    
     if(group.findViewById(btnId) == null && Settings.useSmallBtn()) addToChatbox(mediaPicker, true);
     return mediaPicker;
   }
@@ -225,6 +225,7 @@ public class BetterChatbox extends Plugin {
   }
 
   public void configureAvatar() {
+    if(av == null) return;
     switch (Settings.getAvDisplay()) {
       case Settings.AVATAR_DISPLAY_NORMAL:
         if(btnGroup.findViewById(avId) != null) ((SimpleDraweeView) btnGroup.findViewById(avId)).setImageURI(avatarUrl); else btnGroup.addView(av);
