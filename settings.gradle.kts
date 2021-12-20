@@ -1,4 +1,3 @@
-include(":TestTube")
-include(":BetterChatbox")
+include(":ViewServerAsRole")
 
 rootProject.name = "plugins"
