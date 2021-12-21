@@ -78,7 +78,7 @@
         "changelog": "New {added marginTop}\n======================\n\n* Added option to block alerts in certain channels\n\nFixed {fixed marginTop}\n======================\n\n* Fixed crash when opening settings in Discord v105.12"
     },
     "ViewServerAsRole": {
-        "version": "1.0.0",
+        "version": "1.0.1",
         "minimumDiscordVersion": 105112
     },
     "default": {
