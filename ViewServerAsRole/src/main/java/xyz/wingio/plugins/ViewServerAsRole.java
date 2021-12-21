@@ -66,7 +66,7 @@ public class ViewServerAsRole extends Plugin {
       bar = Snackbar.make(activity.u, String.format("You are currently viewing this server as %s role%s", size, size > 1 || size == 0 ? "s" : ""), Snackbar.LENGTH_INDEFINITE);
       FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) bar.getView().getLayoutParams();
       if(params != null){
-        params.topMargin = statusBarHeight * 2;
+        params.topMargin = statusBarHeight + DimenUtils.dpToPx(56);
         params.gravity = Gravity.TOP;
         bar.getView().setLayoutParams(params);
       }
@@ -105,6 +105,7 @@ public class ViewServerAsRole extends Plugin {
           if(!roleIds.contains(new GuildRoleWrapper(model.getRole()).getId())) roleIds.add(new GuildRoleWrapper(model.getRole()).getId());
           roles.put(model.getGuildId(), roleIds);
         }
+
         activity.onBackPressed();
         return true;
       });
