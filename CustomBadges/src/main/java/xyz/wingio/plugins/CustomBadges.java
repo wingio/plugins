@@ -123,7 +123,7 @@ public class CustomBadges extends Plugin {
                     }
                 }
 
-                boolean useBadgeDB = settings.getBool("use_badge_db", true);
+                boolean useBadgeDB = false;
                 if(useBadgeDB) {
                     List<BadgeDB.APIBadge> dbBadges = badgeDB.getBadgesForUser(user.getId());
                     for(BadgeDB.APIBadge badge : dbBadges) {

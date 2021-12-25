@@ -66,24 +66,8 @@ public class PrefsSheet extends BottomSheet {
         super.onViewCreated(view, bundle);
         int p = DimenUtils.dpToPx(8);
         Context ctx = requireContext();
-        addView(createSwitch(ctx, settings, "use_badge_db", "Use BadgeDB", "Wether to show badges from BadgeDB (github.com/wingio/BadgeDB)", true, false));
         addView(createSwitch(ctx, settings, "replace_badges", "Replace Badges", "Whether to replace badges with custom badges or to just add to current badges.", true, false));
         addView(createSwitch(ctx, settings, "showBadgeBtn", "Show 'Edit Badges' button on the profile sheet", null, true, false));
-        Button clearCache = new Button(ctx);
-        clearCache.setText("Clear BadgeDB Cache");
-        clearCache.setOnClickListener(v -> {
-            try {
-                badgeDB.clearCache();
-                Utils.showToast("Cache cleared", false);
-            } catch (Exception e) {
-                Utils.showToast("Failed to clear cache", false);
-            }
-        });
-        LinearLayout clearCacheView = new LinearLayout(ctx);
-        clearCacheView.setOrientation(LinearLayout.VERTICAL);
-        clearCacheView.addView(clearCache);
-        clearCacheView.setPadding(p, p, p, p);
-        addView(clearCacheView);
     }
 
     private CheckedSetting createSwitch(Context context, SettingsAPI sets, String key, String label, CharSequence subtext, boolean defaultValue, boolean reRender) {

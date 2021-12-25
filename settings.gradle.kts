@@ -1,3 +1,3 @@
-include(":ViewServerAsRole")
+include(":CustomBadges")
 
 rootProject.name = "plugins"

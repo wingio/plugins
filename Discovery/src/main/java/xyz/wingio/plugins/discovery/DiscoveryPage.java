@@ -127,6 +127,8 @@ public final class DiscoveryPage extends SettingsPage {
         recycler.setLayoutManager(new LinearLayoutManager(context));
         recycler.setAdapter(adapter);
         recycler.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        recycler.setNestedScrollingEnabled(true);
+        recycler.setHasFixedSize(true);
         
         SearchEditText search = new SearchEditText(context);
         search.setHint(R.h.search);
