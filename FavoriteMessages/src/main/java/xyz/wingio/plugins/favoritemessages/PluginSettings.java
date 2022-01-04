@@ -279,7 +279,7 @@ public class PluginSettings extends SettingsPage {
             if(showAvatar == false){
                 holder.card.setPadding(p, 0, p, 0);
             }
-
+            holder.card.setOnClickListener(e -> {});
             holder.card.setOnLongClickListener(e -> {
                 new MessageOptions(msg, fragment, page).show(fragment.getParentFragmentManager(), "Message Options");
                 return true;

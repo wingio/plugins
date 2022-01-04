@@ -105,7 +105,6 @@ public class Discovery extends Plugin {
           List<GuildListItem> items = loaded.getItems();
           boolean useHubAction = settings.getBool("useHubAction", false);
           if(items.get(items.size() -2) instanceof GuildListItem.CreateItem){
-            logger.debug("Join button dumb");
             items.add(items.size() - 1, new GuildListItem.HubItem(false));
           }
           if((items.get(items.size() - 2) instanceof GuildListItem.HubItem && items.get(items.size() - 3) instanceof GuildListItem.HubItem) == false) {
@@ -130,6 +129,7 @@ public class Discovery extends Plugin {
             Drawable compass = ResourcesCompat.getDrawable(resources, resources.getIdentifier("ic_discovery_24dp", "drawable", "com.aliucord.plugins"), null);
             compass.mutate();
             icon.setImageDrawable(compass);
+            icon.setContentDescription("Discovery");
             
             holder.itemView.setOnClickListener(v -> {
               Utils.openPageWithProxy(v.getContext(), new DiscoveryPage(this));

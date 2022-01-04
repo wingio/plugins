@@ -1,8 +1,9 @@
 package xyz.wingio.plugins.discovery.api;
 
 import java.util.*;
+import android.os.*;
 
-public class DiscoveryGuild {
+public class DiscoveryGuild implements Parcelable {
     public Long id;
     public String name;
     public String description;
@@ -44,5 +45,26 @@ public class DiscoveryGuild {
         public int format_type;
         public String description;
         public String tags;
-    }  
+    } 
+
+    @Override
+    public int describeContents(){
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeStringArray(new String[] {String.valueOf(this.id),
+                                            this.name,
+                                            this.description});
+    }
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public DiscoveryGuild createFromParcel(Parcel in) {
+            return new DiscoveryGuild(); 
+        }
+
+        public DiscoveryGuild[] newArray(int size) {
+            return new DiscoveryGuild[size];
+        }
+    };
 }

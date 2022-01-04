@@ -6,15 +6,16 @@ import android.widget.*;
 import android.graphics.*;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.Base64;
+import android.os.Bundle;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import xyz.wingio.plugins.discovery.widgets.*;
 import xyz.wingio.plugins.discovery.api.*;
-import xyz.wingio.plugins.discovery.util.*;
 
 import com.aliucord.Http;
 import com.aliucord.Utils;
+import com.aliucord.PluginManager;
 import com.aliucord.utils.RxUtils;
 import com.aliucord.utils.*;
 import com.aliucord.Logger;
@@ -25,6 +26,8 @@ import com.discord.stores.*;
 import com.discord.widgets.guilds.invite.WidgetGuildInvite;
 import com.discord.utilities.rest.RestAPI;
 import com.discord.utilities.analytics.AnalyticSuperProperties;
+import com.discord.gateway.GatewaySocket;
+import com.discord.models.guild.Guild;
 
 import com.lytefast.flexinput.R;
 
@@ -111,17 +114,59 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             item.memberCount.setText(String.format("%s Members", guild.approximate_member_count));
         }
 
-        if(guild.vanity_url_code != null) {
-            item.joinBtn.setText("Join");
-            item.joinBtn.setEnabled(true);
-            item.joinBtn.setOnClickListener(v -> {
-                WidgetGuildInvite.Companion.launch(item.joinBtn.getContext(), new StoreInviteSettings.InviteCode(guild.vanity_url_code, "", null));
-            });
-        } else {
-            item.joinBtn.setText("Can't join this server");
+        if(StoreStream.getGuilds().getGuilds().containsKey(guild.id)) {
+            item.joinBtn.setText("Joined");
             item.joinBtn.setEnabled(false);
+        } else {
+            if(guild.vanity_url_code != null) {
+                item.joinBtn.setText("Join");
+                item.joinBtn.setEnabled(true);
+                item.joinBtn.setOnClickListener(v -> {
+                    WidgetGuildInvite.Companion.launch(item.joinBtn.getContext(), new StoreInviteSettings.InviteCode(guild.vanity_url_code, "", null));
+                });
+            } else {
+                item.joinBtn.setText("Can't join this server");
+                item.joinBtn.setEnabled(false);
+                if(PluginManager.plugins.get("Discovery").settings.getBool("dangerJoin", false)) {
+                    item.joinBtn.setText("Join");
+                    item.joinBtn.setEnabled(true);
+                    
+                    item.joinBtn.setOnClickListener(v -> {
+                        joinGuild(guild.id);
+                    });
+                }
+            }
         }
+        item.setOnClickListener(v -> {});
+        item.setOnLongClickListener(v -> {
+            WidgetDiscoverySheet sheet = new WidgetDiscoverySheet(page);
+            sheet.setGuild(guild);
+            sheet.show(page.getFragmentManager(), "DiscoverySheet");
+            return true;
+        });
         
+    }
+
+    private void joinGuild(Long id) {
+        Logger log = new Logger("Discovery");
+        try {
+            GatewaySocket socket = (GatewaySocket) ReflectUtils.getField(StoreStream.getGatewaySocket(), "socket");
+            String sessionId = (String) ReflectUtils.getField(socket, "sessionId");
+            log.debug(sessionId);
+            Utils.threadPool.execute(() -> {
+                try {
+                    var req = Http.Request.newDiscordRequest("/guilds/" + id + "/members/@me?session_id=" + sessionId + "&location=Guild%20Discovery", "PUT")
+                        .setHeader("x-content-properties", "e30=")
+                        .execute();
+                    StoreStream.getGuildSelected().set(id);
+                    Utils.mainThread.post(() -> { page.getActivity().onBackPressed(); });
+                } catch (Throwable e) {
+                    log.error("Error joining guild", e);
+                }
+            }); 
+        } catch (Throwable e) {
+            log.error("Error getting Session Id", e);
+        }
     }
 
     public void setData(List<DiscoveryGuild> data) {

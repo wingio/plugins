@@ -36,6 +36,7 @@ public class PluginSettings extends AppBottomSheet {
         layout.setBackgroundColor(ColorCompat.getThemedColor(context, R.b.colorBackgroundPrimary));
 
         layout.addView(createSwitch(context, settings, "useHubAction", "Replace Hub Button", "Replaces hub button with discovery instead of having them both", false));
+        layout.addView(createSwitch(context, settings, "dangerJoin", "Dangerously join servers", "Allows you to join servers that dont have an invite code, may risk getting your account banned", false));
         return layout;
     }
 

@@ -1,3 +1,3 @@
-include(":CustomBadges")
+include(":Discovery")
 
 rootProject.name = "plugins"
