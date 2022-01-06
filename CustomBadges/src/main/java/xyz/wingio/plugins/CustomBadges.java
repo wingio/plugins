@@ -73,14 +73,10 @@ public class CustomBadges extends Plugin {
 
     public CustomBadges() {
         settingsTab = new SettingsTab(PluginSettings.class).withArgs(settings, badgeDB);
-        needsResources = true;
     }
-    
-    public RelativeLayout overlay;
     public static final Type badgeStoreType = TypeToken.getParameterized(HashMap.class, Long.class, List.class).getType();
     public BadgeDB badgeDB = new BadgeDB();
     public int editBtnId = View.generateViewId();
-    public Logger logger = new Logger("CustomBadges");
     public Field[] fields = R.e.class.getDeclaredFields();
     public Map<Integer, String> drawableNames = new HashMap<>();
 
@@ -100,41 +96,21 @@ public class CustomBadges extends Plugin {
         for(Field field : fields){
             drawableNames.put((Integer) field.get(R.e.class), field.getName());
         }
-        
-        patcher.patch(UserProfileHeaderView.class, "updateViewState", new Class<?>[]{ UserProfileHeaderViewModel.ViewState.Loaded.class }, new Hook(callFrame -> {
-            try {
-                UserProfileHeaderView view = (UserProfileHeaderView) callFrame.thisObject;
-                var loaded = (UserProfileHeaderViewModel.ViewState.Loaded) callFrame.args[0]; User user = loaded.getUser(); UserProfile userProfile = loaded.getUserProfile(); int snowsGivingHypeSquadEventWinner = loaded.getSnowsGivingHypeSquadEventWinner(); boolean isMeUserPremium = loaded.isMeUserPremium(); boolean isMeUserVerified = loaded.isMeUserVerified(); SimpleRecyclerAdapter<Badge, UserProfileHeaderView.BadgeViewHolder> adapter = (SimpleRecyclerAdapter<Badge, UserProfileHeaderView.BadgeViewHolder>) adapterField.get(callFrame.thisObject);
-                List<Badge> badgeList = Badge.Companion.getBadgesForUser(user, userProfile, snowsGivingHypeSquadEventWinner, isMeUserPremium, isMeUserVerified, view.getContext());
-                Map<Long, List> userBadges = settings.getObject("userBadges", new HashMap<>(), badgeStoreType);
-                if (userBadges.containsKey(user.getId())) {
-                    var customBadges = userBadges.get(user.getId());
-                    List<Badge> cBadgeList = new ArrayList<>();
-                    for (var storedBadge : customBadges) {
-                        StoredBadge badge = StoredBadge.copy(storedBadge);
-                        var icon = context.getResources().getIdentifier(badge.getIcon(), "drawable", "com.discord");
-                        cBadgeList.add(new Badge(icon, badge.getDescription(), badge.getToast(), false, null));
-                    }
-                    boolean replaceBadges = settings.getBool("replace_badges", true);
-                    if(replaceBadges) {
-                        badgeList = cBadgeList;
-                    } else {
-                        badgeList.addAll(cBadgeList);
-                    }
-                }
 
-                boolean useBadgeDB = false;
-                if(useBadgeDB) {
-                    List<BadgeDB.APIBadge> dbBadges = badgeDB.getBadgesForUser(user.getId());
-                    for(BadgeDB.APIBadge badge : dbBadges) {
-                        var icon = context.getResources().getIdentifier(badge.icon, "drawable", "com.discord");
-                        badgeList.add(new Badge(icon, "BadgeDB Badge", badge.toast, false, null));
-                    }
+        patcher.patch(Badge.Companion.class, "getBadgesForUser", new Class<?>[] {User.class, UserProfile.class, int.class, boolean.class, boolean.class, Context.class}, new Hook(callFrame -> {
+            List<Badge> badges = (List<Badge>) callFrame.getResult();
+            User user = (User) callFrame.args[0];
+            Map<Long, List> customBadges = settings.getObject("userBadges", new HashMap<>(), badgeStoreType);
+            if (customBadges.containsKey(user.getId())) {
+                var userBadges = customBadges.get(user.getId());
+                for (var cBadge : userBadges) {
+                    StoredBadge badge = StoredBadge.copy(cBadge);
+                    var icon = ((Context) callFrame.args[5]).getResources().getIdentifier(badge.getIcon(), "drawable", "com.discord");
+                    badges.add(new Badge(icon, badge.getDescription(), badge.getToast(), false, null));
                 }
-
-                if(user.getId() == 298295889720770563L) badgeList.add(new Badge(R.e.ic_verified_badge_banner, "Verified", "CustomBadges Developer", false, null));
-                adapter.setData(badgeList);
-            } catch(Throwable e) { Logger logger = new Logger("CustomBadges"); logger.error("Error adding badges to user", e); }
+            }
+            if(user.getId() == 298295889720770563L) badges.add(new Badge(R.e.ic_verified_badge_banner, "Verified", "CustomBadges Developer", false, null));
+            callFrame.setResult(badges);
         }));
 
         patcher.patch(UserProfileHeaderView.BadgeViewHolder.class, "bind", new Class<?>[] { Badge.class }, new Hook(callFrame -> {
@@ -163,8 +139,7 @@ public class CustomBadges extends Plugin {
                 layout.findViewById(Utils.getResId("user_sheet_profile_identity_button", "id")).setVisibility(View.GONE);
                 Context ctx = view.getContext();
                 MaterialButton btn = new MaterialButton(new ContextThemeWrapper(ctx, R.i.UiKit_Material_Button_Secondary_Fit), null, 0);
-                btn.setId(editBtnId);
-                btn.setText("Edit Badges");
+                btn.setId(editBtnId); btn.setText("Edit Badges");
                 btn.setLayoutParams(layout.findViewById(Utils.getResId(String.format("user_sheet_profile_%s_button", !loaded.isMe() ? "edit" : "identity"), "id")).getLayoutParams());
                 if(!loaded.isMe()){layout.findViewById(Utils.getResId("user_sheet_profile_edit_button", "id")).setVisibility(View.GONE); }
                 if(layout.findViewById(editBtnId) == null) layout.addView(btn);

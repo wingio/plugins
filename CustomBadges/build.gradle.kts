@@ -1,4 +1,4 @@
-version = "1.2.5"
+version = "1.2.6"
 description = "Edit badges for any user"
 
 aliucord.changelog.set(
