@@ -34,8 +34,9 @@
         "changelog": "Improved {improved marginTop}\n======================\n\n* Ported to Discord v101.3"
     },
     "CustomBadges": {
-        "version": "1.2.6",
-        "minimumDiscordVersion": 105112
+        "version": "1.2.7",
+        "minimumDiscordVersion": 110105,
+        "changelog": "Improved {improved marginTop}\n======================\n\n* Discord v110.5"
     },
     "ShowPerms": {
         "version": "1.4.2",
@@ -43,9 +44,9 @@
         "changelog": "Improved {improved marginTop}\n======================\n\n* Ported to Discord v101.3"
     },
     "BetterChannelIcons": {
-        "version": "1.3.3",
-        "minimumDiscordVersion": 105112,
-        "changelog": "Improved {improved marginTop}\n======================\n\n* Discord v105.12"
+        "version": "1.3.4",
+        "minimumDiscordVersion": 110105,
+        "changelog": "Improved {improved marginTop}\n======================\n\n* Discord v110.5"
     },
     "Discovery": {
         "version": "1.2.0",
@@ -67,9 +68,9 @@
         "minimumDiscordVersion": 105112
     },
     "BetterChatbox": {
-        "version" : "1.8.1",
-        "minimumDiscordVersion": 105112,
-        "changelog": "New {added marginTop}\n======================\n\n* Added avatar press and long press option that opens the debug log\n* Fixed chatbox margin when gallery button is hidden"
+        "version" : "1.8.2",
+        "minimumDiscordVersion": 110105,
+        "changelog": "Improved {improved marginTop}\n======================\n\n* Discord v110.5"
     },
     "KeywordAlerts": {
         "version": "1.4.0",

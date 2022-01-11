@@ -3,10 +3,9 @@ description = "Adds options for customizing the chatbox"
 
 aliucord.changelog.set(
     """
-    New {added marginTop}
+    Improved {improved marginTop}
     ======================
 
-    * Added avatar press and long press option that opens the debug log
-    * Fixed chatbox margin when gallery button is hidden
+    * Discord v110.5
     """.trimIndent()
 )

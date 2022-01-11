@@ -135,7 +135,7 @@ public final class EditUser extends SettingsPage {
             var isMe = StoreStream.getUsers().getMe().getId() == user.getId();
             var presence = ((Map<Long, Presence>) ReflectUtils.getField(StoreStream.getPresences(), "presencesSnapshot")).get(user.getId());
             var userProfile = StoreStream.getUserProfile().getUserProfile(user.getId());
-            var headerModel = new UserProfileHeaderViewModel.ViewState.Loaded(user, isMe ? StoreStream.getUsers().getMe().getBanner() : user.getBanner(), "#9F4C4F", /* GuildMember */ null, new ArrayList<>(), presence, /* StreamContext */ null, userProfile, /* MeUserPremium */ true, /* MeUserVerified */ true, /* Snowsgiving Winner */ 0, /* Animated Emojis */ true, /* Show Presence */ true, /* Editable */ false, /* Reduced Motion */ false, false, isMe);
+            var headerModel = new UserProfileHeaderViewModel.ViewState.Loaded(user, isMe ? StoreStream.getUsers().getMe().getBanner() : user.getBanner(), "#9F4C4F", /* GuildMember */ null, new ArrayList<>(), presence, /* StreamContext */ null, userProfile, /* MeUserPremium */ true, /* MeUserVerified */ true, /* Animated Emojis */ true, /* Show Presence */ true, /* Editable */ false, /* Reduced Motion */ false, false, isMe);
             header.getChildAt(0).setBackgroundColor(ColorCompat.getThemedColor(ctx, R.b.colorBackgroundSecondary));
             header.updateViewState(headerModel);
         } catch (Throwable e) {

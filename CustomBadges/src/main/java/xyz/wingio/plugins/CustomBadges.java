@@ -97,7 +97,7 @@ public class CustomBadges extends Plugin {
             drawableNames.put((Integer) field.get(R.e.class), field.getName());
         }
 
-        patcher.patch(Badge.Companion.class, "getBadgesForUser", new Class<?>[] {User.class, UserProfile.class, int.class, boolean.class, boolean.class, Context.class}, new Hook(callFrame -> {
+        patcher.patch(Badge.Companion.class, "getBadgesForUser", new Class<?>[] {User.class, UserProfile.class, boolean.class, boolean.class, Context.class}, new Hook(callFrame -> {
             List<Badge> badges = (List<Badge>) callFrame.getResult();
             User user = (User) callFrame.args[0];
             Map<Long, List> customBadges = settings.getObject("userBadges", new HashMap<>(), badgeStoreType);
@@ -105,7 +105,7 @@ public class CustomBadges extends Plugin {
                 var userBadges = customBadges.get(user.getId());
                 for (var cBadge : userBadges) {
                     StoredBadge badge = StoredBadge.copy(cBadge);
-                    var icon = ((Context) callFrame.args[5]).getResources().getIdentifier(badge.getIcon(), "drawable", "com.discord");
+                    var icon = ((Context) callFrame.args[4]).getResources().getIdentifier(badge.getIcon(), "drawable", "com.discord");
                     badges.add(new Badge(icon, badge.getDescription(), badge.getToast(), false, null));
                 }
             }
