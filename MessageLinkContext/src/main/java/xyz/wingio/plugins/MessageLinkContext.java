@@ -1,119 +1,92 @@
 package xyz.wingio.plugins;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import androidx.annotation.NonNull;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.core.widget.NestedScrollView;
-import com.aliucord.Constants;
-import com.aliucord.Utils;
-import com.aliucord.utils.*;
-import com.aliucord.wrappers.ChannelWrapper;
-import com.aliucord.entities.Plugin;
-import com.aliucord.patcher.Hook;
-import com.aliucord.annotations.AliucordPlugin;
-import com.discord.utilities.color.ColorCompat;
-import com.discord.widgets.chat.list.actions.WidgetChatListActions;
-import com.discord.stores.StoreStream;
-import com.discord.models.message.Message;
-import com.lytefast.flexinput.R;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.regex.Pattern;
+import android.content.Context
+import android.os.Bundle
+import android.view.View
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.widget.NestedScrollView
+import com.aliucord.Constants
+import com.aliucord.Utils
+import com.aliucord.Utils.showToast
+import com.aliucord.annotations.AliucordPlugin
+import com.aliucord.entities.Plugin
+import com.aliucord.patcher.Hook
+import com.discord.databinding.WidgetChatListActionsBinding
+import com.discord.stores.StoreStream
+import com.discord.utilities.color.ColorCompat
+import com.discord.widgets.chat.list.actions.WidgetChatListActions
+import com.lytefast.flexinput.R
+import java.lang.reflect.InvocationTargetException
 
-@AliucordPlugin
-@SuppressWarnings({ "unchecked", "unused" })
-public class MessageLinkContext extends Plugin {
-  public MessageLinkContext() {
-    needsResources = true;
-  }
 
-  private void setClipboard(Context context, String text) {
-    if (
-      android.os.Build.VERSION.SDK_INT <
-      android.os.Build.VERSION_CODES.HONEYCOMB
-    ) {
-      android.text.ClipboardManager clipboard = (android.text.ClipboardManager) context.getSystemService(
-        Context.CLIPBOARD_SERVICE
-      );
-      clipboard.setText(text);
-    } else {
-      android.content.ClipboardManager clipboard = (android.content.ClipboardManager) context.getSystemService(
-        Context.CLIPBOARD_SERVICE
-      );
-      android.content.ClipData clip = android.content.ClipData.newPlainText(
-        "Copied Text",
-        text
-      );
-      clipboard.setPrimaryClip(clip);
-    }
-  }
+@AliucordPlugin(requiresRestart = false )
+class MessageLinkContext : Plugin() {
+    override fun start(context: Context) {
+        val shareMessagesViewId = Utils.getResId("dialog_chat_actions_share", "id")
+        val icon = ContextCompat.getDrawable(context, R.e.ic_link_white_24dp)!!
+            .mutate()
+        val copyMessageUrlViewId = View.generateViewId()
 
-  @Override
-  public void start(Context context) {
-    Drawable icon = ResourcesCompat.getDrawable(
-      resources,
-      resources.getIdentifier("ic_copy", "drawable", "com.aliucord.plugins"),
-      null
-    );
-    var id = View.generateViewId();
 
-    patcher.patch(
-      WidgetChatListActions.class,
-      "configureUI",
-      new Class<?>[]{ WidgetChatListActions.Model.class },
-      new Hook(
-        callFrame -> {
-          var _this = (WidgetChatListActions) callFrame.thisObject;
-          var rootView = (NestedScrollView) _this.getView();
-          if(rootView == null) return;
-          var layout = (LinearLayout) rootView.getChildAt(0);
-          if (layout == null || layout.findViewById(id) != null) return;
-          var ctx = layout.getContext();
-          var msg = ((WidgetChatListActions.Model) callFrame.args[0]).getMessage();
-          long channelId = msg.getChannelId();
-          Long messageId = msg.getId();
-          var channel = StoreStream.getChannels().getChannel(channelId);
-          var guildId = channel != null && ChannelWrapper.getGuildId(channel) != 0 ? String.valueOf(ChannelWrapper.getGuildId(channel)) : "@me";
-          var view = new TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Icon);
-          view.setId(id);
-          view.setText("Copy Message Link");
-          if (icon != null) icon.setTint(
-            ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal)
-          );
-          view.setCompoundDrawablesRelativeWithIntrinsicBounds(
-            icon,
-            null,
-            null,
-            null
-          );
-          view.setOnClickListener(
-            e -> {
-              setClipboard(context,
-                String.format(
-                  "https://discord.com/channels/%s/%s/%s",
-                  guildId,
-                  channelId,
-                  messageId
-                )
-              );
-              Utils.showToast("Copied link", false);
-              _this.dismiss();
-            }
-          );
-          layout.addView(view, 6);
+        with(WidgetChatListActions::class.java) {
+            val getBinding = getDeclaredMethod("getBinding").apply { isAccessible = true }
+
+            patcher.patch(
+                getDeclaredMethod("onViewCreated", View::class.java, Bundle::class.java),
+                Hook { callFrame ->
+                    val shareMessagesViewId = Utils.getResId("dialog_chat_actions_share", "id")
+                    val binding = getBinding.invoke(callFrame.thisObject) as WidgetChatListActionsBinding
+                    val shareMessageView = binding.a.findViewById<TextView>(shareMessagesViewId).apply {
+                        visibility = View.VISIBLE
+                    }
+                    val linearLayout = (callFrame.args[0] as NestedScrollView).getChildAt(0) as LinearLayout
+                    val ctx = linearLayout.context
+                    icon.setTint(ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal))
+                    val copyMessageUrl =  TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Icon).apply {
+                            text = "Copy Message Link"
+                            id = copyMessageUrlViewId
+                            typeface = ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_medium)
+                            setCompoundDrawablesRelativeWithIntrinsicBounds(icon, null, null, null)
+                    }
+                    linearLayout.removeView(shareMessageView)
+                    linearLayout.addView(copyMessageUrl, 13)
+                })
+
+            patcher.patch( //setting onClickListener
+                getDeclaredMethod("configureUI", WidgetChatListActions.Model::class.java),
+                Hook { callFrame ->
+                    try {
+                        val binding = getBinding.invoke(callFrame.thisObject) as WidgetChatListActionsBinding
+                        val shareMessageView = binding.a.findViewById<TextView>(copyMessageUrlViewId).apply {
+                                visibility = View.VISIBLE
+                            }
+
+                        shareMessageView.setOnClickListener {
+                            try {
+                                val msg = (callFrame.args[0] as WidgetChatListActions.Model).message
+                                var guildId = StoreStream.getChannels().getChannel(msg.channelId).h().toString()
+                                if (guildId == "0") guildId = "@me"
+                                val imageUri = String.format( "https://discord.com/channels/%s/%s/%s", guildId, msg.channelId, msg.id)
+                                Utils.setClipboard(
+                                    "message link",
+                                    imageUri
+                                )
+                                showToast("Copied link", showLonger = false)
+                                (callFrame.thisObject as WidgetChatListActions).dismiss()
+                            } catch (e: IllegalAccessException) {
+                                e.printStackTrace()
+                            } catch (e: InvocationTargetException) {
+                                e.printStackTrace()
+                            }
+                        }
+                    } catch (e: Throwable) {
+                        e.printStackTrace()
+                    }
+                })
         }
-      )
-    );
-  }
-
-  @Override
-  public void stop(Context context) {
-    patcher.unpatchAll();
-  }
+    }
+    override fun stop(context: Context) = patcher.unpatchAll()
 }
