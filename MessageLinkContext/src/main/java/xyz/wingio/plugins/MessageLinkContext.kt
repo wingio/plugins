@@ -26,7 +26,7 @@ import java.lang.reflect.InvocationTargetException
 class MessageLinkContext : Plugin() {
     override fun start(context: Context) {
         val shareMessagesViewId = Utils.getResId("dialog_chat_actions_share", "id")
-        val icon = ContextCompat.getDrawable(context, R.e.ic_link_white_24dp)!!
+        val icon = ContextCompat.getDrawable(context, R.e.ic_diag_link_24dp)!!
             .mutate()
         val copyMessageUrlViewId = View.generateViewId()
 
