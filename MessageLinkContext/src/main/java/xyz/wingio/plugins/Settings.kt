@@ -38,7 +38,7 @@ class PluginSettings(private val settings: SettingsAPI) : BottomSheet() {
             ctx,
             CheckedSetting.ViewType.SWITCH,
             "Adds a Copy Url option",
-            "Not compatible with Hide Share option"
+            "Not compatible with Replace Share option"
         )
 
         TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Addition).run {
