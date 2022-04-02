@@ -1,4 +1,4 @@
-package dev.nope.plugins.copyurlinsteadofshare
+package xyz.wingio.plugins
 
 import android.content.Context
 import android.os.Bundle
