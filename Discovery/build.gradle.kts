@@ -1,4 +1,4 @@
-version = "1.2.0"
+version = "1.2.1"
 description = "View server discovery"
 
 aliucord.changelog.set(

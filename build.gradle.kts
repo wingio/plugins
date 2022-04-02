@@ -5,12 +5,14 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-        maven("https://maven.aliucord.com/snapshots")
         maven("https://jitpack.io")
+        maven("https://maven.aliucord.com/snapshots")
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:7.0.1")
+        classpath("com.android.tools.build:gradle:7.0.4")
         classpath("com.github.aliucord:gradle:main-SNAPSHOT")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.21")
+        classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.5.0")
     }
 }
 
@@ -18,6 +20,7 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        mavenLocal()
         maven("https://maven.aliucord.com/snapshots")
         maven("https://jitpack.io")
     }
@@ -49,12 +52,13 @@ subprojects {
         val implementation by configurations
         val compileOnly by configurations
 
-        discord("com.discord:discord:110105")
+        discord("com.discord:discord:120111")
         compileOnly("com.aliucord:Aliucord:main-SNAPSHOT")
+        // compileOnly("com.aliucord:Aliucord:unspecified")
 
-        implementation("androidx.appcompat:appcompat:1.3.1")
-        implementation("com.google.android.material:material:1.4.0")
-        implementation("androidx.constraintlayout:constraintlayout:2.1.1")
+        implementation("androidx.appcompat:appcompat:1.4.1")
+        implementation("com.google.android.material:material:1.5.0")
+        implementation("androidx.constraintlayout:constraintlayout:2.1.3")
     }
 
     aliucord {

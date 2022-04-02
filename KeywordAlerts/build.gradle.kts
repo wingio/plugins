@@ -1,4 +1,4 @@
-version = "1.4.0"
+version = "1.4.1"
 description = "Set up alerts for certain key words or phrases"
 
 aliucord.changelog.set(

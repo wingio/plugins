@@ -96,6 +96,7 @@ public class ShowPerms extends Plugin {
         Long guildId = loaded.getGuildId();
         Guild guild = StoreStream.getGuilds().getGuilds().get(guildId);
         Map<Long, GuildRole> guildRoles = StoreStream.getGuilds().getRoles().get(guildId);
+        if(guildRoles == null) return;
         if(guildRoles.containsKey(guildId)) userRoles.add(guildRoles.get(guildId));
 
         LinearLayout section = new LinearLayout(ctx); section.setId(sectionId); section.setOrientation(LinearLayout.VERTICAL);
@@ -162,7 +163,7 @@ public class ShowPerms extends Plugin {
         permissionIcon.setTint(ColorCompat.getThemedColor(root.getContext(), R.b.colorInteractiveNormal));
         permissionOption.setText("View Permissions");
         permissionOption.setCompoundDrawablesWithIntrinsicBounds(permissionIcon, null, null, null);
-        List<Long> userIds = new ArrayList<>();for(PermissionOverwrite ow : model.getChannel().s()){if(ow.f() == PermissionOverwrite.Type.MEMBER) userIds.add(ow.e());} StoreStream.getUsers().fetchUsers(userIds);
+        List<Long> userIds = new ArrayList<>();for(PermissionOverwrite ow : ChannelWrapper.getPermissionOverwrites(model.getChannel())){if(ow.f() == PermissionOverwrite.Type.MEMBER) userIds.add(ow.a());} StoreStream.getUsers().fetchUsers(userIds);
         permissionOption.setOnClickListener(v -> {
           List<GuildRole> roles = new ArrayList<>(StoreStream.getGuilds().getRoles().get(model.getGuild().getId()).values());roles.sort(Comparator.comparing(GuildRole::i).reversed());
           Utils.openPageWithProxy(root.getContext(), new UserPerms(model.getChannel()));

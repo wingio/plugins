@@ -156,10 +156,10 @@ public class KeywordAlerts extends Plugin {
         location += guild.getName();
         icon = String.format("https://cdn.discordapp.com/icons/%s/%s.png", guild.getId(), guild.getIcon());
       } else {
-        CoreUser recipient = channel.raw().w().get(0) == null ? author : new CoreUser(channel.raw().w().get(0));
+        CoreUser recipient = channel.getRecipients().get(0) == null ? author : new CoreUser(channel.getRecipients().get(0));
         icon = String.format("https://cdn.discordapp.com/avatars/%s/%s.png", recipient.getId(), recipient.getAvatar());
       }
-      location += channel.isDM() ? /* Recipient */ new CoreUser(channel.raw().w().get(0)).getUsername() : " #" + channel.getName();
+      location += channel.isDM() ? /* Recipient */ new CoreUser(channel.getRecipients().get(0)).getUsername() : " #" + channel.getName();
       isDm = channel.isDM();
     }
     NotificationData notD = new NotificationData();

@@ -97,7 +97,7 @@ public class FavoriteMessages extends Plugin {
             "Clears your list of favorite messages",
             Collections.emptyList(),
             ctx -> {
-                settings.setObject("favorites", null);
+                settings.remove("favorites");
                 return new CommandsAPI.CommandResult("Cleared favorite messages", null, false);
             }
         );

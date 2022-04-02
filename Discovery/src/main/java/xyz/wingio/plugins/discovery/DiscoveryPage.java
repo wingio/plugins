@@ -64,6 +64,7 @@ public final class DiscoveryPage extends SettingsPage {
     public String currentSearch = "";
     public int currentCategory = 0;
     private View view;
+    private boolean removedSV = false;
 
     public final int p = DimenUtils.dpToPx(16);
     

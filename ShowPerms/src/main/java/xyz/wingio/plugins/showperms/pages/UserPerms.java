@@ -43,7 +43,7 @@ public class UserPerms extends SettingsPage {
         this.channel = new ChannelWrapper(channel);
         this.name = "channel";
         this.guildName = "#" + this.channel.getName();
-        this.overwrites = channel.s();
+        this.overwrites = this.channel.getPermissionOverwrites();
         Collections.reverse(this.overwrites);
     }
 
@@ -94,10 +94,11 @@ public class UserPerms extends SettingsPage {
             addView(header);
 
             for(PermissionOverwrite overwrite : overwrites){
-                if(overwrite.f() == PermissionOverwrite.Type.ROLE){
+                var ow = new PermissionOverwriteWrapper(overwrite);
+                if(ow.getType() == PermissionOverwrite.Type.ROLE){
                     header.setVisibility(View.VISIBLE);
                     Map<Long, GuildRole> roleMap = StoreStream.getGuilds().getRoles().get(channel.getGuildId());
-                    GuildRole role = roleMap == null ? null : roleMap.get(overwrite.e());
+                    GuildRole role = roleMap == null ? null : roleMap.get(ow.getId());
                     if(role != null){
                         TextView roleView = new TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Icon);
                         roleView.setText(role.g());
@@ -126,8 +127,9 @@ public class UserPerms extends SettingsPage {
             addView(userHeader);
 
             for(PermissionOverwrite overwrite : overwrites){
-                if(overwrite.f() == PermissionOverwrite.Type.MEMBER){
-                    User usr = StoreStream.getUsers().getUsers().get(overwrite.e());
+                var ow = new PermissionOverwriteWrapper(overwrite);
+                if(ow.getType() == PermissionOverwrite.Type.MEMBER){
+                    User usr = StoreStream.getUsers().getUsers().get(ow.getId());
                     if(usr != null){
                         userHeader.setVisibility(View.VISIBLE);
                         div.setVisibility(View.VISIBLE);

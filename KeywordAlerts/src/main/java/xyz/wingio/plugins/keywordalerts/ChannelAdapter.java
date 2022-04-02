@@ -87,8 +87,8 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ChannelH
             var g = StoreStream.getGuilds().getGuilds().get(ChannelWrapper.getGuildId(c));
             if(channel.isGuild() && g != null) {
                 item.server.setText(g.getName());
-            } else if (channel.raw().w().get(0) != null) {
-                CoreUser recipient = new CoreUser(channel.raw().w().get(0));
+            } else if (channel.getRecipients().get(0) != null) {
+                CoreUser recipient = new CoreUser(channel.getRecipients().get(0));
                 item.name.setText(recipient.getUsername());
                 Drawable icon = ContextCompat.getDrawable(ctx, R.e.ic_tab_friends).mutate();
                 icon.setTint(ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal));
