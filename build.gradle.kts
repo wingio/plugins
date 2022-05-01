@@ -52,7 +52,7 @@ subprojects {
         val implementation by configurations
         val compileOnly by configurations
 
-        discord("com.discord:discord:120111")
+        discord("com.discord:discord:124012")
         compileOnly("com.aliucord:Aliucord:main-SNAPSHOT")
         // compileOnly("com.aliucord:Aliucord:unspecified")
 

@@ -62,11 +62,6 @@ import kotlin.jvm.functions.Function0;
 
 @AliucordPlugin
 public class UserTags extends Plugin {
-
-    public UserTags() {
-        //settingsTab = new SettingsTab(PluginSettings.class).withArgs(settings);
-        //needsResources = true;
-    }
     
     public RelativeLayout overlay;
     public Logger logger = new Logger("UserTags");
@@ -77,7 +72,7 @@ public class UserTags extends Plugin {
         var bindingField = ChannelMembersListViewHolderMember.class.getDeclaredField("binding");
         bindingField.setAccessible(true);
         
-        patcher.patch(WidgetChatListAdapterItemMessage.class, "configureItemTag", new Class<?>[] { Message.class }, new Hook(callFrame -> {
+        patcher.patch(WidgetChatListAdapterItemMessage.class, "configureItemTag", new Class<?>[] { Message.class, boolean.class }, new Hook(callFrame -> {
             Message msg = (Message) callFrame.args[0];
             User author = msg.getAuthor();
             CoreUser coreUser = new CoreUser(author);
@@ -89,12 +84,13 @@ public class UserTags extends Plugin {
                 String tag = settings.getString(String.valueOf(coreUser.getId()), null);
                 boolean verified = settings.getBool(coreUser.getId() + "_verified", false);
                 boolean isServer = (msg.getType() == 0 && msg.getMessageReference() != null);
-                if (coreUser.getId() == 298295889720770563L || coreUser.isBot() || tag != null) {
+                boolean isOP = (boolean) callFrame.args[1];
+                if (coreUser.getId() == 298295889720770563L || coreUser.isBot() || isOP || tag != null) {
                     showTag = true;
                 }
                 if(textView != null){
                     textView.setVisibility(showTag ? View.VISIBLE : View.GONE);
-                    textView.setText(isServer ? "SERVER" : coreUser.isBot() ? "BOT" : String.valueOf(tag));
+                    textView.setText(isServer ? "SERVER" : coreUser.isBot() ? "BOT" : tag == null && isOP ? "OP" : String.valueOf(tag));
                     if(coreUser.getId() == 298295889720770563L) {
                         textView.setText("DEV");
                     }

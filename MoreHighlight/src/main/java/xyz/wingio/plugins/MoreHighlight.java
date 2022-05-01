@@ -63,20 +63,30 @@ public class MoreHighlight extends Plugin {
   public static Pattern REPO_REGEX = Pattern.compile("^<gh:([A-Za-z0-9-]{1,39})/([A-Za-z0-9-]{1,39})>");
   public static Pattern ALIU_REGEX = Pattern.compile("^ac://([A-Za-z0-9$]+)");
 
+  public Field rulesField;
+
   @Override
   public void start(Context context) throws Throwable {
+
+    try {
+      rulesField = Parser.class.getDeclaredField("rules");
+      rulesField.setAccessible(true);
+    } catch (NoSuchFieldException e) {
+      logger.error("Failed to get rules field", e);
+    }
+
     patcher.patch(DiscordParser.class, "parseChannelMessage", new Class<?>[] {Context.class, String.class, MessageRenderContext.class, MessagePreprocessor.class, DiscordParser.ParserOptions.class, boolean.class}, new PreHook(callFrame -> {
       try{
         Context ctx = (Context) callFrame.args[0];
-        Parser<MessageRenderContext, Node<MessageRenderContext>, MessageParseState> parser = DiscordParser.createParser$default(true, true, false, 4, null);
+        Parser<MessageRenderContext, Node<MessageRenderContext>, MessageParseState> parser = DiscordParser.createParser$default(true, true, true, false, false, 4, null);
         String str = (String) callFrame.args[1];
-        ArrayList<Rule<MessageRenderContext, ? extends Node<MessageRenderContext>,MessageParseState>> rules = (ArrayList<Rule<MessageRenderContext, ? extends Node<MessageRenderContext>,MessageParseState>>) ReflectUtils.getField(parser, "rules");
+        ArrayList<Rule<MessageRenderContext, ? extends Node<MessageRenderContext>,MessageParseState>> rules = (ArrayList<Rule<MessageRenderContext, ? extends Node<MessageRenderContext>,MessageParseState>>) rulesField.get(parser);
         rules.add(0, new RedditRule(REDDIT_REGEX, ctx));
         rules.add(0, new IssueRule(ISSUE_REGEX, ctx));
         rules.add(0, new RepoRule(REPO_REGEX, ctx));
         rules.add(0, new AliuRule(ALIU_REGEX, ctx));
         rules.add(0, new ColorRule());
-        ReflectUtils.setField(parser, "rules", rules);
+        rulesField.set(parser, rules);
         if (str == null) {
             str = "";
         }

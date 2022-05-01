@@ -1,4 +1,4 @@
-version = "1.3.5"
+version = "1.3.6"
 description = "Adds an array of new channel icons"
 
 aliucord.changelog.set(
@@ -6,6 +6,6 @@ aliucord.changelog.set(
     Improved {improved marginTop}
     ======================
 
-    * Discord v120.11
+    * Discord v124.12
     """.trimIndent()
 )
