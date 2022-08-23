@@ -85,6 +85,7 @@ public class MoreHighlight extends Plugin {
         rules.add(0, new IssueRule(ISSUE_REGEX, ctx));
         rules.add(0, new RepoRule(REPO_REGEX, ctx));
         rules.add(0, new AliuRule(ALIU_REGEX, ctx));
+        rules.add(0, new SlashCommandRule());
         rules.add(0, new ColorRule());
         rulesField.set(parser, rules);
         if (str == null) {

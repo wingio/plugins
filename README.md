@@ -1,8 +1,3 @@
-# This repo is archived
-My new plugins are over at [wingio/ac-plugins](https://github.com/wingio/ac-plugins)
-
----
-
 # My Cool Plugins B)
 [![Build](https://github.com/wingio/plugins/a)ctions/workflows/build.yml/badge.svg)](https://github.com/wingio/plugins/actions/workflows/build.yml)
 
