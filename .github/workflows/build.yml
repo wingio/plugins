@@ -38,9 +38,11 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE/src
           chmod +x gradlew
+          ./gradlew clean
           ./gradlew make generateUpdaterJson
           cp **/build/*.zip $GITHUB_WORKSPACE/builds
           cp build/updater.json $GITHUB_WORKSPACE/builds
+
       - name: Push builds
         run: |
           cd $GITHUB_WORKSPACE/builds
