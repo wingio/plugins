@@ -42,3 +42,6 @@ Adds options for customizing the chatbox
 
 ### [KeywordAlerts](https://github.com/wingio/plugins/raw/builds/KeywordAlerts.zip)
 Set up alerts for certain key words or phrases
+
+### [Sessions](https://github.com/wingio/plugins/raw/builds/Sessions.zip)
+View and manage login sessions
