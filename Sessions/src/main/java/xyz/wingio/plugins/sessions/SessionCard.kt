@@ -52,11 +52,9 @@ class SessionCard(ctx: Context) : LinearLayout(ctx) {
 
         LinearLayout(ctx).apply {
             orientation = VERTICAL
-            setLayoutParams(
-                LayoutParams(
-                    LayoutParams.WRAP_CONTENT,
-                    LayoutParams.WRAP_CONTENT
-                )
+            layoutParams = LayoutParams(
+                260.dp,
+                LayoutParams.WRAP_CONTENT
             )
 
             gravity = Gravity.CENTER_VERTICAL

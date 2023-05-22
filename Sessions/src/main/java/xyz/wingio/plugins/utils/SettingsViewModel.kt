@@ -8,7 +8,7 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import rx.subjects.Subject
 
-abstract class RxViewModel<V>(v: V? = null) : ViewModel(), AppComponent {
+abstract class SettingsViewModel<V>(v: V? = null) : ViewModel(), AppComponent {
     private val unsubscribeSignal: Subject<Void, Void> = PublishSubject.k0()
     private val viewStateSubject: BehaviorSubject<V> = BehaviorSubject.k0()
 

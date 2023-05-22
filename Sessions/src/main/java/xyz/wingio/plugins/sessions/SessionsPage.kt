@@ -2,6 +2,7 @@ package xyz.wingio.plugins.sessions
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.Resources
 import android.view.*
 import android.widget.*
 import androidx.lifecycle.ViewModelProvider
@@ -145,8 +146,8 @@ class SessionsPage: SettingsPage() {
 
     private fun configureCurrentSession(session: Session) {
         currentSession.apply {
-            title = "${session.clientInfo.os} · ${session.clientInfo.platform}"
-            location = session.clientInfo.location
+            title = "${session.clientInfo.os ?: "Unknown"} ${if(session.clientInfo.platform != null) " · ${session.clientInfo.platform}" else ""}"
+            location = session.clientInfo.location ?: "Unknown Location"
         }
     }
 

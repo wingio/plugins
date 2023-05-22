@@ -41,7 +41,7 @@ class Sessions : Plugin() {
         needsResources = true
     }
 
-    data class Ready(
+    data class AuthSession(
         val authSessionIdHash: String?
     )
 
@@ -52,7 +52,11 @@ class Sessions : Plugin() {
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun start(context: Context) {
 
-        GatewayAPI.onEvent<Ready>("READY") {
+        GatewayAPI.onEvent<AuthSession>("READY") {
+            sessionIdHash = it.authSessionIdHash
+        }
+
+        GatewayAPI.onEvent<AuthSession>("AUTH_SESSION_CHANGE") {
             sessionIdHash = it.authSessionIdHash
         }
 
@@ -65,7 +69,7 @@ class Sessions : Plugin() {
                 setCompoundDrawablesWithIntrinsicBounds(Utils.tintToTheme(ctx.getDrawable(R.e.ic_phonelink_24dp)), null, null, null)
                 setOnClickListener {
                     if(sessionIdHash == null) return@setOnClickListener
-                    Utils.openPageWithProxy(ctx, SessionsPage());
+                    Utils.openPageWithProxy(ctx, SessionsPage())
                 }
                 layout.addView(this, baseIndex + 1)
             }

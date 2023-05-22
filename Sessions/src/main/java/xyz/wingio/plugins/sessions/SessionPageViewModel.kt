@@ -10,10 +10,10 @@ import com.aliucord.utils.GsonUtils
 import com.discord.stores.StoreStream
 import com.discord.utilities.color.ColorCompat
 import xyz.wingio.plugins.Sessions
-import xyz.wingio.plugins.utils.RxViewModel
+import xyz.wingio.plugins.utils.SettingsViewModel
 import com.lytefast.flexinput.R
 
-class SessionPageViewModel: RxViewModel<SessionPageViewModel.ViewState>() {
+class SessionPageViewModel: SettingsViewModel<SessionPageViewModel.ViewState>() {
 
     sealed class ViewState {
         object Loading : ViewState()

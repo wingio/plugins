@@ -7,9 +7,9 @@ data class Session (
 )
 
 data class ClientInfo (
-    val os: String,
-    val platform: String,
-    val location: String
+    val os: String?,
+    val platform: String?,
+    val location: String?
 )
 
 data class SessionResponse (
