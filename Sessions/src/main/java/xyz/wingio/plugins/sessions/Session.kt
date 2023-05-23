@@ -1,8 +1,10 @@
 package xyz.wingio.plugins.sessions
 
+import com.discord.api.utcdatetime.UtcDateTime
+
 data class Session (
     val idHash: String,
-    val approxLastUsedTime: String,
+    val approxLastUsedTime: UtcDateTime,
     val clientInfo: ClientInfo
 )
 

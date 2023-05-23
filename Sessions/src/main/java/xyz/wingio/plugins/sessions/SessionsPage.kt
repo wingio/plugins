@@ -18,6 +18,8 @@ import com.aliucord.fragments.SettingsPage
 import com.aliucord.utils.DimenUtils.dp
 import com.aliucord.views.DangerButton
 import com.aliucord.utils.RxUtils.subscribe
+import com.discord.utilities.time.ClockFactory
+import com.discord.utilities.time.TimeUtils
 
 import xyz.wingio.plugins.Sessions
 
@@ -152,7 +154,7 @@ class SessionsPage: SettingsPage() {
     }
 
     private fun configureSessionsList(sessions: List<Session>) {
-        adapter.updateData(sessions)
+        adapter.updateData(sessions.sortedByDescending { it.approxLastUsedTime })
         otherSessionsTitle.visibility = if(sessions.isEmpty()) View.GONE else View.VISIBLE
         logOutAllBtn.visibility = if(sessions.isEmpty()) View.GONE else View.VISIBLE
     }

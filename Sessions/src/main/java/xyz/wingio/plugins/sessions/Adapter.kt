@@ -12,6 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aliucord.PluginManager
 import com.aliucord.plugins.R
 import com.discord.utilities.color.ColorCompat
+import com.discord.utilities.time.ClockFactory
+import com.discord.utilities.time.TimeUtils
+import xyz.wingio.plugins.utils.Utils
 
 class Adapter(var data: MutableList<Session>) :
     RecyclerView.Adapter<Adapter.ViewHolder?>() {
@@ -39,6 +42,9 @@ class Adapter(var data: MutableList<Session>) :
 
         holder.item.title = "${session.clientInfo.os ?: "Unknown"} ${if(session.clientInfo.platform != null) " · ${session.clientInfo.platform}" else ""}"
         holder.item.location = session.clientInfo.location ?: "Unknown Location"
+
+        holder.item.timestamp.visibility = View.VISIBLE
+        holder.item.timestampText = Utils.getTimestampString(session.approxLastUsedTime.g())
 
         holder.item.isMobile = mobileOsList.contains(session.clientInfo.os ?: "Unknown")
     }

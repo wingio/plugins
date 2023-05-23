@@ -19,6 +19,7 @@ import com.lytefast.flexinput.R
 class SessionCard(ctx: Context) : LinearLayout(ctx) {
     val name = TextView(ctx)
     val description = TextView(ctx)
+    val timestamp = TextView(ctx)
     val icon = ImageView(ctx)
     val logOutBtn = ImageButton(ctx)
 
@@ -82,8 +83,18 @@ class SessionCard(ctx: Context) : LinearLayout(ctx) {
                 setTextColor(ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal))
             }
 
+            timestamp.apply {
+                textSize = 14f
+                typeface = ResourcesCompat.getFont(ctx, Constants.Fonts.whitney_medium)
+                isSingleLine = true
+                layoutParams = params
+                visibility = View.GONE
+                setTextColor(ColorCompat.getThemedColor(ctx, R.b.colorInteractiveNormal))
+            }
+
             addView(name)
             addView(description)
+            addView(timestamp)
             this@SessionCard.addView(this)
         }
 
@@ -110,6 +121,10 @@ class SessionCard(ctx: Context) : LinearLayout(ctx) {
     var title: CharSequence
         set(value) { name.text = value }
         get() = name.text
+
+    var timestampText: CharSequence
+        set(value) { timestamp.text = value }
+        get() = timestamp.text
 
     var location: CharSequence
         set(value) { description.text = value }

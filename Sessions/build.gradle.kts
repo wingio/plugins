@@ -1,12 +1,11 @@
-version = "1.0.1"
+version = "1.0.2"
 description = "View and manage login sessions"
 
 aliucord.changelog.set(
     """
-    Fixed {fixed marginTop}
+    Added {added marginTop}
     ======================
-
-    * Updated model to prevent crashing for some people
-    * Fix log out button being pushed off screen for some people
+    
+    * Added timestamps to session cards
     """.trimIndent()
 )
