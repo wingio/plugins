@@ -81,12 +81,17 @@ public class MoreHighlight extends Plugin {
         Parser<MessageRenderContext, Node<MessageRenderContext>, MessageParseState> parser = DiscordParser.createParser$default(true, true, true, false, false, 4, null);
         String str = (String) callFrame.args[1];
         ArrayList<Rule<MessageRenderContext, ? extends Node<MessageRenderContext>,MessageParseState>> rules = (ArrayList<Rule<MessageRenderContext, ? extends Node<MessageRenderContext>,MessageParseState>>) rulesField.get(parser);
+        
+        rules.add(0, new HeaderRule());  // Add HeaderRule
+        rules.add(0, new TinyTextRule()); // Add TinyTextRule
+  
         rules.add(0, new RedditRule(REDDIT_REGEX, ctx));
         rules.add(0, new IssueRule(ISSUE_REGEX, ctx));
         rules.add(0, new RepoRule(REPO_REGEX, ctx));
         rules.add(0, new AliuRule(ALIU_REGEX, ctx));
         rules.add(0, new SlashCommandRule());
         rules.add(0, new ColorRule());
+        
         rulesField.set(parser, rules);
         if (str == null) {
             str = "";
