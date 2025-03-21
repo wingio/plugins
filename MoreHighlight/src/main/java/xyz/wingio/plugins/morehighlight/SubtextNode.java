@@ -10,10 +10,10 @@ import android.graphics.Color;
 
 import com.lytefast.flexinput.R;
 
-public class TinyTextNode<MessageRenderContext> extends Node<MessageRenderContext> {
+public class SubtextNode<MessageRenderContext> extends Node<MessageRenderContext> {
   String content;
 
-  public TinyTextNode(String content){
+  public SubtextNode(String content){
     super();
     this.content = content;
   }
