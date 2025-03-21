@@ -83,7 +83,7 @@ public class MoreHighlight extends Plugin {
         ArrayList<Rule<MessageRenderContext, ? extends Node<MessageRenderContext>,MessageParseState>> rules = (ArrayList<Rule<MessageRenderContext, ? extends Node<MessageRenderContext>,MessageParseState>>) rulesField.get(parser);
         
         rules.add(0, new HeaderRule());  // Add HeaderRule
-        rules.add(0, new TinyTextRule()); // Add TinyTextRule
+        rules.add(0, new SubtextRule()); // Add SubtextRule
   
         rules.add(0, new RedditRule(REDDIT_REGEX, ctx));
         rules.add(0, new IssueRule(ISSUE_REGEX, ctx));

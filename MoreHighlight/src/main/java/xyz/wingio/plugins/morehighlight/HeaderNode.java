@@ -25,13 +25,13 @@ public class HeaderNode<MessageRenderContext> extends Node<MessageRenderContext>
     float sizeProportion = 1.0f;
     switch(level) {
       case 1: // h1
-        sizeProportion = 1.5f;
+        sizeProportion = 2.0f;
         break;
       case 2: // h2
-        sizeProportion = 1.3f;
+        sizeProportion = 1.5f;
         break;
       case 3: // h3
-        sizeProportion = 1.15f;
+        sizeProportion = 1.2f;
         break;
       default:
         sizeProportion = 1.0f;
