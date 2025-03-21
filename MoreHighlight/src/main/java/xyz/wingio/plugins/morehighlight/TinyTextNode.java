@@ -27,7 +27,8 @@ public class TinyTextNode<MessageRenderContext> extends Node<MessageRenderContex
     builder.setSpan(new RelativeSizeSpan(0.85f), length, builder.length(), SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE);
     
     // Make text grey
-    int greyColor = ColorCompat.getThemedColor(renderContext.getContext(), R.b.colorTextMuted);
+    // Use a standard grey color instead of trying to access the theme
+    int greyColor = Color.parseColor("#99AAB5"); // Discord's standard muted text color
     builder.setSpan(new ForegroundColorSpan(greyColor), length, builder.length(), SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE);
   }
 }
