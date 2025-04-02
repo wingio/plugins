@@ -16,7 +16,6 @@ public final class SubtextRule extends Rule.BlockRule<MessageRenderContext, Subt
 
     @Override
     public ParseSpec<MessageRenderContext, MessageParseState> parse(Matcher matcher, Parser<MessageRenderContext, ? super SubtextNode<MessageRenderContext>, MessageParseState> parser, MessageParseState s) {
-        // Extract text content
         String content = matcher.group(2);
         
         SubtextNode SubtextNode = new SubtextNode(content);

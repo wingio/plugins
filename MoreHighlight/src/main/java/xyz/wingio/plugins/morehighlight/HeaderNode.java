@@ -2,6 +2,7 @@ package xyz.wingio.plugins.morehighlight;
 
 import androidx.core.graphics.ColorUtils;
 
+import com.aliucord.PluginManager;
 import com.discord.simpleast.core.node.Node;
 import com.discord.utilities.textprocessing.*;
 
@@ -19,19 +20,21 @@ public class HeaderNode<MessageRenderContext> extends Node<MessageRenderContext>
   @Override
   public void render(SpannableStringBuilder builder, MessageRenderContext renderContext) {
     int length = builder.length();
-    for (Node n:
-            getChildren()) {
+    for (Node n: getChildren()) {
       n.render(builder, renderContext);
     }
+    
+    float scaleFactor = PluginManager.plugins.get("MoreHighlight").settings.getFloat("header_size_scale", 1.0f);
+  
     switch (headerSize) {
       case 1:
-        builder.setSpan(new RelativeSizeSpan(2.0f), length, builder.length(), SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE);
+        builder.setSpan(new RelativeSizeSpan(2.0f * scaleFactor), length, builder.length(), SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE);
         break;
       case 2:
-        builder.setSpan(new RelativeSizeSpan(1.5f), length, builder.length(), SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE);
+        builder.setSpan(new RelativeSizeSpan(1.5f * scaleFactor), length, builder.length(), SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE);
         break;
       case 3:
-        builder.setSpan(new RelativeSizeSpan(1.25f), length, builder.length(), SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE);
+        builder.setSpan(new RelativeSizeSpan(1.25f * scaleFactor), length, builder.length(), SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE);
         break;
     }
     builder.setSpan(new StyleSpan(1), length, builder.length(), SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE);
