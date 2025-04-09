@@ -52,17 +52,65 @@ public final class PluginSettings extends SettingsPage {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public void onViewBound(View view) {
         super.onViewBound(view);
-        setActionBarTitle("Test Plugin");
+        setActionBarTitle("MoreHighlight Settings");
         setPadding(p);
 
         var ctx = view.getContext();
         var layout = getLinearLayout();
         
         layout.addView(createSwitch(ctx, settings, "show_repo_name", "Show repo name in issue/pr link", null, false));
-        TextView info = new TextView(ctx, null, 0, R.i.UiKit_TextView);
-        info.setText(MDUtils.render("**Currently supports:**\n\n    - **Reddit** (<r/[Subreddit]>, <u/[User]>, *ex. <r/Aliucord>*)\n    - **Github** (<username/repo#issue> <gh:username/repo>, *ex. <Aliucord/Aliucord#127>*)\n    - **Plugin Settings** (ac://[Plugin Name], *ex. ac://MoreHighlight*)\n    -**Colors** *ex #1f8b4c*\n    -**Slash Commands** (</command:id>, *ex. </airhorn:816437322781949972>*)"));
-        info.setPadding(0, p, 0, 0);
+        
+        TextView headerSizeLabel = new TextView(ctx, null, 0, R.i.UiKit_Settings_Item_Label);
+        headerSizeLabel.setText("Header Size Scale");
+        headerSizeLabel.setPadding(0, p, 0, 0);
+        layout.addView(headerSizeLabel);
+        
+        TextView headerSizeDescription = new TextView(ctx, null, 0, R.i.UiKit_Settings_Item_SubText);
+        headerSizeDescription.setText("Adjust the size of headers (100% is default)");
+        headerSizeDescription.setPadding(p, 0, p, DimenUtils.dpToPx(8));
+        layout.addView(headerSizeDescription);
+
+        SeekBar headerSizeSlider = new SeekBar(ctx);
+        headerSizeSlider.setMax(200);
+        int currentScale = (int)(settings.getFloat("header_size_scale", 1.0f) * 100);
+        headerSizeSlider.setProgress(currentScale);
+        headerSizeSlider.setPadding(p, DimenUtils.dpToPx(8), p, 0);
+
+        TextView headerSizeValue = new TextView(ctx, null, 0, R.i.UiKit_TextView);
+        headerSizeValue.setText(currentScale + "%");
+        headerSizeValue.setPadding(p, DimenUtils.dpToPx(4), p, p);
+
+        headerSizeSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                float scale = progress / 100.0f;
+                settings.setFloat("header_size_scale", scale);
+                headerSizeValue.setText(progress + "%");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
+
+        layout.addView(headerSizeSlider);
+        layout.addView(headerSizeValue);
+        
         layout.addView(new Divider(ctx));
+        
+        TextView info = new TextView(ctx, null, 0, R.i.UiKit_TextView);
+        info.setText(MDUtils.render("**Currently supports:**\n\n" +
+                "- **Reddit** (<r/[Subreddit]>, <u/[User]>, *ex. <r/Aliucord>*)\n" +
+                "- **Github** (<username/repo#issue> <gh:username/repo>, *ex. <Aliucord/Aliucord#127>*)\n" +
+                "- **Plugin Settings** (ac://[Plugin Name], *ex. ac://MoreHighlight*)\n" +
+                "- **Colors** *ex #1f8b4c*\n" +
+                "- **Slash Commands** (</command:id>, *ex. </airhorn:816437322781949972>*)\n" +
+                "- **Headers** (# Header 1, ## Header 2, ### Header 3)\n" +
+                "- **Subtext** (-# tiny greyed out text)\n" +
+                "- **BulletPoints** (* bulletpoint or - bulletpoint)"));
+        info.setPadding(0, p, 0, 0);
         layout.addView(info);
     }
 
