@@ -108,7 +108,8 @@ public final class PluginSettings extends SettingsPage {
                 "- **Colors** *ex #1f8b4c*\n" +
                 "- **Slash Commands** (</command:id>, *ex. </airhorn:816437322781949972>*)\n" +
                 "- **Headers** (# Header 1, ## Header 2, ### Header 3)\n" +
-                "- **Subtext** (-# tiny greyed out text)"));
+                "- **Subtext** (-# tiny greyed out text)\n" +
+                "- **BulletPoints** (* bulletpoint or - bulletpoint)"));
         info.setPadding(0, p, 0, 0);
         layout.addView(info);
     }
