@@ -47,11 +47,16 @@ public class Utils {
         if(icons.containsKey(name)) return com.aliucord.Utils.getResId(icons.get(name), "drawable");
         if(name.endsWith("-logs") || name.endsWith("-log")) return R.e.ic_channels_24dp;
         if(name.endsWith("-support") || name.endsWith("-help")) return R.e.ic_help_24dp;
+        for (String key : icons.keySet()) {
+            if (key.startsWith("startswith:") && name.startsWith(key.split(":", 2)[1])) return com.aliucord.Utils.getResId(icons.get(key), "drawable");
+            if (key.startsWith("endswith:") && name.endsWith(key.split(":", 2)[1])) return com.aliucord.Utils.getResId(icons.get(key), "drawable");
+            if (key.startsWith("contains:") && name.contains(key.split(":", 2)[1])) return com.aliucord.Utils.getResId(icons.get(key), "drawable");
+        }
         if(channel.getId() == 824357609778708580L) return R.e.ic_theme_24dp;
         if(channel.getType() == Channel.GUILD_VOICE) {
-        if(name.startsWith("discord.gg/") || name.startsWith(".gg/") || name.startsWith("gg/") || name.startsWith("dsc.gg/")) return R.e.ic_diag_link_24dp;
-        if(name.startsWith("member count") || name.startsWith("members") || name.startsWith("member count")) return R.e.ic_people_white_24dp;
-        return voiceChannelIcons.get(name);
+            if(name.startsWith("discord.gg/") || name.startsWith(".gg/") || name.startsWith("gg/") || name.startsWith("dsc.gg/")) return R.e.ic_diag_link_24dp;
+            if(name.startsWith("member count") || name.startsWith("members") || name.startsWith("member count")) return R.e.ic_people_white_24dp;
+            return voiceChannelIcons.get(name);
         }
         return channelIcons.get(name);
     }
@@ -115,10 +120,10 @@ public class Utils {
         Map<String, String> newIcons = new HashMap<>();
         Map<Integer, String> iconNameMap = Constants.getIconNameMap();
         List<String> keys = new ArrayList<>(icons.keySet());
-        for(String key : keys){
-        Integer iconIndex = icons.get(key);
-        Integer icon = Constants.getIcons().get(iconIndex);
-        newIcons.put(key, iconNameMap.get(icon));
+        for(String key : keys) {
+            Integer iconIndex = icons.get(key);
+            Integer icon = Constants.getIcons().get(iconIndex);
+            newIcons.put(key, iconNameMap.get(icon));
         }
         return newIcons;
     }
