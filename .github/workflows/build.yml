@@ -1,10 +1,10 @@
 name: Build
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
-  workflow_dispatch:
 
 jobs:
   build:
@@ -27,18 +27,14 @@ jobs:
           repository: "Aliucord/Aliucord"
           path: "repo"
 
-      - name: Setup JDK 11
-        uses: actions/setup-java@​v5
+      - name: Setup JDK
+        uses: actions/setup-java@v3
         with:
-          java-version: 11
-          distribution: zulu
-          cache: gradle
+          java-version: 17
+          distribution: temurin
 
       - name: Setup Android SDK
-        uses: android-actions/setup-android@​v4
-        with:
-          cmdline-tools-version: 9862592 # 10.0 is the last version working with JDK 11
-          log-accepted-android-sdk-licenses: false
+        uses: android-actions/setup-android@v2
 
       - name: Build Plugins
         run: |

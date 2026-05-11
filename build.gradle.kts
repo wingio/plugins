@@ -4,12 +4,13 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        maven("https://maven.aliucord.com/releases")
         maven("https://maven.aliucord.com/snapshots")
         maven("https://jitpack.io")
     }
     dependencies {
         classpath("com.android.tools.build:gradle:7.0.4")
-        classpath("com.aliucord:gradle:main-SNAPSHOT") {
+        classpath("com.aliucord:gradle:753ad25") {
             exclude("com.github.js6pak", "jadb")
         }
         classpath("com.aliucord:jadb:1.2.1-SNAPSHOT")
@@ -73,8 +74,8 @@ subprojects {
         val implementation by configurations
         val api by configurations
 
-        discord("com.discord:discord:aliucord-SNAPSHOT")
-        implementation("com.aliucord:Aliucord:main-SNAPSHOT")
+        discord("com.discord:discord:126021")
+        implementation("com.aliucord:Aliucord:2.4.0")
 //        implementation("com.aliucord:Aliucord:unspecified")
 
         implementation("androidx.appcompat:appcompat:1.4.1")

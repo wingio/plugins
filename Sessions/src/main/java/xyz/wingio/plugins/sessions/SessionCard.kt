@@ -144,7 +144,7 @@ class SessionCard(ctx: Context) : LinearLayout(ctx) {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun getPluginDrawable(name: String): Drawable {
-        val res = PluginManager.plugins["Sessions"]!!.resources
+        val res = PluginManager.plugins["Sessions"]!!.resources!!
         return res.getDrawable(res.getIdentifier(name, "drawable", "com.aliucord.plugins"), null)
     }
 }
